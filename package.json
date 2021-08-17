@@ -1,0 +1,97 @@
+{
+  "name": "nodecg-vue-ts-template",
+  "version": "1.0.0",
+  "description": "Template for NodeCG bundles that use Vue.js and TypeScript.",
+  "homepage": "https://github.com/zoton2/nodecg-vue-ts-template#readme",
+  "bugs": {
+    "url": "https://github.com/zoton2/nodecg-vue-ts-template/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zoton2/nodecg-vue-ts-template.git"
+  },
+  "license": "MIT",
+  "author": "zoton2",
+  "scripts": {
+    "autofix": "run-s autofix:*",
+    "autofix:browser": "eslint --fix --ext .ts,.vue src/dashboard && eslint --fix --ext .ts,.vue src/graphics && eslint --fix --ext .ts src/browser_shared",
+    "autofix:extension": "eslint --fix --ext .ts src/extension && eslint --fix --ext .d.ts src/types",
+    "build": "run-s build:*",
+    "build:browser": "cross-env NODE_ENV=production webpack",
+    "build:extension": "tsc -b tsconfig.extension.json",
+    "clean": "trash node_modules/.cache && trash dashboard && trash graphics && trash extension",
+    "schema-types": "nodecg schema-types",
+    "start": "node ../..",
+    "watch": "run-p watch:*",
+    "watch:browser": "webpack -w",
+    "watch:extension": "tsc -b tsconfig.extension.json -w"
+  },
+  "dependencies": {
+    "module-alias": "^2.2.2"
+  },
+  "devDependencies": {
+    "@mdi/font": "^5.9.55",
+    "@types/clone": "^2.1.1",
+    "@types/module-alias": "^2.0.1",
+    "@types/node": "^14.17.9",
+    "@types/webpack-env": "^1.16.2",
+    "@typescript-eslint/eslint-plugin": "^4.29.0",
+    "@typescript-eslint/parser": "^4.29.0",
+    "@vue/component-compiler-utils": "^3.2.2",
+    "@zoton2/nodecg-cli": "^7.1.0",
+    "clone": "^2.1.2",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.2.0",
+    "deepmerge": "^4.2.2",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-vue": "^7.15.1",
+    "fibers": "^5.0.0",
+    "file-loader": "^6.2.0",
+    "fork-ts-checker-webpack-plugin": "^6.3.2",
+    "globby": "^12.0.0",
+    "html-webpack-plugin": "^5.3.2",
+    "mini-css-extract-plugin": "^2.2.0",
+    "npm-run-all": "^4.1.5",
+    "sass": "~1.32",
+    "sass-loader": "^12.1.0",
+    "trash-cli": "^4.0.0",
+    "ts-loader": "^9.2.5",
+    "tsconfig-paths-webpack-plugin": "^3.5.1",
+    "typescript": "^4.3.5",
+    "vue": "^2.6.14",
+    "vue-class-component": "^7.2.6",
+    "vue-hot-reload-api": "^2.3.4",
+    "vue-loader": "^15.9.8",
+    "vue-property-decorator": "^9.1.2",
+    "vue-style-loader": "^4.1.3",
+    "vue-template-compiler": "^2.6.14",
+    "vuetify": "^2.5.8",
+    "vuetify-loader": "^1.7.2",
+    "vuex": "^3.6.2",
+    "vuex-class": "^0.3.2",
+    "vuex-module-decorators": "^1.0.1",
+    "webpack": "^5.49.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-livereload-plugin": "^3.0.2"
+  },
+  "nodecg": {
+    "compatibleRange": "^1.8.1",
+    "dashboardPanels": [
+      {
+        "name": "example",
+        "title": "Example",
+        "file": "example.html"
+      }
+    ],
+    "graphics": [
+      {
+        "file": "example.html",
+        "width": 1920,
+        "height": 1080
+      }
+    ]
+  }
+}
