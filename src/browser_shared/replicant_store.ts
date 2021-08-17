@@ -1,4 +1,4 @@
-import type { ExampleReplicant } from '@nodecg-vue-ts-template/types/schemas';
+import type { Total, AutoUpdateTotal, CountdownRunning, Countdown } from '@gsps-layouts/types/schemas';
 import clone from 'clone';
 import type { ReplicantBrowser } from 'nodecg/types/browser';
 import Vue from 'vue';
@@ -8,15 +8,24 @@ import { getModule, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 
 // Declaring replicants.
 export const reps: {
-  exampleReplicant: ReplicantBrowser<ExampleReplicant>;
+  totalReplicant: ReplicantBrowser<Total>;
+  autoUpdateTotalReplicant: ReplicantBrowser<AutoUpdateTotal>;
+  countdownReplicant: ReplicantBrowser<Countdown>;
+  countdownRunningReplicant: ReplicantBrowser<CountdownRunning>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
-  exampleReplicant: nodecg.Replicant('exampleReplicant'),
+  totalReplicant: nodecg.Replicant('total'),
+  autoUpdateTotalReplicant: nodecg.Replicant('autoUpdateTotal'),
+  countdownReplicant: nodecg.Replicant('countdown', {persistent: false}),
+  countdownRunningReplicant: nodecg.Replicant('countdownRunning', {persistent: false})
 };
 
 // All the replicant types.
 export interface ReplicantTypes {
-  exampleReplicant: ExampleReplicant;
+  totalReplicant: Total;
+  autoUpdateTotalReplicant: AutoUpdateTotal;
+  countdownReplicant: Countdown;
+  countdownRunningReplicant: CountdownRunning;
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })

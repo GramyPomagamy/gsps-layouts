@@ -6,5 +6,14 @@
  */
 
 export interface Configschema {
-	exampleProperty: string;
+	donationSocketUrl?: string;
+	/**
+	 * Login information for the private areas of the tracker API.
+	 */
+	tracker?: {
+		username: string;
+		password: string;
+		[k: string]: unknown;
+	} | null;
+	emotesEnabled?: boolean;
 }

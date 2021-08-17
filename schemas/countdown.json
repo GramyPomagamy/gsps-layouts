@@ -1,0 +1,25 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"formatted": {
+			"type": "string"
+		},
+		"raw": {
+			"type": "number",
+			"minimum": 0
+		},
+		"timestamp": {
+			"type": "number"
+		}
+	},
+	"default": {
+		"formatted": "10:00",
+		"raw": 600000,
+		"timestamp": 0
+	},
+	"required": [
+		"formatted",
+		"raw"
+	]
+}

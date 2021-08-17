@@ -3,11 +3,26 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "exampleProperty": {
-      "type": "string"
-    }
-  },
-  "required": [
-    "exampleProperty"
-  ]
+		"donationSocketUrl": {
+			"type": "string"
+		},
+    "tracker": {
+			"type": ["object", "null"],
+			"properties": {
+				"username": {
+					"type": "string"
+				},
+				"password": {
+					"type": "string"
+				}
+			},
+			"description": "Login information for the private areas of the tracker API.",
+			"required": ["username", "password"],
+			"default": null
+		},
+    "emotesEnabled": {
+			"type": "boolean",
+			"default": false
+		}
+  }
 }

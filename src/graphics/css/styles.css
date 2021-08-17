@@ -1,0 +1,67 @@
+@import './gyre/stylesheet.css';
+
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: "TeXGyreHeros";
+    display: block;
+}
+
+#runners {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    position: relative;
+    padding-left: 11px;
+}
+
+.marquee {
+    height: 50px;
+    overflow: hidden;
+    position: relative;
+}
+
+.marquee p {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    line-height: 50px;
+    text-align: center;
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    -webkit-animation: scroll-left 0s linear infinite;
+    animation: scroll-left 15s linear infinite;
+}
+
+@-webkit-keyframes scroll-left {
+    0% {
+        -webkit-transform: translateX(100%);
+    }
+    100% {
+        -webkit-transform: translateX(-100%);
+    }
+}
+
+@keyframes scroll-left {
+    0% {
+        -moz-transform: translateX(100%);
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%);
+    }
+    100% {
+        -moz-transform: translateX(-100%);
+        -webkit-transform: translateX(-100%);
+        transform: translateX(-100%);
+    }
+}
+
+.Flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
