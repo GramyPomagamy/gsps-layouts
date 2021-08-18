@@ -23,16 +23,6 @@ class OurModule extends VuexModule {
     return this.reps.autoUpdateTotalReplicant;
   }
 
-  // Action that uses the generic mutation in replicant_store.ts
-  // You could do anything here to successfully set a whole new value.
-  // Here, I clone the original and tweak one property on the object.
-  // You could also put this in the replicant_store.ts file if used repeatedly.
-/*   @Action
-  updateExampleReplicantProperty(str: string): void {
-    const val = { ...clone(this.exampleReplicant), ...{ exampleProperty: str } };
-    replicantModule.setReplicant<ExampleReplicant>({ name: 'exampleReplicant', val });
-  } */
-
   @Action({rawError: true})
   updateAutoUpdateReplicant(setting: boolean): void {
     const val: boolean = setting; 

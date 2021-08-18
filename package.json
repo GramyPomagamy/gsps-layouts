@@ -30,6 +30,7 @@
     "watch:extension": "tsc -b tsconfig.extension.json -w"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
     "@types/bluebird": "^3.5.36",
     "@types/deep-equal": "^1.0.1",
     "@types/events": "^3.0.0",
@@ -40,6 +41,7 @@
     "bluebird": "^3.7.2",
     "deep-equal": "^2.0.5",
     "events": "^3.3.0",
+    "fitty": "^2.3.5",
     "gsap": "^3.7.1",
     "milliseconds": "^1.0.3",
     "module-alias": "^2.2.2",

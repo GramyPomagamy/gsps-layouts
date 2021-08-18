@@ -8,9 +8,9 @@ import Bluebird from 'bluebird';
 
 const bidsLog = new (nodecg() as NodeCG).Logger(`${nodecg().bundleName}:bids`);
 const POLL_INTERVAL = 20 * 1000;
-const BIDS_URL = 'https://donacje.gsps.pl/search?type=allbids&event=17';
+const BIDS_URL = 'https://donacje.gsps.pl/search?type=allbids&event=18';
 /* const CURRENT_BIDS_URL = 'https://donacje.gsps.pl/search?type=allbids&event=17&state=OPENED'; */
-const CURRENT_BIDS_URL = 'https://donacje.gsps.pl/search?type=allbids&event=17';
+const CURRENT_BIDS_URL = 'https://donacje.gsps.pl/search?type=allbids&event=18';
 const currentBidsRep = nodecg().Replicant<Bids>('currentBids', {defaultValue: []});
 const allBidsRep = nodecg().Replicant<Bids>('allBids', {defaultValue: []});
 

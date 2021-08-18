@@ -1,5 +1,5 @@
 <template>
-    <b :style="{'color': '#a5a3a3', 'text-shadow': 'black 2px 2px 8px'}" >{{ timer.time }}</b>
+    <b id="timer" :style="{'color': '#a5a3a3', 'text-shadow': 'black 2px 2px 8px'}" >{{ timer.time }}</b>
 </template>
 
 <script>
@@ -22,7 +22,7 @@ export default {
     mounted() {
         timer.on('change', newVal => {
             this.timer = newVal;
-            gsap.to(document.getElementsByTagName('b'), {duration: 1, color: timerColors[newVal.state]})
+            gsap.to(document.getElementById('timer'), {duration: 1, color: timerColors[newVal.state]})
         })
     }
 }

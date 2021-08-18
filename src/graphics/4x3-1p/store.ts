@@ -1,5 +1,6 @@
 import { replicantModule, ReplicantModule, ReplicantTypes } from '@gsps-layouts/browser_shared/replicant_store';
-import { Countdown } from '@gsps-layouts/types/schemas';
+import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
+import type { NameCycle } from '@gsps-layouts/types/schemas';
 import clone from 'clone';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
@@ -14,8 +15,12 @@ class OurModule extends VuexModule {
     return this.context.rootState.ReplicantModule.reps;
   }
 
-  get countdownReplicant(): Countdown {
-    return this.reps.countdownReplicant;
+  get activeRunReplicant(): RunDataActiveRun {
+    return this.reps.activeRunReplicant;
+  }
+
+  get nameCycleReplicant(): NameCycle {
+    return this.reps.nameCycleReplicant;
   }
 }
 

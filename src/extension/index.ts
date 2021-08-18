@@ -17,4 +17,5 @@ export = (nodecg: NodeCG): void => {
   require('./countdown');
   require('./total');
   require('./bids');
+  require('./layouts');
 };

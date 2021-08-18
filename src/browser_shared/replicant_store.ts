@@ -1,4 +1,5 @@
-import type { Total, AutoUpdateTotal, CountdownRunning, Countdown } from '@gsps-layouts/types/schemas';
+import type { Total, AutoUpdateTotal, CountdownRunning, Countdown, NameCycle } from '@gsps-layouts/types/schemas';
+import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
 import clone from 'clone';
 import type { ReplicantBrowser } from 'nodecg/types/browser';
 import Vue from 'vue';
@@ -8,16 +9,20 @@ import { getModule, Module, Mutation, VuexModule } from 'vuex-module-decorators'
 
 // Declaring replicants.
 export const reps: {
+  activeRunReplicant: ReplicantBrowser<RunDataActiveRun>;
   totalReplicant: ReplicantBrowser<Total>;
   autoUpdateTotalReplicant: ReplicantBrowser<AutoUpdateTotal>;
   countdownReplicant: ReplicantBrowser<Countdown>;
   countdownRunningReplicant: ReplicantBrowser<CountdownRunning>;
+  nameCycleReplicant: ReplicantBrowser<NameCycle>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
   totalReplicant: nodecg.Replicant('total'),
   autoUpdateTotalReplicant: nodecg.Replicant('autoUpdateTotal'),
   countdownReplicant: nodecg.Replicant('countdown', {persistent: false}),
-  countdownRunningReplicant: nodecg.Replicant('countdownRunning', {persistent: false})
+  countdownRunningReplicant: nodecg.Replicant('countdownRunning', {persistent: false}),
+  activeRunReplicant: nodecg.Replicant('runDataActiveRun', 'nodecg-speedcontrol'),
+  nameCycleReplicant: nodecg.Replicant('nameCycle')
 };
 
 // All the replicant types.
@@ -26,6 +31,8 @@ export interface ReplicantTypes {
   autoUpdateTotalReplicant: AutoUpdateTotal;
   countdownReplicant: Countdown;
   countdownRunningReplicant: CountdownRunning;
+  activeRunReplicant: RunDataActiveRun;
+  nameCycleReplicant: NameCycle;
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })
