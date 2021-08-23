@@ -1,15 +1,16 @@
 <template>
   <div id="container">
     <img id="Background" src="../img/layouts/standard_1_bg.png">
-    <run-info id="RunInfo" v-if="activeRunReplicant" :run="activeRunReplicant" :maxTitleSize="30"/>
+    <run-info id="RunInfo" v-if="activeRun" :run="activeRun" :maxTitleSize="30"/>
 
     <div id="bottomLeft">
-      <div v-if="activeRunReplicant" id="runners">
-        <player class="Player" v-if="activeRunReplicant.teams[0].players[0]" :cycle="nameCycleReplicant" :player="activeRunReplicant.teams[0].players[0]"/>
-        <player class="Player" v-if="activeRunReplicant.teams[0].players[1]" :cycle="nameCycleReplicant" :player="activeRunReplicant.teams[0].players[1]"/>
-        <player class="Player" v-if="activeRunReplicant.teams[0].players[2]" :cycle="nameCycleReplicant" :player="activeRunReplicant.teams[0].players[2]"/>
-        <player class="Player" v-if="activeRunReplicant.teams[0].players[3]" :cycle="nameCycleReplicant" :player="activeRunReplicant.teams[0].players[3]"/>
-        <commentators :maxSize="20" v-if="activeRunReplicant.teams[0].players.length < 3" id="commentators" />
+      <div v-if="activeRun" id="runners">
+        <template v-if="activeRun.teams" v-for="team in activeRun.teams">
+          <template v-for="player in team.players">
+            <player :key="player.id" class="Player" :cycle="nameCycle" :player="player"/>
+          </template>
+        </template>
+        <commentator-list :commentators="commentators" v-if="numRunners < 3 && commentators.amount > 0" id="commentators" />
 <!--         <reader v-if="activeRunReplicant.teams[0].players.length < 4" id="reader" /> -->
       </div>
       <timer id="timer"/>
@@ -21,12 +22,12 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
-import type { NameCycle } from '@gsps-layouts/types/schemas';
+import type { NameCycle, Commentators } from '@gsps-layouts/types/schemas';
 import { Getter } from 'vuex-class';
 import Timer from '../_misc/components/Timer.vue';
 import RunInfo from '../_misc/components/RunInfo.vue';
 import Player from '../_misc/components/Player.vue';
-import Commentators from '../_misc/components/Commentator.vue';
+import CommentatorList from '../_misc/components/Commentator.vue';
 import Reader from '../_misc/components/Reader.vue';
 
 @Component({
@@ -34,13 +35,36 @@ import Reader from '../_misc/components/Reader.vue';
     Timer,
     RunInfo,
     Player,
-    Commentators,
+    CommentatorList,
     Reader
   }
 })
 export default class extends Vue {
-  @Getter readonly activeRunReplicant!: RunDataActiveRun; // from store.ts
-  @Getter readonly nameCycleReplicant!: NameCycle;
+  @Getter readonly activeRun!: RunDataActiveRun;
+  @Getter readonly nameCycle!: NameCycle;
+  @Getter readonly commentators!: Commentators;
+  data() {
+    return {
+      numRunners: 0 
+    }
+  }
+
+  mounted() {
+    this.activeRun!.teams.forEach((team: any) => {
+        this.$data.numRunners += team.players.length;
+    });
+
+    this.$watch(function() {
+      return this.activeRun;
+    }, 
+    function() {
+      this.$data.numRunners = 0;
+      this.activeRun!.teams.forEach((team: any) => {
+        this.$data.numRunners += team.players.length;
+      });
+    })
+  }
+  
 }
 </script>
 

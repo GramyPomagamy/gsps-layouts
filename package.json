@@ -112,6 +112,12 @@
         "width": 3
       },
       {
+        "name": "commentators",
+        "title": "Komentatorzy",
+        "file": "commentators.html",
+        "width": 3
+      },
+      {
         "name": "countdown",
         "title": "Odliczanie",
         "file": "countdown.html",

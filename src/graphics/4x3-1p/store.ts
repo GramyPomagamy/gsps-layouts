@@ -1,6 +1,6 @@
 import { replicantModule, ReplicantModule, ReplicantTypes } from '@gsps-layouts/browser_shared/replicant_store';
 import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
-import type { NameCycle } from '@gsps-layouts/types/schemas';
+import type { NameCycle, Commentators } from '@gsps-layouts/types/schemas';
 import clone from 'clone';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
@@ -15,12 +15,16 @@ class OurModule extends VuexModule {
     return this.context.rootState.ReplicantModule.reps;
   }
 
-  get activeRunReplicant(): RunDataActiveRun {
+  get activeRun(): RunDataActiveRun {
     return this.reps.activeRunReplicant;
   }
 
-  get nameCycleReplicant(): NameCycle {
+  get nameCycle(): NameCycle {
     return this.reps.nameCycleReplicant;
+  }
+
+  get commentators(): Commentators {
+    return this.reps.commentatorsReplicant;
   }
 }
 

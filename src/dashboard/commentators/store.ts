@@ -1,5 +1,5 @@
 import { replicantModule, ReplicantModule, ReplicantTypes } from '@gsps-layouts/browser_shared/replicant_store';
-import { Countdown } from '@gsps-layouts/types/schemas';
+import { Commentators } from '@gsps-layouts/types/schemas';
 import clone from 'clone';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
@@ -14,8 +14,22 @@ class OurModule extends VuexModule {
     return this.context.rootState.ReplicantModule.reps;
   }
 
-  get countdown(): Countdown {
-    return this.reps.countdownReplicant;
+  // Helper getter to return a specific replicant.
+  get commentatorsReplicant(): Commentators {
+    return this.reps.commentatorsReplicant; 
+  }
+
+  @Action({rawError: true})
+  updateCommentatorsReplicant(nicknames: string): void {
+    let nameAmount: number = 0;
+    if (nicknames.length > 0) {
+      nameAmount = nicknames.split(',').length
+    }
+    const val: Commentators = {
+      amount: nameAmount,
+      names: nicknames
+    }
+    replicantModule.setReplicant<Commentators>({ name: 'commentatorsReplicant', val })
   }
 }
 

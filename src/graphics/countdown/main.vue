@@ -4,7 +4,7 @@
     <img id="Background" src="../img/bg.png">
     <div id="Countdown">
       <p id="CountdownTitle">ZACZYNAMY ZA</p>
-      <div id="CountdownTimer">{{ countdownReplicant.formatted }}</div>
+      <div id="CountdownTimer">{{ countdown.formatted }}</div>
     </div>
     <div id="CurrentSong">
       <p id="SongText">OBECNA PIOSENKA</p>
@@ -20,7 +20,7 @@ import { Getter } from 'vuex-class';
 
 @Component
 export default class extends Vue {
-  @Getter readonly countdownReplicant!: Countdown; // from store.ts
+  @Getter readonly countdown!: Countdown; // from store.ts
 }
 </script>
 
