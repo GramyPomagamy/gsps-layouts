@@ -5,4 +5,5 @@ export * from './commentators';
 export * from './countdown';
 export * from './countdownRunning';
 export * from './nameCycle';
+export * from './reader';
 export * from './total';

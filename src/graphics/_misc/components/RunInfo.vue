@@ -2,7 +2,7 @@
     <div>
         <div id="GameName" :style="{ 'color': 'white', 'text-shadow': 'black 2px 2px 8px' }"><b>{{ run.game }}</b></div>
         <br>
-        <div id="GameInfo" :style="{ 'color': 'white', 'text-shadow': 'black 2px 2px 8px', 'font-size': '16px' }">{{ run.category || "?" }} / {{ run.system || "?" }} / {{ run.estimate || "?" }}</div>
+        <div id="GameInfo" :style="{ 'color': 'white', 'text-shadow': 'black 2px 2px 8px', 'font-size': '16px' }">{{ run.category || "?" }} / {{ run.system || "?" }} / EST: {{ run.estimate || "?" }}</div>
     </div>
 </template>
 
@@ -27,7 +27,6 @@ export default {
     },
     methods: {
         fitText() {
-            console.log('fitting text');
             this.$data.$_fittyGame = fitty("#GameName", {
                 minSize: 1,
                 maxSize: this.maxTitleSize

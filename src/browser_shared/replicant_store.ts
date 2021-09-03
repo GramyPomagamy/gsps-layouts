@@ -1,4 +1,4 @@
-import type { Total, AutoUpdateTotal, CountdownRunning, Countdown, NameCycle, Commentators } from '@gsps-layouts/types/schemas';
+import type { Total, AutoUpdateTotal, CountdownRunning, Countdown, NameCycle, Commentators, Reader } from '@gsps-layouts/types/schemas';
 import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
 import clone from 'clone';
 import type { ReplicantBrowser } from 'nodecg/types/browser';
@@ -15,7 +15,8 @@ export const reps: {
   countdownReplicant: ReplicantBrowser<Countdown>;
   countdownRunningReplicant: ReplicantBrowser<CountdownRunning>;
   nameCycleReplicant: ReplicantBrowser<NameCycle>;
-  commentatorsReplicant: ReplicantBrowser<Commentators>
+  commentatorsReplicant: ReplicantBrowser<Commentators>;
+  readerReplicant: ReplicantBrowser<Reader>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
   totalReplicant: nodecg.Replicant('total'),
@@ -24,7 +25,8 @@ export const reps: {
   countdownRunningReplicant: nodecg.Replicant('countdownRunning', {persistent: false}),
   activeRunReplicant: nodecg.Replicant('runDataActiveRun', 'nodecg-speedcontrol'),
   nameCycleReplicant: nodecg.Replicant('nameCycle'),
-  commentatorsReplicant: nodecg.Replicant('commentators')
+  commentatorsReplicant: nodecg.Replicant('commentators'),
+  readerReplicant: nodecg.Replicant('reader')
 };
 
 // All the replicant types.
@@ -36,6 +38,7 @@ export interface ReplicantTypes {
   activeRunReplicant: RunDataActiveRun;
   nameCycleReplicant: NameCycle;
   commentatorsReplicant: Commentators;
+  readerReplicant: Reader;
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })

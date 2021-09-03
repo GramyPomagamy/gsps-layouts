@@ -118,6 +118,12 @@
         "width": 3
       },
       {
+        "name": "reader",
+        "title": "Czytający",
+        "file": "reader.html",
+        "width": 2
+      },
+      {
         "name": "countdown",
         "title": "Odliczanie",
         "file": "countdown.html",

@@ -11,7 +11,7 @@
           </template>
         </template>
         <commentator-list :commentators="commentators" v-if="numRunners < 3 && commentators.amount > 0" id="commentators" />
-<!--         <reader v-if="activeRunReplicant.teams[0].players.length < 4" id="reader" /> -->
+        <reader-name :reader="reader" v-if="numRunners < 4 && reader" id="reader" />
       </div>
       <timer id="timer"/>
     </div>
@@ -22,13 +22,13 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
-import type { NameCycle, Commentators } from '@gsps-layouts/types/schemas';
+import type { NameCycle, Commentators, Reader } from '@gsps-layouts/types/schemas';
 import { Getter } from 'vuex-class';
 import Timer from '../_misc/components/Timer.vue';
 import RunInfo from '../_misc/components/RunInfo.vue';
 import Player from '../_misc/components/Player.vue';
 import CommentatorList from '../_misc/components/Commentator.vue';
-import Reader from '../_misc/components/Reader.vue';
+import ReaderName from '../_misc/components/Reader.vue';
 
 @Component({
   components: {
@@ -36,16 +36,17 @@ import Reader from '../_misc/components/Reader.vue';
     RunInfo,
     Player,
     CommentatorList,
-    Reader
+    ReaderName
   }
 })
 export default class extends Vue {
   @Getter readonly activeRun!: RunDataActiveRun;
   @Getter readonly nameCycle!: NameCycle;
   @Getter readonly commentators!: Commentators;
+  @Getter readonly reader!: Reader;
   data() {
     return {
-      numRunners: 0 
+      numRunners: 0
     }
   }
 
@@ -110,8 +111,8 @@ export default class extends Vue {
 
   #RunInfo {
     position: absolute;
+    top: 630px;
     left: 5px;
-		top: 630px;
 		width: 551.8px;
 		height: 160px;
   }

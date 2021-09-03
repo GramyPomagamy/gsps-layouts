@@ -1,6 +1,5 @@
 import { replicantModule, ReplicantModule, ReplicantTypes } from '@gsps-layouts/browser_shared/replicant_store';
-import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
-import type { NameCycle, Commentators, Reader } from '@gsps-layouts/types/schemas';
+import { Reader } from '@gsps-layouts/types/schemas';
 import clone from 'clone';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
@@ -15,20 +14,15 @@ class OurModule extends VuexModule {
     return this.context.rootState.ReplicantModule.reps;
   }
 
-  get activeRun(): RunDataActiveRun {
-    return this.reps.activeRunReplicant;
-  }
-
-  get nameCycle(): NameCycle {
-    return this.reps.nameCycleReplicant;
-  }
-
-  get commentators(): Commentators {
-    return this.reps.commentatorsReplicant;
-  }
-
+  // Helper getter to return a specific replicant.
   get reader(): Reader {
-    return this.reps.readerReplicant;
+    return this.reps.readerReplicant; 
+  }
+
+  @Action({rawError: true})
+  updateReader(val: string): void {
+
+    replicantModule.setReplicant<Reader>({ name: 'readerReplicant', val })
   }
 }
 
