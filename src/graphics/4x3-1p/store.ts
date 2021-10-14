@@ -1,6 +1,7 @@
 import { replicantModule, ReplicantModule, ReplicantTypes } from '@gsps-layouts/browser_shared/replicant_store';
 import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
 import type { NameCycle, Commentators, Reader } from '@gsps-layouts/types/schemas';
+import type { Asset } from '@gsps-layouts/types';
 import clone from 'clone';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
@@ -29,6 +30,10 @@ class OurModule extends VuexModule {
 
   get reader(): Reader {
     return this.reps.readerReplicant;
+  }
+
+  get sponsors(): Asset[] {
+    return this.reps.sponsors_43_1p;
   }
 }
 

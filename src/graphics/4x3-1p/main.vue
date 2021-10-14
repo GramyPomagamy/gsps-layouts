@@ -1,7 +1,7 @@
 <template>
   <div id="container">
     <img id="Background" src="../img/layouts/standard_1_bg.png">
-    <run-info id="RunInfo" v-if="activeRun" :run="activeRun" :maxTitleSize="30"/>
+    
 
     <div id="bottomLeft">
       <div v-if="activeRun" id="runners">
@@ -13,7 +13,9 @@
         <commentator-list :commentators="commentators" v-if="numRunners < 3 && commentators.amount > 0" id="commentators" />
         <reader-name :reader="reader" v-if="numRunners < 4 && reader" id="reader" />
       </div>
+      <run-info id="RunInfo" v-if="activeRun" :run="activeRun" :maxTitleSize="30"/>
       <timer id="timer"/>
+      <sponsors-view id="sponsors" :sponsors="sponsors"/>
     </div>
 
   </div>
@@ -23,12 +25,14 @@
 import { Vue, Component } from 'vue-property-decorator';
 import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
 import type { NameCycle, Commentators, Reader } from '@gsps-layouts/types/schemas';
+import type { Asset } from '@gsps-layouts/types';
 import { Getter } from 'vuex-class';
 import Timer from '../_misc/components/Timer.vue';
 import RunInfo from '../_misc/components/RunInfo.vue';
 import Player from '../_misc/components/Player.vue';
 import CommentatorList from '../_misc/components/Commentator.vue';
 import ReaderName from '../_misc/components/Reader.vue';
+import SponsorsView from '../_misc/components/Sponsors.vue';
 
 @Component({
   components: {
@@ -36,7 +40,8 @@ import ReaderName from '../_misc/components/Reader.vue';
     RunInfo,
     Player,
     CommentatorList,
-    ReaderName
+    ReaderName,
+    SponsorsView
   }
 })
 export default class extends Vue {
@@ -44,6 +49,7 @@ export default class extends Vue {
   @Getter readonly nameCycle!: NameCycle;
   @Getter readonly commentators!: Commentators;
   @Getter readonly reader!: Reader;
+  @Getter readonly sponsors!: Asset[];
   data() {
     return {
       numRunners: 0
@@ -85,13 +91,14 @@ export default class extends Vue {
   }
 
   #timer {
-		position: absolute;
+		position: relative;
 		left: -13.2px;
-	  top: 100px;
+	  top: -180px;
 		height: 78px;
 		width: 556.8px;
 		font-size: 90px;
 		margin-left: 11px;
+    margin-bottom: 0px;
   }
 
   #bottomLeft {
@@ -110,8 +117,8 @@ export default class extends Vue {
   }
 
   #RunInfo {
-    position: absolute;
-    top: 630px;
+    position: relative;
+    top: -80px;
     left: 5px;
 		width: 551.8px;
 		height: 160px;
@@ -148,4 +155,13 @@ export default class extends Vue {
 		margin-bottom: 0px;
 		width: 567px;
   }
+
+  #sponsors {
+    position: absolute;
+		top: 200px;
+		left: 30px;
+		width: 520px;
+		height: 200px;
+/* 		background-color: aqua; */
+	}
 </style>

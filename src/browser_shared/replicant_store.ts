@@ -1,4 +1,5 @@
 import type { Total, AutoUpdateTotal, CountdownRunning, Countdown, NameCycle, Commentators, Reader } from '@gsps-layouts/types/schemas';
+import type { Asset } from '@gsps-layouts/types';
 import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
 import clone from 'clone';
 import type { ReplicantBrowser } from 'nodecg/types/browser';
@@ -17,6 +18,7 @@ export const reps: {
   nameCycleReplicant: ReplicantBrowser<NameCycle>;
   commentatorsReplicant: ReplicantBrowser<Commentators>;
   readerReplicant: ReplicantBrowser<Reader>;
+  sponsors_43_1p: ReplicantBrowser<Asset[]>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
   totalReplicant: nodecg.Replicant('total'),
@@ -26,7 +28,8 @@ export const reps: {
   activeRunReplicant: nodecg.Replicant('runDataActiveRun', 'nodecg-speedcontrol'),
   nameCycleReplicant: nodecg.Replicant('nameCycle'),
   commentatorsReplicant: nodecg.Replicant('commentators'),
-  readerReplicant: nodecg.Replicant('reader')
+  readerReplicant: nodecg.Replicant('reader'),
+  sponsors_43_1p: nodecg.Replicant('assets:sponsors-standard_1')
 };
 
 // All the replicant types.
@@ -39,6 +42,7 @@ export interface ReplicantTypes {
   nameCycleReplicant: NameCycle;
   commentatorsReplicant: Commentators;
   readerReplicant: Reader;
+  sponsors_43_1p: Asset[];
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })

@@ -1,7 +1,5 @@
 <template>
   <v-app>
-    <h1 v-if="countdownRunningReplicant">{{ countdownReplicant.formatted }}</h1>
-    <br v-if="countdownRunningReplicant">
     <v-text-field v-model="countdownText" :disabled="countdownRunningReplicant" label="Czas odliczania" filled></v-text-field>
     <v-row no-gutters>
       <v-col>
@@ -17,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Watch } from 'vue-property-decorator';
 import type { Countdown } from '@gsps-layouts/types/schemas/countdown';
 import type { CountdownRunning } from '@gsps-layouts/types/schemas/countdownRunning';
 import { Getter } from 'vuex-class';
@@ -42,6 +40,11 @@ export default class extends Vue {
 
   mounted() {
     this.$data.countdownText = this.countdownReplicant.formatted;
+  }
+
+  @Watch('countdownReplicant')
+  onCountdownChanged(value: Countdown) {
+    this.$data.countdownText = value.formatted;
   }
 }
 </script>

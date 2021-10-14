@@ -163,6 +163,15 @@
         "width": 1920,
         "height": 1014
       }
+    ],
+    "assetCategories": [
+      {
+        "name": "sponsors-standard_1",
+        "title": "Sponsors Standard, 1 Player",
+        "allowedTypes": [
+          "png"
+        ]
+      }
     ]
   }
 }
