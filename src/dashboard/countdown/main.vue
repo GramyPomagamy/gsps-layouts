@@ -24,7 +24,7 @@ import { Getter } from 'vuex-class';
 export default class extends Vue {
   data() {
     return {
-      countdownText: "",
+      countdownText: "10:00",
     }
   }
   @Getter readonly countdownReplicant!: Countdown;
