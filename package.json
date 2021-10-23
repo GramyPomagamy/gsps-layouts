@@ -2,13 +2,13 @@
   "name": "gsps-layouts",
   "version": "1.0.0",
   "description": "Layouts used for the GSPS (Gramy Szybko, Pomagamy Skutecznie) events, based on a template for NodeCG bundles that use Vue.js and TypeScript by zoton2.",
-  "homepage": "https://github.com/zoton2/nodecg-vue-ts-template#readme",
+  "homepage": "https://github.com/GramyPomagamy/gsps-layouts",
   "bugs": {
-    "url": "https://github.com/zoton2/nodecg-vue-ts-template/issues"
+    "url": "https://github.com/GramyPomagamy/gsps-layouts/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zoton2/nodecg-vue-ts-template.git"
+    "url": "git+https://github.com/GramyPomagamy/gsps-layouts.git"
   },
   "license": "MIT",
   "author": "GramyPomagamy",
