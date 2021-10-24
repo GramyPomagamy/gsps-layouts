@@ -6,8 +6,8 @@
  */
 
 export interface Countdown {
-	formatted: string;
-	raw: number;
-	timestamp?: number;
-	[k: string]: unknown;
+    formatted: string
+    raw: number
+    timestamp?: number
+    [k: string]: unknown
 }

@@ -6,20 +6,20 @@
  */
 
 export type Bids = {
-	id: number;
-	name: string;
-	description?: string;
-	total: number;
-	game?: string;
-	category?: string;
-	endTime?: number;
-	war: boolean;
-	allowUserOptions: boolean;
-	options: {
-		id: number;
-		parent: number;
-		name: string;
-		total: number;
-	}[];
-	goal?: number;
-}[];
+    id: number
+    name: string
+    description?: string
+    total: number
+    game?: string
+    category?: string
+    endTime?: number
+    war: boolean
+    allowUserOptions: boolean
+    options: {
+        id: number
+        parent: number
+        name: string
+        total: number
+    }[]
+    goal?: number
+}[]

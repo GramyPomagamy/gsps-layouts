@@ -6,14 +6,14 @@
  */
 
 export interface Configschema {
-	donationSocketUrl?: string;
-	/**
-	 * Login information for the private areas of the tracker API.
-	 */
-	tracker?: {
-		username: string;
-		password: string;
-		[k: string]: unknown;
-	} | null;
-	emotesEnabled?: boolean;
+    donationSocketUrl?: string
+    /**
+     * Login information for the private areas of the tracker API.
+     */
+    tracker?: {
+        username: string
+        password: string
+        [k: string]: unknown
+    } | null
+    emotesEnabled?: boolean
 }

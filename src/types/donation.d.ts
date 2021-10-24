@@ -1,6 +1,6 @@
 export interface Donation {
-    name: string,
-    rawAmount: number,
-    newTotal: number,
+    name: string
+    rawAmount: number
+    newTotal: number
     domain: string
 }

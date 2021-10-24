@@ -1,1 +1,1 @@
-declare module 'vue-marquee-text-component';
+declare module 'vue-marquee-text-component'

@@ -1,47 +1,49 @@
 <template>
-    <div 
+    <div
         id="GenericMessage"
         class="Flex"
         :style="cssProps"
         v-html="normalisedData.msg"
-    >
-    </div>        
+    ></div>
 </template>
 
 <script>
-export default {
-    name: 'TickerGenericMessage',
-    props: {
-        data: {
-            type: Object,
-            default() {
-                return {
-                    msg: '',
-                    size: 28,
-                    time: 25
-                };
+    export default {
+        name: 'TickerGenericMessage',
+        props: {
+            data: {
+                type: Object,
+                default() {
+                    return {
+                        msg: '',
+                        size: 28,
+                        time: 25,
+                    }
+                },
             },
         },
-    },
-    computed: {
-        cssProps() {
-            return {
-                '--font-size': `${this.normalisedData.size}px`
-            }
+        computed: {
+            cssProps() {
+                return {
+                    '--font-size': `${this.normalisedData.size}px`,
+                }
+            },
+            normalisedData() {
+                return {
+                    size: 30,
+                    time: 20,
+                    ...this.data,
+                }
+            },
         },
-        normalisedData() {
-            return {
-                size: 30,
-                time: 20,
-                ...this.data
-            }
+        mounted() {
+            console.log('GenericMessage: mounted')
+            setTimeout(() => {
+                this.$emit('end')
+                console.log('GenericMessage: ended')
+            }, this.normalisedData.time * 1000)
         },
-    },
-    mounted() {
-        console.log('GenericMessage: mounted');
-        setTimeout(() => { this.$emit('end'); console.log('GenericMessage: ended'); }, this.normalisedData.time * 1000);
     }
-}
 </script>
 
 <style scoped>

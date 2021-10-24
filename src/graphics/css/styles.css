@@ -1,12 +1,13 @@
 @import './gyre/stylesheet.css';
 
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
 }
 
 html {
-    font-family: "TeXGyreHeros";
+    font-family: 'TeXGyreHeros';
     display: block;
 }
 
