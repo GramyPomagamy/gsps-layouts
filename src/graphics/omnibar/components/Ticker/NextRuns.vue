@@ -43,7 +43,6 @@
             const animateRuns = () => {
                 const elements = document.querySelectorAll('.run')
                 const arr = [].slice.call(elements)
-                console.log(arr)
                 const tl = gsap.timeline({ delay: 1 })
                 arr.forEach((element) => {
                     tl.to(element, { opacity: 1, duration: 0.3 })
