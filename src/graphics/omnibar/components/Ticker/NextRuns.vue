@@ -52,7 +52,7 @@
             }
             setTimeout(() => {
                 animateRuns()
-            }, 500)
+            }, 50)
             setTimeout(() => {
                 this.$emit('end')
                 console.log('NextRuns: ended')
