@@ -15,7 +15,13 @@
     import TickerGenericMessage from './Ticker/GenericMessage.vue'
     import TickerBidGoal from './Ticker/BidGoal.vue'
     import TickerBidWar1v1 from './Ticker/BidWar1v1.vue'
+    import TickerNextRuns from './Ticker/NextRuns.vue'
     const bids = nodecg.Replicant('currentBids')
+    const runs = nodecg.Replicant('runDataArray', 'nodecg-speedcontrol')
+    const activeRun = nodecg.Replicant(
+        'runDataActiveRun',
+        'nodecg-speedcontrol'
+    )
 
     export default {
         name: 'OmnibarTicker',
@@ -30,15 +36,16 @@
             }
         },
         mounted() {
-            NodeCG.waitForReplicants(bids).then(() => {
+            NodeCG.waitForReplicants(bids, runs, activeRun).then(() => {
                 this.messageTypes = [
-                    /*                 this.gspsPromo(),
-                this.charityPromo(),
-                this.donationURL(), */
+                    /*this.gspsPromo(),
+                    this.charityPromo(),
+                    this.donationURL(),
                     this.bidGoal(),
                     this.bidGoal(),
                     this.bidWar1v1(),
-                    this.bidWar1v1(),
+                    this.bidWar1v1(), */
+                    this.nextRuns(),
                 ]
 
                 this.showNextMsg()
@@ -92,6 +99,12 @@
             bidWar1v1() {
                 return {
                     name: TickerBidWar1v1,
+                }
+            },
+
+            nextRuns() {
+                return {
+                    name: TickerNextRuns,
                 }
             },
         },

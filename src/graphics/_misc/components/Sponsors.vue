@@ -1,5 +1,5 @@
 <template>
-    <div id="sponsors-div">
+    <div v-if="currentSponsor.name" id="sponsors-div">
         <transition name="fade" mode="out-in">
             <img :key="currentSponsor.name" :src="currentSponsor.url" />
         </transition>

@@ -10,8 +10,6 @@
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
-    import type { Countdown } from '@gsps-layouts/types/schemas'
-    import { Getter } from 'vuex-class'
     import OmnibarTotal from './components/Total.vue'
     import OmnibarTicker from './components/Ticker.vue'
 
@@ -21,9 +19,7 @@
             OmnibarTicker,
         },
     })
-    export default class extends Vue {
-        @Getter readonly countdownReplicant!: Countdown // from store.ts
-    }
+    export default class extends Vue {}
 </script>
 
 <style>

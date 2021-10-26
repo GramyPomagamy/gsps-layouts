@@ -17,10 +17,6 @@ class OurModule extends VuexModule {
     get reps(): ReplicantTypes {
         return this.context.rootState.ReplicantModule.reps
     }
-
-    get countdownReplicant(): Countdown {
-        return this.reps.countdownReplicant
-    }
 }
 
 const store = new Store({
