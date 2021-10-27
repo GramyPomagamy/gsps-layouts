@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator'
+    import { Vue, Component, Watch } from 'vue-property-decorator'
     import type { Commentators } from '@gsps-layouts/types/schemas'
     import { Getter } from 'vuex-class'
     import { storeModule } from './store'
@@ -26,7 +26,11 @@
     export default class extends Vue {
         @Getter readonly commentatorsReplicant!: Commentators
 
-        commentators: any = this.commentatorsReplicant.names
+        commentators: string = ''
+
+        mounted() {
+            this.commentators = this.commentatorsReplicant.names
+        }
 
         updateCommentators(): void {
             storeModule.updateCommentatorsReplicant(this.commentators)

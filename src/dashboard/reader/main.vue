@@ -1,7 +1,8 @@
 <template>
     <v-app>
         <v-text-field
-            v-model="reader"
+            v-model="readerName"
+            id="readerField"
             label="Obecny czytający"
             filled
         ></v-text-field>
@@ -24,12 +25,16 @@
 
     @Component
     export default class extends Vue {
-        @Getter readonly readerRep!: Reader
+        @Getter readonly reader!: Reader
 
-        reader: any = this.readerRep
+        readerName: string = ''
+
+        mounted() {
+            this.readerName = this.reader
+        }
 
         updateReader(): void {
-            storeModule.updateReader(this.reader)
+            storeModule.updateReader(this.readerName)
         }
     }
 </script>

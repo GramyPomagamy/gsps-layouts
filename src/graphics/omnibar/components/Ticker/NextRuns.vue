@@ -45,7 +45,11 @@
                 const arr = [].slice.call(elements)
                 const tl = gsap.timeline({ delay: 1 })
                 arr.forEach((element) => {
-                    tl.to(element, { opacity: 1, duration: 0.3 })
+                    tl.to(element, {
+                        opacity: 1,
+                        translateX: '-5px',
+                        duration: 0.3,
+                    })
                 })
                 tl.play()
             }
@@ -55,7 +59,7 @@
             setTimeout(() => {
                 this.$emit('end')
                 console.log('NextRuns: ended')
-            }, 20 * 1000)
+            }, 10 * 1000)
         },
         methods: {
             formatPlayers(run) {
