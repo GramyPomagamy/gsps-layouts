@@ -164,12 +164,24 @@
         "file": "4x3-1p.html",
         "width": 1920,
         "height": 1014
+      },
+      {
+        "file": "16x9-1p.html",
+        "width": 1920,
+        "height": 1014
       }
     ],
     "assetCategories": [
       {
         "name": "sponsors-standard_1",
         "title": "Sponsors Standard, 1 Player",
+        "allowedTypes": [
+          "png"
+        ]
+      },
+      {
+        "name": "sponsors-widescreen_1",
+        "title": "Sponsors Widescreen, 1 Player",
         "allowedTypes": [
           "png"
         ]

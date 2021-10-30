@@ -1,42 +1,37 @@
 <template>
     <div id="container">
-        <img id="Background" src="../img/layouts/standard_1.png" />
+        <img id="Background" src="../img/layouts/widescreen_1.png" />
 
-        <div id="bottomLeft">
-            <div v-if="activeRun" id="runners">
-                <template
-                    v-if="activeRun.teams"
-                    v-for="team in activeRun.teams"
-                >
-                    <template v-for="player in team.players">
-                        <player
-                            :key="player.id"
-                            class="Player"
-                            :cycle="nameCycle"
-                            :player="player"
-                        />
-                    </template>
+        <div v-if="activeRun" id="runners">
+            <template v-if="activeRun.teams" v-for="team in activeRun.teams">
+                <template v-for="player in team.players">
+                    <player
+                        :key="player.id"
+                        class="Player"
+                        :cycle="nameCycle"
+                        :player="player"
+                    />
                 </template>
-                <commentator-list
-                    :commentators="commentators"
-                    v-if="numRunners < 3 && commentators.amount > 0"
-                    id="commentators"
-                />
-                <reader-name
-                    :reader="reader"
-                    v-if="numRunners < 4 && reader"
-                    id="reader"
-                />
-            </div>
-            <run-info
-                id="RunInfo"
-                v-if="activeRun"
-                :run="activeRun"
-                :maxTitleSize="30"
+            </template>
+            <commentator-list
+                :commentators="commentators"
+                v-if="numRunners < 3 && commentators.amount > 0"
+                id="commentators"
             />
-            <timer id="timer" />
-            <sponsors-view id="sponsors" :sponsors="sponsors" />
+            <reader-name
+                :reader="reader"
+                v-if="numRunners < 4 && reader"
+                id="reader"
+            />
         </div>
+        <run-info
+            id="RunInfo"
+            v-if="activeRun"
+            :run="activeRun"
+            :maxTitleSize="36"
+        />
+        <timer id="timer" />
+        <sponsors-view id="sponsors" :sponsors="sponsors" />
     </div>
 </template>
 
@@ -115,14 +110,12 @@
     }
 
     #timer {
-        position: relative;
-        left: -13.2px;
-        top: -180px;
-        height: 78px;
-        width: 556.8px;
-        font-size: 90px;
-        margin-left: 11px;
-        margin-bottom: 0px;
+        position: absolute;
+        right: 56px;
+        bottom: 16px;
+        height: 153.6px;
+        width: 576px;
+        font-size: 92px;
     }
 
     #bottomLeft {
@@ -141,11 +134,11 @@
     }
 
     #RunInfo {
-        position: relative;
-        top: -80px;
-        left: 5px;
-        width: 551.8px;
-        height: 160px;
+        left: 468px;
+        bottom: -10px;
+        width: 780px;
+        height: 156px;
+        position: absolute;
     }
 
     #runners {
@@ -154,38 +147,42 @@
         align-items: flex-start;
         position: relative;
         padding-left: 11px;
+        width: 437px;
     }
 
     .Player {
         position: relative;
-        top: -91px;
         left: -11px;
+        top: 487px;
         margin-bottom: 0px;
-        width: 567px;
+        font-size: 28.8px;
+        width: 437px;
     }
 
     #commentators {
         position: relative;
-        top: -91px;
-        left: -11px;
+        top: 487px;
         margin-bottom: 0px;
-        width: 567px;
+        font-size: 20px;
+        width: 437px;
+        left: -11px;
     }
 
     #reader {
         position: relative;
-        top: -91px;
+        top: 487px;
+        margin-bottom: 9px;
+        font-size: 20px;
+        width: 437px;
         left: -11px;
-        margin-bottom: 0px;
-        width: 567px;
     }
 
     #sponsors {
         position: absolute;
-        top: 200px;
-        left: 30px;
-        width: 520px;
-        height: 200px;
-        /* 		background-color: aqua; */
+        bottom: 30px;
+        left: 25px;
+        width: 400px;
+        height: 341px;
+        /* background-color: aqua; */
     }
 </style>

@@ -1,7 +1,11 @@
 <template>
     <div v-if="currentSponsor.name" id="sponsors-div">
         <transition name="fade" mode="out-in">
-            <img :key="currentSponsor.name" :src="currentSponsor.url" />
+            <img
+                class="img"
+                :key="currentSponsor.name"
+                :src="currentSponsor.url"
+            />
         </transition>
     </div>
 </template>
@@ -44,11 +48,20 @@
         width: 100%;
         height: 100%;
         object-fit: contain;
+        vertical-align: middle;
     }
 
-    img {
+    .img {
         max-width: 100%;
         max-height: 100%;
+        width: auto;
+        height: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
     }
 
     .fade-enter-active,

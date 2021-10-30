@@ -27,6 +27,7 @@ export const reps: {
     commentatorsReplicant: ReplicantBrowser<Commentators>
     readerReplicant: ReplicantBrowser<Reader>
     sponsors_43_1p: ReplicantBrowser<Asset[]>
+    sponsors_169_1p: ReplicantBrowser<Asset[]>
     [k: string]: ReplicantBrowser<unknown>
 } = {
     totalReplicant: nodecg.Replicant('total'),
@@ -43,6 +44,7 @@ export const reps: {
     commentatorsReplicant: nodecg.Replicant('commentators'),
     readerReplicant: nodecg.Replicant('reader'),
     sponsors_43_1p: nodecg.Replicant('assets:sponsors-standard_1'),
+    sponsors_169_1p: nodecg.Replicant('assets:sponsors-widescreen_1'),
 }
 
 // All the replicant types.
@@ -56,6 +58,7 @@ export interface ReplicantTypes {
     commentatorsReplicant: Commentators
     readerReplicant: Reader
     sponsors_43_1p: Asset[]
+    sponsors_169_1p: Asset[]
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })
