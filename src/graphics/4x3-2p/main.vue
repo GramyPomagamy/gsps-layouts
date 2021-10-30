@@ -14,7 +14,9 @@
                 </template>
                 <commentator-list
                     :commentators="commentators"
-                    v-if="activeRun.teams[0].length < 2 && commentators.amount > 0"
+                    v-if="
+                        activeRun.teams[0].length < 2 && commentators.amount > 0
+                    "
                     id="commentators"
                 />
             </div>
