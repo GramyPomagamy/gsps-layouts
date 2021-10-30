@@ -8,7 +8,10 @@ import type {
     Reader,
 } from '@gsps-layouts/types/schemas'
 import type { Asset } from '@gsps-layouts/types'
-import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas'
+import type {
+    RunDataActiveRun,
+    Timer,
+} from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas'
 import clone from 'clone'
 import type { ReplicantBrowser } from 'nodecg/types/browser'
 import Vue from 'vue'
@@ -26,6 +29,7 @@ export const reps: {
     nameCycleReplicant: ReplicantBrowser<NameCycle>
     commentatorsReplicant: ReplicantBrowser<Commentators>
     readerReplicant: ReplicantBrowser<Reader>
+    timerReplicant: ReplicantBrowser<Timer>
     sponsors_43_1p: ReplicantBrowser<Asset[]>
     sponsors_169_1p: ReplicantBrowser<Asset[]>
     [k: string]: ReplicantBrowser<unknown>
@@ -43,6 +47,7 @@ export const reps: {
     nameCycleReplicant: nodecg.Replicant('nameCycle'),
     commentatorsReplicant: nodecg.Replicant('commentators'),
     readerReplicant: nodecg.Replicant('reader'),
+    timerReplicant: nodecg.Replicant('timer', 'nodecg-speedcontrol'),
     sponsors_43_1p: nodecg.Replicant('assets:sponsors-standard_1'),
     sponsors_169_1p: nodecg.Replicant('assets:sponsors-widescreen_1'),
 }
@@ -57,6 +62,7 @@ export interface ReplicantTypes {
     nameCycleReplicant: NameCycle
     commentatorsReplicant: Commentators
     readerReplicant: Reader
+    timerReplicant: Timer
     sponsors_43_1p: Asset[]
     sponsors_169_1p: Asset[]
 }

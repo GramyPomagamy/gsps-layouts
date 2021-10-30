@@ -30,7 +30,7 @@
             :run="activeRun"
             :maxTitleSize="36"
         />
-        <timer id="timer" />
+        <timer-view id="timer" />
         <sponsors-view id="sponsors" :sponsors="sponsors" />
     </div>
 </template>
@@ -45,7 +45,7 @@
     } from '@gsps-layouts/types/schemas'
     import type { Asset } from '@gsps-layouts/types'
     import { Getter } from 'vuex-class'
-    import Timer from '../_misc/components/Timer.vue'
+    import TimerView from '../_misc/components/Timer.vue'
     import RunInfo from '../_misc/components/RunInfo.vue'
     import Player from '../_misc/components/Player.vue'
     import CommentatorList from '../_misc/components/Commentator.vue'
@@ -54,7 +54,7 @@
 
     @Component({
         components: {
-            Timer,
+            TimerView,
             RunInfo,
             Player,
             CommentatorList,

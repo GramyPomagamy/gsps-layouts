@@ -3,7 +3,10 @@ import {
     ReplicantModule,
     ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store'
-import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas'
+import type {
+    RunDataActiveRun,
+    Timer,
+} from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas'
 import type {
     NameCycle,
     Commentators,
@@ -42,6 +45,10 @@ class OurModule extends VuexModule {
 
     get sponsors(): Asset[] {
         return this.reps.sponsors_43_1p
+    }
+
+    get timer(): Timer {
+        return this.reps.timerReplicant
     }
 }
 

@@ -12,10 +12,59 @@
                         :player="player"
                     />
                 </template>
+                <transition name="fade">
+                    <div
+                        class="finish"
+                        :style="{ left: '655px' }"
+                        v-if="
+                            timer.teamFinishTimes[activeRun.teams[0].id] &&
+                            timer.teamFinishTimes[activeRun.teams[0].id]
+                                .state === 'completed'
+                        "
+                    >
+                        <div
+                            id="placement-background"
+                            :style="{
+                                width: '20%',
+                                position: 'absolute',
+                                'background-color': '#ffbd16',
+                                height: '100%',
+                                left: '144px',
+                            }"
+                        ></div>
+                        <span
+                            :style="{
+                                width: '80%',
+                                float: 'left',
+                                'margin-top': '-3px',
+                                'z-index': '3',
+                            }"
+                            ><b>{{
+                                timer.teamFinishTimes[activeRun.teams[0].id]
+                                    .time
+                            }}</b></span
+                        >
+                        <span
+                            :style="{
+                                width: '20%',
+                                left: '144px',
+                                height: '100%',
+                                color: 'black',
+                                'margin-top': '-4px',
+                                'z-index': '3',
+                                position: 'absolute',
+                            }"
+                        >
+                            {{ team1Placement }}
+                        </span>
+                    </div>
+                </transition>
+
                 <commentator-list
                     :commentators="commentators"
                     v-if="
-                        activeRun.teams[0].length < 2 && commentators.amount > 0
+                        activeRun.teams[0].players.length < 2 &&
+                        commentators.amount > 0
                     "
                     id="commentators"
                 />
@@ -29,9 +78,56 @@
                         :player="player"
                     />
                 </template>
+                <transition name="fade">
+                    <div
+                        class="finish"
+                        :style="{ right: '644px' }"
+                        v-if="
+                            timer.teamFinishTimes[activeRun.teams[1].id] &&
+                            timer.teamFinishTimes[activeRun.teams[1].id]
+                                .state === 'completed'
+                        "
+                    >
+                        <div
+                            id="placement-background"
+                            :style="{
+                                width: '20%',
+                                position: 'absolute',
+                                'background-color': '#ffbd16',
+                                height: '100%',
+                            }"
+                        ></div>
+                        <span
+                            :style="{
+                                width: '80%',
+                                float: 'right',
+                                'margin-top': '-3px',
+                                'z-index': '3',
+                            }"
+                            ><b>{{
+                                timer.teamFinishTimes[activeRun.teams[1].id]
+                                    .time
+                            }}</b></span
+                        >
+                        <span
+                            :style="{
+                                width: '20%',
+                                right: '144px',
+                                height: '100%',
+                                color: 'black',
+                                'margin-top': '-4px',
+                                'z-index': '3',
+                                position: 'absolute',
+                            }"
+                        >
+                            {{ team2Placement }}
+                        </span>
+                    </div>
+                </transition>
+
                 <reader-name
                     :reader="reader"
-                    v-if="activeRun.teams[1].length < 2 && reader"
+                    v-if="activeRun.teams[1].players.length < 2 && reader"
                     id="reader"
                 />
             </div>
@@ -42,14 +138,17 @@
             :run="activeRun"
             :maxTitleSize="43"
         />
-        <timer id="timer" />
+        <timer-view id="timer" />
         <sponsors-view id="sponsors" :sponsors="sponsors" />
     </div>
 </template>
 
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator'
-    import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas'
+    import type {
+        RunDataActiveRun,
+        Timer,
+    } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas'
     import type {
         NameCycle,
         Commentators,
@@ -57,7 +156,7 @@
     } from '@gsps-layouts/types/schemas'
     import type { Asset } from '@gsps-layouts/types'
     import { Getter } from 'vuex-class'
-    import Timer from '../_misc/components/Timer.vue'
+    import TimerView from '../_misc/components/Timer.vue'
     import RunInfo from '../_misc/components/RunInfo.vue'
     import Player from '../_misc/components/Player.vue'
     import CommentatorList from '../_misc/components/Commentator.vue'
@@ -66,7 +165,7 @@
 
     @Component({
         components: {
-            Timer,
+            TimerView,
             RunInfo,
             Player,
             CommentatorList,
@@ -80,9 +179,46 @@
         @Getter readonly commentators!: Commentators
         @Getter readonly reader!: Reader
         @Getter readonly sponsors!: Asset[]
+        @Getter readonly timer!: Timer
         data() {
             return {
                 numRunners: 0,
+            }
+        }
+
+        get team1Placement() {
+            if (this.timer.teamFinishTimes[this.activeRun.teams[1].id]) {
+                if (
+                    this.timer.teamFinishTimes[this.activeRun.teams[0].id]
+                        .milliseconds -
+                        this.timer.teamFinishTimes[this.activeRun.teams[1].id]
+                            .milliseconds <
+                    0
+                ) {
+                    return 1
+                } else {
+                    return 2
+                }
+            } else {
+                return 1
+            }
+        }
+
+        get team2Placement() {
+            if (this.timer.teamFinishTimes[this.activeRun.teams[0].id]) {
+                if (
+                    this.timer.teamFinishTimes[this.activeRun.teams[1].id]
+                        .milliseconds -
+                        this.timer.teamFinishTimes[this.activeRun.teams[0].id]
+                            .milliseconds <
+                    0
+                ) {
+                    return 1
+                } else {
+                    return 2
+                }
+            } else {
+                return 1
             }
         }
 
@@ -203,5 +339,24 @@
         width: 640px;
         height: 180px;
         /* 		background-color: aqua; */
+    }
+
+    .finish {
+        width: 180px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        display: inline;
+        position: absolute;
+        height: 36px;
+        top: 2px;
+    }
+
+    .fade-enter-active,
+    .fade-leave-active {
+        transition: opacity 0.2s;
+    }
+    .fade-enter,
+    .fade-leave-to {
+        opacity: 0;
     }
 </style>

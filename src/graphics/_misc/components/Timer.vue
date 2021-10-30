@@ -17,7 +17,7 @@
     import gsap from 'gsap'
 
     export default {
-        name: 'Timer',
+        name: 'TimerView',
         data() {
             return {
                 timer: [],
