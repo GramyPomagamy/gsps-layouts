@@ -14,7 +14,7 @@
                 </template>
                 <commentator-list
                     :commentators="commentators"
-                    v-if="numRunners < 3 && commentators.amount > 0"
+                    v-if="activeRun.teams[0].length < 2 && commentators.amount > 0"
                     id="commentators"
                 />
             </div>
@@ -29,7 +29,7 @@
                 </template>
                 <reader-name
                     :reader="reader"
-                    v-if="numRunners < 4 && reader"
+                    v-if="activeRun.teams[1].length < 2 && reader"
                     id="reader"
                 />
             </div>
