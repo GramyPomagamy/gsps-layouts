@@ -1,6 +1,6 @@
 <template>
     <div id="container">
-        <img id="Background" src="../img/layouts/standard_2.png" />
+        <img id="Background" src="../img/layouts/widescreen_2.png" />
 
         <div v-if="activeRun" id="runners">
             <div v-if="activeRun.teams[0]" id="team1">
@@ -19,7 +19,11 @@
                             timer.teamFinishTimes[activeRun.teams[0].id]
                                 .state === 'completed'
                         "
-                        :style="{ left: '655px', position: 'absolute' }"
+                        :style="{
+                            left: '589px',
+                            position: 'absolute',
+                            top: '-2px',
+                        }"
                         :side="'left'"
                         :place="team1Placement"
                         :time="
@@ -53,7 +57,11 @@
                             timer.teamFinishTimes[activeRun.teams[1].id]
                                 .state === 'completed'
                         "
-                        :style="{ right: '824px', position: 'absolute' }"
+                        :style="{
+                            right: '758px',
+                            position: 'absolute',
+                            top: '-2px',
+                        }"
                         :side="'right'"
                         :place="team2Placement"
                         :time="
@@ -73,7 +81,7 @@
             id="RunInfo"
             v-if="activeRun"
             :run="activeRun"
-            :maxTitleSize="43"
+            :maxTitleSize="40"
         />
         <timer-view id="timer" />
         <sponsors-view id="sponsors" :sponsors="sponsors" />
@@ -197,11 +205,11 @@
     }
 
     #timer {
-        left: 686.4px;
-        bottom: 15px;
-        height: 78px;
-        width: 547.2px;
-        font-size: 67.2px;
+        left: 0px;
+        bottom: 80px;
+        height: 115.2px;
+        width: 568.8px;
+        font-size: 115.2px;
         z-index: 2;
         position: absolute;
     }
@@ -223,13 +231,13 @@
 
     #RunInfo {
         position: absolute;
-        bottom: 35px;
-        width: 634.8px;
+        bottom: 182px;
+        width: 568.8px;
         height: 160px;
     }
 
     #runners {
-        top: 720px;
+        top: 543px;
         width: 100%;
         font-size: 28.8px;
         left: -11px;
@@ -242,7 +250,7 @@
     .Player {
         position: relative;
         margin-bottom: 0px;
-        width: 640px;
+        width: 575px;
     }
 
     #team1 {
@@ -273,10 +281,10 @@
 
     #sponsors {
         position: absolute;
-        bottom: 24px;
-        right: 0px;
-        width: 640px;
-        height: 180px;
+        bottom: 18px;
+        right: 20px;
+        width: 523px;
+        height: 370px;
         /* 		background-color: aqua; */
     }
 

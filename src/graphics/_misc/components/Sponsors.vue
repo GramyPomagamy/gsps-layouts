@@ -1,5 +1,5 @@
 <template>
-    <div v-if="currentSponsor.name" id="sponsors-div">
+    <div v-if="currentSponsor && currentSponsor.name" id="sponsors-div">
         <transition name="fade" mode="out-in">
             <img
                 class="img"
@@ -20,7 +20,9 @@
             }
         },
         mounted() {
-            this.$data.currentSponsor = this.sponsors[0]
+            if (this.sponsors.length > 0) {
+                this.$data.currentSponsor = this.sponsors[0]
+            }
 
             setInterval(this.nextSponsor, 5000)
         },
