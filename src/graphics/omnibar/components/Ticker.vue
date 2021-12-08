@@ -38,14 +38,14 @@
         mounted() {
             NodeCG.waitForReplicants(bids, runs, activeRun).then(() => {
                 this.messageTypes = [
-                    /*this.gspsPromo(),
+/*                     this.gspsPromo(),
                     this.charityPromo(),
-                    this.donationURL(),
+                    this.donationURL(), */
                     this.bidGoal(),
-                    this.bidGoal(),
-                    this.bidWar1v1(),
+/*                     this.bidGoal(), */
+/*                     this.bidWar1v1(),
                     this.bidWar1v1(), */
-                    this.nextRuns(),
+/*                     this.nextRuns(), */
                 ]
 
                 this.showNextMsg()

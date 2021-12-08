@@ -1,7 +1,7 @@
 <template>
     <div id="label">
         <div id="label-text">
-            <span>{{ label }}</span>
+            <span v-html="label"></span>
         </div>
     </div>
 </template>
@@ -42,9 +42,15 @@
     }
 
     #label-text {
-        margin-top: 5px;
-        padding-left: 10px;
-        padding-right: 10px;
-        height: 50%;
+        padding: 0 15px;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 20px;
+        font-size: 18px;
+        text-align: center;
+        color: white;
+        text-transform: uppercase;
+        white-space: pre-line;
+        font-weight: bold;
     }
 </style>

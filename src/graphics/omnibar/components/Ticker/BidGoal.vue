@@ -1,37 +1,32 @@
 <template>
     <div id="Goal">
-        <div
-            :style="{
-                width: `calc(${bidInfo.progress}% - 4px)`,
-                'max-width': 'calc(100% - 4px)',
-                height: '100%',
-                'background-color': '#3A008B',
-                position: 'absolute',
-                left: 0,
-                top: 0,
-                'border-right': '2px solid white',
-                'border-left': '2px solid white',
-            }"
-        ></div>
+        <ticker-label :label="'LICYTACJE <br/> CELE'" />
+        <div id="progress-bar">
+            <div
+                :style="{
+                    width: `calc(${bidInfo.progress}% - 4px)`,
+                    'max-width': 'calc(100% - 4px)',
+                    'background-color': '#3A008B',
+                    'height': '90%',
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                }"
+            ></div>
+        </div>
+
         <div id="Text">
             <p
                 :style="{
-                    'margin-left': '12px',
-                    'margin-top': '4px',
-                    'font-size': '22px',
+                    'text-align': 'left',
+                    'font-size': '16px',
+                    'margin-top': '10px',
+                    'margin-right': '12px',
+                    'line-height': '20px'
+
                 }"
             >
-                <b>Nadchodzący cel:</b>
-            </p>
-            <p
-                :style="{
-                    position: 'absolute',
-                    'font-size': '20px',
-                    left: '12px',
-                    top: '9px',
-                }"
-            >
-                {{ bid.game }} - {{ bid.name }}
+                <b>{{ bid.game }} <br/> {{ bid.name }}</b>
             </p>
             <p
                 :style="{
@@ -46,10 +41,6 @@
                     ><span id="total">{{ bidInfo.total }}</span> /
                     {{ bid.rawGoal }} PLN</b
                 >
-                (<span id="progress">{{
-                    Math.round(this.bidInfo.progress)
-                }}</span
-                >%)
             </p>
         </div>
     </div>
@@ -57,10 +48,14 @@
 
 <script>
     import gsap from 'gsap'
+    import TickerLabel from './Label.vue'
     const bids = nodecg.Replicant('currentBids')
 
     export default {
         name: 'TickerBidGoal',
+        components: {
+            TickerLabel,
+        },
         data() {
             return {
                 bid: {},
@@ -116,10 +111,24 @@
 
     #Text {
         text-shadow: 2px 2px 8px black;
-        background-color: rgb(0, 0, 0, 0.2);
-        width: 100%;
+        width: calc(100% - 200px);
         height: 100%;
         display: flex;
         z-index: 10;
+        position: absolute;
+        left: 158px;
+        top: 2px;
+        white-space: nowrap;
     }
+
+    #progress-bar {
+        width: calc(100% - 200px);
+        height: 40px;
+        position: absolute;
+        left: 150px;
+        top: 6px;
+        padding: 5px;
+        border: 2px solid white;
+    }
+    
 </style>

@@ -6,10 +6,12 @@ import type {
     NameCycle,
     Commentators,
     Reader,
+    Bids
 } from '@gsps-layouts/types/schemas'
 import type { Asset } from '@gsps-layouts/types'
 import type {
     RunDataActiveRun,
+    RunDataArray,
     Timer,
 } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas'
 import clone from 'clone'
@@ -34,6 +36,9 @@ export const reps: {
     sponsors_169_1p: ReplicantBrowser<Asset[]>
     sponsors_169_2p: ReplicantBrowser<Asset[]>
     sponsors_43_2p: ReplicantBrowser<Asset[]>
+    currentBids: ReplicantBrowser<Bids[]>
+    allBids: ReplicantBrowser<Bids[]>
+    runDataArray: ReplicantBrowser<RunDataArray[]>
     [k: string]: ReplicantBrowser<unknown>
 } = {
     totalReplicant: nodecg.Replicant('total'),
@@ -54,6 +59,9 @@ export const reps: {
     sponsors_169_1p: nodecg.Replicant('assets:sponsors-widescreen_1'),
     sponsors_169_2p: nodecg.Replicant('assets:sponsors-widescreen_2'),
     sponsors_43_2p: nodecg.Replicant('assets:sponsors-standard_2'),
+    currentBids: nodecg.Replicant('currentBids'),
+    allBids: nodecg.Replicant('allBids'),
+    runDataArray: nodecg.Replicant('runDataArray', 'nodecg-speedcontrol')
 }
 
 // All the replicant types.
@@ -71,6 +79,9 @@ export interface ReplicantTypes {
     sponsors_169_1p: Asset[]
     sponsors_43_2p: Asset[]
     sponsors_169_2p: Asset[]
+    currentBids: Bids[]
+    allBids: Bids[]
+    runDataArray: RunDataArray[]
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })
