@@ -50,7 +50,7 @@
     "parse-ms": "^2.1.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
-    "socket.io-client": "^2.4.0"
+    "socket.io-client": "^4.4.0"
   },
   "devDependencies": {
     "@mdi/font": "^6.5.95",
