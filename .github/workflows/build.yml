@@ -110,7 +110,6 @@ jobs:
       working-directory: ./nodecg/bundles/gsps-layouts
       run: |
         git add -f dashboard graphics extension
-        git add -f ':(glob)./shared/extension/*/dist/**'
         git commit -m "Built files" -a --allow-empty
 
     # Squash the previous 2 commits down for convenience and create the final build commit.
