@@ -4,7 +4,7 @@ name: Build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
   workflow_dispatch:
 
@@ -32,7 +32,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         token: ${{ secrets['GITHUB_TOKEN'] }}
-        ref: master
+        ref: main
         fetch-depth: 0
         path: ./nodecg/bundles/gsps-layouts
 
@@ -50,7 +50,7 @@ jobs:
       continue-on-error: true
       working-directory: ./nodecg/bundles/gsps-layouts
       run: |
-        git checkout master
+        git checkout main
         git checkout build
 
     # Attempt to start to merge the main branch into build.
@@ -61,20 +61,9 @@ jobs:
       continue-on-error: true
       working-directory: ./nodecg/bundles/gsps-layouts
       run: |
-        git merge --no-commit master
-
-    # Do the 2nd part of the merge. This will ignore the main's "shared" submodule stuff.
-    # This can "error" if the merge commit is empty but we want to continue regardless.
-    # Will only run if the checkout step was successful.
-    - name: Merge main into build (2)
-      if: ${{ steps.checkout.outcome == 'success' }}
-      continue-on-error: true
-      working-directory: ./nodecg/bundles/gsps-layouts
-      run: |
-        rm -rf shared~master
-        git rm --ignore-unmatch --cached -r shared~master
-        git reset HEAD shared
-        git commit -m "Merge branch 'master' into build"
+        git merge --no-commit main
+        git commit -m "Merge branch 'main' into build"
+        
 
     # Setup some Node stuff
     - name: Node.js setup
