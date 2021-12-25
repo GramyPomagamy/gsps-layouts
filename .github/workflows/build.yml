@@ -27,6 +27,15 @@ jobs:
     - name: Copy ./nodecg-temp > ./nodecg
       run: cp -r ./nodecg-temp ./nodecg
 
+    # Checkout nodecg-speedcontrol, needed for types
+    - name: Checkout speedcontrol/nodecg-speedcontrol
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets['GITHUB_TOKEN'] }}
+        repository: speedcontrol/nodecg-speedcontrol
+        ref: 'v2.4.0'
+        path: ./nodecg/bundles/nodecg-speedcontrol
+
     # Checkout the main branch of this repository with full depth
     - name: Checkout this repository
       uses: actions/checkout@v2
