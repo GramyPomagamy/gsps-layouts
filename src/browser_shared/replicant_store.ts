@@ -6,7 +6,7 @@ import type {
     NameCycle,
     Commentators,
     Reader,
-    Bids
+    Bids,
 } from '@gsps-layouts/types/schemas'
 import type { Asset } from '@gsps-layouts/types'
 import type {
@@ -61,7 +61,7 @@ export const reps: {
     sponsors_43_2p: nodecg.Replicant('assets:sponsors-standard_2'),
     currentBids: nodecg.Replicant('currentBids'),
     allBids: nodecg.Replicant('allBids'),
-    runDataArray: nodecg.Replicant('runDataArray', 'nodecg-speedcontrol')
+    runDataArray: nodecg.Replicant('runDataArray', 'nodecg-speedcontrol'),
 }
 
 // All the replicant types.

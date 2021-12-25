@@ -7,7 +7,7 @@
                     width: `calc(${bidInfo.progress}% - 4px)`,
                     'max-width': 'calc(100% - 4px)',
                     'background-color': '#3A008B',
-                    'height': '90%',
+                    height: '90%',
                     position: 'absolute',
                     left: 0,
                     top: 0,
@@ -22,11 +22,13 @@
                     'font-size': '16px',
                     'margin-top': '10px',
                     'margin-right': '12px',
-                    'line-height': '20px'
-
+                    'line-height': '20px',
                 }"
             >
-                <b>{{ bid.game }} <br/> {{ bid.name }}</b>
+                <b
+                    >{{ bid.game }} <br />
+                    {{ bid.name }}</b
+                >
             </p>
             <p
                 :style="{
@@ -130,5 +132,4 @@
         padding: 5px;
         border: 2px solid white;
     }
-    
 </style>
