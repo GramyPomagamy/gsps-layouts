@@ -7,6 +7,7 @@ import type {
     Commentators,
     Reader,
     Bids,
+    Song,
 } from '@gsps-layouts/types/schemas'
 import type { Asset } from '@gsps-layouts/types'
 import type {
@@ -39,6 +40,7 @@ export const reps: {
     currentBids: ReplicantBrowser<Bids[]>
     allBids: ReplicantBrowser<Bids[]>
     runDataArray: ReplicantBrowser<RunDataArray[]>
+    currentSong: ReplicantBrowser<Song>
     [k: string]: ReplicantBrowser<unknown>
 } = {
     totalReplicant: nodecg.Replicant('total'),
@@ -62,6 +64,7 @@ export const reps: {
     currentBids: nodecg.Replicant('currentBids'),
     allBids: nodecg.Replicant('allBids'),
     runDataArray: nodecg.Replicant('runDataArray', 'nodecg-speedcontrol'),
+    currentSong: nodecg.Replicant('song'),
 }
 
 // All the replicant types.
@@ -82,6 +85,7 @@ export interface ReplicantTypes {
     currentBids: Bids[]
     allBids: Bids[]
     runDataArray: RunDataArray[]
+    currentSong: Song
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })

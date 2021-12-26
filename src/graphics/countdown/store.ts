@@ -3,7 +3,7 @@ import {
     ReplicantModule,
     ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store'
-import { Countdown } from '@gsps-layouts/types/schemas'
+import { Countdown, Song } from '@gsps-layouts/types/schemas'
 import clone from 'clone'
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
@@ -20,6 +20,10 @@ class OurModule extends VuexModule {
 
     get countdown(): Countdown {
         return this.reps.countdownReplicant
+    }
+
+    get currentSong(): Song {
+        return this.reps.currentSong
     }
 }
 

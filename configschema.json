@@ -1,28 +1,32 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
-  "type": "object",
-  "additionalProperties": false,
-  "properties": {
-		"donationSocketUrl": {
-			"type": "string"
-		},
-    "tracker": {
-			"type": ["object", "null"],
-			"properties": {
-				"username": {
-					"type": "string"
-				},
-				"password": {
-					"type": "string"
-				}
-			},
-			"description": "Login information for the private areas of the tracker API.",
-			"required": ["username", "password"],
-			"default": null
-		},
-    "emotesEnabled": {
-			"type": "boolean",
-			"default": false
-		}
-  }
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "donationSocketUrl": {
+            "type": "string"
+        },
+        "tracker": {
+            "type": ["object", "null"],
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            },
+            "description": "Login information for the private areas of the tracker API.",
+            "required": ["username", "password"],
+            "default": null
+        },
+        "emotesEnabled": {
+            "type": "boolean",
+            "default": false
+        },
+        "nowPlayingFile": {
+            "type": "string"
+        }
+    },
+	"required": ["nowPlayingFile"]
 }

@@ -10,7 +10,7 @@
 
         <transition name="fade" mode="out-in">
             <div class="marquee" id="song-name">
-                <p>Skillet - Awake and Alive</p>
+                <p>{{ song }}</p>
             </div>
         </transition>
     </div>

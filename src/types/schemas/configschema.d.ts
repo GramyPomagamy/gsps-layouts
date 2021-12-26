@@ -16,4 +16,5 @@ export interface Configschema {
         [k: string]: unknown
     } | null
     emotesEnabled?: boolean
+    nowPlayingFile: string
 }

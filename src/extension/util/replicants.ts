@@ -4,6 +4,7 @@ import type {
     Total,
     AutoUpdateTotal,
     NameCycle,
+    Song,
 } from '@gsps-layouts/types/schemas'
 import { get as nodecg } from './nodecg'
 
@@ -15,3 +16,4 @@ export const totalReplicant = nodecg().Replicant<Total>('total')
 export const autoUpdateTotalReplicant =
     nodecg().Replicant<AutoUpdateTotal>('autoUpdateTotal')
 export const nameCycleReplicant = nodecg().Replicant<NameCycle>('nameCycle')
+export const songReplicant = nodecg().Replicant<Song>('song')

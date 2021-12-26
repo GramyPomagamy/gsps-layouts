@@ -1,15 +1,13 @@
 import {
-    replicantModule,
     ReplicantModule,
     ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store'
 import type { RunDataArray } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas'
 import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas'
-import { Bids, Reader } from '@gsps-layouts/types/schemas'
-import clone from 'clone'
+import { Bids, Reader, Song } from '@gsps-layouts/types/schemas'
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
-import { Action, getModule, Module, VuexModule } from 'vuex-module-decorators'
+import { getModule, Module, VuexModule } from 'vuex-module-decorators'
 
 Vue.use(Vuex)
 
@@ -34,6 +32,10 @@ class OurModule extends VuexModule {
 
     get activeRun(): RunDataActiveRun {
         return this.reps.activeRunReplicant
+    }
+
+    get currentSong(): Song {
+        return this.reps.currentSong
     }
 }
 

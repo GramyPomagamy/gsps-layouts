@@ -11,7 +11,7 @@
                     }"
                     :reader="reader"
                 />
-                <break-song id="song" />
+                <break-song id="song" :song="currentSong" />
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
 
 <script lang="ts">
     import { Vue, Component, Watch } from 'vue-property-decorator'
-    import type { Bids, Reader } from '@gsps-layouts/types/schemas'
+    import type { Bids, Reader, Song } from '@gsps-layouts/types/schemas'
     import { Getter } from 'vuex-class'
     import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas'
     import { RunData } from '../../../../nodecg-speedcontrol/src/types'
@@ -42,6 +42,7 @@
         @Getter readonly allRuns!: RunData[]
         @Getter readonly reader!: Reader
         @Getter readonly activeRun!: RunDataActiveRun
+        @Getter readonly currentSong!: Song
 
         nextRuns: RunData[] | null = null
 
