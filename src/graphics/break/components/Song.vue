@@ -1,10 +1,16 @@
 <template>
-    <div id="reader">
-        <p><b>OBECNY CZYTAJĄCY</b></p>
+    <div id="song">
+        <p
+            :style="{
+                textAlign: 'right',
+            }"
+        >
+            <b>OBECNA PIOSENKA</b>
+        </p>
 
         <transition name="fade" mode="out-in">
-            <div id="reader-name" :key="reader">
-                <p>{{ reader }}</p>
+            <div class="marquee" id="song-name">
+                <p>Skillet - Awake and Alive</p>
             </div>
         </transition>
     </div>
@@ -12,19 +18,21 @@
 
 <script>
     export default {
-        name: 'BreakReader',
-        props: ['reader'],
+        name: 'BreakSong',
+        props: ['song'],
     }
 </script>
 
 <style scoped>
-    #reader {
+    @import url('../../css/styles.css');
+
+    #song {
         font-size: 26.4px;
         color: white;
         margin-left: 12px;
     }
 
-    #reader-name {
+    #song-name {
         margin-top: -30px;
         margin-bottom: 12px;
         text-shadow: black 2px 2px 8px;

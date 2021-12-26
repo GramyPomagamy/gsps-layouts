@@ -4,6 +4,7 @@ import {
     ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store'
 import type { RunDataArray } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas'
+import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas'
 import { Bids, Reader } from '@gsps-layouts/types/schemas'
 import clone from 'clone'
 import Vue from 'vue'
@@ -29,6 +30,10 @@ class OurModule extends VuexModule {
 
     get reader(): Reader {
         return this.reps.readerReplicant
+    }
+
+    get activeRun(): RunDataActiveRun {
+        return this.reps.activeRunReplicant
     }
 }
 
