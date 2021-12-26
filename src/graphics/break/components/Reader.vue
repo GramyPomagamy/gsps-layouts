@@ -1,8 +1,11 @@
 <template>
     <div id="reader">
         <p id="reader-title"><b>OBECNY CZYTAJĄCY</b></p>
+
         <transition name="fade" mode="out-in">
-            <p id="reader-name" :key="reader">{{ reader }}</p>
+            <div id="reader-name" :key="reader">
+                <p>{{ reader }}</p>
+            </div>
         </transition>
     </div>
 </template>
@@ -23,7 +26,9 @@
 
     #reader-name {
         margin-top: -30px;
+        margin-bottom: 12px;
         text-shadow: black 2px 2px 8px;
+        height: 38px;
     }
 
     .fade-enter-active,

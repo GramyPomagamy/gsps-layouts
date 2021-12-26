@@ -50,4 +50,8 @@
         bottom: 2px;
         left: 0px;
     }
+
+    #bottom {
+        width: 100%;
+    }
 </style>
