@@ -149,13 +149,13 @@
                 opacity: 0,
                 x: -36,
                 color: 'transparent',
-                textColor: 'transparent',
+                textShadow: 'transparent',
             })
             gsap.set('#losingOptionAmount', {
                 opacity: 0,
                 x: 36,
                 color: 'transparent',
-                textColor: 'transparent',
+                textShadow: 'transparent',
             })
             gsap.set(this._svgDoc.node, { opacity: 0 })
             this.animate()
