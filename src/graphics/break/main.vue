@@ -2,6 +2,7 @@
     <div id="break">
         <break-total id="total" />
         <break-next-runs id="next-runs" :runs="nextRuns" />
+        <break-bids id="bids" :bids="currentBids" />
         <div id="bottom">
             <img id="Logo" src="./img/GSPS_logo.png" />
             <div id="names">
@@ -27,6 +28,7 @@
     import BreakSong from './components/Song.vue'
     import BreakTotal from './components/Total.vue'
     import BreakNextRuns from './components/NextRuns.vue'
+    import BreakBids from './components/Bids.vue'
     import clone from 'clone'
 
     @Component({
@@ -35,6 +37,7 @@
             BreakSong,
             BreakTotal,
             BreakNextRuns,
+            BreakBids,
         },
     })
     export default class extends Vue {
@@ -123,10 +126,17 @@
 
     #next-runs {
         position: absolute;
-        background-color: rgb(0, 0, 0, 0);
         width: 960px;
         height: 470px;
         left: 20.5px;
         top: 50px;
+    }
+
+    #bids {
+        position: absolute;
+        width: 900px;
+        height: 400px;
+        left: 20.5px;
+        top: 552px;
     }
 </style>

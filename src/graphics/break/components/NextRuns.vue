@@ -3,67 +3,24 @@
         <p id="runs-title">NADCHODZĄCE RUNY</p>
         <transition name="fade" mode="out-in">
             <div id="runs" :key="runs">
-                <div>
-                    <div
-                        v-if="runs[0]"
-                        :style="{
-                            marginBottom: '30px',
-                        }"
-                    >
-                        <div
-                            class="name layout layout-horizontal layout-center"
-                        >
-                            <p class="name-text">{{ runs[0].game }}</p>
-                        </div>
-                        <div class="info">
-                            <p class="info-category">
-                                {{ runs[0].category || 'Any%' }}
-                            </p>
-                        </div>
-                        <div class="info">
-                            <p class="info-runner">
-                                {{ formatPlayers(runs[0]) }}
-                            </p>
-                        </div>
+                <div
+                    v-for="run in runs"
+                    :style="{
+                        marginBottom: '30px',
+                    }"
+                >
+                    <div class="name layout layout-horizontal layout-center">
+                        <p class="name-text">{{ run.game }}</p>
                     </div>
-                    <div
-                        v-if="runs[1]"
-                        :style="{
-                            marginBottom: '30px',
-                        }"
-                    >
-                        <div
-                            class="name layout layout-horizontal layout-center"
-                        >
-                            <p class="name-text">{{ runs[1].game }}</p>
-                        </div>
-                        <div class="info">
-                            <p class="info-category">
-                                {{ runs[1].category || 'Any%' }}
-                            </p>
-                        </div>
-                        <div class="info">
-                            <p class="info-runner">
-                                {{ formatPlayers(runs[1]) }}
-                            </p>
-                        </div>
+                    <div class="info">
+                        <p class="info-category">
+                            {{ run.category || 'Any%' }}
+                        </p>
                     </div>
-                    <div v-if="runs[2]">
-                        <div
-                            class="name layout layout-horizontal layout-center"
-                        >
-                            <p class="name-text">{{ runs[2].game }}</p>
-                        </div>
-                        <div class="info">
-                            <p class="info-category">
-                                {{ runs[2].category || 'Any%' }}
-                            </p>
-                        </div>
-                        <div class="info">
-                            <p class="info-runner">
-                                {{ formatPlayers(runs[2]) }}
-                            </p>
-                        </div>
+                    <div class="info">
+                        <p class="info-runner">
+                            {{ formatPlayers(run) }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -116,6 +73,8 @@
 </script>
 
 <style scoped>
+    @import url('../../css/styles.css');
+
     #runs-title {
         position: absolute;
         margin: auto;
@@ -184,32 +143,5 @@
         padding: 0 28.8px;
         white-space: nowrap;
         margin-right: auto;
-    }
-
-    .fade-enter-active,
-    .fade-leave-active {
-        transition: opacity 0.3s;
-    }
-    .fade-enter,
-    .fade-leave-to {
-        opacity: 0;
-    }
-
-    .layout {
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-    }
-
-    .layout-horizontal {
-        -ms-flex-direction: row;
-        -webkit-flex-direction: row;
-        flex-direction: row;
-    }
-
-    .layout-center {
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
     }
 </style>

@@ -1,4 +1,3 @@
-import { get as nodecg } from './util/nodecg'
 import { nameCycleReplicant } from './util/replicants'
 
 // Controls the name cycling ticks for players/hosts

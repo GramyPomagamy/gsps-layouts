@@ -192,6 +192,12 @@
 <style>
     @import url('../css/styles.css');
 
+    html {
+        display: block;
+        width: 1920px;
+        height: 1014px;
+    }
+
     #container {
         text-align: center;
     }
@@ -221,12 +227,6 @@
         top: 583px;
         width: 578px;
         height: 430px;
-    }
-
-    html {
-        display: block;
-        width: 1920px;
-        height: 1014px;
     }
 
     #RunInfo {

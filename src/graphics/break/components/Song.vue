@@ -9,7 +9,7 @@
         </p>
 
         <transition name="fade" mode="out-in">
-            <div class="marquee" id="song-name">
+            <div class="marquee" id="song-name" :key="song">
                 <p>{{ song }}</p>
             </div>
         </transition>
@@ -36,15 +36,6 @@
         margin-top: -30px;
         margin-bottom: 12px;
         text-shadow: black 2px 2px 8px;
-        height: 38px;
-    }
-
-    .fade-enter-active,
-    .fade-leave-active {
-        transition: opacity 0.3s;
-    }
-    .fade-enter,
-    .fade-leave-to {
-        opacity: 0;
+        height: 44px;
     }
 </style>

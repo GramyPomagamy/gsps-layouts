@@ -18,6 +18,7 @@
 </script>
 
 <style scoped>
+    @import url('../../css/styles.css');
     #reader {
         font-size: 26.4px;
         color: white;
@@ -28,15 +29,6 @@
         margin-top: -30px;
         margin-bottom: 12px;
         text-shadow: black 2px 2px 8px;
-        height: 38px;
-    }
-
-    .fade-enter-active,
-    .fade-leave-active {
-        transition: opacity 0.3s;
-    }
-    .fade-enter,
-    .fade-leave-to {
-        opacity: 0;
+        height: 44px;
     }
 </style>
