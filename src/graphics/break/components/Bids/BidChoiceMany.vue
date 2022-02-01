@@ -117,9 +117,9 @@
         background-color: rgb(0, 0, 0, 0.2);
         width: 100%;
         margin-bottom: 10px;
-        height: 26px;
+        height: 30px;
         border-bottom: 2px solid rgb(255, 255, 255, 0.5);
-        font-size: 17px;
+        font-size: 20px;
     }
 
     .option-name {
