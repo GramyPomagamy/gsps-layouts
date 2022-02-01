@@ -147,13 +147,13 @@
         background-color: rgb(0, 0, 0, 0.2);
         width: 100%;
         margin-bottom: 10px;
-        height: 26px;
+        height: 29px;
         border-bottom: 2px solid rgb(255, 255, 255, 0.5);
-        font-size: 19px;
+        font-size: 20px;
     }
 
     .option-progress {
         height: 100%;
-        margin-top: -24px;
+        margin-top: -27px;
     }
 </style>
