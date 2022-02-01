@@ -89,10 +89,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node-
 
-    # Update NPM to the latest version
-    - name: Update NPM installation
-      run: npm install -g npm@latest
-
     # Install NPM dependencies
     - name: Install NPM dependencies
       working-directory: ./nodecg/bundles/gsps-layouts
