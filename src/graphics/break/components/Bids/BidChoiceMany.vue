@@ -22,6 +22,7 @@
                 :style="{ backgroundColor: getColor(index) }"
             ></div>
         </div>
+        <h1 id="more" v-if="bid.options.length > 5">...i inne!</h1>
     </div>
 </template>
 
@@ -113,22 +114,13 @@
 <style scoped>
     @import url('../../../css/styles.css');
 
-    .option {
-        background-color: rgb(0, 0, 0, 0.2);
-        width: 100%;
-        margin-bottom: 10px;
-        height: 29px;
-        border-bottom: 2px solid rgb(255, 255, 255, 0.5);
-        font-size: 20px;
-    }
-
     .option-name {
         margin-left: 5px;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
         display: block;
-        max-width: calc(100% - 80px);
+        max-width: calc(100% - 100px);
     }
 
     .option-amount {
@@ -144,6 +136,20 @@
     #bid {
         width: 100%;
         margin-top: -35px;
+    }
+
+    #more {
+        width: 100%;
+        text-align: center;
+    }
+
+    .option {
+        background-color: rgb(0, 0, 0, 0.2);
+        width: 100%;
+        margin-bottom: 10px;
+        height: 29px;
+        border-bottom: 2px solid rgb(255, 255, 255, 0.5);
+        font-size: 20px;
     }
 
     .option-progress {
