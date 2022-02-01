@@ -7,7 +7,7 @@ import { formatDollars } from './util/format-dollars'
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema'
 import io from 'socket.io-client'
 
-const TOTAL_URL = 'https://donacje.gsps.pl/18?json'
+const TOTAL_URL = 'https://gsps.pl/donacje/18?json'
 const totalLog = new (nodecg() as NodeCG).Logger(`${nodecg().bundleName}:total`)
 const donationSocketUrl = (nodecg().bundleConfig as Configschema)
     .donationSocketUrl
