@@ -196,28 +196,35 @@
     "assetCategories": [
       {
         "name": "sponsors-standard_1",
-        "title": "Sponsors Standard, 1 Player",
+        "title": "Sponsorzy Standard, 1 gracz",
         "allowedTypes": [
           "png"
         ]
       },
       {
         "name": "sponsors-widescreen_1",
-        "title": "Sponsors Widescreen, 1 Player",
+        "title": "Sponsorzy Widescreen, 1 gracz",
         "allowedTypes": [
           "png"
         ]
       },
       {
         "name": "sponsors-widescreen_2",
-        "title": "Sponsors Widescreen, 2 Players",
+        "title": "Sponsorzy Widescreen, 2 graczy",
         "allowedTypes": [
           "png"
         ]
       },
       {
         "name": "sponsors-standard_2",
-        "title": "Sponsors Standard, 2 Players",
+        "title": "Sponsorzy Standard, 2 graczy",
+        "allowedTypes": [
+          "png"
+        ]
+      },
+      {
+        "name": "sponsors-break",
+        "title": "Sponsorzy Przerwa",
         "allowedTypes": [
           "png"
         ]

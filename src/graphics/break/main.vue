@@ -15,6 +15,7 @@
                 <break-song id="song" :song="currentSong" />
             </div>
         </div>
+        <sponsors id="sponsors" :sponsors="sponsors" />
     </div>
 </template>
 
@@ -24,11 +25,13 @@
     import { Getter } from 'vuex-class'
     import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas'
     import { RunData } from '../../../../nodecg-speedcontrol/src/types'
+    import { Asset } from '@gsps-layouts/types'
     import BreakReader from './components/Reader.vue'
     import BreakSong from './components/Song.vue'
     import BreakTotal from './components/Total.vue'
     import BreakNextRuns from './components/NextRuns.vue'
     import BreakBids from './components/Bids.vue'
+    import Sponsors from '../_misc/components/Sponsors.vue'
     import clone from 'clone'
 
     @Component({
@@ -38,6 +41,7 @@
             BreakTotal,
             BreakNextRuns,
             BreakBids,
+            Sponsors,
         },
     })
     export default class extends Vue {
@@ -46,6 +50,7 @@
         @Getter readonly reader!: Reader
         @Getter readonly activeRun!: RunDataActiveRun
         @Getter readonly currentSong!: Song
+        @Getter readonly sponsors!: Asset[]
 
         nextRuns: RunData[] | null = null
 
@@ -138,5 +143,13 @@
         height: 400px;
         left: 20.5px;
         top: 552px;
+    }
+
+    #sponsors {
+        position: absolute;
+        bottom: 300px;
+        right: 25px;
+        width: 800px;
+        height: 400px;
     }
 </style>

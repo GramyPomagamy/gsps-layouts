@@ -5,6 +5,7 @@ import {
 import type { RunDataArray } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas'
 import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas'
 import { Bids, Reader, Song } from '@gsps-layouts/types/schemas'
+import { Asset } from '@gsps-layouts/types'
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import { getModule, Module, VuexModule } from 'vuex-module-decorators'
@@ -36,6 +37,10 @@ class OurModule extends VuexModule {
 
     get currentSong(): Song {
         return this.reps.currentSong
+    }
+
+    get sponsors(): Asset[] {
+        return this.reps.sponsors_break
     }
 }
 
