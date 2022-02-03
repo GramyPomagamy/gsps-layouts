@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator'
+    import { Vue, Component, Watch } from 'vue-property-decorator'
     import type { Reader } from '@gsps-layouts/types/schemas'
     import { Getter } from 'vuex-class'
     import { storeModule } from './store'
@@ -35,6 +35,11 @@
 
         updateReader(): void {
             storeModule.updateReader(this.readerName)
+        }
+
+        @Watch('reader')
+        onReaderChange(newVal: Reader) {
+            this.readerName = newVal
         }
     }
 </script>

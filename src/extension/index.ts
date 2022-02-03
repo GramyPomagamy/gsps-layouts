@@ -22,4 +22,5 @@ export = (nodecg: NodeCG): void => {
     require('./bids')
     require('./layouts')
     require('./nowplaying')
+    require('./obs')
 }

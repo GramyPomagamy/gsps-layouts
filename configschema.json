@@ -20,13 +20,51 @@
             "required": ["username", "password"],
             "default": null
         },
-        "emotesEnabled": {
-            "type": "boolean",
-            "default": false
-        },
         "nowPlayingFile": {
             "type": "string"
+        },
+        "obs": {
+            "type": ["object"],
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "address": {
+                    "type": "string",
+                    "default": "localhost:4444"
+                },
+                "password": {
+                    "type": "string",
+                    "default": ""
+                }
+            },
+            "description": "Info needed to use OBS websockets.",
+            "required": ["enabled", "address", "password"]
+        },
+        "foobar": {
+            "type": ["object"],
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "address": {
+                    "type": "string",
+                    "default": "localhost:8880"
+                },
+                "username": {
+                    "type": "string",
+                    "default": ""
+                },
+                "password": {
+                    "type": "string",
+                    "default": ""
+                }
+            },
+            "description": "Info needed to control foobar2000.",
+            "required": ["enabled", "address", "username", "password"]
         }
     },
-	"required": ["nowPlayingFile"]
+    "required": ["nowPlayingFile", "obs", "foobar", "tracker"]
 }

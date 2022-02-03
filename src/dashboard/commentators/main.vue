@@ -35,6 +35,11 @@
         updateCommentators(): void {
             storeModule.updateCommentatorsReplicant(this.commentators)
         }
+
+        @Watch('commentatorsReplicant')
+        onRepChange(newVal: Commentators) {
+            this.commentators = newVal.names
+        }
     }
 </script>
 

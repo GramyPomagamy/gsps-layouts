@@ -8,12 +8,14 @@ import type {
     Reader,
     Bids,
     Song,
+    ObsData,
 } from '@gsps-layouts/types/schemas'
 import type { Asset } from '@gsps-layouts/types'
 import type {
     RunDataActiveRun,
     RunDataArray,
     Timer,
+    RunDataActiveRunSurrounding,
 } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas'
 import clone from 'clone'
 import type { ReplicantBrowser } from 'nodecg/types/browser'
@@ -42,6 +44,8 @@ export const reps: {
     allBids: ReplicantBrowser<Bids[]>
     runDataArray: ReplicantBrowser<RunDataArray[]>
     currentSong: ReplicantBrowser<Song>
+    obsData: ReplicantBrowser<ObsData>
+    runDataActiveSurrounding: ReplicantBrowser<RunDataActiveRunSurrounding>
     [k: string]: ReplicantBrowser<unknown>
 } = {
     totalReplicant: nodecg.Replicant('total'),
@@ -67,6 +71,11 @@ export const reps: {
     allBids: nodecg.Replicant('allBids'),
     runDataArray: nodecg.Replicant('runDataArray', 'nodecg-speedcontrol'),
     currentSong: nodecg.Replicant('song'),
+    obsData: nodecg.Replicant('obsData', { persistent: false }),
+    runDataActiveSurrounding: nodecg.Replicant(
+        'runDataActiveRunSurrounding',
+        'nodecg-speedcontrol'
+    ),
 }
 
 // All the replicant types.
@@ -89,6 +98,8 @@ export interface ReplicantTypes {
     allBids: Bids[]
     runDataArray: RunDataArray[]
     currentSong: Song
+    obsData: ObsData
+    runDataActiveSurrounding: RunDataActiveRunSurrounding
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })

@@ -10,11 +10,29 @@ export interface Configschema {
     /**
      * Login information for the private areas of the tracker API.
      */
-    tracker?: {
+    tracker: {
         username: string
         password: string
         [k: string]: unknown
     } | null
-    emotesEnabled?: boolean
     nowPlayingFile: string
+    /**
+     * Info needed to use OBS websockets.
+     */
+    obs: {
+        enabled: boolean
+        address: string
+        password: string
+        [k: string]: unknown
+    }
+    /**
+     * Info needed to control foobar2000.
+     */
+    foobar: {
+        enabled: boolean
+        address: string
+        username: string
+        password: string
+        [k: string]: unknown
+    }
 }

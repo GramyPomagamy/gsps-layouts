@@ -1,10 +1,11 @@
 /* eslint-disable max-len */
 
-import type {
+import {
     Total,
     AutoUpdateTotal,
     NameCycle,
     Song,
+    ObsData,
 } from '@gsps-layouts/types/schemas'
 import { get as nodecg } from './nodecg'
 
@@ -17,3 +18,6 @@ export const autoUpdateTotalReplicant =
     nodecg().Replicant<AutoUpdateTotal>('autoUpdateTotal')
 export const nameCycleReplicant = nodecg().Replicant<NameCycle>('nameCycle')
 export const songReplicant = nodecg().Replicant<Song>('song')
+export const obsDataReplicant = nodecg().Replicant<ObsData>('obsData', {
+    persistent: false,
+})
