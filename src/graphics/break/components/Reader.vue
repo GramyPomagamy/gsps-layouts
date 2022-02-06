@@ -14,7 +14,7 @@
     export default {
         name: 'BreakReader',
         props: ['reader'],
-    }
+    };
 </script>
 
 <style scoped>

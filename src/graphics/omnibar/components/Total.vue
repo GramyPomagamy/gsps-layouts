@@ -6,18 +6,18 @@
 </template>
 
 <script lang="ts">
-    import type { Total } from '../../../types/schemas'
-    import gsap from 'gsap'
-    import { Component, Vue } from 'vue-property-decorator'
+    import type { Total } from '../../../types/schemas';
+    import gsap from 'gsap';
+    import { Component, Vue } from 'vue-property-decorator';
 
-    const totalRep = nodecg.Replicant<Total>('total')
+    const totalRep = nodecg.Replicant<Total>('total');
 
     @Component
     export default class OmnibarTotal extends Vue {
         data() {
             return {
                 total: { raw: 0 },
-            }
+            };
         }
 
         mounted() {
@@ -26,8 +26,8 @@
                     this.$data.total.raw.toLocaleString('en-US', {
                         maximumFractionDigits: 0,
                         minimumFractionDigits: 0,
-                    })
-            }
+                    });
+            };
             totalRep.on('change', (newVal) => {
                 gsap.to(this.$data.total, {
                     duration: 3,
@@ -35,8 +35,8 @@
                     roundProps: 'raw',
                     onUpdate: updateHandler,
                     ease: 'power4',
-                })
-            })
+                });
+            });
         }
     }
 </script>

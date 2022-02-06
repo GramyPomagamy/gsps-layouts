@@ -39,7 +39,7 @@
     export default {
         name: 'Player',
         props: ['player', 'cycle'],
-    }
+    };
 </script>
 
 <style scoped>

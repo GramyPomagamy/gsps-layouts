@@ -32,5 +32,5 @@
     export default {
         name: 'ReaderName',
         props: ['reader'],
-    }
+    };
 </script>

@@ -1,25 +1,25 @@
-'use strict'
+'use strict';
 
 // Ours
-import { get as nodecg } from './util/nodecg'
-import TimeUtils, { TimeStruct, ICountdownTimer } from './lib/time'
+import { get as nodecg } from './util/nodecg';
+import TimeUtils, { TimeStruct, ICountdownTimer } from './lib/time';
 
 const time = nodecg().Replicant('countdown', {
     defaultValue: TimeUtils.createTimeStruct(600 * 1000),
     persistent: false,
-})
+});
 const running = nodecg().Replicant('countdownRunning', {
     defaultValue: false,
     persistent: false,
-})
-let countdownTimer: ICountdownTimer
+});
+let countdownTimer: ICountdownTimer;
 
 nodecg().listenFor('startCountdown', (startTime) => {
-    start(startTime)
-})
+    start(startTime);
+});
 nodecg().listenFor('stopCountdown', () => {
-    stop()
-})
+    stop();
+});
 
 /**
  * Starts the countdown at the specified startTime.
@@ -28,26 +28,26 @@ nodecg().listenFor('stopCountdown', () => {
  */
 function start(startTime: string = '10:00') {
     if (running.value) {
-        return
+        return;
     }
 
-    const durationMs = TimeUtils.parseTimeString(startTime)
+    const durationMs = TimeUtils.parseTimeString(startTime);
     if (durationMs <= 0) {
-        return
+        return;
     }
 
-    running.value = true
-    time.value = TimeUtils.createTimeStruct(durationMs)
+    running.value = true;
+    time.value = TimeUtils.createTimeStruct(durationMs);
 
     if (countdownTimer) {
-        countdownTimer.stop()
-        countdownTimer.removeAllListeners()
+        countdownTimer.stop();
+        countdownTimer.removeAllListeners();
     }
 
-    countdownTimer = new TimeUtils.CountdownTimer(Date.now() + durationMs)
+    countdownTimer = new TimeUtils.CountdownTimer(Date.now() + durationMs);
     countdownTimer.on('tick', (remainingTimeStruct: TimeStruct) => {
-        time.value = remainingTimeStruct
-    })
+        time.value = remainingTimeStruct;
+    });
 }
 
 /**
@@ -56,11 +56,11 @@ function start(startTime: string = '10:00') {
  */
 function stop() {
     if (!running.value) {
-        return
+        return;
     }
 
-    running.value = false
+    running.value = false;
     if (countdownTimer) {
-        countdownTimer.stop()
+        countdownTimer.stop();
     }
 }

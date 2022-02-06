@@ -33,7 +33,7 @@
 </template>
 
 <script>
-    import fitty from 'fitty'
+    import fitty from 'fitty';
 
     export default {
         name: 'CommentatorList',
@@ -41,20 +41,20 @@
         data() {
             return {
                 fittyInstance: undefined,
-            }
+            };
         },
         methods: {
             fit() {
                 this.$data.fittyInstance = fitty('#commentatorNames', {
                     minSize: 1,
                     maxSize: 20,
-                })
+                });
             },
         },
         mounted() {
             setTimeout(() => {
-                this.fit()
-            }, 200)
+                this.fit();
+            }, 200);
         },
-    }
+    };
 </script>

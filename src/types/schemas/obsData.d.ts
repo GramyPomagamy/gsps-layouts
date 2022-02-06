@@ -6,12 +6,11 @@
  */
 
 export interface ObsData {
-    connected: boolean
-    scene?: string
-    sceneList: string[]
-    transitioning: boolean
-    streaming: boolean
-    recording: boolean
-    disableTransitioning: boolean
-    transitionTimestamp: number
+    connected: boolean;
+    scene?: string;
+    transitioning: boolean;
+    streaming: boolean;
+    recording: boolean;
+    disableTransitioning: boolean;
+    transitionTimestamp: number;
 }

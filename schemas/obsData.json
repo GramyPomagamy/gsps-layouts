@@ -10,13 +10,6 @@
         "scene": {
             "type": "string"
         },
-        "sceneList": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            },
-            "default": []
-        },
         "transitioning": {
             "type": "boolean",
             "default": false
@@ -40,7 +33,6 @@
     },
     "required": [
         "connected",
-        "sceneList",
         "transitioning",
         "streaming",
         "recording",

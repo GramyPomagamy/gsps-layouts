@@ -20,7 +20,7 @@
     export default {
         name: 'BreakSong',
         props: ['song'],
-    }
+    };
 </script>
 
 <style scoped>

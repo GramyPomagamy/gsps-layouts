@@ -5,24 +5,24 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator'
+    import { Vue, Component } from 'vue-property-decorator';
 
     @Component
     export default class extends Vue {
         data() {
             return {
                 amount: 0,
-            }
+            };
         }
 
         updateTotal(amount: number): void {
-            nodecg.sendMessage('setTotal', { type: 'cash', newValue: amount })
+            nodecg.sendMessage('setTotal', { type: 'cash', newValue: amount });
         }
 
         mounted() {
             document.addEventListener('dialog-confirmed', () => {
-                this.updateTotal(this.$data.amount)
-            })
+                this.updateTotal(this.$data.amount);
+            });
         }
     }
 </script>

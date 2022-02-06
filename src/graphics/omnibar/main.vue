@@ -9,9 +9,9 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator'
-    import OmnibarTotal from './components/Total.vue'
-    import OmnibarTicker from './components/Ticker.vue'
+    import { Vue, Component } from 'vue-property-decorator';
+    import OmnibarTotal from './components/Total.vue';
+    import OmnibarTicker from './components/Ticker.vue';
 
     @Component({
         components: {

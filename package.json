@@ -39,6 +39,7 @@
         "@types/numeral": "^2.0.1",
         "@types/request": "^2.48.6",
         "@types/request-promise": "^4.1.48",
+        "axios": "^0.25.0",
         "bluebird": "^3.7.2",
         "deep-equal": "^2.0.5",
         "events": "^3.3.0",

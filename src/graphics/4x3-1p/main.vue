@@ -41,21 +41,21 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component } from 'vue-property-decorator'
-    import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas'
+    import { Vue, Component } from 'vue-property-decorator';
+    import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
     import type {
         NameCycle,
         Commentators,
         Reader,
-    } from '@gsps-layouts/types/schemas'
-    import type { Asset } from '@gsps-layouts/types'
-    import { Getter } from 'vuex-class'
-    import TimerView from '../_misc/components/Timer.vue'
-    import RunInfo from '../_misc/components/RunInfo.vue'
-    import Player from '../_misc/components/Player.vue'
-    import CommentatorList from '../_misc/components/Commentator.vue'
-    import ReaderName from '../_misc/components/Reader.vue'
-    import SponsorsView from '../_misc/components/Sponsors.vue'
+    } from '@gsps-layouts/types/schemas';
+    import type { Asset } from '@gsps-layouts/types';
+    import { Getter } from 'vuex-class';
+    import TimerView from '../_misc/components/Timer.vue';
+    import RunInfo from '../_misc/components/RunInfo.vue';
+    import Player from '../_misc/components/Player.vue';
+    import CommentatorList from '../_misc/components/Commentator.vue';
+    import ReaderName from '../_misc/components/Reader.vue';
+    import SponsorsView from '../_misc/components/Sponsors.vue';
 
     @Component({
         components: {
@@ -68,33 +68,33 @@
         },
     })
     export default class extends Vue {
-        @Getter readonly activeRun!: RunDataActiveRun
-        @Getter readonly nameCycle!: NameCycle
-        @Getter readonly commentators!: Commentators
-        @Getter readonly reader!: Reader
-        @Getter readonly sponsors!: Asset[]
+        @Getter readonly activeRun!: RunDataActiveRun;
+        @Getter readonly nameCycle!: NameCycle;
+        @Getter readonly commentators!: Commentators;
+        @Getter readonly reader!: Reader;
+        @Getter readonly sponsors!: Asset[];
         data() {
             return {
                 numRunners: 0,
-            }
+            };
         }
 
         mounted() {
             this.activeRun!.teams.forEach((team: any) => {
-                this.$data.numRunners += team.players.length
-            })
+                this.$data.numRunners += team.players.length;
+            });
 
             this.$watch(
                 function () {
-                    return this.activeRun
+                    return this.activeRun;
                 },
                 function () {
-                    this.$data.numRunners = 0
+                    this.$data.numRunners = 0;
                     this.activeRun!.teams.forEach((team: any) => {
-                        this.$data.numRunners += team.players.length
-                    })
+                        this.$data.numRunners += team.players.length;
+                    });
                 }
-            )
+            );
         }
     }
 </script>

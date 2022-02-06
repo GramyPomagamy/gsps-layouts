@@ -49,9 +49,9 @@
 </template>
 
 <script>
-    import gsap from 'gsap'
-    import TickerLabel from './Label.vue'
-    const bids = nodecg.Replicant('currentBids')
+    import gsap from 'gsap';
+    import TickerLabel from './Label.vue';
+    const bids = nodecg.Replicant('currentBids');
 
     export default {
         name: 'TickerBidGoal',
@@ -65,19 +65,21 @@
                     total: 0,
                     progress: 0,
                 },
-            }
+            };
         },
         methods: {
             getBid() {
                 const challenges = bids.value
                     .filter((bid) => bid.type === 'challenge')
-                    .slice(0, 3)
-                return challenges[Math.floor(Math.random() * challenges.length)]
+                    .slice(0, 3);
+                return challenges[
+                    Math.floor(Math.random() * challenges.length)
+                ];
             },
         },
         mounted() {
-            this.bid = this.getBid()
-            console.log('BidGoal: mounted')
+            this.bid = this.getBid();
+            console.log('BidGoal: mounted');
 
             const animate = () => {
                 gsap.to(this.bidInfo, {
@@ -85,22 +87,22 @@
                     total: this.bid.rawTotal,
                     roundProps: 'total',
                     ease: 'power3',
-                })
+                });
                 gsap.to(this.bidInfo, {
                     duration: 4,
                     progress: (this.bid.rawTotal / this.bid.rawGoal) * 100,
                     ease: 'power3',
-                })
-            }
+                });
+            };
 
-            setTimeout(() => animate(), 1.5 * 1000)
+            setTimeout(() => animate(), 1.5 * 1000);
 
             setTimeout(() => {
-                this.$emit('end')
-                console.log('BidGoal: ended')
-            }, 10 * 1000)
+                this.$emit('end');
+                console.log('BidGoal: ended');
+            }, 10 * 1000);
         },
-    }
+    };
 </script>
 
 <style scoped>

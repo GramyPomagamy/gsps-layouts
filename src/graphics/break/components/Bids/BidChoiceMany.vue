@@ -27,7 +27,7 @@
 </template>
 
 <script>
-    import gsap from 'gsap'
+    import gsap from 'gsap';
 
     const colors = [
         'rgba(0, 255, 255, 0.5)',
@@ -35,18 +35,18 @@
         'rgba(3, 43, 255, 0.5)',
         'rgba(174, 3, 255, 0.5)',
         'rgba(255, 3, 137, 0.5)',
-    ]
+    ];
 
     export default {
         name: 'BidChoiceMany',
         props: ['bid'],
         methods: {
             getColor(index) {
-                return colors[index]
+                return colors[index];
             },
             animate() {
-                const tl = gsap.timeline()
-                tl.addLabel('animation', '+=1')
+                const tl = gsap.timeline();
+                tl.addLabel('animation', '+=1');
 
                 for (let i = 0; i < this.bid.options.length; i++) {
                     tl.fromTo(
@@ -64,7 +64,7 @@
                             ease: 'power4',
                         },
                         'animation'
-                    )
+                    );
 
                     tl.to(
                         this.$data.amounts[i],
@@ -75,23 +75,23 @@
                             ease: 'power4',
                         },
                         'animation'
-                    )
+                    );
 
                     tl.call(
                         () => {
                             setTimeout(() => {
-                                this.$emit('end')
-                            }, 5000)
+                                this.$emit('end');
+                            }, 5000);
                         },
                         null,
                         null
-                    )
+                    );
                 }
             },
         },
         computed: {
             remaining() {
-                return bid.options.length - 5
+                return bid.options.length - 5;
             },
         },
         data() {
@@ -103,12 +103,12 @@
                     { total: 0 },
                     { total: 0 },
                 ],
-            }
+            };
         },
         mounted() {
-            this.animate()
+            this.animate();
         },
-    }
+    };
 </script>
 
 <style scoped>

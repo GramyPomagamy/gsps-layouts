@@ -8,7 +8,7 @@
         <v-btn
             v-on:click="
                 () => {
-                    updateCommentators()
+                    updateCommentators();
                 }
             "
             >Aktualizuj komentatorów</v-btn
@@ -17,28 +17,28 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component, Watch } from 'vue-property-decorator'
-    import type { Commentators } from '@gsps-layouts/types/schemas'
-    import { Getter } from 'vuex-class'
-    import { storeModule } from './store'
+    import { Vue, Component, Watch } from 'vue-property-decorator';
+    import type { Commentators } from '@gsps-layouts/types/schemas';
+    import { Getter } from 'vuex-class';
+    import { storeModule } from './store';
 
     @Component
     export default class extends Vue {
-        @Getter readonly commentatorsReplicant!: Commentators
+        @Getter readonly commentatorsReplicant!: Commentators;
 
-        commentators: string = ''
+        commentators: string = '';
 
         mounted() {
-            this.commentators = this.commentatorsReplicant.names
+            this.commentators = this.commentatorsReplicant.names;
         }
 
         updateCommentators(): void {
-            storeModule.updateCommentatorsReplicant(this.commentators)
+            storeModule.updateCommentatorsReplicant(this.commentators);
         }
 
         @Watch('commentatorsReplicant')
         onRepChange(newVal: Commentators) {
-            this.commentators = newVal.names
+            this.commentators = newVal.names;
         }
     }
 </script>

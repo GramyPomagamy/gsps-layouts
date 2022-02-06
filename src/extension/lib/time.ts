@@ -1,29 +1,29 @@
-'use strict'
+'use strict';
 
 // Native
-import * as events from 'events'
+import * as events from 'events';
 
 // Packages
-import parseMilliseconds from 'parse-ms'
-import milliseconds from 'milliseconds'
+import parseMilliseconds from 'parse-ms';
+import milliseconds from 'milliseconds';
 
 export interface ParsedTime {
-    days: number
-    hours: number
-    minutes: number
-    seconds: number
-    milliseconds: number
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+    milliseconds: number;
 }
 
 export interface TimeStruct extends ParsedTime {
-    formatted: string
-    raw: number
-    timestamp: number
+    formatted: string;
+    raw: number;
+    timestamp: number;
 }
 
 export interface ICountdownTimer extends events.EventEmitter {
-    _interval: NodeJS.Timeout
-    stop: () => void
+    _interval: NodeJS.Timeout;
+    stop: () => void;
 }
 
 const TimeUtils = {
@@ -33,12 +33,12 @@ const TimeUtils = {
      * @returns {TimeStruct} - A populated TimeStruct object.
      */
     createTimeStruct(ms: number = 0): TimeStruct {
-        const parsedTime = TimeUtils.parseMs(ms)
+        const parsedTime = TimeUtils.parseMs(ms);
         return Object.assign({}, parsedTime, {
             formatted: TimeUtils.formatMilliseconds(ms),
             raw: ms,
             timestamp: Date.now(),
-        })
+        });
     },
 
     /**
@@ -48,22 +48,22 @@ const TimeUtils = {
      */
     formatMilliseconds(inputMs: number): string {
         const { days, hours, minutes, seconds, milliseconds } =
-            TimeUtils.parseMs(inputMs)
-        let str = ''
+            TimeUtils.parseMs(inputMs);
+        let str = '';
 
         if (days) {
-            str += `${days}d `
+            str += `${days}d `;
         }
 
         if (hours) {
-            str += `${hours}:`
+            str += `${hours}:`;
         }
 
-        const paddedMinutes = String(minutes).padStart(2, '0')
-        const paddedSeconds = String(seconds).padStart(2, '0')
+        const paddedMinutes = String(minutes).padStart(2, '0');
+        const paddedSeconds = String(seconds).padStart(2, '0');
 
-        str += `${paddedMinutes}:${paddedSeconds}`
-        return str
+        str += `${paddedMinutes}:${paddedSeconds}`;
+        return str;
     },
 
     /**
@@ -72,7 +72,7 @@ const TimeUtils = {
      * @returns {ParsedTime} - An object representing each dimension of the time.
      */
     parseMs(milliseconds: number): ParsedTime {
-        return parseMilliseconds(milliseconds)
+        return parseMilliseconds(milliseconds);
     },
 
     /**
@@ -81,7 +81,7 @@ const TimeUtils = {
      * @returns {ParsedTime} - An object representing each dimension of the time.
      */
     parseSeconds(seconds: number): ParsedTime {
-        return TimeUtils.parseMs(seconds * 1000)
+        return TimeUtils.parseMs(seconds * 1000);
     },
 
     /**
@@ -91,56 +91,56 @@ const TimeUtils = {
      * @returns {number} - The parsed time string represented as milliseconds.
      */
     parseTimeString(timeString: string): number {
-        let ms = 0
-        const timeParts = timeString.split(':').filter((part) => part.trim())
+        let ms = 0;
+        const timeParts = timeString.split(':').filter((part) => part.trim());
         if (timeParts.length === 3) {
-            ms += milliseconds.hours(parseInt(timeParts[0], 10))
-            ms += milliseconds.minutes(parseInt(timeParts[1], 10))
-            ms += milliseconds.seconds(parseFloat(timeParts[2]))
-            return ms
+            ms += milliseconds.hours(parseInt(timeParts[0], 10));
+            ms += milliseconds.minutes(parseInt(timeParts[1], 10));
+            ms += milliseconds.seconds(parseFloat(timeParts[2]));
+            return ms;
         }
 
         if (timeParts.length === 2) {
-            ms += milliseconds.minutes(parseInt(timeParts[0], 10))
-            ms += milliseconds.seconds(parseFloat(timeParts[1]))
-            return ms
+            ms += milliseconds.minutes(parseInt(timeParts[0], 10));
+            ms += milliseconds.seconds(parseFloat(timeParts[1]));
+            return ms;
         }
 
         if (timeParts.length === 1) {
-            ms += milliseconds.seconds(parseFloat(timeParts[0]))
-            return ms
+            ms += milliseconds.seconds(parseFloat(timeParts[0]));
+            return ms;
         }
 
         throw new Error(
             `Unexpected format of timeString argument: ${timeString}`
-        )
+        );
     },
 
     /**
      * A timer which counts down to a specified end time.
      */
     CountdownTimer: class CountdownTimer extends events.EventEmitter {
-        _interval: NodeJS.Timeout
+        _interval: NodeJS.Timeout;
         constructor(endTime: number, { tickRate = 100 } = {}) {
             if (typeof endTime !== 'number') {
                 throw new Error(
                     'endTime must be defined and it must be a number'
-                )
+                );
             }
 
-            super()
+            super();
             this._interval = setInterval(() => {
-                const currentTime = Date.now()
-                const timeRemaining = Math.max(endTime - currentTime, 0)
-                this.emit('tick', TimeUtils.createTimeStruct(timeRemaining))
+                const currentTime = Date.now();
+                const timeRemaining = Math.max(endTime - currentTime, 0);
+                this.emit('tick', TimeUtils.createTimeStruct(timeRemaining));
                 if (timeRemaining <= 0) {
-                    this.emit('done')
+                    this.emit('done');
                 }
-            }, tickRate)
+            }, tickRate);
         }
 
         stop() {
-            clearInterval(this._interval)
+            clearInterval(this._interval);
         }
     },
 
@@ -148,24 +148,24 @@ const TimeUtils = {
      * A timer which counts up, with no specified end time.
      */
     CountupTimer: class CountupTimer extends events.EventEmitter {
-        _interval: NodeJS.Timeout
+        _interval: NodeJS.Timeout;
         constructor({ tickRate = 100, offset = 0 } = {}) {
-            super()
-            const startTime = Date.now() - offset
+            super();
+            const startTime = Date.now() - offset;
             this._interval = setInterval(() => {
-                const currentTime = Date.now()
-                const timeElapsed = currentTime - startTime
-                this.emit('tick', TimeUtils.createTimeStruct(timeElapsed))
+                const currentTime = Date.now();
+                const timeElapsed = currentTime - startTime;
+                this.emit('tick', TimeUtils.createTimeStruct(timeElapsed));
                 if (timeElapsed <= 0) {
-                    this.emit('done')
+                    this.emit('done');
                 }
-            }, tickRate)
+            }, tickRate);
         }
 
         stop() {
-            clearInterval(this._interval)
+            clearInterval(this._interval);
         }
     },
-}
+};
 
-export default TimeUtils
+export default TimeUtils;

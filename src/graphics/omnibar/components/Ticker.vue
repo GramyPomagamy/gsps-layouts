@@ -12,16 +12,16 @@
 </template>
 
 <script>
-    import TickerGenericMessage from './Ticker/GenericMessage.vue'
-    import TickerBidGoal from './Ticker/BidGoal.vue'
-    import TickerBidWar1v1 from './Ticker/BidWar1v1.vue'
-    import TickerNextRuns from './Ticker/NextRuns.vue'
-    const bids = nodecg.Replicant('currentBids')
-    const runs = nodecg.Replicant('runDataArray', 'nodecg-speedcontrol')
+    import TickerGenericMessage from './Ticker/GenericMessage.vue';
+    import TickerBidGoal from './Ticker/BidGoal.vue';
+    import TickerBidWar1v1 from './Ticker/BidWar1v1.vue';
+    import TickerNextRuns from './Ticker/NextRuns.vue';
+    const bids = nodecg.Replicant('currentBids');
+    const runs = nodecg.Replicant('runDataArray', 'nodecg-speedcontrol');
     const activeRun = nodecg.Replicant(
         'runDataActiveRun',
         'nodecg-speedcontrol'
-    )
+    );
 
     export default {
         name: 'OmnibarTicker',
@@ -33,7 +33,7 @@
                 },
                 timestamp: Date.now(),
                 messageTypes: [],
-            }
+            };
         },
         mounted() {
             NodeCG.waitForReplicants(bids, runs, activeRun).then(() => {
@@ -46,39 +46,39 @@
                     /*                     this.bidWar1v1(),
                     this.bidWar1v1(), */
                     /*                     this.nextRuns(), */
-                ]
+                ];
 
-                this.showNextMsg()
-            })
+                this.showNextMsg();
+            });
         },
         methods: {
             showNextMsg() {
-                console.log('SHOWING NEXT MESSAGE')
+                console.log('SHOWING NEXT MESSAGE');
                 this.currentComponent =
                     this.$data.messageTypes[
                         Math.floor(
                             Math.random() * this.$data.messageTypes.length
                         )
-                    ]
-                this.timestamp = Date.now()
+                    ];
+                this.timestamp = Date.now();
             },
 
             gspsPromo() {
                 return this.genericMsg(
                     'Oglądacie&nbsp;<b style="color: #ffbd16">Gramy Szybko, Pomagamy Skutecznie 2021</b>!'
-                )
+                );
             },
 
             charityPromo() {
                 return this.genericMsg(
                     '<b>Gramy Szybko, Pomagamy Skutecznie 2021</b>&nbsp;wspiera&nbsp;<b style="color: #ffbd16">Fundację ITAKA</b>!'
-                )
+                );
             },
 
             donationURL() {
                 return this.genericMsg(
                     'Wesprzyj na&nbsp;<b style="color: #ffbd16">gsps.pl/wesprzyj</b>!'
-                )
+                );
             },
 
             genericMsg(string) {
@@ -87,28 +87,28 @@
                     data: {
                         msg: string,
                     },
-                }
+                };
             },
 
             bidGoal() {
                 return {
                     name: TickerBidGoal,
-                }
+                };
             },
 
             bidWar1v1() {
                 return {
                     name: TickerBidWar1v1,
-                }
+                };
             },
 
             nextRuns() {
                 return {
                     name: TickerNextRuns,
-                }
+                };
             },
         },
-    }
+    };
 </script>
 
 <style scoped>

@@ -18,7 +18,7 @@
                         msg: '',
                         size: 28,
                         time: 25,
-                    }
+                    };
                 },
             },
         },
@@ -26,24 +26,24 @@
             cssProps() {
                 return {
                     '--font-size': `${this.normalisedData.size}px`,
-                }
+                };
             },
             normalisedData() {
                 return {
                     size: 30,
                     time: 20,
                     ...this.data,
-                }
+                };
             },
         },
         mounted() {
-            console.log('GenericMessage: mounted')
+            console.log('GenericMessage: mounted');
             setTimeout(() => {
-                this.$emit('end')
-                console.log('GenericMessage: ended')
-            }, this.normalisedData.time * 1000)
+                this.$emit('end');
+                console.log('GenericMessage: ended');
+            }, this.normalisedData.time * 1000);
         },
-    }
+    };
 </script>
 
 <style scoped>

@@ -1,15 +1,17 @@
-'use strict'
+'use strict';
 
-import { get as nodecg } from './util/nodecg'
-import { songReplicant } from './util/replicants'
-import fs from 'fs'
-import type { Configschema } from '@gsps-layouts/types/schemas/configschema'
+import { get as nodecg } from './util/nodecg';
+import { songReplicant } from './util/replicants';
+import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
+import FoobarControl from './foobar';
 
-const FILE_PATH = (nodecg().bundleConfig as Configschema).nowPlayingFile
+const config = (nodecg().bundleConfig as Configschema).foobar;
+const foobar = new FoobarControl(config.address);
 
 function GetSong() {
-    let song = fs.readFileSync(FILE_PATH, 'utf8')
-    songReplicant.value = song
+    if (config.enabled) {
+        songReplicant.value = foobar.getSong();
+    }
 }
 
-setInterval(GetSong, 500)
+setInterval(GetSong, 1000);

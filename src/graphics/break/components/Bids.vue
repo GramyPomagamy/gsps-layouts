@@ -77,9 +77,9 @@
 </style>
 
 <script>
-    import BidChoiceBinary from './Bids/BidChoiceBinary.vue'
-    import BidChoiceMany from './Bids/BidChoiceMany.vue'
-    import BidChallenge from './Bids/BidChallenge.vue'
+    import BidChoiceBinary from './Bids/BidChoiceBinary.vue';
+    import BidChoiceMany from './Bids/BidChoiceMany.vue';
+    import BidChallenge from './Bids/BidChallenge.vue';
 
     export default {
         name: 'BreakBids',
@@ -91,7 +91,7 @@
                     bid: {},
                 },
                 timestamp: 0,
-            }
+            };
         },
         components: {
             BidChoiceBinary,
@@ -101,35 +101,35 @@
         methods: {
             showNextBid() {
                 if (!this.bids || this.bids.length <= 0) {
-                    return
+                    return;
                 }
 
                 let currentIdx = this.bids.indexOf(
                     this.$data.currentComponent.bid
-                )
-                let nextIdx = currentIdx + 1
+                );
+                let nextIdx = currentIdx + 1;
                 if (nextIdx >= this.bids.length) {
-                    nextIdx = 0
+                    nextIdx = 0;
                 }
 
                 switch (this.bids[nextIdx].type) {
                     case 'choice-binary':
-                        this.$data.currentComponent.name = BidChoiceBinary
-                        break
+                        this.$data.currentComponent.name = BidChoiceBinary;
+                        break;
                     case 'choice-many':
-                        this.$data.currentComponent.name = BidChoiceMany
-                        break
+                        this.$data.currentComponent.name = BidChoiceMany;
+                        break;
                     case 'challenge':
-                        this.$data.currentComponent.name = BidChallenge
-                        break
+                        this.$data.currentComponent.name = BidChallenge;
+                        break;
                 }
 
-                this.$data.currentComponent.bid = this.bids[nextIdx]
-                this.$data.timestamp = Date.now()
+                this.$data.currentComponent.bid = this.bids[nextIdx];
+                this.$data.timestamp = Date.now();
             },
         },
         mounted() {
-            this.showNextBid()
+            this.showNextBid();
         },
-    }
+    };
 </script>

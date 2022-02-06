@@ -29,7 +29,7 @@
 </template>
 
 <script>
-    import fitty from 'fitty'
+    import fitty from 'fitty';
 
     export default {
         name: 'BreakNextRuns',
@@ -46,30 +46,30 @@
                                     .join(', ')
                         )
                         .join(' vs. ') || 'Bez gracza'
-                )
+                );
             },
             fitText() {
                 setTimeout(() => {
                     fitty('.name-text', {
                         minSize: 1,
                         maxSize: 40,
-                    })
-                }, 340)
+                    });
+                }, 340);
             },
         },
         watch: {
             runs: {
                 handler: function () {
-                    this.fitText()
+                    this.fitText();
                 },
                 immediate: true,
                 deep: true,
             },
         },
         mounted() {
-            this.fitText()
+            this.fitText();
         },
-    }
+    };
 </script>
 
 <style scoped>

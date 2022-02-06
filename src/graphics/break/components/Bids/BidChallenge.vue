@@ -21,31 +21,31 @@
 </template>
 
 <script>
-    import gsap from 'gsap'
+    import gsap from 'gsap';
 
     export default {
         name: 'BidChallenge',
         props: ['bid'],
         mounted() {
-            gsap.set('#meter', { scaleX: 0 })
-            gsap.set('#meter-line', { scaleY: 0 })
-            this.animate()
+            gsap.set('#meter', { scaleX: 0 });
+            gsap.set('#meter-line', { scaleY: 0 });
+            this.animate();
         },
         methods: {
             animate() {
-                let meterPercent = this.bid.rawTotal / this.bid.rawGoal
-                meterPercent = Math.max(meterPercent, 0) // Clamp to min 0
-                meterPercent = Math.min(meterPercent, 1) // Clamp to max 1
+                let meterPercent = this.bid.rawTotal / this.bid.rawGoal;
+                meterPercent = Math.max(meterPercent, 0); // Clamp to min 0
+                meterPercent = Math.min(meterPercent, 1); // Clamp to max 1
                 if (Number.isNaN(meterPercent)) {
-                    meterPercent = 0
+                    meterPercent = 0;
                 }
 
-                const tl = new gsap.timeline()
-                const meterDuration = 2 * meterPercent
+                const tl = new gsap.timeline();
+                const meterDuration = 2 * meterPercent;
 
                 tl.set('#left', {
                     width: `${meterPercent * 100}%`,
-                })
+                });
 
                 tl.call(
                     () => {
@@ -53,7 +53,7 @@
                             this.bid.rawGoal.toLocaleString('en-US', {
                                 maximumFractionDigits: 0,
                                 useGrouping: false,
-                            }) + ' PLN'
+                            }) + ' PLN';
 
                         if (
                             document.getElementById('meter').clientWidth <
@@ -62,20 +62,20 @@
                             gsap.set('#amount', {
                                 right: '',
                                 left: '100%',
-                            })
+                            });
                         }
                     },
                     null,
                     null,
                     '+=0.03'
-                )
+                );
 
                 tl.to('#meter-line', 0.324, {
                     scaleY: 1,
                     ease: 'Power2.easeInOut',
-                })
+                });
 
-                tl.addLabel('meter')
+                tl.addLabel('meter');
 
                 tl.to(
                     '#meter',
@@ -85,7 +85,7 @@
                         ease: 'power4',
                     },
                     'meter'
-                )
+                );
 
                 tl.to(
                     this.$data,
@@ -96,7 +96,7 @@
                         ease: 'power4',
                     },
                     'meter'
-                )
+                );
 
                 tl.to(
                     this.$data,
@@ -107,26 +107,26 @@
                         ease: 'power4',
                     },
                     'meter'
-                )
+                );
 
                 tl.call(
                     () => {
                         setTimeout(() => {
-                            this.$emit('end')
-                        }, 5000)
+                            this.$emit('end');
+                        }, 5000);
                     },
                     null,
                     null
-                )
+                );
             },
         },
         data() {
             return {
                 amount: 0,
                 percent: 0,
-            }
+            };
         },
-    }
+    };
 </script>
 
 <style scoped>

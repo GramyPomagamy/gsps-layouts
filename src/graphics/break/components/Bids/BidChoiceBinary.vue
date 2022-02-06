@@ -10,9 +10,9 @@
 </template>
 
 <script>
-    import SVG from 'svg.js'
-    import gsap from 'gsap'
-    import fitty from 'fitty'
+    import SVG from 'svg.js';
+    import gsap from 'gsap';
+    import fitty from 'fitty';
 
     export default {
         name: 'BidChoiceBinary',
@@ -21,22 +21,22 @@
             return {
                 _svgDoc: undefined,
                 _secondSlice: undefined,
-            }
+            };
         },
         methods: {
             initPieChart() {
-                const svgDoc = SVG(document.getElementById('chart'))
-                svgDoc.viewbox(-1, -1, 2, 2)
-                this._svgDoc = svgDoc
+                const svgDoc = SVG(document.getElementById('chart'));
+                svgDoc.viewbox(-1, -1, 2, 2);
+                this._svgDoc = svgDoc;
 
-                svgDoc.circle(2).fill({ color: '#3A008B' }).move(-1, -1)
-                this._secondSlice = svgDoc.path().fill({ color: '#21004F' })
+                svgDoc.circle(2).fill({ color: '#3A008B' }).move(-1, -1);
+                this._secondSlice = svgDoc.path().fill({ color: '#21004F' });
             },
             animate() {
-                const tl = new gsap.timeline()
+                const tl = new gsap.timeline();
                 const winningPercent =
-                    this.bid.options[0].rawTotal / this.bid.rawTotal
-                const proxy = { percent: 0 }
+                    this.bid.options[0].rawTotal / this.bid.rawTotal;
+                const proxy = { percent: 0 };
 
                 tl.call(
                     () => {
@@ -49,7 +49,7 @@
                                     maximumFractionDigits: 0,
                                     useGrouping: false,
                                 }
-                            ) + ' PLN'
+                            ) + ' PLN';
                         document.getElementById(
                             'losingOptionAmount'
                         ).innerText =
@@ -59,14 +59,14 @@
                                     maximumFractionDigits: 0,
                                     useGrouping: false,
                                 }
-                            ) + ' PLN'
+                            ) + ' PLN';
                     },
                     null,
                     null,
                     '+=0.03'
-                )
+                );
 
-                tl.addLabel('amounts')
+                tl.addLabel('amounts');
 
                 tl.to(
                     ['#winningOptionAmount', '#losingOptionAmount'],
@@ -77,7 +77,7 @@
                         ease: 'Sine.easeOut',
                     },
                     'amounts'
-                )
+                );
 
                 tl.to(
                     ['#winningOptionAmount', '#losingOptionAmount'],
@@ -88,83 +88,83 @@
                         ease: 'Sine.easeOut',
                     },
                     'amounts'
-                )
+                );
 
                 tl.to(this._svgDoc.node, 0.465, {
                     opacity: 1,
                     ease: 'Sine.easeInOut',
-                })
+                });
 
                 tl.to(proxy, 1, {
                     percent: winningPercent,
                     ease: 'Power3.easeInOut',
                     callbackScope: this,
                     onStart() {
-                        this._svgDoc.style({ transform: `rotate(0.65turn)` })
+                        this._svgDoc.style({ transform: `rotate(0.65turn)` });
 
                         document.getElementById('winningOptionName').innerText =
                             this.bid.options[0].name ||
-                            this.bid.options[0].description
+                            this.bid.options[0].description;
                         document.getElementById('losingOptionName').innerText =
                             this.bid.options[1].name ||
-                            this.bid.options[1].description
+                            this.bid.options[1].description;
                     },
                     onUpdate() {
-                        this.drawSecondSlice(proxy.percent)
+                        this.drawSecondSlice(proxy.percent);
                     },
-                })
+                });
 
                 tl.call(
                     () => {
                         setTimeout(() => {
-                            this.$emit('end')
-                        }, 5000)
+                            this.$emit('end');
+                        }, 5000);
                     },
                     null,
                     null
-                )
+                );
             },
             drawSecondSlice(percent) {
                 // Note the svg viewBox is offset so the center of the SVG is 0,0.
-                const arcLength = 2 * Math.PI * percent
+                const arcLength = 2 * Math.PI * percent;
 
-                const startX = Math.cos(arcLength / -2)
-                const startY = Math.sin(arcLength / -2)
-                const endX = Math.cos(arcLength / 2)
-                const endY = Math.sin(arcLength / 2)
-                const largeArcFlag = percent > 0.5 ? 1 : 0
+                const startX = Math.cos(arcLength / -2);
+                const startY = Math.sin(arcLength / -2);
+                const endX = Math.cos(arcLength / 2);
+                const endY = Math.sin(arcLength / 2);
+                const largeArcFlag = percent > 0.5 ? 1 : 0;
 
                 const d = [
                     `M ${startX} ${startY}`,
                     `A 1 1 0 ${largeArcFlag} 1 ${endX} ${endY}`,
                     'L 0 0',
-                ].join(` `)
+                ].join(` `);
 
-                this._secondSlice.plot(d)
+                this._secondSlice.plot(d);
             },
         },
         mounted() {
-            this.initPieChart()
+            this.initPieChart();
             gsap.set('#winningOptionAmount', {
                 opacity: 0,
                 x: -36,
                 color: 'transparent',
                 textShadow: 'transparent',
-            })
+            });
             gsap.set('#losingOptionAmount', {
                 opacity: 0,
                 x: 36,
                 color: 'transparent',
                 textShadow: 'transparent',
-            })
-            gsap.set(this._svgDoc.node, { opacity: 0 })
-            this.animate()
+            });
+            gsap.set(this._svgDoc.node, { opacity: 0 });
+            this.animate();
             setTimeout(() => {
-                fitty('#winningOptionAmount', { maxSize: 67 })
-                fitty('#losingOptionAmount', { maxSize: 58 })
-            }, 300)
+                fitty('#winningOptionAmount', { maxSize: 67 });
+                fitty('#losingOptionAmount', { maxSize: 58 });
+            }, 300);
         },
-    }
+    };
 </script>
 
 <style scoped>

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import fitty from 'fitty'
+    import fitty from 'fitty';
 
     export default {
         name: 'RunInfo',
@@ -31,12 +31,12 @@
             return {
                 $_fittyGame: undefined,
                 $_fittyInfo: undefined,
-            }
+            };
         },
         watch: {
             run: {
                 handler: function () {
-                    fitty.fitAll()
+                    fitty.fitAll();
                 },
                 immediate: true,
                 deep: true,
@@ -47,17 +47,17 @@
                 this.$data.$_fittyGame = fitty('#GameName', {
                     minSize: 1,
                     maxSize: this.maxTitleSize,
-                })
+                });
                 this.$data.$_fittyInfo = fitty('#GameInfo', {
                     minSize: 1,
                     maxSize: 24,
-                })
+                });
             },
         },
         mounted() {
             setTimeout(() => {
-                this.fitText()
-            }, 200)
+                this.fitText();
+            }, 200);
         },
-    }
+    };
 </script>

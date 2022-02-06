@@ -6,33 +6,31 @@
  */
 
 export interface Configschema {
-    donationSocketUrl?: string
+    donationSocketUrl?: string;
     /**
      * Login information for the private areas of the tracker API.
      */
     tracker: {
-        username: string
-        password: string
-        [k: string]: unknown
-    } | null
-    nowPlayingFile: string
+        username: string;
+        password: string;
+        [k: string]: unknown;
+    } | null;
+    nowPlayingFile: string;
     /**
      * Info needed to use OBS websockets.
      */
     obs: {
-        enabled: boolean
-        address: string
-        password: string
-        [k: string]: unknown
-    }
+        enabled: boolean;
+        address: string;
+        password: string;
+        [k: string]: unknown;
+    };
     /**
      * Info needed to control foobar2000.
      */
     foobar: {
-        enabled: boolean
-        address: string
-        username: string
-        password: string
-        [k: string]: unknown
-    }
+        enabled: boolean;
+        address: string;
+        [k: string]: unknown;
+    };
 }

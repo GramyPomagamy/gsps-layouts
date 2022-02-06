@@ -78,8 +78,8 @@
 </template>
 
 <script>
-    import gsap from 'gsap'
-    const bids = nodecg.Replicant('currentBids')
+    import gsap from 'gsap';
+    const bids = nodecg.Replicant('currentBids');
 
     export default {
         name: 'TickerBidWar1v1',
@@ -96,19 +96,19 @@
                     total: 0,
                     percentage: 0,
                 },
-            }
+            };
         },
         methods: {
             getBid() {
                 const wars = bids.value
                     .filter((bid) => bid.type === 'choice-binary')
-                    .slice(0, 3)
-                return wars[Math.floor(Math.random() * wars.length)]
+                    .slice(0, 3);
+                return wars[Math.floor(Math.random() * wars.length)];
             },
         },
         mounted() {
-            this.bid = this.getBid()
-            console.log('BidWar1v1: mounted')
+            this.bid = this.getBid();
+            console.log('BidWar1v1: mounted');
 
             const animate = () => {
                 gsap.to(this.choice1, {
@@ -116,37 +116,37 @@
                     total: this.bid.options[0].rawTotal,
                     roundProps: 'total',
                     ease: 'power3',
-                })
+                });
                 gsap.to(this.choice1, {
                     duration: 3,
                     percentage:
                         (this.bid.options[0].rawTotal / this.bid.rawTotal) *
                         100,
                     ease: 'power3',
-                })
+                });
                 gsap.to(this.choice2, {
                     duration: 3,
                     total: this.bid.options[1].rawTotal,
                     roundProps: 'total',
                     ease: 'power3',
-                })
+                });
                 gsap.to(this.choice2, {
                     duration: 3,
                     percentage:
                         (this.bid.options[1].rawTotal / this.bid.rawTotal) *
                         100,
                     ease: 'power3',
-                })
-            }
+                });
+            };
 
-            setTimeout(() => animate(), 1.5 * 1000)
+            setTimeout(() => animate(), 1.5 * 1000);
 
             setTimeout(() => {
-                this.$emit('end')
-                console.log('BidWar1v1: ended')
-            }, 10 * 1000)
+                this.$emit('end');
+                console.log('BidWar1v1: ended');
+            }, 10 * 1000);
         },
-    }
+    };
 </script>
 
 <style scoped>

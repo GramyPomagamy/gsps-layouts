@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import gsap from 'gsap'
+    import gsap from 'gsap';
 
     export default {
         name: 'TickerLabel',
@@ -18,11 +18,11 @@
                     '#label',
                     { clipPath: 'inset(0 100% 0 0)' },
                     { clipPath: 'inset(0 0% 0 0)', duration: 0.5 }
-                )
-            }
-            labelAnim()
+                );
+            };
+            labelAnim();
         },
-    }
+    };
 </script>
 
 <style scoped>

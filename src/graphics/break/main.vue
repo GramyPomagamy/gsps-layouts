@@ -20,19 +20,19 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component, Watch } from 'vue-property-decorator'
-    import type { Bids, Reader, Song } from '@gsps-layouts/types/schemas'
-    import { Getter } from 'vuex-class'
-    import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas'
-    import { RunData } from '../../../../nodecg-speedcontrol/src/types'
-    import { Asset } from '@gsps-layouts/types'
-    import BreakReader from './components/Reader.vue'
-    import BreakSong from './components/Song.vue'
-    import BreakTotal from './components/Total.vue'
-    import BreakNextRuns from './components/NextRuns.vue'
-    import BreakBids from './components/Bids.vue'
-    import Sponsors from '../_misc/components/Sponsors.vue'
-    import clone from 'clone'
+    import { Vue, Component, Watch } from 'vue-property-decorator';
+    import type { Bids, Reader, Song } from '@gsps-layouts/types/schemas';
+    import { Getter } from 'vuex-class';
+    import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
+    import { RunData } from '../../../../nodecg-speedcontrol/src/types';
+    import { Asset } from '@gsps-layouts/types';
+    import BreakReader from './components/Reader.vue';
+    import BreakSong from './components/Song.vue';
+    import BreakTotal from './components/Total.vue';
+    import BreakNextRuns from './components/NextRuns.vue';
+    import BreakBids from './components/Bids.vue';
+    import Sponsors from '../_misc/components/Sponsors.vue';
+    import clone from 'clone';
 
     @Component({
         components: {
@@ -45,36 +45,36 @@
         },
     })
     export default class extends Vue {
-        @Getter readonly currentBids!: Bids[] // from store.ts
-        @Getter readonly allRuns!: RunData[]
-        @Getter readonly reader!: Reader
-        @Getter readonly activeRun!: RunDataActiveRun
-        @Getter readonly currentSong!: Song
-        @Getter readonly sponsors!: Asset[]
+        @Getter readonly currentBids!: Bids[]; // from store.ts
+        @Getter readonly allRuns!: RunData[];
+        @Getter readonly reader!: Reader;
+        @Getter readonly activeRun!: RunDataActiveRun;
+        @Getter readonly currentSong!: Song;
+        @Getter readonly sponsors!: Asset[];
 
-        nextRuns: RunData[] | null = null
+        nextRuns: RunData[] | null = null;
 
         mounted() {
-            this.nextRuns = this.getNext3Runs
+            this.nextRuns = this.getNext3Runs;
         }
 
         @Watch('activeRun')
         updateNextRuns(): void {
-            this.nextRuns = this.getNext3Runs
+            this.nextRuns = this.getNext3Runs;
         }
 
         get getNext3Runs(): RunData[] {
-            const runIndex = this.findRunIndex
-            return clone(this.allRuns).slice(runIndex).slice(0, 3)
+            const runIndex = this.findRunIndex;
+            return clone(this.allRuns).slice(runIndex).slice(0, 3);
         }
 
         get findRunIndex() {
             if (!this.activeRun) {
-                return 0
+                return 0;
             }
             return clone(this.allRuns).findIndex(
                 (run) => run.id === this.activeRun.id
-            )
+            );
         }
     }
 </script>

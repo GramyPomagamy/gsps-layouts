@@ -30,36 +30,39 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component, Watch } from 'vue-property-decorator'
-    import type { Countdown } from '@gsps-layouts/types/schemas/countdown'
-    import type { CountdownRunning } from '@gsps-layouts/types/schemas/countdownRunning'
-    import { Getter } from 'vuex-class'
+    import { Vue, Component, Watch } from 'vue-property-decorator';
+    import type { Countdown } from '@gsps-layouts/types/schemas/countdown';
+    import type { CountdownRunning } from '@gsps-layouts/types/schemas/countdownRunning';
+    import { Getter } from 'vuex-class';
 
     @Component
     export default class extends Vue {
         data() {
             return {
                 countdownText: '10:00',
-            }
+                enteredTime: '10:00',
+            };
         }
-        @Getter readonly countdownReplicant!: Countdown
-        @Getter readonly countdownRunningReplicant!: CountdownRunning
+        @Getter readonly countdownReplicant!: Countdown;
+        @Getter readonly countdownRunningReplicant!: CountdownRunning;
 
         startCountdown(): void {
-            nodecg.sendMessage('startCountdown', this.$data.countdownText)
+            this.$data.enteredTime = this.$data.countdownText;
+            nodecg.sendMessage('startCountdown', this.$data.countdownText);
         }
 
         stopCountdown(): void {
-            nodecg.sendMessage('stopCountdown')
+            nodecg.sendMessage('stopCountdown');
+            this.$data.countdownText = this.$data.enteredTime;
         }
 
         mounted() {
-            this.$data.countdownText = this.countdownReplicant.formatted
+            this.$data.countdownText = this.countdownReplicant.formatted;
         }
 
         @Watch('countdownReplicant')
         onCountdownChanged(value: Countdown) {
-            this.$data.countdownText = value.formatted
+            this.$data.countdownText = value.formatted;
         }
     }
 </script>

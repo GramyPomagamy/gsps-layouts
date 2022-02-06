@@ -6,7 +6,7 @@
  */
 
 export interface Commentators {
-    amount: number
-    names: string
-    [k: string]: unknown
+    amount: number;
+    names: string;
+    [k: string]: unknown;
 }

@@ -78,7 +78,7 @@
     export default {
         name: 'FinishTime',
         props: ['time', 'place', 'side'],
-    }
+    };
 </script>
 
 <style scoped>

@@ -9,7 +9,7 @@
         <v-btn
             v-on:click="
                 () => {
-                    updateReader()
+                    updateReader();
                 }
             "
             >Aktualizuj czytającego</v-btn
@@ -18,28 +18,28 @@
 </template>
 
 <script lang="ts">
-    import { Vue, Component, Watch } from 'vue-property-decorator'
-    import type { Reader } from '@gsps-layouts/types/schemas'
-    import { Getter } from 'vuex-class'
-    import { storeModule } from './store'
+    import { Vue, Component, Watch } from 'vue-property-decorator';
+    import type { Reader } from '@gsps-layouts/types/schemas';
+    import { Getter } from 'vuex-class';
+    import { storeModule } from './store';
 
     @Component
     export default class extends Vue {
-        @Getter readonly reader!: Reader
+        @Getter readonly reader!: Reader;
 
-        readerName: string = ''
+        readerName: string = '';
 
         mounted() {
-            this.readerName = this.reader
+            this.readerName = this.reader;
         }
 
         updateReader(): void {
-            storeModule.updateReader(this.readerName)
+            storeModule.updateReader(this.readerName);
         }
 
         @Watch('reader')
         onReaderChange(newVal: Reader) {
-            this.readerName = newVal
+            this.readerName = newVal;
         }
     }
 </script>

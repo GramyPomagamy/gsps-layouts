@@ -17,15 +17,18 @@
 </template>
 
 <script>
-    import TickerLabel from './Label.vue'
-    import clone from 'clone'
-    import gsap from 'gsap'
+    import TickerLabel from './Label.vue';
+    import clone from 'clone';
+    import gsap from 'gsap';
 
     const runDataActiveRun = nodecg.Replicant(
         'runDataActiveRun',
         'nodecg-speedcontrol'
-    )
-    const runDataArray = nodecg.Replicant('runDataArray', 'nodecg-speedcontrol')
+    );
+    const runDataArray = nodecg.Replicant(
+        'runDataArray',
+        'nodecg-speedcontrol'
+    );
 
     export default {
         name: 'TickerNextRuns',
@@ -35,31 +38,31 @@
         data() {
             return {
                 nextRuns: [],
-            }
+            };
         },
         mounted() {
-            console.log('NextRuns: mounted')
-            this.nextRuns = this.getNextRuns()
+            console.log('NextRuns: mounted');
+            this.nextRuns = this.getNextRuns();
             const animateRuns = () => {
-                const elements = document.querySelectorAll('.run')
-                const arr = [].slice.call(elements)
-                const tl = gsap.timeline({ delay: 1 })
+                const elements = document.querySelectorAll('.run');
+                const arr = [].slice.call(elements);
+                const tl = gsap.timeline({ delay: 1 });
                 arr.forEach((element) => {
                     tl.to(element, {
                         opacity: 1,
                         translateX: '-5px',
                         duration: 0.3,
-                    })
-                })
-                tl.play()
-            }
+                    });
+                });
+                tl.play();
+            };
             setTimeout(() => {
-                animateRuns()
-            }, 50)
+                animateRuns();
+            }, 50);
             setTimeout(() => {
-                this.$emit('end')
-                console.log('NextRuns: ended')
-            }, 10 * 1000)
+                this.$emit('end');
+                console.log('NextRuns: ended');
+            }, 10 * 1000);
         },
         methods: {
             formatPlayers(run) {
@@ -73,24 +76,24 @@
                                     .join(', ')
                         )
                         .join(' vs. ') || 'Bez gracza'
-                )
+                );
             },
             getNextRuns() {
-                const runIndex = this.findRunIndex()
+                const runIndex = this.findRunIndex();
                 return clone(runDataArray.value)
                     .slice(runIndex + 1)
-                    .slice(0, 4)
+                    .slice(0, 4);
             },
             findRunIndex() {
                 if (!runDataActiveRun.value) {
-                    return -1
+                    return -1;
                 }
                 return clone(runDataArray.value).findIndex(
                     (run) => run.id === runDataActiveRun.value.id
-                )
+                );
             },
         },
-    }
+    };
 </script>
 
 <style scoped>

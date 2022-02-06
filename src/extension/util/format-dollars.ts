@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /**
  * Formats an amount as USD, cents optional.
@@ -7,10 +7,10 @@
  * @returns {string} - The formatted string.
  */
 export function formatDollars(amount: Number, { cents = true } = {}) {
-    const fractionDigits = cents ? 2 : 0
+    const fractionDigits = cents ? 2 : 0;
     return (
         parseFloat(amount as unknown as string).toLocaleString('en-US', {
             maximumFractionDigits: 0,
         }) + ' PLN'
-    )
+    );
 }

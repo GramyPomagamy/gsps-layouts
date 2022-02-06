@@ -5,4 +5,4 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type Reader = string
+export type Reader = string;
