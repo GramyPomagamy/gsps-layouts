@@ -162,12 +162,12 @@
         ],
         "graphics": [
             {
-                "file": "countdown.html",
+                "file": "odliczanie.html",
                 "width": 1920,
                 "height": 1080
             },
             {
-                "file": "break.html",
+                "file": "przerwa.html",
                 "width": 1920,
                 "height": 1080
             },
