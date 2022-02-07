@@ -44,7 +44,7 @@ class OurModule extends VuexModule {
     }
 
     get sponsors(): Asset[] {
-        return this.reps.sponsors_169_2p;
+        return this.reps.sponsors;
     }
 
     get timer(): Timer {

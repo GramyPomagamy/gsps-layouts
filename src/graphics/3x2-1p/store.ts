@@ -41,7 +41,7 @@ class OurModule extends VuexModule {
     }
 
     get sponsors(): Asset[] {
-        return this.reps.sponsors_43_1p;
+        return this.reps.sponsors;
     }
 }
 

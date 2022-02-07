@@ -40,11 +40,7 @@ export const reps: {
     commentatorsReplicant: ReplicantBrowser<Commentators>;
     readerReplicant: ReplicantBrowser<Reader>;
     timerReplicant: ReplicantBrowser<Timer>;
-    sponsors_43_1p: ReplicantBrowser<Asset[]>;
-    sponsors_169_1p: ReplicantBrowser<Asset[]>;
-    sponsors_169_2p: ReplicantBrowser<Asset[]>;
-    sponsors_43_2p: ReplicantBrowser<Asset[]>;
-    sponsors_break: ReplicantBrowser<Asset[]>;
+    sponsors: ReplicantBrowser<Asset[]>;
     currentBids: ReplicantBrowser<Bids[]>;
     allBids: ReplicantBrowser<Bids[]>;
     runDataArray: ReplicantBrowser<RunDataArray[]>;
@@ -67,11 +63,7 @@ export const reps: {
     commentatorsReplicant: nodecg.Replicant('commentators'),
     readerReplicant: nodecg.Replicant('reader'),
     timerReplicant: nodecg.Replicant('timer', 'nodecg-speedcontrol'),
-    sponsors_43_1p: nodecg.Replicant('assets:sponsors-standard_1'),
-    sponsors_169_1p: nodecg.Replicant('assets:sponsors-widescreen_1'),
-    sponsors_169_2p: nodecg.Replicant('assets:sponsors-widescreen_2'),
-    sponsors_43_2p: nodecg.Replicant('assets:sponsors-standard_2'),
-    sponsors_break: nodecg.Replicant('assets:sponsors-break'),
+    sponsors: nodecg.Replicant('assets:sponsors'),
     currentBids: nodecg.Replicant('currentBids'),
     allBids: nodecg.Replicant('allBids'),
     runDataArray: nodecg.Replicant('runDataArray', 'nodecg-speedcontrol'),
@@ -94,11 +86,7 @@ export interface ReplicantTypes {
     commentatorsReplicant: Commentators;
     readerReplicant: Reader;
     timerReplicant: Timer;
-    sponsors_43_1p: Asset[];
-    sponsors_169_1p: Asset[];
-    sponsors_43_2p: Asset[];
-    sponsors_169_2p: Asset[];
-    sponsors_break: Asset[];
+    sponsors: Asset[];
     currentBids: Bids[];
     allBids: Bids[];
     runDataArray: RunDataArray[];

@@ -204,36 +204,8 @@
         ],
         "assetCategories": [
             {
-                "name": "sponsors-standard_1",
-                "title": "Sponsorzy Standard, 1 gracz",
-                "allowedTypes": [
-                    "png"
-                ]
-            },
-            {
-                "name": "sponsors-widescreen_1",
-                "title": "Sponsorzy Widescreen, 1 gracz",
-                "allowedTypes": [
-                    "png"
-                ]
-            },
-            {
-                "name": "sponsors-widescreen_2",
-                "title": "Sponsorzy Widescreen, 2 graczy",
-                "allowedTypes": [
-                    "png"
-                ]
-            },
-            {
-                "name": "sponsors-standard_2",
-                "title": "Sponsorzy Standard, 2 graczy",
-                "allowedTypes": [
-                    "png"
-                ]
-            },
-            {
-                "name": "sponsors-break",
-                "title": "Sponsorzy Przerwa",
+                "name": "sponsors",
+                "title": "Loga sponsorów",
                 "allowedTypes": [
                     "png"
                 ]

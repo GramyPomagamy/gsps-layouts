@@ -41,8 +41,6 @@ class FoobarControl {
     }
 
     async getSong(): Promise<string> {
-        let song: string = 'Brak piosenki';
-
         const playerInfo: any = await axios.get(
             `${this.address}/api/player?columns=${encodeURIComponent(
                 '%artist%,%title%'
