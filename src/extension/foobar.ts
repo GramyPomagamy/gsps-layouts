@@ -40,27 +40,23 @@ class FoobarControl {
         });
     }
 
-    getSong(): string {
+    async getSong(): Promise<string> {
         let song: string = 'Brak piosenki';
 
-        axios({
-            method: 'GET',
-            url: `${this.address}/api/player?columns=${encodeURIComponent(
+        const playerInfo: any = await axios.get(
+            `${this.address}/api/player?columns=${encodeURIComponent(
                 '%artist%,%title%'
-            )}`,
-            responseType: 'json',
-            headers: {
-                Accept: 'application/json',
-            },
-        })
-            .then((response: any) => {
-                song = `${response.data.player.activeItem.columns[0]} - ${response.data.player.activeItem.columns[1]}`;
-            })
-            .catch((err) => {
-                log.error(`Błąd w otrzymywaniu piosenki od foobara: ${err}`);
-            });
+            )}`
+        );
 
-        return song;
+        if (
+            playerInfo.data.player.activeItem.columns[0] &&
+            playerInfo.data.player.activeItem.columns[1]
+        ) {
+            return `${playerInfo.data.player.activeItem.columns[0]} - ${playerInfo.data.player.activeItem.columns[1]}`;
+        } else {
+            return 'Brak piosenki';
+        }
     }
 }
 

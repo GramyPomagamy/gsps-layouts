@@ -1,6 +1,6 @@
 <template>
     <div id="container">
-        <img id="Logo" src="../img/Logo_GSPS_2021.png" />
+        <img id="Logo" src="../img/GSPS_Dzieciom_2022.png" />
         <img id="Background" src="../img/bg.png" />
         <div id="Countdown">
             <p id="CountdownTitle">ZACZYNAMY ZA</p>

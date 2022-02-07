@@ -8,9 +8,9 @@ import FoobarControl from './foobar';
 const config = (nodecg().bundleConfig as Configschema).foobar;
 const foobar = new FoobarControl(config.address);
 
-function GetSong() {
+async function GetSong() {
     if (config.enabled) {
-        songReplicant.value = foobar.getSong();
+        songReplicant.value = await foobar.getSong();
     }
 }
 
