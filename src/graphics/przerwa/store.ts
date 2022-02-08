@@ -40,7 +40,7 @@ class OurModule extends VuexModule {
     }
 
     get sponsors(): Asset[] {
-        return this.reps.sponsors;
+        return this.reps.sponsors_break;
     }
 }
 

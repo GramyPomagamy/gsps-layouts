@@ -209,6 +209,13 @@
                 "allowedTypes": [
                     "png"
                 ]
+            },
+            {
+                "name": "sponsors-break",
+                "title": "Loga sponsorów (przerwa)",
+                "allowedTypes": [
+                    "png"
+                ]
             }
         ]
     }
