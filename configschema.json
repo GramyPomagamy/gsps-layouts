@@ -37,10 +37,20 @@
                 "password": {
                     "type": "string",
                     "default": ""
+                },
+                "scenes": {
+                    "type": "object",
+                    "properties": {
+                        "intermission": {
+                            "type": "string",
+                            "default": "Przerwa [M]"
+                        }
+                    },
+                    "required": ["intermission"]
                 }
             },
             "description": "Info needed to use OBS websockets.",
-            "required": ["enabled", "address", "password"]
+            "required": ["enabled", "address", "password", "scenes"]
         },
         "foobar": {
             "type": ["object"],

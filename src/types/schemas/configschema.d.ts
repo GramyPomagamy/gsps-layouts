@@ -23,6 +23,10 @@ export interface Configschema {
         enabled: boolean;
         address: string;
         password: string;
+        scenes: {
+            intermission: string;
+            [k: string]: unknown;
+        };
         [k: string]: unknown;
     };
     /**

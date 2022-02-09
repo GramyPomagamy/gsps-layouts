@@ -158,6 +158,13 @@
                 "file": "obs-status.html",
                 "width": 3,
                 "workspace": "OBS"
+            },
+            {
+                "name": "obs-panel",
+                "title": "Zmiana na przerwę",
+                "file": "obs-panel.html",
+                "width": 3,
+                "workspace": "OBS"
             }
         ],
         "graphics": [

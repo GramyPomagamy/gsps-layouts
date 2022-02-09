@@ -1,5 +1,6 @@
 import type { NodeCG } from 'nodecg/types/server';
 import OBSWebSocket from 'obs-websocket-js';
+import FoobarControl from './foobar';
 import { Configschema } from '@gsps-layouts/types/schemas';
 import { get as nodecg } from './util/nodecg';
 import { obsDataReplicant } from './util/replicants';
@@ -7,6 +8,7 @@ import { obsDataReplicant } from './util/replicants';
 const obs = new OBSWebSocket();
 const config = (nodecg().bundleConfig as Configschema).obs;
 const foobarConfig = (nodecg().bundleConfig as Configschema).foobar;
+const foobar = new FoobarControl(foobarConfig.address);
 const log = new (nodecg() as NodeCG).Logger(`${nodecg().bundleName}:OBS`);
 let reconnectTimeout: NodeJS.Timeout;
 
@@ -16,7 +18,7 @@ if (config.enabled) {
     obs.connect({ address: config.address, password: config.password }).catch(
         (err) => {
             log.error(`Nie udało się połączyć z OBSem! Powód: ${err.error}`);
-            setTimeout(reconnectToOBS, 5000);
+            reconnectTimeout = setTimeout(reconnectToOBS, 5000);
         }
     );
 }
@@ -34,6 +36,24 @@ function reconnectToOBS() {
         });
     }
 }
+
+function switchToIntermission() {
+    obs.send('SetCurrentScene', { 'scene-name': config.scenes.intermission });
+    setTimeout(() => {
+        nodecg().sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
+    }, 1000);
+}
+
+obs.on('SwitchScenes', (data) => {
+    if (obsDataReplicant.value.scene != data['scene-name']) {
+        if (data['scene-name'].includes('[M]')) {
+            foobar.unmute();
+        } else {
+            foobar.mute();
+        }
+        obsDataReplicant.value.scene = data['scene-name'];
+    }
+});
 
 obs.on('StreamStarted', () => {
     obsDataReplicant.value.streaming = true;
@@ -63,3 +83,5 @@ obs.on('ConnectionClosed', () => {
     setTimeout(reconnectToOBS, 5000);
     obsDataReplicant.value.connected = false;
 });
+
+nodecg().listenFor('switchToIntermission', switchToIntermission);

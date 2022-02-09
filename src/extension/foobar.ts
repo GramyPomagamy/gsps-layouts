@@ -18,7 +18,7 @@ class FoobarControl {
                 Accept: 'application/json',
             },
         }).catch((error) => {
-            log.error('Błąd przy odciszaniu foobara: ' + error.message);
+            log.error('Błąd przy (od)pauzowaniu foobara: ' + error.message);
         });
     }
 
@@ -41,6 +41,8 @@ class FoobarControl {
             headers: {
                 Accept: 'application/json',
             },
+        }).catch((error) => {
+            log.error('Błąd przy odciszaniu foobara: ' + error.message);
         });
     }
 
