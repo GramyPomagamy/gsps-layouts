@@ -26,7 +26,7 @@
 
     export default {
         name: 'RunInfo',
-        props: ['run', 'maxTitleSize'],
+        props: ['run', 'maxTitleSize', 'wrap'],
         data() {
             return {
                 $_fittyGame: undefined,
@@ -47,6 +47,7 @@
                 this.$data.$_fittyGame = fitty('#GameName', {
                     minSize: 1,
                     maxSize: this.maxTitleSize,
+                    multiLine: this.wrap || false
                 });
                 this.$data.$_fittyInfo = fitty('#GameInfo', {
                     minSize: 1,

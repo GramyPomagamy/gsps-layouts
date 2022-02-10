@@ -126,39 +126,33 @@
         }
 
         get team1Placement() {
-            if (this.timer.teamFinishTimes[this.activeRun.teams[1].id]) {
-                if (
-                    this.timer.teamFinishTimes[this.activeRun.teams[0].id]
-                        .milliseconds -
-                        this.timer.teamFinishTimes[this.activeRun.teams[1].id]
-                            .milliseconds <
-                    0
-                ) {
-                    return 1;
-                } else {
-                    return 2;
-                }
-            } else {
-                return 1;
+            let place = 1;
+            if (this.placements.length > 0) {
+                this.placements.forEach((placement) => {
+                    if (placement.object[0] === this.activeRun.teams[0].id) {
+                        place = placement.place;
+                    }
+                });
             }
+            return place;
         }
 
         get team2Placement() {
-            if (this.timer.teamFinishTimes[this.activeRun.teams[0].id]) {
-                if (
-                    this.timer.teamFinishTimes[this.activeRun.teams[1].id]
-                        .milliseconds -
-                        this.timer.teamFinishTimes[this.activeRun.teams[0].id]
-                            .milliseconds <
-                    0
-                ) {
-                    return 1;
-                } else {
-                    return 2;
-                }
-            } else {
-                return 1;
+            let place = 1;
+            if (this.placements.length > 0) {
+                this.placements.forEach((placement) => {
+                    if (placement.object[0] === this.activeRun.teams[1].id) {
+                        place = placement.place;
+                    }
+                });
             }
+            return place;
+        }
+
+        get placements() {
+            return Object.entries(this.timer.teamFinishTimes)
+                .sort(([, a], [, b]) => a.milliseconds - b.milliseconds)
+                .map((p, i) => ({ object: p, place: i + 1 }));
         }
 
         mounted() {
