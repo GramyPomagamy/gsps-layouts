@@ -165,6 +165,13 @@
                 "file": "obs-panel.html",
                 "width": 3,
                 "workspace": "OBS"
+            },
+            {
+                "name": "sponsors",
+                "title": "Loga sponsorów (główny layout)",
+                "file": "sponsors.html",
+                "width": 4,
+                "workspace": "Loga sponsorów"
             }
         ],
         "graphics": [

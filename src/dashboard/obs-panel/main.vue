@@ -1,6 +1,10 @@
 <template>
     <v-app>
-        <v-btn block :disabled="disableChange || !nextRun" @click="playNextRun">
+        <v-btn
+            block
+            :disabled="disableChange || !nextRun || !obsData.connected"
+            @click="playNextRun"
+        >
             <span v-if="nextRun">
                 <v-icon left>mdi-play</v-icon>{{ nextRunGameName }}
             </span>

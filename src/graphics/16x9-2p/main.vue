@@ -186,14 +186,11 @@
 <style>
     @import url('../css/styles.css');
 
-    html {
+    #container {
+        text-align: center;
         display: block;
         width: 1920px;
         height: 1014px;
-    }
-
-    #container {
-        text-align: center;
     }
 
     #Background {

@@ -47,7 +47,7 @@
                 this.$data.$_fittyGame = fitty('#GameName', {
                     minSize: 1,
                     maxSize: this.maxTitleSize,
-                    multiLine: this.wrap || false
+                    multiLine: this.wrap || false,
                 });
                 this.$data.$_fittyInfo = fitty('#GameInfo', {
                     minSize: 1,
