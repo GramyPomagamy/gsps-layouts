@@ -6,7 +6,7 @@ const router = nodecg().Router();
 const config = (nodecg().bundleConfig as Configschema).footpedal;
 const log = new (nodecg() as NodeCG).Logger(`${nodecg().bundleName}:footpedal`);
 
-router.get('/makeHighlight', (req, res) => {
+router.get('/makeHighlight', (req: any, res: any) => {
   if (config.enabled) {
     res.send('OK!');
     nodecg().sendMessage('makeHighlight');
@@ -16,7 +16,7 @@ router.get('/makeHighlight', (req, res) => {
   }
 });
 
-router.get('/switchToIntermission', (req, res) => {
+router.get('/switchToIntermission', (req: any, res: any) => {
   if (config.enabled) {
     res.send('OK!');
     nodecg().sendMessage('switchToIntermission');
