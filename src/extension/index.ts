@@ -24,4 +24,5 @@ export = (nodecg: NodeCG): void => {
   require('./nowplaying');
   require('./obs');
   require('./highlighter');
+  require('./footpedal');
 };

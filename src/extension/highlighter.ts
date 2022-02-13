@@ -52,9 +52,9 @@ function getCurrentGame() {
 }
 
 function formatTime(timestamp: number) {
-	const raw = new Date(timestamp);
-	const formatted = raw.toISOString();
-	return formatted;
+  const raw = new Date(timestamp);
+  const formatted = raw.toISOString();
+  return formatted;
 }
 
 nodecg().listenFor('makeHighlight', makeHighlight);

@@ -6,41 +6,45 @@
  */
 
 export interface Configschema {
-	donationSocketUrl?: string;
-	/**
-	 * Login information for the private areas of the tracker API.
-	 */
-	tracker: {
-		username: string;
-		password: string;
-		[k: string]: unknown;
-	} | null;
-	google: {
-		enabled: boolean;
-		spreadsheetId: string;
-		service_email: string;
-		private_key: string;
-		[k: string]: unknown;
-	};
-	/**
-	 * Info needed to use OBS websockets.
-	 */
-	obs: {
-		enabled: boolean;
-		address: string;
-		password: string;
-		scenes: {
-			intermission: string;
-			[k: string]: unknown;
-		};
-		[k: string]: unknown;
-	};
-	/**
-	 * Info needed to control foobar2000.
-	 */
-	foobar: {
-		enabled: boolean;
-		address: string;
-		[k: string]: unknown;
-	};
+  donationSocketUrl?: string;
+  /**
+   * Login information for the private areas of the tracker API.
+   */
+  tracker: {
+    username: string;
+    password: string;
+    [k: string]: unknown;
+  } | null;
+  google: {
+    enabled: boolean;
+    spreadsheetId: string;
+    service_email: string;
+    private_key: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Info needed to use OBS websockets.
+   */
+  obs: {
+    enabled: boolean;
+    address: string;
+    password: string;
+    scenes: {
+      intermission: string;
+      [k: string]: unknown;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Info needed to control foobar2000.
+   */
+  foobar: {
+    enabled: boolean;
+    address: string;
+    [k: string]: unknown;
+  };
+  footpedal: {
+    enabled: boolean;
+    [k: string]: unknown;
+  };
 }

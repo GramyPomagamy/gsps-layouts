@@ -81,7 +81,17 @@
       },
       "description": "Info needed to control foobar2000.",
       "required": ["enabled", "address"]
+    },
+    "footpedal": {
+      "type": ["object"],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": ["enabled"]
     }
   },
-  "required": ["obs", "foobar", "tracker", "google"]
+  "required": ["obs", "foobar", "tracker", "google", "footpedal"]
 }
