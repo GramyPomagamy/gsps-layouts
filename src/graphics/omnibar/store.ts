@@ -1,7 +1,7 @@
 import {
-    replicantModule,
-    ReplicantModule,
-    ReplicantTypes,
+  replicantModule,
+  ReplicantModule,
+  ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store';
 import { Countdown } from '@gsps-layouts/types/schemas';
 import clone from 'clone';
@@ -13,16 +13,16 @@ Vue.use(Vuex);
 
 @Module({ name: 'OurModule' })
 class OurModule extends VuexModule {
-    // Helper getter to return all replicants.
-    get reps(): ReplicantTypes {
-        return this.context.rootState.ReplicantModule.reps;
-    }
+  // Helper getter to return all replicants.
+  get reps(): ReplicantTypes {
+    return this.context.rootState.ReplicantModule.reps;
+  }
 }
 
 const store = new Store({
-    strict: process.env.NODE_ENV !== 'production',
-    state: {},
-    modules: { ReplicantModule, OurModule },
+  strict: process.env.NODE_ENV !== 'production',
+  state: {},
+  modules: { ReplicantModule, OurModule },
 });
 export default store;
 export const storeModule = getModule(OurModule, store);

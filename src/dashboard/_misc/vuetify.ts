@@ -7,7 +7,7 @@ import './fonts/roboto.css';
 Vue.use(Vuetify);
 
 export default new Vuetify({
-    theme: {
-        dark: true,
-    },
+  theme: {
+    dark: true,
+  },
 });

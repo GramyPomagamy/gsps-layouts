@@ -14,74 +14,74 @@ let reconnectTimeout: NodeJS.Timeout;
 
 // Connect to OBS
 if (config.enabled) {
-    log.info('Próbuję się połączyć z OBSem...');
-    obs.connect({ address: config.address, password: config.password }).catch(
-        (err) => {
-            log.error(`Nie udało się połączyć z OBSem! Powód: ${err.error}`);
-            reconnectTimeout = setTimeout(reconnectToOBS, 5000);
-        }
-    );
+  log.info('Próbuję się połączyć z OBSem...');
+  obs
+    .connect({ address: config.address, password: config.password })
+    .catch((err) => {
+      log.error(`Nie udało się połączyć z OBSem! Powód: ${err.error}`);
+    });
 }
 
 function reconnectToOBS() {
-    clearTimeout(reconnectTimeout);
-    if (!obsDataReplicant.value.connected && config.enabled) {
-        log.info('Próbuję się połączyć z OBSem...');
-        obs.connect({
-            address: config.address,
-            password: config.password,
-        }).catch((err) => {
-            log.error(`Nie udało się połączyć z OBSem! Powód: ${err.error}`);
-            reconnectTimeout = setTimeout(reconnectToOBS, 5000);
-        });
-    }
+  clearTimeout(reconnectTimeout);
+  if (!obsDataReplicant.value.connected && config.enabled) {
+    log.info('Próbuję się połączyć z OBSem...');
+    obs
+      .connect({
+        address: config.address,
+        password: config.password,
+      })
+      .catch((err) => {
+        log.error(`Nie udało się połączyć z OBSem! Powód: ${err.error}`);
+        reconnectTimeout = setTimeout(reconnectToOBS, 5000);
+      });
+  }
 }
 
 function switchToIntermission() {
-    obs.send('SetCurrentScene', { 'scene-name': config.scenes.intermission });
-    setTimeout(() => {
-        nodecg().sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
-    }, 1000);
+  obs.send('SetCurrentScene', { 'scene-name': config.scenes.intermission });
+  obs.send('EnableStudioMode');
+  setTimeout(() => {
+    nodecg().sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
+  }, 1000);
 }
 
 obs.on('SwitchScenes', (data) => {
-    if (obsDataReplicant.value.scene != data['scene-name']) {
-        if (data['scene-name'].includes('[M]')) {
-            foobar.unmute();
-        } else {
-            foobar.mute();
-        }
-        obsDataReplicant.value.scene = data['scene-name'];
+  if (obsDataReplicant.value.scene != data['scene-name']) {
+    if (data['scene-name'].includes('[M]')) {
+      foobar.unmute();
+    } else {
+      foobar.mute();
     }
+    obsDataReplicant.value.scene = data['scene-name'];
+  }
 });
 
 obs.on('StreamStarted', () => {
-    obsDataReplicant.value.streaming = true;
+  obsDataReplicant.value.streaming = true;
 });
 
 obs.on('StreamStopped', () => {
-    obsDataReplicant.value.streaming = false;
+  obsDataReplicant.value.streaming = false;
 });
 
 obs.on('RecordingStarted', () => {
-    obsDataReplicant.value.recording = true;
+  obsDataReplicant.value.recording = true;
 });
 
 obs.on('RecordingStopped', () => {
-    obsDataReplicant.value.recording = false;
+  obsDataReplicant.value.recording = false;
 });
 
 obs.on('ConnectionOpened', () => {
-    log.info('Połączono z OBSem!');
-    obsDataReplicant.value.connected = true;
+  log.info('Połączono z OBSem!');
+  obsDataReplicant.value.connected = true;
 });
 
 obs.on('ConnectionClosed', () => {
-    log.info(
-        'Rozłączono z OBSem! Próbuję połączyć się ponownie za 5 sekund...'
-    );
-    setTimeout(reconnectToOBS, 5000);
-    obsDataReplicant.value.connected = false;
+  log.info('Rozłączono z OBSem! Próbuję połączyć się ponownie za 5 sekund...');
+  setTimeout(reconnectToOBS, 5000);
+  obsDataReplicant.value.connected = false;
 });
 
 nodecg().listenFor('switchToIntermission', switchToIntermission);

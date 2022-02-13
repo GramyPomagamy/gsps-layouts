@@ -6,7 +6,7 @@
  */
 
 export type LogoCycles = {
-    name: string;
-    cycle: number;
-    [k: string]: unknown;
+  name: string;
+  cycle: number;
+  [k: string]: unknown;
 }[];

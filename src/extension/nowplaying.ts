@@ -9,9 +9,9 @@ const config = (nodecg().bundleConfig as Configschema).foobar;
 const foobar = new FoobarControl(config.address);
 
 async function GetSong() {
-    if (config.enabled) {
-        songReplicant.value = await foobar.getSong();
-    }
+  if (config.enabled) {
+    songReplicant.value = await foobar.getSong();
+  }
 }
 
-setInterval(GetSong, 1000);
+setInterval(GetSong, 3000);

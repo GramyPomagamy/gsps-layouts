@@ -6,7 +6,7 @@
  */
 
 export interface Total {
-    raw?: number;
-    formatted?: string;
-    [k: string]: unknown;
+	raw?: number;
+	formatted?: string;
+	[k: string]: unknown;
 }

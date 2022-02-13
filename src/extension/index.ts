@@ -4,23 +4,24 @@
 /* eslint-disable import/first */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('module-alias').addAlias(
-    '@gsps-layouts',
-    require('path').join(__dirname, '.')
+  '@gsps-layouts',
+  require('path').join(__dirname, '.')
 );
 
 import type { NodeCG } from 'nodecg/types/server';
 import { set } from './util/nodecg';
 
 export = (nodecg: NodeCG): void => {
-    /**
-     * Because of how `import`s work, it helps to use `require`s to force
-     * things to be loaded *after* the NodeCG context is set.
-     */
-    set(nodecg);
-    require('./countdown');
-    require('./total');
-    require('./bids');
-    require('./layouts');
-    require('./nowplaying');
-    require('./obs');
+  /**
+   * Because of how `import`s work, it helps to use `require`s to force
+   * things to be loaded *after* the NodeCG context is set.
+   */
+  set(nodecg);
+  require('./countdown');
+  require('./total');
+  require('./bids');
+  require('./layouts');
+  require('./nowplaying');
+  require('./obs');
+  require('./highlighter');
 };

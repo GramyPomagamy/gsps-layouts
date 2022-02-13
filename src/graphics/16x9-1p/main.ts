@@ -8,9 +8,9 @@ import App from './main.vue';
 import store from './store';
 
 setUpReplicants(store).then(() => {
-    new Vue({
-        store,
-        el: '#App',
-        render: (h) => h(App),
-    });
+  new Vue({
+    store,
+    el: '#App',
+    render: (h) => h(App),
+  });
 });

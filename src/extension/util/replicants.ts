@@ -1,12 +1,16 @@
 /* eslint-disable max-len */
 
 import {
-    Total,
-    AutoUpdateTotal,
-    NameCycle,
-    Song,
-    ObsData,
+  Total,
+  AutoUpdateTotal,
+  NameCycle,
+  Song,
+  ObsData,
 } from '@gsps-layouts/types/schemas';
+import type {
+  RunDataActiveRun,
+  Timer,
+} from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
 import { get as nodecg } from './nodecg';
 
 /**
@@ -15,9 +19,17 @@ import { get as nodecg } from './nodecg';
  */
 export const totalReplicant = nodecg().Replicant<Total>('total');
 export const autoUpdateTotalReplicant =
-    nodecg().Replicant<AutoUpdateTotal>('autoUpdateTotal');
+  nodecg().Replicant<AutoUpdateTotal>('autoUpdateTotal');
 export const nameCycleReplicant = nodecg().Replicant<NameCycle>('nameCycle');
 export const songReplicant = nodecg().Replicant<Song>('song');
 export const obsDataReplicant = nodecg().Replicant<ObsData>('obsData', {
-    persistent: false,
+  persistent: false,
 });
+export const timerReplicant = nodecg().Replicant<Timer>(
+  'timer',
+  'nodecg-speedcontrol'
+);
+export const activeRunReplicant = nodecg().Replicant<RunDataActiveRun>(
+  'runDataActiveRun',
+  'nodecg-speedcontrol'
+);

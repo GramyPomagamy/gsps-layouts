@@ -1,16 +1,16 @@
 import {
-    replicantModule,
-    ReplicantModule,
-    ReplicantTypes,
+  replicantModule,
+  ReplicantModule,
+  ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store';
 import type {
-    RunDataActiveRun,
-    Timer,
+  RunDataActiveRun,
+  Timer,
 } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
 import type {
-    NameCycle,
-    Commentators,
-    Reader,
+  NameCycle,
+  Commentators,
+  Reader,
 } from '@gsps-layouts/types/schemas';
 import type { Asset } from '@gsps-layouts/types';
 import clone from 'clone';
@@ -22,40 +22,40 @@ Vue.use(Vuex);
 
 @Module({ name: 'OurModule' })
 class OurModule extends VuexModule {
-    // Helper getter to return all replicants.
-    get reps(): ReplicantTypes {
-        return this.context.rootState.ReplicantModule.reps;
-    }
+  // Helper getter to return all replicants.
+  get reps(): ReplicantTypes {
+    return this.context.rootState.ReplicantModule.reps;
+  }
 
-    get activeRun(): RunDataActiveRun {
-        return this.reps.activeRunReplicant;
-    }
+  get activeRun(): RunDataActiveRun {
+    return this.reps.activeRunReplicant;
+  }
 
-    get nameCycle(): NameCycle {
-        return this.reps.nameCycleReplicant;
-    }
+  get nameCycle(): NameCycle {
+    return this.reps.nameCycleReplicant;
+  }
 
-    get commentators(): Commentators {
-        return this.reps.commentatorsReplicant;
-    }
+  get commentators(): Commentators {
+    return this.reps.commentatorsReplicant;
+  }
 
-    get reader(): Reader {
-        return this.reps.readerReplicant;
-    }
+  get reader(): Reader {
+    return this.reps.readerReplicant;
+  }
 
-    get sponsors(): Asset[] {
-        return this.reps.sponsors;
-    }
+  get sponsors(): Asset[] {
+    return this.reps.sponsors;
+  }
 
-    get timer(): Timer {
-        return this.reps.timerReplicant;
-    }
+  get timer(): Timer {
+    return this.reps.timerReplicant;
+  }
 }
 
 const store = new Store({
-    strict: process.env.NODE_ENV !== 'production',
-    state: {},
-    modules: { ReplicantModule, OurModule },
+  strict: process.env.NODE_ENV !== 'production',
+  state: {},
+  modules: { ReplicantModule, OurModule },
 });
 export default store;
 export const storeModule = getModule(OurModule, store);

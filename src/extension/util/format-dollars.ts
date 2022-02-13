@@ -7,10 +7,10 @@
  * @returns {string} - The formatted string.
  */
 export function formatDollars(amount: Number, { cents = true } = {}) {
-    const fractionDigits = cents ? 2 : 0;
-    return (
-        parseFloat(amount as unknown as string).toLocaleString('en-US', {
-            maximumFractionDigits: 0,
-        }) + ' PLN'
-    );
+  const fractionDigits = cents ? 2 : 0;
+  return (
+    parseFloat(amount as unknown as string).toLocaleString('en-US', {
+      maximumFractionDigits: 0,
+    }) + ' PLN'
+  );
 }
