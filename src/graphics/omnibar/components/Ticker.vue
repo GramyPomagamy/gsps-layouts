@@ -14,7 +14,7 @@
 <script>
   import TickerGenericMessage from './Ticker/GenericMessage.vue';
   import TickerBidGoal from './Ticker/BidGoal.vue';
-  import TickerBidWar1v1 from './Ticker/BidWar1v1.vue';
+  import TickerBidWar from './Ticker/BidWar.vue';
   import TickerNextRuns from './Ticker/NextRuns.vue';
   const bids = nodecg.Replicant('currentBids');
   const runs = nodecg.Replicant('runDataArray', 'nodecg-speedcontrol');
@@ -35,14 +35,14 @@
     mounted() {
       NodeCG.waitForReplicants(bids, runs, activeRun).then(() => {
         this.messageTypes = [
-          /*                     this.gspsPromo(),
-                    this.charityPromo(),
-                    this.donationURL(), */
+/*           this.gspsPromo(),
+          this.charityPromo(),
+          this.donationURL(),
           this.bidGoal(),
-          /*                     this.bidGoal(), */
-          /*                     this.bidWar1v1(),
-                    this.bidWar1v1(), */
-          /*                     this.nextRuns(), */
+          this.bidGoal(), */
+          this.bidWar(),
+          this.bidWar(),
+/*           this.nextRuns(), */
         ];
 
         this.showNextMsg();
@@ -91,9 +91,9 @@
         };
       },
 
-      bidWar1v1() {
+      bidWar() {
         return {
-          name: TickerBidWar1v1,
+          name: TickerBidWar,
         };
       },
 

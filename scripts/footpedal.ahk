@@ -3,7 +3,7 @@ F13::
 Return
 
 F14::
-    HttpGet("http://localhost:9090/switchToIntermission")
+    HttpGet("http://localhost:9090/switchFromHostScreen")
 Return
 
 

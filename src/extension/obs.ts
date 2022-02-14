@@ -46,6 +46,10 @@ function switchToIntermission() {
   }, 1000);
 }
 
+function switchFromHostScreen() {
+  obs.send('SetCurrentScene', { 'scene-name': config.scenes.intermission });
+}
+
 obs.on('SwitchScenes', (data) => {
   if (obsDataReplicant.value.scene != data['scene-name']) {
     if (data['scene-name'].includes('[M]')) {
@@ -85,3 +89,4 @@ obs.on('ConnectionClosed', () => {
 });
 
 nodecg().listenFor('switchToIntermission', switchToIntermission);
+nodecg().listenFor('switchFromHostScreen', switchFromHostScreen);

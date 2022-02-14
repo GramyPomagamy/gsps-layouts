@@ -195,6 +195,11 @@
                 "height": 1080
             },
             {
+                "file": "video.html",
+                "width": 1920,
+                "height": 1014
+            },
+            {
                 "file": "omnibar.html",
                 "width": 1920,
                 "height": 66

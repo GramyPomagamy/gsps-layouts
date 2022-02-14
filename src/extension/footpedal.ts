@@ -16,10 +16,10 @@ router.get('/makeHighlight', (req: any, res: any) => {
   }
 });
 
-router.get('/switchToIntermission', (req: any, res: any) => {
+router.get('/switchFromHostScreen', (req: any, res: any) => {
   if (config.enabled) {
     res.send('OK!');
-    nodecg().sendMessage('switchToIntermission');
+    nodecg().sendMessage('switchFromHostScreen');
   } else {
     res.send('Przełącznik jest wyłączony w konfiguracji');
     log.info('Przełącznik jest wyłączony w konfiguracji');
