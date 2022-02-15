@@ -2,7 +2,7 @@
   <div id="War">
     <ticker-label :label="'LICYTACJE <br/> WYBORY'" />
     <transition name="fade" mode="out-in">
-      <div id="bid" :key="currentBid.public">
+      <div id="bid" v-if="currentBid" :key="currentBid.public">
         <div id="bid-label">
           <p>
             {{ currentBid.game }} <br />
@@ -79,6 +79,7 @@
         let nextIdx = currentIdx + 1;
         if (nextIdx >= this.bids.length) {
           this.$emit('end');
+          console.log('BidWar: ended');
         }
         this.currentBid = this.bids[nextIdx];
         setTimeout(() => {

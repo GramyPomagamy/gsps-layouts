@@ -28,6 +28,7 @@
           name: '',
           data: {},
         },
+        currentComponentIndex: 0,
         timestamp: Date.now(),
         messageTypes: [],
       };
@@ -35,38 +36,37 @@
     mounted() {
       NodeCG.waitForReplicants(bids, runs, activeRun).then(() => {
         this.messageTypes = [
-/*           this.gspsPromo(),
+          this.gspsPromo(),
           this.charityPromo(),
           this.donationURL(),
+          this.nextRuns(),
           this.bidGoal(),
-          this.bidGoal(), */
           this.bidWar(),
-          this.bidWar(),
-/*           this.nextRuns(), */
         ];
 
-        this.showNextMsg();
+        this.currentComponent = this.messageTypes[0];
       });
     },
     methods: {
       showNextMsg() {
         console.log('SHOWING NEXT MESSAGE');
-        this.currentComponent =
-          this.$data.messageTypes[
-            Math.floor(Math.random() * this.$data.messageTypes.length)
-          ];
+        this.currentComponentIndex += 1;
+        if (this.currentComponentIndex >= this.messageTypes.length) {
+          this.currentComponentIndex = 0;
+        }
+        this.currentComponent = this.messageTypes[this.currentComponentIndex];
         this.timestamp = Date.now();
       },
 
       gspsPromo() {
         return this.genericMsg(
-          'Oglądacie&nbsp;<b style="color: #ffbd16">Gramy Szybko, Pomagamy Skutecznie 2021</b>!'
+          'Oglądacie&nbsp;<b style="color: #ffbd16">Gramy Szybko, Pomagamy Skutecznie Dzieciom 2022</b>!'
         );
       },
 
       charityPromo() {
         return this.genericMsg(
-          '<b>Gramy Szybko, Pomagamy Skutecznie 2021</b>&nbsp;wspiera&nbsp;<b style="color: #ffbd16">Fundację ITAKA</b>!'
+          '<b>GSPS Dzieciom 2022</b>&nbsp;wspiera&nbsp;<b style="color: #ffbd16">Fundację Na Ratunek Dzieciom z Chorobą Nowotworową</b>!'
         );
       },
 
@@ -86,15 +86,23 @@
       },
 
       bidGoal() {
-        return {
-          name: TickerBidGoal,
-        };
+        if (bids.value.filter((bid) => bid.type === 'challenge').length > 0) {
+          return {
+            name: TickerBidGoal,
+          };
+        } else {
+          this.showNextMsg();
+        }
       },
 
       bidWar() {
-        return {
-          name: TickerBidWar,
-        };
+        if (bids.value.filter((bid) => bid.type != 'challenge').length > 0) {
+          return {
+            name: TickerBidWar,
+          };
+        } else {
+          this.showNextMsg();
+        }
       },
 
       nextRuns() {
