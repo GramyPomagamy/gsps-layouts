@@ -39,6 +39,7 @@
     white-space: nowrap;
     overflow: hidden;
     min-width: 110px;
+    flex-shrink: 0;
   }
 
   #label-text {
