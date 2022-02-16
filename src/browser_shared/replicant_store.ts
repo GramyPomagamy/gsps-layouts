@@ -9,6 +9,7 @@ import type {
   Bids,
   Song,
   ObsData,
+  DonationsToRead,
 } from '@gsps-layouts/types/schemas';
 import type { Asset } from '@gsps-layouts/types';
 import type {
@@ -48,6 +49,7 @@ export const reps: {
   currentSong: ReplicantBrowser<Song>;
   obsData: ReplicantBrowser<ObsData>;
   runDataActiveSurrounding: ReplicantBrowser<RunDataActiveRunSurrounding>;
+  donationsToRead: ReplicantBrowser<DonationsToRead>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
   totalReplicant: nodecg.Replicant('total'),
@@ -75,6 +77,7 @@ export const reps: {
     'runDataActiveRunSurrounding',
     'nodecg-speedcontrol'
   ),
+  donationsToRead: nodecg.Replicant('donationsToRead'),
 };
 
 // All the replicant types.
@@ -96,6 +99,7 @@ export interface ReplicantTypes {
   currentSong: Song;
   obsData: ObsData;
   runDataActiveSurrounding: RunDataActiveRunSurrounding;
+  donationsToRead: DonationsToRead;
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })

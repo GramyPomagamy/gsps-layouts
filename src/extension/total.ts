@@ -7,12 +7,13 @@ import { formatDollars } from './util/format-dollars';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import io from 'socket.io-client';
 
-const TOTAL_URL = 'https://gsps.pl/donacje/18?json';
 const totalLog = new (nodecg() as NodeCG).Logger(
   `${nodecg().bundleName}:total`
 );
+const eventID = (nodecg().bundleConfig as Configschema).tracker?.eventID;
 const donationSocketUrl = (nodecg().bundleConfig as Configschema)
   .donationSocketUrl;
+const TOTAL_URL = `https://gsps.pl/donacje/${eventID}?json`;
 
 autoUpdateTotalReplicant.on('change', (newVal) => {
   if (newVal) {

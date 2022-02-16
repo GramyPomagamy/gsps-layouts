@@ -4,6 +4,7 @@ export * from './bids';
 export * from './commentators';
 export * from './countdown';
 export * from './countdownRunning';
+export * from './donationsToRead';
 export * from './nameCycle';
 export * from './obsData';
 export * from './reader';

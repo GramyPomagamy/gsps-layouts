@@ -6,6 +6,7 @@ import {
   NameCycle,
   Song,
   ObsData,
+  DonationsToRead,
 } from '@gsps-layouts/types/schemas';
 import type {
   RunDataActiveRun,
@@ -33,3 +34,5 @@ export const activeRunReplicant = nodecg().Replicant<RunDataActiveRun>(
   'runDataActiveRun',
   'nodecg-speedcontrol'
 );
+export const donationsToReadReplicant =
+  nodecg().Replicant<DonationsToRead>('donationsToRead');

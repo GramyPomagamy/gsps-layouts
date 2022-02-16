@@ -13,6 +13,7 @@ export interface Configschema {
   tracker: {
     username: string;
     password: string;
+    eventID: number;
     [k: string]: unknown;
   } | null;
   google: {

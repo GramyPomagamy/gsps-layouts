@@ -14,10 +14,13 @@
         },
         "password": {
           "type": "string"
+        },
+        "eventID": {
+          "type": "number"
         }
       },
       "description": "Login information for the private areas of the tracker API.",
-      "required": ["username", "password"],
+      "required": ["username", "password", "eventID"],
       "default": null
     },
     "google": {

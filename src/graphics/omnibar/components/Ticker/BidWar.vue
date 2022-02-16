@@ -18,6 +18,7 @@
               class="option"
               :style="{ opacity: 0 }"
               :id="`option${index + 1}`"
+              :key="index"
             />
           </template>
           <template
