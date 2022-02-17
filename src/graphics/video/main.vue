@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <img id="Background" src="../img/layouts/video_bg.png" />
+    <img id="Background" src="../img/layouts/video_bg-min.png" />
 
     <div id="nextRunInfo">
       <div id="nextRunLabel"><b>NADCHODZĄCY RUN</b></div>
