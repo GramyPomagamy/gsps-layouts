@@ -6,6 +6,9 @@
     "donationSocketUrl": {
       "type": "string"
     },
+    "milestonesUrl": {
+      "type": "string"
+    },
     "tracker": {
       "type": ["object", "null"],
       "properties": {
@@ -96,5 +99,5 @@
       "required": ["enabled"]
     }
   },
-  "required": ["obs", "foobar", "tracker", "google", "footpedal"]
+  "required": ["obs", "foobar", "tracker", "google", "footpedal", "milestonesUrl"]
 }

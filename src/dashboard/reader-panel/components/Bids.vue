@@ -2,7 +2,7 @@
   <div>
     <div
       id="bids"
-      style="height: 900px; width: 900px; display: flex; flex-direction: column"
+      style="height: 800px; width: 800px; display: flex; flex-direction: column"
       class="grey darken-4 rounded-lg"
     >
       <h3

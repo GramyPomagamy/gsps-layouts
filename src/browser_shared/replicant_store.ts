@@ -10,6 +10,7 @@ import type {
   Song,
   ObsData,
   DonationsToRead,
+  Hosterka,
 } from '@gsps-layouts/types/schemas';
 import type { Asset } from '@gsps-layouts/types';
 import type {
@@ -50,6 +51,7 @@ export const reps: {
   obsData: ReplicantBrowser<ObsData>;
   runDataActiveSurrounding: ReplicantBrowser<RunDataActiveRunSurrounding>;
   donationsToRead: ReplicantBrowser<DonationsToRead>;
+  hosterkaRep: ReplicantBrowser<Hosterka>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
   totalReplicant: nodecg.Replicant('total'),
@@ -78,6 +80,7 @@ export const reps: {
     'nodecg-speedcontrol'
   ),
   donationsToRead: nodecg.Replicant('donationsToRead'),
+  hosterkaRep: nodecg.Replicant('hosterka'),
 };
 
 // All the replicant types.
@@ -100,6 +103,7 @@ export interface ReplicantTypes {
   obsData: ObsData;
   runDataActiveSurrounding: RunDataActiveRunSurrounding;
   donationsToRead: DonationsToRead;
+  hosterkaRep: Hosterka;
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })

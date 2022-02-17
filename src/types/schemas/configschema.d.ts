@@ -7,6 +7,7 @@
 
 export interface Configschema {
   donationSocketUrl?: string;
+  milestonesUrl: string;
   /**
    * Login information for the private areas of the tracker API.
    */

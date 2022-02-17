@@ -8,6 +8,7 @@ import {
   ObsData,
   DonationsToRead,
 } from '@gsps-layouts/types/schemas';
+import { Milestones } from '@gsps-layouts/types';
 import type {
   RunDataActiveRun,
   Timer,
@@ -36,3 +37,4 @@ export const activeRunReplicant = nodecg().Replicant<RunDataActiveRun>(
 );
 export const donationsToReadReplicant =
   nodecg().Replicant<DonationsToRead>('donationsToRead');
+export const milestonesReplicant = nodecg().Replicant<Milestones>('milestones');

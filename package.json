@@ -133,6 +133,12 @@
                 "width": 2
             },
             {
+                "name": "hosterka",
+                "title": "Hosterka",
+                "file": "hosterka.html",
+                "width": 4
+            },
+            {
                 "name": "countdown",
                 "title": "Odliczanie",
                 "file": "countdown.html",

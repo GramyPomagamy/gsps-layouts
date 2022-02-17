@@ -2,7 +2,7 @@
   <v-app>
     <v-container fluid>
       <div id="host-container">
-        <reader-panel-bids class="panel" :bids="allBids"/>
+        <reader-panel-bids class="panel" :bids="allBids" />
         <reader-panel-total class="panel" :total="total" />
       </div>
     </v-container>
@@ -23,7 +23,7 @@
   @Component({
     components: {
       ReaderPanelTotal,
-      ReaderPanelBids
+      ReaderPanelBids,
     },
   })
   export default class extends Vue {
