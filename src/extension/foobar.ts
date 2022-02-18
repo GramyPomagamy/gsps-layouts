@@ -12,27 +12,27 @@ class FoobarControl {
   }
 
   togglePause() {
-    needle('post', `${this.address}/api/player/pause/toggle`, {
-      json: true,
-    }).catch((error) => {
-      log.error('Błąd przy (od)pauzowaniu foobara: ' + error.message);
-    });
+    needle('post', `${this.address}/api/player/pause/toggle`, {}).catch(
+      (error) => {
+        log.error('Błąd przy (od)pauzowaniu foobara: ' + error.message);
+      }
+    );
   }
 
   mute() {
-    needle('post', `${this.address}/api/player?isMuted=true`, {
-      json: true,
-    }).catch((error) => {
-      log.error('Błąd przy wyciszaniu foobara: ' + error.message);
-    });
+    needle('post', `${this.address}/api/player?isMuted=true`, {}).catch(
+      (error) => {
+        log.error('Błąd przy wyciszaniu foobara: ' + error.message);
+      }
+    );
   }
 
   unmute() {
-    needle('post', `${this.address}/api/player?isMuted=false`, {
-      json: true,
-    }).catch((error) => {
-      log.error('Błąd przy odciszaniu foobara: ' + error.message);
-    });
+    needle('post', `${this.address}/api/player?isMuted=false`, {}).catch(
+      (error) => {
+        log.error('Błąd przy odciszaniu foobara: ' + error.message);
+      }
+    );
   }
 
   async getSong(): Promise<string> {
