@@ -4,16 +4,22 @@
 
     <div id="nextRunInfo">
       <div id="nextRunLabel"><b>NADCHODZĄCY RUN</b></div>
-      <div id="nextRun" v-if="activeRun">{{ activeRun.game }}</div>
+      <video-next-run v-if="activeRun" :run="activeRun" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { Vue } from 'vue-property-decorator';
+  import { Vue, Component } from 'vue-property-decorator';
   import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
   import { Getter } from 'vuex-class';
+  import VideoNextRun from './components/NextRun.vue';
 
+  @Component({
+    components: {
+      VideoNextRun,
+    },
+  })
   export default class extends Vue {
     @Getter readonly activeRun!: RunDataActiveRun;
   }
@@ -49,11 +55,7 @@
     text-align: center;
     color: white;
     font-size: 24px;
-  }
-
-  #nextRun {
-    display: flex;
-    flex-direction: row;
+    margin-bottom: 10px;
   }
 
   html {
