@@ -1,268 +1,273 @@
 {
-    "name": "gsps-layouts",
-    "version": "1.0.0",
-    "description": "Layouts used for the GSPS (Gramy Szybko, Pomagamy Skutecznie) events, based on a template for NodeCG bundles that use Vue.js and TypeScript by zoton2.",
-    "homepage": "https://github.com/GramyPomagamy/gsps-layouts",
-    "bugs": {
-        "url": "https://github.com/GramyPomagamy/gsps-layouts/issues"
+  "name": "gsps-layouts",
+  "version": "1.0.0",
+  "description": "Layouts used for the GSPS (Gramy Szybko, Pomagamy Skutecznie) events, based on a template for NodeCG bundles that use Vue.js and TypeScript by zoton2.",
+  "homepage": "https://github.com/GramyPomagamy/gsps-layouts",
+  "bugs": {
+    "url": "https://github.com/GramyPomagamy/gsps-layouts/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GramyPomagamy/gsps-layouts.git"
+  },
+  "license": "MIT",
+  "author": "GramyPomagamy",
+  "contributors": [
+    "hoxi"
+  ],
+  "scripts": {
+    "autofix": "run-s autofix:*",
+    "autofix:browser": "eslint --fix --ext .ts,.vue src/dashboard && eslint --fix --ext .ts,.vue src/graphics && eslint --fix --ext .ts src/browser_shared",
+    "autofix:extension": "eslint --fix --ext .ts src/extension && eslint --fix --ext .d.ts src/types",
+    "build": "run-s build:*",
+    "build:browser": "cross-env NODE_ENV=production webpack",
+    "build:extension": "tsc -b tsconfig.extension.json",
+    "clean": "trash node_modules/.cache && trash dashboard && trash graphics && trash extension",
+    "prettier": "prettier --write ./src",
+    "schema-types": "nodecg schema-types",
+    "start": "node ../..",
+    "watch": "run-p watch:*",
+    "watch:browser": "webpack -w",
+    "watch:extension": "tsc -b tsconfig.extension.json -w"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "@types/bluebird": "^3.5.36",
+    "@types/deep-equal": "^1.0.1",
+    "@types/events": "^3.0.0",
+    "@types/google-spreadsheet": "^3.1.5",
+    "@types/milliseconds": "^0.0.30",
+    "@types/needle": "^2.5.3",
+    "@types/numeral": "^2.0.1",
+    "@types/request": "^2.48.6",
+    "@types/request-promise": "^4.1.48",
+    "bluebird": "^3.7.2",
+    "deep-equal": "^2.0.5",
+    "events": "^3.3.0",
+    "fitty": "^2.3.5",
+    "google-spreadsheet": "^3.2.0",
+    "gsap": "^3.7.1",
+    "milliseconds": "^1.0.3",
+    "module-alias": "^2.2.2",
+    "needle": "^3.0.0",
+    "numeral": "^2.0.6",
+    "obs-websocket-js": "^4.0.3",
+    "parse-ms": "^2.1.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
+    "socket.io-client": "^4.4.0",
+    "svg.js": "^2.7.1"
+  },
+  "devDependencies": {
+    "@mdi/font": "^6.5.95",
+    "@types/clone": "^2.1.0",
+    "@types/module-alias": "^2.0.0",
+    "@types/node": "^16.11.11",
+    "@types/webpack-env": "^1.16.3",
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/parser": "^5.6.0",
+    "@vue/component-compiler-utils": "^3.3.0",
+    "clone": "^2.1.2",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.5.1",
+    "deepmerge": "^4.2.2",
+    "eslint": "^8.4.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^16.1.0",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-vue": "^8.2.0",
+    "file-loader": "^6.2.0",
+    "fork-ts-checker-webpack-plugin": "^6.5.0",
+    "globby": "^11.0.4",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.4.5",
+    "nodecg-cli": "^8.0.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "2.5.1",
+    "sass": "~1.32",
+    "sass-loader": "^12.3.0",
+    "trash-cli": "^5.0.0",
+    "ts-loader": "^9.2.3",
+    "tsconfig-paths-webpack-plugin": "^3.5.2",
+    "typescript": "^4.5.2",
+    "vue": "^2.6.14",
+    "vue-class-component": "^7.2.6",
+    "vue-eslint-parser": "^8.0.1",
+    "vue-hot-reload-api": "^2.3.4",
+    "vue-loader": "^15.9.7",
+    "vue-property-decorator": "^9.1.2",
+    "vue-style-loader": "^4.1.3",
+    "vue-template-compiler": "^2.6.14",
+    "vuetify": "^2.6.1",
+    "vuetify-loader": "^1.7.3",
+    "vuex": "^3.6.2",
+    "vuex-class": "^0.3.2",
+    "vuex-module-decorators": "^1.2.0",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-livereload-plugin": "^3.0.1"
+  },
+  "nodecg": {
+    "compatibleRange": "^1.8.1",
+    "bundleDependencies": {
+      "nodecg-speedcontrol": "^2.4.0"
     },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/GramyPomagamy/gsps-layouts.git"
-    },
-    "license": "MIT",
-    "author": "GramyPomagamy",
-    "contributors": [
-        "hoxi"
-    ],
-    "scripts": {
-        "autofix": "run-s autofix:*",
-        "autofix:browser": "eslint --fix --ext .ts,.vue src/dashboard && eslint --fix --ext .ts,.vue src/graphics && eslint --fix --ext .ts src/browser_shared",
-        "autofix:extension": "eslint --fix --ext .ts src/extension && eslint --fix --ext .d.ts src/types",
-        "build": "run-s build:*",
-        "build:browser": "cross-env NODE_ENV=production webpack",
-        "build:extension": "tsc -b tsconfig.extension.json",
-        "clean": "trash node_modules/.cache && trash dashboard && trash graphics && trash extension",
-        "prettier": "prettier --write ./src",
-        "schema-types": "nodecg schema-types",
-        "start": "node ../..",
-        "watch": "run-p watch:*",
-        "watch:browser": "webpack -w",
-        "watch:extension": "tsc -b tsconfig.extension.json -w"
-    },
-    "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.15.4",
-        "@types/bluebird": "^3.5.36",
-        "@types/deep-equal": "^1.0.1",
-        "@types/events": "^3.0.0",
-        "@types/google-spreadsheet": "^3.1.5",
-        "@types/milliseconds": "^0.0.30",
-        "@types/needle": "^2.5.3",
-        "@types/numeral": "^2.0.1",
-        "@types/request": "^2.48.6",
-        "@types/request-promise": "^4.1.48",
-        "bluebird": "^3.7.2",
-        "deep-equal": "^2.0.5",
-        "events": "^3.3.0",
-        "fitty": "^2.3.5",
-        "google-spreadsheet": "^3.2.0",
-        "gsap": "^3.7.1",
-        "milliseconds": "^1.0.3",
-        "module-alias": "^2.2.2",
-        "needle": "^3.0.0",
-        "numeral": "^2.0.6",
-        "obs-websocket-js": "^4.0.3",
-        "parse-ms": "^2.1.0",
-        "request": "^2.88.2",
-        "request-promise": "^4.2.6",
-        "socket.io-client": "^4.4.0",
-        "svg.js": "^2.7.1"
-    },
-    "devDependencies": {
-        "@mdi/font": "^6.5.95",
-        "@types/clone": "^2.1.0",
-        "@types/module-alias": "^2.0.0",
-        "@types/node": "^16.11.11",
-        "@types/webpack-env": "^1.16.3",
-        "@typescript-eslint/eslint-plugin": "^5.6.0",
-        "@typescript-eslint/parser": "^5.6.0",
-        "@vue/component-compiler-utils": "^3.3.0",
-        "clone": "^2.1.2",
-        "cross-env": "^7.0.3",
-        "css-loader": "^6.5.1",
-        "deepmerge": "^4.2.2",
-        "eslint": "^8.4.0",
-        "eslint-config-airbnb-base": "^15.0.0",
-        "eslint-config-airbnb-typescript": "^16.1.0",
-        "eslint-import-resolver-typescript": "^2.5.0",
-        "eslint-plugin-import": "^2.25.3",
-        "eslint-plugin-vue": "^8.2.0",
-        "file-loader": "^6.2.0",
-        "fork-ts-checker-webpack-plugin": "^6.5.0",
-        "globby": "^11.0.4",
-        "html-webpack-plugin": "^5.5.0",
-        "mini-css-extract-plugin": "^2.4.5",
-        "nodecg-cli": "^8.0.0",
-        "npm-run-all": "^4.1.5",
-        "prettier": "2.5.1",
-        "sass": "~1.32",
-        "sass-loader": "^12.3.0",
-        "trash-cli": "^5.0.0",
-        "ts-loader": "^9.2.3",
-        "tsconfig-paths-webpack-plugin": "^3.5.2",
-        "typescript": "^4.5.2",
-        "vue": "^2.6.14",
-        "vue-class-component": "^7.2.6",
-        "vue-eslint-parser": "^8.0.1",
-        "vue-hot-reload-api": "^2.3.4",
-        "vue-loader": "^15.9.7",
-        "vue-property-decorator": "^9.1.2",
-        "vue-style-loader": "^4.1.3",
-        "vue-template-compiler": "^2.6.14",
-        "vuetify": "^2.6.1",
-        "vuetify-loader": "^1.7.3",
-        "vuex": "^3.6.2",
-        "vuex-class": "^0.3.2",
-        "vuex-module-decorators": "^1.2.0",
-        "webpack": "^5.65.0",
-        "webpack-cli": "^4.9.1",
-        "webpack-livereload-plugin": "^3.0.1"
-    },
-    "nodecg": {
-        "compatibleRange": "^1.8.1",
-        "bundleDependencies": {
-            "nodecg-speedcontrol": "^2.4.0"
-        },
-        "dashboardPanels": [
-            {
-                "name": "total",
-                "title": "Zebrana kwota",
-                "file": "total.html",
-                "width": 3
-            },
-            {
-                "name": "commentators",
-                "title": "Komentatorzy",
-                "file": "commentators.html",
-                "width": 3
-            },
-            {
-                "name": "reader",
-                "title": "Czytający",
-                "file": "reader.html",
-                "width": 2
-            },
-            {
-                "name": "hosterka",
-                "title": "Hosterka",
-                "file": "hosterka.html",
-                "width": 4
-            },
-            {
-                "name": "countdown",
-                "title": "Odliczanie",
-                "file": "countdown.html",
-                "width": 3
-            },
-            {
-                "name": "edit-total",
-                "title": "Edytuj kwotę",
-                "file": "edit-total.html",
-                "width": 3,
-                "dialog": true,
-                "dialogButtons": [
-                    {
-                        "name": "zapisz",
-                        "type": "confirm"
-                    },
-                    {
-                        "name": "anuluj",
-                        "type": "dismiss"
-                    }
-                ]
-            },
-            {
-                "name": "obs-status",
-                "title": "Status",
-                "file": "obs-status.html",
-                "width": 3,
-                "workspace": "OBS"
-            },
-            {
-                "name": "highlight",
-                "title": "Highlighter",
-                "file": "highlight.html",
-                "width": 3,
-                "workspace": "OBS"
-            },
-            {
-                "name": "obs-panel",
-                "title": "Zmiana na przerwę",
-                "file": "obs-panel.html",
-                "width": 3,
-                "workspace": "OBS"
-            },
-            {
-                "name": "Panel czytającego",
-                "title": "Panel czytającego",
-                "file": "reader-panel.html",
-                "fullbleed": true
-            },
-            {
-                "name": "sponsors",
-                "title": "Loga sponsorów (główny layout)",
-                "file": "sponsors.html",
-                "width": 4,
-                "workspace": "Loga sponsorów"
-            }
-        ],
-        "graphics": [
-            {
-                "file": "odliczanie.html",
-                "width": 1920,
-                "height": 1080
-            },
-            {
-                "file": "przerwa.html",
-                "width": 1920,
-                "height": 1080
-            },
-            {
-                "file": "video.html",
-                "width": 1920,
-                "height": 1014
-            },
-            {
-                "file": "omnibar.html",
-                "width": 1920,
-                "height": 66
-            },
-            {
-                "file": "3x2-1p.html",
-                "width": 1920,
-                "height": 1014
-            },
-            {
-                "file": "4x3-1p.html",
-                "width": 1920,
-                "height": 1014
-            },
-            {
-                "file": "4x3-2p.html",
-                "width": 1920,
-                "height": 1014
-            },
-            {
-                "file": "4x3-3p.html",
-                "width": 1920,
-                "height": 1014
-            },
-            {
-                "file": "16x9-1p.html",
-                "width": 1920,
-                "height": 1014
-            },
-            {
-                "file": "16x9-2p.html",
-                "width": 1920,
-                "height": 1014
-            }
-        ],
-        "assetCategories": [
-            {
-                "name": "sponsors",
-                "title": "Loga sponsorów",
-                "allowedTypes": [
-                    "png"
-                ]
-            },
-            {
-                "name": "sponsors-break",
-                "title": "Loga sponsorów (przerwa)",
-                "allowedTypes": [
-                    "png"
-                ]
-            }
+    "dashboardPanels": [
+      {
+        "name": "total",
+        "title": "Zebrana kwota",
+        "file": "total.html",
+        "width": 3
+      },
+      {
+        "name": "commentators",
+        "title": "Komentatorzy",
+        "file": "commentators.html",
+        "width": 3
+      },
+      {
+        "name": "reader",
+        "title": "Czytający",
+        "file": "reader.html",
+        "width": 2
+      },
+      {
+        "name": "hosterka",
+        "title": "Hosterka",
+        "file": "hosterka.html",
+        "width": 4
+      },
+      {
+        "name": "countdown",
+        "title": "Odliczanie",
+        "file": "countdown.html",
+        "width": 3
+      },
+      {
+        "name": "edit-total",
+        "title": "Edytuj kwotę",
+        "file": "edit-total.html",
+        "width": 3,
+        "dialog": true,
+        "dialogButtons": [
+          {
+            "name": "zapisz",
+            "type": "confirm"
+          },
+          {
+            "name": "anuluj",
+            "type": "dismiss"
+          }
         ]
-    }
+      },
+      {
+        "name": "obs-status",
+        "title": "Status",
+        "file": "obs-status.html",
+        "width": 3,
+        "workspace": "OBS"
+      },
+      {
+        "name": "highlight",
+        "title": "Highlighter",
+        "file": "highlight.html",
+        "width": 3,
+        "workspace": "OBS"
+      },
+      {
+        "name": "obs-panel",
+        "title": "Zmiana na przerwę",
+        "file": "obs-panel.html",
+        "width": 3,
+        "workspace": "OBS"
+      },
+      {
+        "name": "Panel czytającego",
+        "title": "Panel czytającego",
+        "file": "reader-panel.html",
+        "fullbleed": true
+      },
+      {
+        "name": "sponsors",
+        "title": "Loga sponsorów (główny layout)",
+        "file": "sponsors.html",
+        "width": 4,
+        "workspace": "Loga sponsorów"
+      }
+    ],
+    "graphics": [
+      {
+        "file": "odliczanie.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "przerwa.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "video.html",
+        "width": 1920,
+        "height": 1014
+      },
+      {
+        "file": "hosterka.html",
+        "width": 1920,
+        "height": 1014
+      },
+      {
+        "file": "omnibar.html",
+        "width": 1920,
+        "height": 66
+      },
+      {
+        "file": "3x2-1p.html",
+        "width": 1920,
+        "height": 1014
+      },
+      {
+        "file": "4x3-1p.html",
+        "width": 1920,
+        "height": 1014
+      },
+      {
+        "file": "4x3-2p.html",
+        "width": 1920,
+        "height": 1014
+      },
+      {
+        "file": "4x3-3p.html",
+        "width": 1920,
+        "height": 1014
+      },
+      {
+        "file": "16x9-1p.html",
+        "width": 1920,
+        "height": 1014
+      },
+      {
+        "file": "16x9-2p.html",
+        "width": 1920,
+        "height": 1014
+      }
+    ],
+    "assetCategories": [
+      {
+        "name": "sponsors",
+        "title": "Loga sponsorów",
+        "allowedTypes": [
+          "png"
+        ]
+      },
+      {
+        "name": "sponsors-break",
+        "title": "Loga sponsorów (przerwa)",
+        "allowedTypes": [
+          "png"
+        ]
+      }
+    ]
+  }
 }

@@ -18,7 +18,7 @@
     </v-row>
 
     <v-btn
-      v-on:click="
+      @click="
         () => {
           updateHost();
         }

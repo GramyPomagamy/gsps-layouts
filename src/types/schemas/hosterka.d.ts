@@ -6,6 +6,6 @@
  */
 
 export interface Hosterka {
-  host1?: string;
-  host2?: string;
+  host1: string;
+  host2: string;
 }

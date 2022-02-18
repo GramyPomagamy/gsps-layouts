@@ -1,13 +1,16 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "type": "object",
-    "additionalProperties": false,
-    "properties": {
-        "host1": {
-            "type": "string"
-        },
-        "host2": {
-            "type": "string"
-        }
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "host1": {
+      "type": "string",
+      "default": ""
+    },
+    "host2": {
+      "type": "string",
+      "default": ""
     }
+  },
+  "required": ["host1", "host2"]
 }
