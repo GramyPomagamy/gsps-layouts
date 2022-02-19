@@ -47,7 +47,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 100px;
+    gap: 30px;
   }
 
   #totalAmount {
@@ -56,6 +56,5 @@
 
   #totalCurrency {
     font-size: 64px;
-    margin-left: 20px;
   }
 </style>
