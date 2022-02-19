@@ -31,7 +31,7 @@
       :maxTitleSize="36"
     />
     <timer-view id="timer" />
-    <sponsors-view id="sponsors" :sponsors="sponsors" />
+    <sponsors-view id="sponsors" :sponsors="sponsors" :cycles="logoCycles" />
   </div>
 </template>
 
@@ -43,7 +43,7 @@
     Commentators,
     Reader,
   } from '@gsps-layouts/types/schemas';
-  import type { Asset } from '@gsps-layouts/types';
+  import type { Asset, LogoCycle } from '@gsps-layouts/types';
   import { Getter } from 'vuex-class';
   import TimerView from '../_misc/components/Timer.vue';
   import RunInfo from '../_misc/components/RunInfo.vue';
@@ -68,6 +68,7 @@
     @Getter readonly commentators!: Commentators;
     @Getter readonly reader!: Reader;
     @Getter readonly sponsors!: Asset[];
+    @Getter readonly logoCycles!: LogoCycle[];
     data() {
       return {
         numRunners: 0,

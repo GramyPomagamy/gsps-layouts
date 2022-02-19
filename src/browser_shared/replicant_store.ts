@@ -12,7 +12,7 @@ import type {
   DonationsToRead,
   Hosterka,
 } from '@gsps-layouts/types/schemas';
-import type { Asset } from '@gsps-layouts/types';
+import type { Asset, LogoCycle } from '@gsps-layouts/types';
 import type {
   RunDataActiveRun,
   RunDataArray,
@@ -52,6 +52,8 @@ export const reps: {
   runDataActiveSurrounding: ReplicantBrowser<RunDataActiveRunSurrounding>;
   donationsToRead: ReplicantBrowser<DonationsToRead>;
   hosterkaRep: ReplicantBrowser<Hosterka>;
+  logoCycles: ReplicantBrowser<LogoCycle[]>;
+  logoCyclesBreak: ReplicantBrowser<LogoCycle[]>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
   totalReplicant: nodecg.Replicant('total'),
@@ -81,6 +83,8 @@ export const reps: {
   ),
   donationsToRead: nodecg.Replicant('donationsToRead'),
   hosterkaRep: nodecg.Replicant('hosterka'),
+  logoCycles: nodecg.Replicant('logoCycles'),
+  logoCyclesBreak: nodecg.Replicant('logoCyclesBreak'),
 };
 
 // All the replicant types.
@@ -104,6 +108,8 @@ export interface ReplicantTypes {
   runDataActiveSurrounding: RunDataActiveRunSurrounding;
   donationsToRead: DonationsToRead;
   hosterkaRep: Hosterka;
+  logoCycles: LogoCycle[];
+  logoCyclesBreak: LogoCycle[];
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })

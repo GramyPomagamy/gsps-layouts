@@ -5,8 +5,8 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type LogoCycles = {
+export type LogoCycle = {
   name: string;
   cycle: number;
   [k: string]: unknown;
-}[];
+};

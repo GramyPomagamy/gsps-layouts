@@ -7,12 +7,14 @@
 </template>
 
 <script>
+  import clone from 'clone';
   export default {
     name: 'Sponsors',
-    props: ['sponsors'],
+    props: ['sponsors', 'cycles'],
     data() {
       return {
         currentSponsor: undefined,
+        sponsorTimeout: undefined,
       };
     },
     mounted() {
@@ -20,7 +22,10 @@
         this.$data.currentSponsor = this.sponsors[0];
       }
 
-      setInterval(this.nextSponsor, 5000);
+      this.$data.sponsorTimeout = setTimeout(
+        this.nextSponsor,
+        this.getCycle(this.sponsors[0].name) * 1000
+      );
     },
     methods: {
       nextSponsor() {
@@ -34,6 +39,27 @@
           nextIdx = 0;
         }
         this.$data.currentSponsor = this.sponsors[nextIdx];
+
+        this.$data.sponsorTimeout = setTimeout(
+          this.nextSponsor,
+          this.getCycle(this.sponsors[0].name) * 1000
+        );
+      },
+      getCycle(sponsor) {
+        let currentCycles = clone(this.cycles);
+        if (currentCycles) {
+          let cycle = 10;
+          for (let i = 0; i < currentCycles.length; i++) {
+            if (currentCycles[i].name === sponsor) {
+              cycle = currentCycles[i].cycle;
+              break;
+            }
+          }
+          console.log(cycle);
+          return cycle;
+        } else {
+          return 10;
+        }
       },
     },
   };

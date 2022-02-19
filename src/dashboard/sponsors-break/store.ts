@@ -3,16 +3,7 @@ import {
   ReplicantModule,
   ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store';
-import type {
-  RunDataActiveRun,
-  Timer,
-} from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
-import type {
-  NameCycle,
-  Commentators,
-  Reader,
-} from '@gsps-layouts/types/schemas';
-import type { Asset, LogoCycle } from '@gsps-layouts/types';
+import { Asset, LogoCycle } from '@gsps-layouts/types';
 import clone from 'clone';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
@@ -27,32 +18,18 @@ class OurModule extends VuexModule {
     return this.context.rootState.ReplicantModule.reps;
   }
 
-  get activeRun(): RunDataActiveRun {
-    return this.reps.activeRunReplicant;
-  }
-
-  get nameCycle(): NameCycle {
-    return this.reps.nameCycleReplicant;
-  }
-
-  get commentators(): Commentators {
-    return this.reps.commentatorsReplicant;
-  }
-
-  get reader(): Reader {
-    return this.reps.readerReplicant;
-  }
-
+  // Helper getter to return a specific replicant.
   get sponsors(): Asset[] {
-    return this.reps.sponsors;
-  }
-
-  get timer(): Timer {
-    return this.reps.timerReplicant;
+    return this.reps.sponsors_break;
   }
 
   get logoCycles(): LogoCycle[] {
-    return this.reps.logoCycles;
+    return this.reps.logoCyclesBreak;
+  }
+
+  @Action({ rawError: true })
+  updateCycles(val: LogoCycle[]): void {
+    replicantModule.setReplicant<LogoCycle[]>({ name: 'logoCyclesBreak', val });
   }
 }
 

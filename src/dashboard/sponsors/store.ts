@@ -3,7 +3,7 @@ import {
   ReplicantModule,
   ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store';
-import { Asset } from '@gsps-layouts/types';
+import { Asset, LogoCycle } from '@gsps-layouts/types';
 import clone from 'clone';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
@@ -21,6 +21,15 @@ class OurModule extends VuexModule {
   // Helper getter to return a specific replicant.
   get sponsors(): Asset[] {
     return this.reps.sponsors;
+  }
+
+  get logoCycles(): LogoCycle[] {
+    return this.reps.logoCycles;
+  }
+
+  @Action({ rawError: true })
+  updateCycles(val: LogoCycle[]): void {
+    replicantModule.setReplicant<LogoCycle[]>({ name: 'logoCycles', val });
   }
 }
 

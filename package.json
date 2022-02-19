@@ -192,7 +192,14 @@
         "name": "sponsors",
         "title": "Loga sponsorów (główny layout)",
         "file": "sponsors.html",
-        "width": 4,
+        "width": 6,
+        "workspace": "Loga sponsorów"
+      },
+      {
+        "name": "sponsors-break",
+        "title": "Loga sponsorów (przerwa)",
+        "file": "sponsors-break.html",
+        "width": 6,
         "workspace": "Loga sponsorów"
       }
     ],

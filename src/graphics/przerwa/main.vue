@@ -15,7 +15,7 @@
         <break-song id="song" :song="currentSong" />
       </div>
     </div>
-    <sponsors id="sponsors" :sponsors="sponsors" />
+    <sponsors id="sponsors" :sponsors="sponsors" :cycles="logoCycles" />
   </div>
 </template>
 
@@ -25,7 +25,7 @@
   import { Getter } from 'vuex-class';
   import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
   import { RunData } from '../../../../nodecg-speedcontrol/src/types';
-  import { Asset } from '@gsps-layouts/types';
+  import { Asset, LogoCycle } from '@gsps-layouts/types';
   import BreakReader from './components/Reader.vue';
   import BreakSong from './components/Song.vue';
   import BreakTotal from './components/Total.vue';
@@ -51,6 +51,7 @@
     @Getter readonly activeRun!: RunDataActiveRun;
     @Getter readonly currentSong!: Song;
     @Getter readonly sponsors!: Asset[];
+    @Getter readonly logoCycles!: LogoCycle[];
 
     nextRuns: RunData[] | null = null;
 

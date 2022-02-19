@@ -12,7 +12,7 @@ import type {
   Commentators,
   Reader,
 } from '@gsps-layouts/types/schemas';
-import type { Asset } from '@gsps-layouts/types';
+import type { Asset, LogoCycle } from '@gsps-layouts/types';
 import clone from 'clone';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
@@ -49,6 +49,10 @@ class OurModule extends VuexModule {
 
   get timer(): Timer {
     return this.reps.timerReplicant;
+  }
+
+  get logoCycles(): LogoCycle[] {
+    return this.reps.logoCycles;
   }
 }
 
