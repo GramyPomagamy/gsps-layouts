@@ -17,7 +17,6 @@
   import TickerBidWar from './Ticker/BidWar.vue';
   import TickerNextRuns from './Ticker/NextRuns.vue';
   import TickerMilestone from './Ticker/Milestone.vue';
-  import clone from 'clone';
   const bids = nodecg.Replicant('currentBids');
   const runs = nodecg.Replicant('runDataArray', 'nodecg-speedcontrol');
   const activeRun = nodecg.Replicant('runDataActiveRun', 'nodecg-speedcontrol');

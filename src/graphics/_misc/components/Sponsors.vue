@@ -55,7 +55,6 @@
               break;
             }
           }
-          console.log(cycle);
           return cycle;
         } else {
           return 10;

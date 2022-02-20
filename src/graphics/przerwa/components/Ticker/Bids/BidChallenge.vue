@@ -130,7 +130,7 @@
 </script>
 
 <style scoped>
-  @import url('../../../css/styles.css');
+  @import url('../../../../css/styles.css');
   #bid {
     height: 152px;
     color: white;

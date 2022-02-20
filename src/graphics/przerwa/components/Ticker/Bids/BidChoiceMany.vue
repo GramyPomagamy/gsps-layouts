@@ -3,7 +3,7 @@
     <div
       class="option"
       :id="`option-${index}`"
-      v-for="(option, index) in bid.options.slice(0, 5)"
+      v-for="(option, index) in options"
       :key="option.name"
     >
       <div class="option-info">
@@ -88,7 +88,10 @@
     },
     computed: {
       remaining() {
-        return bid.options.length - 5;
+        return this.bid.options.length - 5;
+      },
+      options() {
+        return Array.from(this.bid.options).slice(0, 5);
       },
     },
     data() {
@@ -109,7 +112,7 @@
 </script>
 
 <style scoped>
-  @import url('../../../css/styles.css');
+  @import url('../../../../css/styles.css');
 
   .option-name {
     margin-left: 5px;

@@ -2,7 +2,7 @@
   <div id="break">
     <break-total id="total" />
     <break-next-runs id="next-runs" :runs="nextRuns" />
-    <break-bids id="bids" :bids="currentBids" />
+    <break-ticker id="ticker" />
     <div id="bottom">
       <img id="Logo" src="./img/GSPS_logo.png" />
       <div id="names">
@@ -30,7 +30,7 @@
   import BreakSong from './components/Song.vue';
   import BreakTotal from './components/Total.vue';
   import BreakNextRuns from './components/NextRuns.vue';
-  import BreakBids from './components/Bids.vue';
+  import BreakTicker from './components/Ticker.vue';
   import Sponsors from '../_misc/components/Sponsors.vue';
   import clone from 'clone';
 
@@ -40,7 +40,7 @@
       BreakSong,
       BreakTotal,
       BreakNextRuns,
-      BreakBids,
+      BreakTicker,
       Sponsors,
     },
   })
@@ -138,7 +138,7 @@
     top: 50px;
   }
 
-  #bids {
+  #ticker {
     position: absolute;
     width: 900px;
     height: 400px;

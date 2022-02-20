@@ -23,7 +23,7 @@
 </template>
 
 <style scoped>
-  @import url('../../css/styles.css');
+  @import url('../../../css/styles.css');
 
   #bids {
     color: white;
@@ -80,10 +80,10 @@
   import BidChoiceBinary from './Bids/BidChoiceBinary.vue';
   import BidChoiceMany from './Bids/BidChoiceMany.vue';
   import BidChallenge from './Bids/BidChallenge.vue';
+  const bids = nodecg.Replicant('currentBids');
 
   export default {
     name: 'BreakBids',
-    props: ['bids'],
     data() {
       return {
         currentComponent: {
@@ -100,17 +100,19 @@
     },
     methods: {
       showNextBid() {
-        if (!this.bids || this.bids.length <= 0) {
-          return;
+        if (!bids.value || bids.value.length <= 0) {
+          console.log('Bids: unmounted');
+          this.$emit('end');
         }
 
-        let currentIdx = this.bids.indexOf(this.$data.currentComponent.bid);
+        let currentIdx = bids.value.indexOf(this.$data.currentComponent.bid);
         let nextIdx = currentIdx + 1;
-        if (nextIdx >= this.bids.length) {
-          nextIdx = 0;
+        if (nextIdx >= bids.value.length) {
+          console.log('Bids: unmounted');
+          this.$emit('end');
         }
 
-        switch (this.bids[nextIdx].type) {
+        switch (bids.value[nextIdx].type) {
           case 'choice-binary':
             this.$data.currentComponent.name = BidChoiceBinary;
             break;
@@ -122,12 +124,18 @@
             break;
         }
 
-        this.$data.currentComponent.bid = this.bids[nextIdx];
+        this.$data.currentComponent.bid = bids.value[nextIdx];
         this.$data.timestamp = Date.now();
       },
     },
     mounted() {
-      this.showNextBid();
+      console.log('Bids: mounted');
+      if (!bids.value || bids.value.length <= 0) {
+        console.log('Bids: unmounted');
+        this.$emit('end');
+      } else {
+        this.showNextBid();
+      }
     },
   };
 </script>
