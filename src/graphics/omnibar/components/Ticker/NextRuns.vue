@@ -7,7 +7,12 @@
       v-for="run in nextRuns"
       :key="run.id"
     >
-      <span style="font-weight: 700">{{ run.game }} ({{ run.category }})</span>
+      <span style="font-weight: 700"
+        >{{ run.game }}
+        <template v-if="run.category && run.category.length"
+          >({{ run.category }})</template
+        ></span
+      >
       <br />
       <span>{{ formatPlayers(run) }}</span>
     </div>
@@ -16,8 +21,8 @@
 
 <script>
   import TickerLabel from './Label.vue';
-  import clone from 'clone';
   import gsap from 'gsap';
+  import clone from 'clone';
 
   const runDataActiveRun = nodecg.Replicant(
     'runDataActiveRun',
@@ -38,26 +43,31 @@
     mounted() {
       console.log('NextRuns: mounted');
       this.nextRuns = this.getNextRuns();
-      const animateRuns = () => {
-        const elements = document.querySelectorAll('.run');
-        const arr = [].slice.call(elements);
-        const tl = gsap.timeline({ delay: 1 });
-        arr.forEach((element) => {
-          tl.to(element, {
-            opacity: 1,
-            translateX: '-5px',
-            duration: 0.3,
+      if (this.nextRuns.length) {
+        const animateRuns = () => {
+          const elements = document.querySelectorAll('.run');
+          const arr = [].slice.call(elements);
+          const tl = gsap.timeline({ delay: 1 });
+          arr.forEach((element) => {
+            tl.to(element, {
+              opacity: 1,
+              translateX: '-5px',
+              duration: 0.3,
+            });
           });
-        });
-        tl.play();
-      };
-      setTimeout(() => {
-        animateRuns();
-      }, 50);
-      setTimeout(() => {
+          tl.play();
+        };
+        setTimeout(() => {
+          animateRuns();
+        }, 50);
+        setTimeout(() => {
+          this.$emit('end');
+          console.log('NextRuns: ended');
+        }, 10 * 1000);
+      } else {
         this.$emit('end');
         console.log('NextRuns: ended');
-      }, 10 * 1000);
+      }
     },
     methods: {
       formatPlayers(run) {

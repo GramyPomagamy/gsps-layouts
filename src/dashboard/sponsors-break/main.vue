@@ -10,7 +10,9 @@
         </thead>
         <tbody>
           <tr v-for="sponsor in sponsors" :key="sponsor.name">
-            <td><a :href="sponsor.url">{{ sponsor.name }}</a></td>
+            <td>
+              <a :href="sponsor.url">{{ sponsor.name }}</a>
+            </td>
             <td>
               <br />
               {{ getCycle(sponsor.name) }}

@@ -4,12 +4,12 @@
 
     <div v-if="activeRun" id="runners">
       <template v-if="activeRun.teams" v-for="team in activeRun.teams">
-          <player
-            :key="team.id"
-            class="Player"
-            :cycle="nameCycle"
-            :player="getCurrentRelayRunner(team)"
-          />
+        <player
+          :key="team.id"
+          class="Player"
+          :cycle="nameCycle"
+          :player="getCurrentRelayRunner(team)"
+        />
       </template>
       <commentator-list
         :commentators="commentators"
@@ -93,7 +93,7 @@
 
     getCurrentRelayRunner(team: any) {
       let currentRelayRunner;
-      
+
       team.players.forEach((player: any) => {
         if (player.id === team.relayPlayerID) {
           currentRelayRunner = player;

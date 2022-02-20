@@ -16,9 +16,13 @@
   import TickerBidGoal from './Ticker/BidGoal.vue';
   import TickerBidWar from './Ticker/BidWar.vue';
   import TickerNextRuns from './Ticker/NextRuns.vue';
+  import TickerMilestone from './Ticker/Milestone.vue';
+  import clone from 'clone';
   const bids = nodecg.Replicant('currentBids');
   const runs = nodecg.Replicant('runDataArray', 'nodecg-speedcontrol');
   const activeRun = nodecg.Replicant('runDataActiveRun', 'nodecg-speedcontrol');
+  const milestones = nodecg.Replicant('milestones');
+  const total = nodecg.Replicant('total');
 
   export default {
     name: 'OmnibarTicker',
@@ -34,18 +38,21 @@
       };
     },
     mounted() {
-      NodeCG.waitForReplicants(bids, runs, activeRun).then(() => {
-        this.messageTypes = [
-          this.gspsPromo(),
-          this.charityPromo(),
-          this.donationURL(),
-          this.nextRuns(),
-          this.bidGoal(),
-          this.bidWar(),
-        ];
+      NodeCG.waitForReplicants(bids, runs, activeRun, milestones, total).then(
+        () => {
+          this.messageTypes = [
+            this.gspsPromo(),
+            this.charityPromo(),
+            this.donationURL(),
+            this.nextRuns(),
+            this.bidGoal(),
+            this.bidWar(),
+            this.milestone(),
+          ];
 
-        this.currentComponent = this.messageTypes[0];
-      });
+          this.currentComponent = this.messageTypes[0];
+        }
+      );
     },
     methods: {
       showNextMsg() {
@@ -86,28 +93,26 @@
       },
 
       bidGoal() {
-        if (bids.value.filter((bid) => bid.type === 'challenge').length > 0) {
-          return {
-            name: TickerBidGoal,
-          };
-        } else {
-          this.showNextMsg();
-        }
+        return {
+          name: TickerBidGoal,
+        };
       },
 
       bidWar() {
-        if (bids.value.filter((bid) => bid.type != 'challenge').length > 0) {
-          return {
-            name: TickerBidWar,
-          };
-        } else {
-          this.showNextMsg();
-        }
+        return {
+          name: TickerBidWar,
+        };
       },
 
       nextRuns() {
         return {
           name: TickerNextRuns,
+        };
+      },
+
+      milestone() {
+        return {
+          name: TickerMilestone,
         };
       },
     },

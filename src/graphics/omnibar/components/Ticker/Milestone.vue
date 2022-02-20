@@ -1,12 +1,15 @@
 <template>
-  <div id="Goal">
-    <ticker-label :label="'LICYTACJE <br/> CELE'" />
+  <div id="MilestoneElement">
+    <ticker-label :label="'POSTĘP <br/> CELU'" />
     <transition name="fade" mode="out-in">
-      <div id="bid" v-if="currentBid" :key="currentBid.public">
-        <div id="bid-label">
+      <div id="milestone" v-if="milestone" :key="milestone.name">
+        <div id="milestone-label">
           <p>
-            {{ currentBid.game }} <br />
-            {{ currentBid.name }}
+            {{ milestone.name }}
+            <template v-if="milestoneInfo.total >= milestone.amount">
+              <br />
+              <span :style="{ color: 'green' }">ZDOBYTO!</span>
+            </template>
           </p>
         </div>
         <div id="progress-bar">
@@ -15,7 +18,7 @@
           ></div>
           <div
             :style="{
-              width: `${bidInfo.progress}%`,
+              width: `${milestoneInfo.progress}%`,
               'max-width': '100%',
               'background-color': '#3A008B',
               height: '100%',
@@ -23,8 +26,8 @@
           ></div>
         </div>
         <div id="total-label">
-          <span>{{ bidInfo.total }} </span> /
-          <span> {{ currentBid.rawGoal }} PLN</span>
+          <span>{{ milestoneInfo.total }} </span> /
+          <span> {{ milestone.amount }} PLN</span>
         </div>
       </div>
     </transition>
@@ -34,85 +37,72 @@
 <script>
   import gsap from 'gsap';
   import TickerLabel from './Label.vue';
-  const bids = nodecg.Replicant('currentBids');
+  const milestones = nodecg.Replicant('milestones');
+  const total = nodecg.Replicant('total');
 
   export default {
-    name: 'TickerBidGoal',
+    name: 'TickerMilestone',
     components: {
       TickerLabel,
     },
     data() {
       return {
-        bids: {},
-        currentBid: {},
-        bidInfo: {
+        milestone: {},
+        milestoneInfo: {
           total: 0,
           progress: 0,
         },
       };
     },
     methods: {
-      getBids() {
-        const challenges = bids.value
-          .filter((bid) => bid.type === 'challenge')
-          .slice(0, 3);
-        return challenges;
-      },
-      nextBid() {
-        if (!this.bids || this.bids <= 0) {
-          return;
-        }
-
-        let currentIdx = this.bids.indexOf(this.currentBid);
-        let nextIdx = currentIdx + 1;
-        if (nextIdx >= this.bids.length) {
-          this.$emit('end');
-          console.log('BidGoal: ended');
-        }
-        this.currentBid = this.bids[nextIdx];
-        this.bidInfo = {
-          total: 0,
-          progress: 0,
-        };
-        setTimeout(() => {
-          this.animate();
-        }, 1.5 * 1000);
-      },
       animate() {
-        gsap.to(this.bidInfo, {
+        gsap.to(this.milestoneInfo, {
           duration: 4,
-          total: this.currentBid.rawTotal,
+          total: total.value.raw,
           roundProps: 'total',
           ease: 'power3',
         });
-        gsap.to(this.bidInfo, {
+        gsap.to(this.milestoneInfo, {
           duration: 4,
-          progress: (this.currentBid.rawTotal / this.currentBid.rawGoal) * 100,
+          progress: (total.value.raw / this.milestone.amount) * 100,
           ease: 'power3',
           onComplete: () => {
             setTimeout(() => {
-              this.nextBid();
-            }, 3000);
+              this.$emit('end');
+              console.log('Milestone: ended');
+            }, 5000);
           },
         });
       },
+      getCurrentMilestone() {
+        let milestone = null;
+        for (let i = 0; i < milestones.value.length; i++) {
+          if (total.value.raw <= milestones.value[i].amount) {
+            milestone = milestones.value[i];
+            break;
+          }
+        }
+
+        return milestone;
+      },
     },
     mounted() {
-      this.bids = this.getBids();
-      console.log('BidGoal: mounted');
-      if (this.bids.length) {
-        this.currentBid = this.bids[0];
-        setTimeout(() => this.animate(), 1.5 * 1000);
+      console.log('Milestone: mounted');
+      this.milestone = this.getCurrentMilestone();
+      if (this.milestone) {
+        setTimeout(() => {
+          this.animate();
+        }, 1.5 * 1000);
       } else {
         this.$emit('end');
-        console.log('BidGoal: ended');
+        console.log('Milestone: ended');
       }
     },
   };
 </script>
 
 <style scoped>
-  #Goal {
+  #MilestoneElement {
     width: 100%;
     height: 100%;
     display: flex;
@@ -120,7 +110,7 @@
     flex-grow: 1;
   }
 
-  #bid-label {
+  #milestone-label {
     font-weight: 700;
     height: 66px;
     background-color: rgb(0, 0, 0, 0.5);
@@ -157,7 +147,7 @@
     width: 100%;
   }
 
-  #bid {
+  #milestone {
     width: 100%;
     display: flex;
   }

@@ -66,10 +66,7 @@
     },
     methods: {
       getBids() {
-        const wars = bids.value
-          .filter((bid) => bid.type != 'challenge')
-          .slice(0, 3);
-        return wars;
+        return bids.value.filter((bid) => bid.type != 'challenge').slice(0, 3);
       },
       nextBid() {
         if (!this.bids || this.bids <= 0) {
@@ -140,14 +137,18 @@
       },
     },
     mounted() {
-      this.bids = this.getBids();
       console.log('BidWar: mounted');
+      this.bids = this.getBids();
+      if (this.bids.length) {
+        this.currentBid = this.bids[0];
 
-      this.currentBid = this.bids[0];
-
-      setTimeout(() => {
-        this.animate();
-      }, 1200);
+        setTimeout(() => {
+          this.animate();
+        }, 1200);
+      } else {
+        this.$emit('end');
+        console.log('BidWar: ended');
+      }
     },
   };
 </script>
