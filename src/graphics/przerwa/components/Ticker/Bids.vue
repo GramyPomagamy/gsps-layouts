@@ -1,6 +1,5 @@
 <template>
   <div id="bids" class="layout layout-vertical">
-    <p id="bids-title">LICYTACJE</p>
     <transition name="fade" mode="out-in">
       <div id="bid" :key="timestamp">
         <div id="bid-info">
@@ -28,18 +27,6 @@
   #bids {
     color: white;
     width: 942px;
-  }
-
-  #bids-title {
-    position: absolute;
-    margin: auto;
-    font-size: 24px;
-    height: 36px;
-    font-weight: bold;
-    color: white;
-    width: 100%;
-    text-align: left;
-    margin-left: 30px;
   }
 
   #bid {

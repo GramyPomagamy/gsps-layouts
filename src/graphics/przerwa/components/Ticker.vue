@@ -1,5 +1,6 @@
 <template>
   <div id="Ticker">
+    <p id="title">{{ label }}</p>
     <transition name="fade" mode="out-in">
       <component
         :is="currentComponent.name"
@@ -26,6 +27,7 @@
         currentComponentIndex: 0,
         timestamp: Date.now(),
         messageTypes: [],
+        label: '',
       };
     },
     mounted() {
@@ -47,6 +49,7 @@
       },
 
       bids() {
+        this.$data.label = 'LICYTACJE';
         return {
           name: BreakBids,
         };
@@ -61,6 +64,18 @@
     min-width: 0;
     color: white;
     width: 942px;
+  }
+
+  #title {
+    position: absolute;
+    margin: auto;
+    font-size: 24px;
+    height: 36px;
+    font-weight: bold;
+    color: white;
+    width: 100%;
+    text-align: left;
+    margin-left: 30px;
   }
 
   .fade-enter-active,
