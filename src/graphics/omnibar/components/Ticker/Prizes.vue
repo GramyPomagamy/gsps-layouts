@@ -1,40 +1,24 @@
 <template>
   <div id="prizes">
-    <div id="prize" v-if="prize" class="layout layout-horizontal">
-      <div id="prize-image">
-        <img
-          :src="prize.image"
-          v-if="prize.image"
-          :style="{ maxWidth: '100%', maxHeight: '100%' }"
-        />
-      </div>
-      <div id="prize-info">
-        <p id="prize-name" :style="{ marginTop: '20px' }">
-          <b>{{ prize.name }}</b>
-        </p>
-        <p
-          v-if="prize.provided"
-          :style="{ fontSize: '24px', marginTop: '20px' }"
+    <ticker-label :label="'DOSTĘPNE <br/> NAGRODY'" />
+    <div id="prize" v-if="prize">
+      <p :style="{ fontSize: '20px' }">
+        <b>{{ prize.name }}</b>
+      </p>
+      <p v-if="prize.provided">
+        Nagroda dostarczona przez: <b>{{ prize.provided }}</b
+        ><template v-if="prize.minimumBid"
+          >, minimalna wpłata:
+          <b>{{ formatAmount(prize.minimumBid) }} zł</b></template
         >
-          Nagroda dostarczona przez: {{ prize.provided }}
-        </p>
-        <p
-          v-if="prize.minimumBid"
-          :style="{ fontSize: '24px', marginTop: '-15px' }"
-        >
-          Minimalna wpłata: {{ formatAmount(prize.minimumBid) }} zł
-        </p>
-        <p v-if="etaUntil" :style="{ fontSize: '24px', marginTop: '-15px' }">
-          Wpłać w ciągu {{ etaUntil }}, aby mieć szansę wygrać!
-        </p>
-      </div>
+        <template v-if="etaUntil">w ciągu {{ etaUntil }}</template>
+      </p>
     </div>
   </div>
 </template>
 
 <script>
-  const prizes = nodecg.Replicant('prizes');
-  import fitty from 'fitty';
+  import TickerLabel from './Label.vue';
   import dayjs from 'dayjs';
   import relativeTime from 'dayjs/plugin/relativeTime';
   import utc from 'dayjs/plugin/utc';
@@ -44,9 +28,13 @@
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
   dayjs.extend(timezone);
+  const prizes = nodecg.Replicant('prizes');
 
   export default {
-    name: 'BreakPrizes',
+    name: 'TickerPrizes',
+    components: {
+      TickerLabel,
+    },
     data() {
       return {
         prize: {},
@@ -54,13 +42,11 @@
     },
     mounted() {
       console.log('Prizes: mounted');
-      this.$emit('label', 'NAGRODY');
       if (!prizes.value || prizes.value.length <= 0) {
         console.log('Prizes: unmounted');
         this.$emit('end');
       } else {
         this.prize = this.getPrize();
-        this.fitText();
         setTimeout(() => {
           this.$emit('end');
           console.log('Prizes: unmounted');
@@ -77,7 +63,7 @@
             Date.now() < prize.endTime
         );
         if (activePrizes.length === 1) {
-          return activePrizes;
+          return activePrizes[0];
         } else if (activePrizes.length > 1) {
           const rand = Math.floor(Math.random() * prizes.length);
           return activePrizes.value[rand];
@@ -88,15 +74,6 @@
       },
       formatAmount(amount) {
         return `${amount.toFixed(2)}`;
-      },
-      fitText() {
-        setTimeout(() => {
-          fitty('#prize-name', {
-            minSize: 1,
-            maxSize: 40,
-            multiLine: true,
-          });
-        }, 280);
       },
     },
     computed: {
@@ -114,31 +91,19 @@
 </script>
 
 <style scoped>
-  @import url('../../../css/styles.css');
-
   #prizes {
+    display: flex;
+    flex-direction: row;
     color: white;
-    width: 942px;
+    height: 100%;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   #prize {
-    position: absolute;
-    top: 45px;
-    left: 30px;
-    width: 100%;
-  }
-
-  #prize-image {
-    width: 50%;
-    height: 330px;
-  }
-
-  #prize-info {
-    position: relative;
-    height: 122.4px;
-    padding: 6px 0px;
-    width: 955px;
-    text-shadow: 2px 2px 8px #000000;
-    text-align: left;
+    flex-direction: column;
+    margin-left: 10px;
+    height: 66px;
+    line-height: 5px;
   }
 </style>

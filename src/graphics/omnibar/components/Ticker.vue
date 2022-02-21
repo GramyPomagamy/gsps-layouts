@@ -17,11 +17,13 @@
   import TickerBidWar from './Ticker/BidWar.vue';
   import TickerNextRuns from './Ticker/NextRuns.vue';
   import TickerMilestone from './Ticker/Milestone.vue';
+  import TickerPrizes from './Ticker/Prizes.vue';
   const bids = nodecg.Replicant('currentBids');
   const runs = nodecg.Replicant('runDataArray', 'nodecg-speedcontrol');
   const activeRun = nodecg.Replicant('runDataActiveRun', 'nodecg-speedcontrol');
   const milestones = nodecg.Replicant('milestones');
   const total = nodecg.Replicant('total');
+  const prizes = nodecg.Replicant('prizes');
 
   export default {
     name: 'OmnibarTicker',
@@ -37,21 +39,27 @@
       };
     },
     mounted() {
-      NodeCG.waitForReplicants(bids, runs, activeRun, milestones, total).then(
-        () => {
-          this.messageTypes = [
-            this.gspsPromo(),
-            this.charityPromo(),
-            this.donationURL(),
-            this.nextRuns(),
-            this.bidGoal(),
-            this.bidWar(),
-            this.milestone(),
-          ];
+      NodeCG.waitForReplicants(
+        bids,
+        runs,
+        activeRun,
+        milestones,
+        total,
+        prizes
+      ).then(() => {
+        this.messageTypes = [
+          this.gspsPromo(),
+          this.charityPromo(),
+          this.donationURL(),
+          this.nextRuns(),
+          this.bidGoal(),
+          this.bidWar(),
+          this.milestone(),
+          this.prizes(),
+        ];
 
-          this.currentComponent = this.messageTypes[0];
-        }
-      );
+        this.currentComponent = this.messageTypes[0];
+      });
     },
     methods: {
       showNextMsg() {
@@ -112,6 +120,12 @@
       milestone() {
         return {
           name: TickerMilestone,
+        };
+      },
+
+      prizes() {
+        return {
+          name: TickerPrizes,
         };
       },
     },
