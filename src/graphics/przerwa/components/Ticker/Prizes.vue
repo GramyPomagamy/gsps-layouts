@@ -69,11 +69,18 @@
     },
     methods: {
       getPrize() {
-        if (prizes.value.length === 1) {
-          return prizes.value[0];
-        } else if (prizes.value.length > 1) {
+        const activePrizes = prizes.value.filter(
+          (prize) =>
+            !!prize.startTime &&
+            !!prize.endTime &&
+            Date.now() > prize.startTime &&
+            Date.now() < prize.endTime
+        );
+        if (activePrizes.length === 1) {
+          return activePrizes;
+        } else if (activePrizes.length > 1) {
           const rand = Math.floor(Math.random() * prizes.length);
-          return prizes.value[rand];
+          return activePrizes.value[rand];
         }
       },
       formatAmount(amount) {
