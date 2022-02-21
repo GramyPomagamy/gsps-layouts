@@ -5,9 +5,10 @@ import type { NodeCG } from 'nodecg/types/server';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import type { Tracker } from '@gsps-layouts/types';
 import { donationsToReadReplicant } from './util/replicants';
+import { updatePrizes } from './prizes';
 
 const LOGIN_URL = 'https://gsps.pl/donacje/admin/login/';
-const loginLog = new (nodecg() as NodeCG).Logger(
+const donationsLog = new (nodecg() as NodeCG).Logger(
   `${nodecg().bundleName}:tracker`
 );
 const config = (nodecg().bundleConfig as Configschema).tracker;
@@ -17,8 +18,8 @@ const refreshTime = 10 * 1000; // Odśwież donacje co 10 sekund.
 let updateTimeout: NodeJS.Timeout;
 
 async function loginToTracker(): Promise<void> {
-  if (isFirstLogin) loginLog.info(`Loguję się jako ${config!.username}`);
-  else loginLog.info(`Odświeżam sesję jako ${config!.username}`);
+  if (isFirstLogin) donationsLog.info(`Loguję się jako ${config!.username}`);
+  else donationsLog.info(`Odświeżam sesję jako ${config!.username}`);
 
   try {
     const resp1 = await needle('get', LOGIN_URL);
@@ -57,14 +58,14 @@ async function loginToTracker(): Promise<void> {
 
     if (isFirstLogin) {
       isFirstLogin = false;
-      loginLog.info(`Zalogowano pomyślnie jako ${config!.username}`);
+      donationsLog.info(`Zalogowano pomyślnie jako ${config!.username}`);
     } else {
-      loginLog.info(`Odświeżono sesję jako ${config!.username}`);
+      donationsLog.info(`Odświeżono sesję jako ${config!.username}`);
     }
 
     setTimeout(loginToTracker, 90 * 60 * 1000);
   } catch (err) {
-    loginLog.warn('Błąd przy logowaniu! ', err);
+    donationsLog.warn('Błąd przy logowaniu! ', err);
     if (!isFirstLogin) {
       setTimeout(loginToTracker, 60 * 1000);
     } else {
@@ -130,7 +131,7 @@ async function updateToReadDonations() {
     donationsToReadReplicant.value = currentDonations;
     nodecg().sendMessage('donationsToRead:updated');
   } catch (err) {
-    loginLog.warn('Błąd przy aktualizowaniu donacji do przeczytania:', err);
+    donationsLog.warn('Błąd przy aktualizowaniu donacji do przeczytania:', err);
     donationsToReadReplicant.value.length = 0; // Wyczyść dane na wszelki wypadek
     nodecg().sendMessage('donationsToRead:updated');
   }
@@ -150,7 +151,7 @@ async function getDonationBids(): Promise<Tracker.DonationBid[]> {
     );
     return resp.body;
   } catch (err) {
-    loginLog.warn(
+    donationsLog.warn(
       'Błąd przy aktualizowaniu licytacji na którę poszły donację:',
       err
     );
@@ -158,8 +159,13 @@ async function getDonationBids(): Promise<Tracker.DonationBid[]> {
   }
 }
 
+export function getCookies(): NeedleResponse['cookies'] {
+  return cookies;
+}
+
 loginToTracker().then(() => {
   updateToReadDonations();
+  updatePrizes();
 });
 
 nodecg().listenFor('updateDonations', updateToReadDonations);

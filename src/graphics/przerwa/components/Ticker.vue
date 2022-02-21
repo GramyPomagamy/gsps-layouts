@@ -1,11 +1,12 @@
 <template>
   <div id="Ticker">
-    <p id="title">{{ label }}</p>
+    <p id="title" :key="timestamp">{{ label }}</p>
     <transition name="fade" mode="out-in">
       <component
         :is="currentComponent.name"
         :key="timestamp"
         :data="currentComponent.data"
+        @label="setLabel"
         @end="showNextMsg"
       />
     </transition>
@@ -14,7 +15,9 @@
 
 <script>
   import BreakBids from './Ticker/Bids.vue';
+  import BreakPrizes from './Ticker/Prizes.vue';
   const bids = nodecg.Replicant('currentBids');
+  const prizes = nodecg.Replicant('prizes');
 
   export default {
     name: 'BreakTicker',
@@ -31,8 +34,8 @@
       };
     },
     mounted() {
-      NodeCG.waitForReplicants(bids).then(() => {
-        this.messageTypes = [this.bids()];
+      NodeCG.waitForReplicants(bids, prizes).then(() => {
+        this.messageTypes = [this.bids(), this.prizes()];
 
         this.currentComponent = this.messageTypes[0];
       });
@@ -49,11 +52,20 @@
       },
 
       bids() {
-        this.$data.label = 'LICYTACJE';
         return {
           name: BreakBids,
         };
       },
+
+      prizes() {
+        return {
+          name: BreakPrizes,
+        };
+      },
+
+      setLabel(label) {
+        this.label = label;
+      }
     },
   };
 </script>

@@ -7,6 +7,7 @@ import {
   Song,
   ObsData,
   DonationsToRead,
+  Prizes,
 } from '@gsps-layouts/types/schemas';
 import { Milestones } from '@gsps-layouts/types';
 import type {
@@ -38,3 +39,4 @@ export const activeRunReplicant = nodecg().Replicant<RunDataActiveRun>(
 export const donationsToReadReplicant =
   nodecg().Replicant<DonationsToRead>('donationsToRead');
 export const milestonesReplicant = nodecg().Replicant<Milestones>('milestones');
+export const prizesReplicant = nodecg().Replicant<Prizes>('prizes');

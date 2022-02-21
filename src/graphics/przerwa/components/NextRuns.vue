@@ -2,7 +2,7 @@
   <div id="next-runs">
     <p id="runs-title">NADCHODZĄCE RUNY</p>
     <transition name="fade" mode="out-in">
-      <div id="runs" :key="runs">
+      <div id="runs" :key="timestamp">
         <div
           v-for="run in runs"
           :style="{
@@ -34,6 +34,11 @@
   export default {
     name: 'BreakNextRuns',
     props: ['runs'],
+    data() {
+      return {
+        timestamp: Date.now()
+      }
+    },
     methods: {
       formatPlayers(run) {
         return (
@@ -59,6 +64,7 @@
       runs: {
         handler: function () {
           this.fitText();
+          this.timestamp = Date.now();
         },
         immediate: true,
         deep: true,

@@ -8,6 +8,7 @@ export * from './donationsToRead';
 export * from './hosterka';
 export * from './nameCycle';
 export * from './obsData';
+export * from './prizes';
 export * from './reader';
 export * from './song';
 export * from './total';
