@@ -77,7 +77,7 @@
             Date.now() < prize.endTime
         );
         if (activePrizes.length === 1) {
-          return activePrizes;
+          return activePrizes[0];
         } else if (activePrizes.length > 1) {
           const rand = Math.floor(Math.random() * prizes.length);
           return activePrizes.value[rand];
