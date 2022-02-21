@@ -117,11 +117,13 @@
     },
     mounted() {
       console.log('Bids: mounted');
-      this.$emit('label', 'LICYTACJE');
+      
       if (!bids.value || bids.value.length <= 0) {
         console.log('Bids: unmounted');
         this.$emit('end');
+        this.$emit('label', '');
       } else {
+        this.$emit('label', 'LICYTACJE');
         this.showNextBid();
       }
     },

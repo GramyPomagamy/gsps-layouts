@@ -54,7 +54,7 @@
     },
     mounted() {
       console.log('Prizes: mounted');
-      this.$emit('label', 'NAGRODY');
+
       if (!prizes.value || prizes.value.length <= 0) {
         console.log('Prizes: unmounted');
         this.$emit('end');
@@ -77,11 +77,14 @@
             Date.now() < prize.endTime
         );
         if (activePrizes.length === 1) {
+          this.$emit('label', 'NAGRODY');
           return activePrizes[0];
         } else if (activePrizes.length > 1) {
+          this.$emit('label', 'NAGRODY');
           const rand = Math.floor(Math.random() * prizes.length);
           return activePrizes.value[rand];
         } else {
+          this.$emit('label', '');
           console.log('Prizes: unmounted');
           this.$emit('end');
         }

@@ -1,6 +1,8 @@
 <template>
   <div id="Ticker">
-    <p id="title" :key="timestamp">{{ label }}</p>
+    <transition name="fade" mode="out-in">
+      <p id="title" :key="label">{{ label }}</p>
+    </transition>
     <transition name="fade" mode="out-in">
       <component
         :is="currentComponent.name"
@@ -65,7 +67,7 @@
 
       setLabel(label) {
         this.label = label;
-      }
+      },
     },
   };
 </script>
