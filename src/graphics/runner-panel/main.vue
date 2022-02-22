@@ -4,10 +4,6 @@
     :style="{ backgroundColor: donationsToRead.length ? 'green' : 'red' }"
   >
     <div id="run-container">
-      <p v-if="activeRun" :style="{ fontSize: '24px' }">
-        {{ activeRun.game }} -
-        <template v-if="activeRun.category">{{ activeRun.category }}</template>
-      </p>
       <timer-view id="timer" />
     </div>
     <div
@@ -15,8 +11,8 @@
       :style="{
         width: '100%',
         marginTop: '10px',
-        fontSize: '20px',
-        lineHeight: '15px',
+        fontSize: '28px',
+        lineHeight: '30px',
         paddingBottom: '1px',
       }"
     >
@@ -83,11 +79,7 @@
   }
 
   #timer {
-    font-size: 48px;
-  }
-
-  #run-container {
-    line-height: 25px;
+    font-size: 56px;
   }
 
   html {
