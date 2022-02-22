@@ -55,9 +55,9 @@
         setTimeout(() => {
           fitty('.name-text', {
             minSize: 1,
-            maxSize: 40,
+            maxSize: 38,
           });
-        }, 500);
+        }, 450);
       },
     },
     watch: {
