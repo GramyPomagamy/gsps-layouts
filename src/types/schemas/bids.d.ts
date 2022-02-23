@@ -12,7 +12,8 @@ export type Bids = {
   total: number;
   game?: string;
   category?: string;
-  endTime?: number;
+  runStartTime?: number;
+  runEndTime?: number;
   war: boolean;
   allowUserOptions: boolean;
   options: {

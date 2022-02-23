@@ -17,6 +17,7 @@ const currentBidsRep = nodecg().Replicant<Bids>('currentBids', {
   defaultValue: [],
 });
 const allBidsRep = nodecg().Replicant<Bids>('allBids', { defaultValue: [] });
+let updateTimeout: NodeJS.Timeout;
 
 // Get latest bid data every POLL_INTERVAL milliseconds
 update();
@@ -27,6 +28,7 @@ update();
  */
 function update() {
   nodecg().sendMessage('bids:updating');
+  clearTimeout(updateTimeout);
 
   const currentPromise = requestPromise({
     uri: CURRENT_BIDS_URL,
@@ -71,7 +73,7 @@ function update() {
     })
     .finally(() => {
       nodecg().sendMessage('bids:updated');
-      setTimeout(update, POLL_INTERVAL);
+      updateTimeout = setTimeout(update, POLL_INTERVAL);
     });
 }
 
@@ -106,7 +108,8 @@ function processRawBids(bids: any[]) {
         state: bid.fields.state,
         game: bid.fields.speedrun__display_name,
         category: bid.fields.speedrun__category,
-        endTime: Date.parse(bid.fields.speedrun__endtime),
+        runStartTime: Date.parse(bid.fields.speedrun__starttime),
+        runEndTime: Date.parse(bid.fields.speedrun__endtime),
         public: bid.fields.public,
       };
 
@@ -231,3 +234,5 @@ function sortBidsByEarliestEndTime(
   // Else, format from our own code.
   return a.speedrunEndtime - b.speedrunEndtime;
 }
+
+nodecg().listenFor('updateBids', update);

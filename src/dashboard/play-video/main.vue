@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-btn :disabled="obsData.scene != sceneName" @click="playIntermissionVideo"
-      >Odtwórz film na przerwie</v-btn
+      ><v-icon left>mdi-play</v-icon>Odtwórz film na przerwie</v-btn
     >
   </v-app>
 </template>

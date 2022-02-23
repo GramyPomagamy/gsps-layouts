@@ -3,7 +3,17 @@ import {
   ReplicantModule,
   ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store';
-import { Bids, DonationsToRead, Total } from '@gsps-layouts/types/schemas';
+import {
+  Bids,
+  DonationsToRead,
+  Total,
+  Reader,
+} from '@gsps-layouts/types/schemas';
+import type {
+  RunDataActiveRun,
+  Timer,
+} from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
+import { Milestones } from '@gsps-layouts/types';
 import clone from 'clone';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
@@ -29,6 +39,27 @@ class OurModule extends VuexModule {
 
   get total(): Total {
     return this.reps.totalReplicant;
+  }
+
+  get reader(): Reader {
+    return this.reps.readerReplicant;
+  }
+
+  get milestones(): Milestones {
+    return this.reps.milestonesReplicant;
+  }
+
+  get timer(): Timer {
+    return this.reps.timerReplicant;
+  }
+
+  get activeRun(): RunDataActiveRun {
+    return this.reps.activeRunReplicant;
+  }
+
+  @Action({ rawError: true })
+  updateReader(val: string): void {
+    replicantModule.setReplicant<Reader>({ name: 'readerReplicant', val });
   }
 }
 

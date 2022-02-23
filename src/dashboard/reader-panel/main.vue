@@ -2,8 +2,30 @@
   <v-app>
     <v-container fluid>
       <div id="host-container">
-        <reader-panel-bids class="panel" :bids="allBids" />
-        <reader-panel-total class="panel" :total="total" />
+        <div id="left" class="column">
+          <reader-panel-reader
+            class="panel"
+            :reader="reader"
+            @update="updateReader"
+          />
+          <reader-panel-bids class="panel" :bids="allBids" />
+        </div>
+        <div id="middle" class="column">
+          <reader-panel-total class="panel" :total="total" />
+          <reader-panel-run-status
+            class="panel"
+            :timer="timer"
+            :run="activeRun"
+          />
+          <reader-panel-milestones
+            class="panel"
+            :milestones="milestones"
+            :total="total"
+          />
+        </div>
+        <div id="right" class="column">
+          <reader-panel-donations :donations="donationsToRead" class="panel" />
+        </div>
       </div>
     </v-container>
   </v-app>
@@ -15,21 +37,44 @@
     Bids,
     DonationsToRead,
     Total,
+    Reader,
   } from '@gsps-layouts/types/schemas';
+  import type {
+    RunDataActiveRun,
+    Timer,
+  } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
+  import { Milestones } from '@gsps-layouts/types';
+  import { storeModule } from './store';
   import { Getter } from 'vuex-class';
   import ReaderPanelTotal from './components/Total.vue';
   import ReaderPanelBids from './components/Bids.vue';
+  import ReaderPanelReader from './components/Reader.vue';
+  import ReaderPanelMilestones from './components/Milestones.vue';
+  import ReaderPanelRunStatus from './components/RunStatus.vue';
+  import ReaderPanelDonations from './components/Donations.vue';
 
   @Component({
     components: {
       ReaderPanelTotal,
       ReaderPanelBids,
+      ReaderPanelReader,
+      ReaderPanelMilestones,
+      ReaderPanelRunStatus,
+      ReaderPanelDonations,
     },
   })
   export default class extends Vue {
     @Getter readonly allBids!: Bids[];
     @Getter readonly total!: Total;
     @Getter readonly donationsToRead!: DonationsToRead;
+    @Getter readonly reader!: Reader;
+    @Getter readonly milestones!: Milestones;
+    @Getter readonly timer!: Timer;
+    @Getter readonly activeRun!: RunDataActiveRun;
+
+    updateReader(name: string): void {
+      storeModule.updateReader(name);
+    }
   }
 </script>
 
@@ -45,5 +90,9 @@
 
   .panel {
     margin: 5px;
+  }
+
+  .column {
+    flex-direction: column;
   }
 </style>

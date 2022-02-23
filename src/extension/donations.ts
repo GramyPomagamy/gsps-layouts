@@ -159,6 +159,28 @@ async function getDonationBids(): Promise<Tracker.DonationBid[]> {
   }
 }
 
+async function setDonationAsRead(id: number): Promise<void> {
+  try {
+    const resp = await needle(
+      'get',
+      `https://gsps.pl/donacje/edit?type=donation&id=${id}` +
+        '&readstate=READ&commentstate=APPROVED',
+      {
+        cookies: cookies,
+      }
+    );
+    if (resp.statusCode === 200) {
+      donationsLog.info(`Pomyślnie zaznaczono donację ${id} jako przeczytaną`);
+    } else {
+      throw new Error(`Status Code ${resp.statusCode}`);
+    }
+  } catch (err) {
+    donationsLog.warn(
+      `Błąd przy zaznaczaniu donacji ${id} jako przeczytaną: ${err}`
+    );
+  }
+}
+
 export function getCookies(): NeedleResponse['cookies'] {
   return cookies;
 }
@@ -169,3 +191,6 @@ loginToTracker().then(() => {
 });
 
 nodecg().listenFor('updateDonations', updateToReadDonations);
+nodecg().listenFor('setDonationAsRead', (id) => {
+  setDonationAsRead(id);
+});

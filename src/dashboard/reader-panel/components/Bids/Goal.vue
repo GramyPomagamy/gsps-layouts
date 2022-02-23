@@ -6,9 +6,16 @@
   >
     <v-row no-gutters>
       <v-col cols="12">
-        <h2>{{ bid.game }} - {{ bid.name }}</h2>
+        <h2 :style="{ overflowWrap: 'break-word' }">{{ bid.game }} - {{ bid.name }}</h2>
         <h5>
-          <i v-if="etaUntil">Ten run odbędzie się za ok. {{ etaUntil }}</i>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <i v-if="etaUntil" v-bind="attrs" v-on="on"
+                >Ten run odbędzie się planowo za ok. {{ etaUntil }}</i
+              >
+            </template>
+            <span>{{ formattedDate }}</span>
+          </v-tooltip>
         </h5>
       </v-col>
       <v-progress-linear :value="progress" rounded height="19">
@@ -28,6 +35,7 @@
 <script>
   import dayjs from 'dayjs';
   import relativeTime from 'dayjs/plugin/relativeTime';
+  import localizedFormat from 'dayjs/plugin/localizedFormat';
   import utc from 'dayjs/plugin/utc';
   import timezone from 'dayjs/plugin/timezone';
   import pl from 'dayjs/locale/pl';
@@ -35,6 +43,7 @@
   dayjs.extend(relativeTime);
   dayjs.extend(utc);
   dayjs.extend(timezone);
+  dayjs.extend(localizedFormat);
 
   export default {
     name: 'ReaderPanelBidsGoal',
@@ -51,13 +60,20 @@
         },
       },
       etaUntil() {
-        return this.bid.endTime
+        return this.bid.runStartTime
           ? dayjs
-              .unix(this.bid.endTime / 1000)
+              .unix(this.bid.runStartTime / 1000)
               .tz('Europe/Warsaw')
               .locale(pl)
               .fromNow(true)
           : undefined;
+      },
+      formattedDate() {
+        return dayjs
+          .unix(this.bid.runStartTime / 1000)
+          .tz('Europe/Warsaw')
+          .locale(pl)
+          .format('LLL');
       },
     },
   };

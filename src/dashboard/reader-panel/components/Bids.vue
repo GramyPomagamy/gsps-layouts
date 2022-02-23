@@ -2,7 +2,7 @@
   <div>
     <div
       id="bids"
-      style="height: 800px; width: 800px; display: flex; flex-direction: column"
+      style="height: 800px; width: 750px; display: flex; flex-direction: column"
       class="grey darken-4 rounded-lg"
     >
       <h3
@@ -11,26 +11,90 @@
       >
         LICYTACJE
       </h3>
+      <div id="refreshCountdown">
+        <v-progress-linear
+          :indeterminate="updating"
+          :value="((timeLeft / 20) * 100).toFixed(1)"
+          height="12"
+        />
+        <div class="mt-3">
+          <p v-if="!updating">
+            Odświeżam za <b>{{ timeLeft }}</b> sekund...
+          </p>
+          <p v-else>Odświeżam...</p>
+        </div>
+      </div>
+      <v-divider />
       <div id="filter" class="mx-3">
         <v-text-field
+          class="mt-6"
+          dense
+          outlined
           v-model="bidfilter"
           placeholder="Filtruj..."
         ></v-text-field>
+        <v-tooltip left
+          ><template v-slot:activator="{ on, attrs }">
+            <v-btn
+              :disabled="updating"
+              :loading="updating"
+              fab
+              v-bind="attrs"
+              @click="updateBids"
+              v-on="on"
+              class="mt-4 ml-2"
+              ><v-icon>mdi-refresh</v-icon></v-btn
+            >
+          </template>
+          <span>Odśwież licytacje ręcznie</span></v-tooltip
+        >
       </div>
       <v-divider />
       <div class="pa-2" style="height: 100%; overflow: auto">
-        <template v-for="bid in bids">
-          <reader-panel-bids-goal
-            v-if="bid.type === 'challenge' && bidName(bid).includes(bidfilter)"
-            :bid="bid"
-            :key="bid.id"
-          />
-          <reader-panel-bid-war
-            v-if="bid.type != 'challenge' && bidName(bid).includes(bidfilter)"
-            :bid="bid"
-            :key="bid.id"
-          />
-        </template>
+        <div id="open-bids">
+          <template v-for="bid in bids">
+            <reader-panel-bids-goal
+              v-if="
+                bid.type === 'challenge' &&
+                bidName(bid).includes(bidfilter) &&
+                bid.state === 'OPEN'
+              "
+              :bid="bid"
+              :key="bid.id"
+            />
+            <reader-panel-bid-war
+              v-if="
+                bid.type != 'challenge' &&
+                bidName(bid).includes(bidfilter) &&
+                bid.state === 'OPEN'
+              "
+              :bid="bid"
+              :key="bid.id"
+            />
+          </template>
+        </div>
+        <div id="closed-bids">
+          <template v-for="bid in bids">
+            <reader-panel-bids-goal
+              v-if="
+                bid.type === 'challenge' &&
+                bidName(bid).includes(bidfilter) &&
+                bid.state != 'OPEN'
+              "
+              :bid="bid"
+              :key="bid.id"
+            />
+            <reader-panel-bid-war
+              v-if="
+                bid.type != 'challenge' &&
+                bidName(bid).includes(bidfilter) &&
+                bid.state != 'OPEN'
+              "
+              :bid="bid"
+              :key="bid.id"
+            />
+          </template>
+        </div>
       </div>
     </div>
   </div>
@@ -45,6 +109,9 @@
     data() {
       return {
         bidfilter: '',
+        updating: false,
+        refreshTimer: undefined,
+        timeLeft: 20,
       };
     },
     components: {
@@ -56,6 +123,43 @@
       bidName(bid) {
         return `${bid.game} - ${bid.name}`.toLowerCase();
       },
+      updateBids() {
+        nodecg.sendMessage('updateBids');
+      },
+      startRefreshCountdown() {
+        this.refreshTimer = setInterval(() => {
+          if (this.timeLeft == 1) {
+            clearInterval(this.refreshTimer);
+            this.timeLeft = 0;
+          }
+          this.timeLeft -= 1;
+        }, 1000);
+      },
+    },
+    mounted() {
+      nodecg.listenFor('bids:updating', () => {
+        clearInterval(this.refreshTimer);
+        this.updating = true;
+      });
+
+      nodecg.listenFor('bids:updated', () => {
+        this.timeLeft = 20;
+        this.startRefreshCountdown();
+        this.updating = false;
+      });
+
+      this.startRefreshCountdown();
     },
   };
 </script>
+
+<style scoped>
+  #filter {
+    display: flex;
+  }
+
+  #refreshCountdown {
+    text-align: center;
+    width: 100%;
+  }
+</style>

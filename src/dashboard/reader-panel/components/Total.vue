@@ -1,10 +1,9 @@
 <template>
-  <div :style="{ height: '200px', textAlign: 'center' }">
-    <v-card>
-      <v-card-title>
-        <b :style="{ fontSize: '48px' }">{{ total.formatted }}</b>
-      </v-card-title>
-    </v-card>
+  <div
+    class="grey darken-4 rounded-lg"
+    :style="{ textAlign: 'center' }"
+  >
+    <b :style="{ fontSize: '48px' }">{{ total.formatted }}</b>
   </div>
 </template>
 
