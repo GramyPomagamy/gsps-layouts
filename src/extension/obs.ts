@@ -8,7 +8,10 @@ import { obsDataReplicant } from './util/replicants';
 const obs = new OBSWebSocket();
 const config = (nodecg().bundleConfig as Configschema).obs;
 const foobarConfig = (nodecg().bundleConfig as Configschema).foobar;
-const foobar = new FoobarControl(foobarConfig.address);
+let foobar: FoobarControl;
+if (foobarConfig.enabled) {
+  foobar = new FoobarControl(foobarConfig.address);
+}
 const log = new (nodecg() as NodeCG).Logger(`${nodecg().bundleName}:OBS`);
 let reconnectTimeout: NodeJS.Timeout;
 
@@ -50,12 +53,20 @@ function switchFromHostScreen() {
   obs.send('SetCurrentScene', { 'scene-name': config.scenes.intermission });
 }
 
+function playIntermissionVideo() {
+  obs.send('SetCurrentScene', { 'scene-name': config.scenes.video });
+}
+
 obs.on('SwitchScenes', (data) => {
   if (obsDataReplicant.value.scene != data['scene-name']) {
     if (data['scene-name'].includes('[M]')) {
-      foobar.unmute();
+      if (foobarConfig.enabled) {
+        foobar.unmute();
+      }
     } else {
-      foobar.mute();
+      if (foobarConfig.enabled) {
+        foobar.mute();
+      }
     }
     obsDataReplicant.value.scene = data['scene-name'];
   }
@@ -90,3 +101,5 @@ obs.on('ConnectionClosed', () => {
 
 nodecg().listenFor('switchToIntermission', switchToIntermission);
 nodecg().listenFor('switchFromHostScreen', switchFromHostScreen);
+nodecg().listenFor('videoPlayerFinished', switchFromHostScreen);
+nodecg().listenFor('playIntermissionVideo', playIntermissionVideo);

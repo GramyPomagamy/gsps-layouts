@@ -24,7 +24,12 @@
           }"
         >
           <i
-            :style="{ 'font-size': '24px', float: 'left', marginTop: '5px', marginLeft: '10px' }"
+            :style="{
+              'font-size': '24px',
+              float: 'left',
+              marginTop: '5px',
+              marginLeft: '10px',
+            }"
             class="fab fa-twitch"
           ></i
           ><b>{{ player.social.twitch || '?' }}</b>

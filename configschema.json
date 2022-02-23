@@ -65,9 +65,13 @@
             "intermission": {
               "type": "string",
               "default": "Przerwa [M]"
+            },
+            "video": {
+              "type": "string",
+              "default": "Przerwa - film"
             }
           },
-          "required": ["intermission"]
+          "required": ["intermission", "video"]
         }
       },
       "description": "Info needed to use OBS websockets.",
@@ -99,5 +103,12 @@
       "required": ["enabled"]
     }
   },
-  "required": ["obs", "foobar", "tracker", "google", "footpedal", "milestonesUrl"]
+  "required": [
+    "obs",
+    "foobar",
+    "tracker",
+    "google",
+    "footpedal",
+    "milestonesUrl"
+  ]
 }

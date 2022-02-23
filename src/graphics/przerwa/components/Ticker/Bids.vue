@@ -117,7 +117,7 @@
     },
     mounted() {
       console.log('Bids: mounted');
-      
+
       if (!bids.value || bids.value.length <= 0) {
         console.log('Bids: unmounted');
         this.$emit('end');

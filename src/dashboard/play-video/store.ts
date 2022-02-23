@@ -3,9 +3,8 @@ import {
   ReplicantModule,
   ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store';
-import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
-import type { Asset } from '@gsps-layouts/types';
-import type { ObsData } from '@gsps-layouts/types/schemas';
+import { ObsData } from '@gsps-layouts/types/schemas';
+import clone from 'clone';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
 import { Action, getModule, Module, VuexModule } from 'vuex-module-decorators';
@@ -19,18 +18,7 @@ class OurModule extends VuexModule {
     return this.context.rootState.ReplicantModule.reps;
   }
 
-  get activeRun(): RunDataActiveRun {
-    return this.reps.activeRunReplicant;
-  }
-
-  get videosCharity(): Asset[] {
-    return this.reps.videosCharity;
-  }
-
-  get videosSponsors(): Asset[] {
-    return this.reps.videosSponsors;
-  }
-
+  // Helper getter to return a specific replicant.
   get obsData(): ObsData {
     return this.reps.obsData;
   }

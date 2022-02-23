@@ -54,6 +54,8 @@ export const reps: {
   hosterkaRep: ReplicantBrowser<Hosterka>;
   logoCycles: ReplicantBrowser<LogoCycle[]>;
   logoCyclesBreak: ReplicantBrowser<LogoCycle[]>;
+  videosCharity: ReplicantBrowser<Asset[]>;
+  videosSponsors: ReplicantBrowser<Asset[]>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
   totalReplicant: nodecg.Replicant('total'),
@@ -85,6 +87,8 @@ export const reps: {
   hosterkaRep: nodecg.Replicant('hosterka'),
   logoCycles: nodecg.Replicant('logoCycles'),
   logoCyclesBreak: nodecg.Replicant('logoCyclesBreak'),
+  videosCharity: nodecg.Replicant('assets:videos-charity'),
+  videosSponsors: nodecg.Replicant('assets:videos-sponsors'),
 };
 
 // All the replicant types.
@@ -110,6 +114,8 @@ export interface ReplicantTypes {
   hosterkaRep: Hosterka;
   logoCycles: LogoCycle[];
   logoCyclesBreak: LogoCycle[];
+  videosCharity: Asset[];
+  videosSponsors: Asset[];
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })

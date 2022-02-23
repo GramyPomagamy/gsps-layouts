@@ -1,19 +1,26 @@
 <template>
   <div id="container">
     <img id="Background" src="../img/layouts/video_bg-min.png" />
+    <video id="player" ref="VideoPlayer">
+      <source ref="PlayerSource" />
+    </video>
 
-    <div id="nextRunInfo">
+    <div id="nextRunInfo" v-if="activeRun">
       <div id="nextRunLabel"><b>NADCHODZĄCY RUN</b></div>
-      <video-next-run v-if="activeRun" :run="activeRun" />
+      <video-next-run :run="activeRun" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { Vue, Component } from 'vue-property-decorator';
+  import { Vue, Component, Watch, Ref } from 'vue-property-decorator';
   import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
+  import type { Asset } from '@gsps-layouts/types';
+  import type { ObsData, Configschema } from '@gsps-layouts/types/schemas';
   import { Getter } from 'vuex-class';
   import VideoNextRun from './components/NextRun.vue';
+
+  type VideoTypes = 'charity' | 'sponsors';
 
   @Component({
     components: {
@@ -22,6 +29,71 @@
   })
   export default class extends Vue {
     @Getter readonly activeRun!: RunDataActiveRun;
+    @Getter readonly videosCharity!: Asset[];
+    @Getter readonly videosSponsors!: Asset[];
+    @Getter readonly obsData!: ObsData;
+    @Ref('VideoPlayer') player!: HTMLVideoElement;
+    @Ref('PlayerSource') playerSrc!: HTMLSourceElement;
+
+    config = (nodecg.bundleConfig as Configschema).obs;
+
+    sceneName: string = this.config.scenes.video;
+
+    video!: Asset;
+    videoType: VideoTypes = 'charity';
+
+    @Watch('obsData')
+    onOBSDataChanged(newVal: ObsData) {
+      this.$nextTick(() => {
+        if (newVal.scene === this.sceneName) {
+          this.videoType = 'charity';
+          this.playNextVideo('charity');
+        }
+      });
+    }
+
+    async playNextVideo(type: VideoTypes): Promise<void> {
+      let video;
+      if (type === 'charity') {
+        video =
+          this.videosCharity[
+            Math.floor(Math.random() * this.videosCharity.length)
+          ];
+      } else {
+        video =
+          this.videosSponsors[
+            Math.floor(Math.random() * this.videosSponsors.length)
+          ];
+      }
+      if (video) {
+        this.video = video;
+        this.playerSrc.src = video.url;
+        this.playerSrc.type = `video/${video.ext
+          .toLowerCase()
+          .replace('.', '')}`;
+        this.player.volume = 0.5;
+        this.player.load();
+        this.player.play();
+      } else {
+        console.error(
+          'Coś się popsuło i nie było mnie słychać, więc spróbuję jeszcze raz...'
+        );
+        this.playNextVideo(type);
+      }
+    }
+
+    videoEnded(): void {
+      if (this.videoType === 'charity') {
+        this.playNextVideo('sponsors');
+        this.videoType = 'sponsors';
+      } else {
+        nodecg.sendMessage('videoPlayerFinished');
+      }
+    }
+
+    mounted() {
+      this.player.addEventListener('ended', this.videoEnded);
+    }
   }
 </script>
 
@@ -56,6 +128,14 @@
     color: white;
     font-size: 24px;
     margin-bottom: 10px;
+  }
+
+  #player {
+    position: absolute;
+    left: 222px;
+    top: 26px;
+    width: 1476px;
+    height: 830px;
   }
 
   html {

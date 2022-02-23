@@ -184,6 +184,13 @@
         "workspace": "OBS"
       },
       {
+        "name": "play-video",
+        "title": "Film na przerwie",
+        "file": "play-video.html",
+        "width": 3,
+        "workspace": "OBS"
+      },
+      {
         "name": "Panel czytającego",
         "title": "Panel czytającego",
         "file": "reader-panel.html",
@@ -281,14 +288,32 @@
         "name": "sponsors",
         "title": "Loga sponsorów",
         "allowedTypes": [
-          "png"
+          "png",
+          "PNG"
         ]
       },
       {
         "name": "sponsors-break",
         "title": "Loga sponsorów (przerwa)",
         "allowedTypes": [
-          "png"
+          "png",
+          "PNG"
+        ]
+      },
+      {
+        "name": "videos-charity",
+        "title": "Filmy na przerwę (fundacja)",
+        "allowedTypes": [
+          "mp4",
+          "MP4"
+        ]
+      },
+      {
+        "name": "videos-sponsors",
+        "title": "Filmy na przerwę (sponsorzy)",
+        "allowedTypes": [
+          "mp4",
+          "MP4"
         ]
       }
     ]

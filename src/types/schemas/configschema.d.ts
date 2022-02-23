@@ -33,6 +33,7 @@ export interface Configschema {
     password: string;
     scenes: {
       intermission: string;
+      video: string;
       [k: string]: unknown;
     };
     [k: string]: unknown;

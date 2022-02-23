@@ -36,8 +36,8 @@
     props: ['runs'],
     data() {
       return {
-        timestamp: Date.now()
-      }
+        timestamp: Date.now(),
+      };
     },
     methods: {
       formatPlayers(run) {
