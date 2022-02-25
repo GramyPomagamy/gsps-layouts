@@ -6,7 +6,9 @@
   >
     <v-row no-gutters>
       <v-col cols="12">
-        <h2 :style="{ overflowWrap: 'break-word' }">{{ bid.game }} - {{ bid.name }}</h2>
+        <h2 :style="{ overflowWrap: 'break-word' }">
+          {{ bid.game }} - {{ bid.name }}
+        </h2>
         <h5>
           <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">

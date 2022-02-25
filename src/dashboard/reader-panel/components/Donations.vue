@@ -58,7 +58,9 @@
           :key="donation.id"
         />
       </v-expansion-panels>
-      <p :style="{ width: '100%', textAlign: 'center' }" v-else>Brak donacji do przeczytania</p>
+      <p :style="{ width: '100%', textAlign: 'center' }" v-else>
+        Brak donacji do przeczytania
+      </p>
     </div>
   </div>
 </template>

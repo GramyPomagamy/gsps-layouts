@@ -39,7 +39,10 @@
       <div id="open-milestones">
         <template v-for="milestone in milestones">
           <reader-panel-milestone
-            v-if="milestone.name.toLowerCase().includes(filter) && total.raw <= milestone.amount"
+            v-if="
+              milestone.name.toLowerCase().includes(filter) &&
+              total.raw <= milestone.amount
+            "
             :milestone="milestone"
             :key="milestone.name"
             :met="total.raw >= milestone.amount"

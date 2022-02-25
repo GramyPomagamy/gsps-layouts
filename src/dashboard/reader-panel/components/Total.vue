@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="grey darken-4 rounded-lg"
-    :style="{ textAlign: 'center' }"
-  >
+  <div class="grey darken-4 rounded-lg" :style="{ textAlign: 'center' }">
     <b :style="{ fontSize: '48px' }">{{ total.formatted }}</b>
   </div>
 </template>
