@@ -44,7 +44,11 @@ function reconnectToOBS() {
 function switchToIntermission() {
   obs.send('SetCurrentScene', { 'scene-name': config.scenes.intermission });
   if (!obsDataReplicant.value.studioMode) {
-    obs.send('EnableStudioMode');
+    try {
+      obs.send('EnableStudioMode');
+    } catch (err) {
+      log.error(`Wystąpił błąd przy włączaniu Studio Mode: ${err}`);
+    }
   }
   setTimeout(() => {
     nodecg().sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
