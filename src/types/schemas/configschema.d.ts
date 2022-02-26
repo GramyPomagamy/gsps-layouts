@@ -50,4 +50,9 @@ export interface Configschema {
     enabled: boolean;
     [k: string]: unknown;
   };
+  twitchExt: {
+    enabled: boolean;
+    token: string;
+    [k: string]: unknown;
+  };
 }

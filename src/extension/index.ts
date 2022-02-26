@@ -28,4 +28,5 @@ export = (nodecg: NodeCG): void => {
   require('./footpedal');
   require('./milestones');
   require('./prizes');
+  require('./featured');
 };

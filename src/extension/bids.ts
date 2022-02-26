@@ -11,8 +11,7 @@ const bidsLog = new (nodecg() as NodeCG).Logger(`${nodecg().bundleName}:bids`);
 const eventID = (nodecg().bundleConfig as Configschema).tracker?.eventID;
 const POLL_INTERVAL = 20 * 1000;
 const BIDS_URL = `https://gsps.pl/donacje/search?type=allbids&event=${eventID}`;
-/* const CURRENT_BIDS_URL = 'https://gsps.pl/donacje/search?type=allbids&event=17&state=OPENED'; */
-const CURRENT_BIDS_URL = `https://gsps.pl/donacje/search?type=allbids&event=${eventID}`;
+const CURRENT_BIDS_URL = `https://gsps.pl/donacje/search?type=allbids&event=${eventID}&state=OPENED`;
 const currentBidsRep = nodecg().Replicant<Bids>('currentBids', {
   defaultValue: [],
 });

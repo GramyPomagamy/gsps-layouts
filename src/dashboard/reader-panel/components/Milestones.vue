@@ -41,7 +41,7 @@
           <reader-panel-milestone
             v-if="
               milestone.name.toLowerCase().includes(filter) &&
-              total.raw <= milestone.amount
+              total.raw < milestone.amount
             "
             :milestone="milestone"
             :key="milestone.name"

@@ -101,6 +101,18 @@
         }
       },
       "required": ["enabled"]
+    },
+    "twitchExt": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "token": {
+          "type": "string"
+        }
+      },
+      "required": ["enabled", "token"]
     }
   },
   "required": [
@@ -109,6 +121,7 @@
     "tracker",
     "google",
     "footpedal",
-    "milestonesUrl"
+    "milestonesUrl",
+    "twitchExt"
   ]
 }
