@@ -8,6 +8,7 @@
 export interface ObsData {
   connected: boolean;
   scene?: string;
+  studioMode?: boolean;
   transitioning: boolean;
   streaming: boolean;
   recording: boolean;

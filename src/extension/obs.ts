@@ -43,7 +43,9 @@ function reconnectToOBS() {
 
 function switchToIntermission() {
   obs.send('SetCurrentScene', { 'scene-name': config.scenes.intermission });
-  obs.send('EnableStudioMode');
+  if (!obsDataReplicant.value.studioMode) {
+    obs.send('EnableStudioMode');
+  }
   setTimeout(() => {
     nodecg().sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
   }, 1000);
@@ -86,6 +88,10 @@ obs.on('RecordingStarted', () => {
 
 obs.on('RecordingStopped', () => {
   obsDataReplicant.value.recording = false;
+});
+
+obs.on('StudioModeSwitched', (data) => {
+  obsDataReplicant.value.studioMode = data['new-state'];
 });
 
 obs.on('ConnectionOpened', () => {
