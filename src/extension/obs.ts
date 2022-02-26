@@ -64,7 +64,7 @@ function playIntermissionVideo() {
 
 obs.on('SwitchScenes', (data) => {
   if (obsDataReplicant.value.scene != data['scene-name']) {
-    if (data['scene-name'].includes('[M]')) {
+    if (data['scene-name'].includes(foobarConfig.unmuteKeyword)) {
       if (foobarConfig.enabled) {
         foobar.unmute();
       }

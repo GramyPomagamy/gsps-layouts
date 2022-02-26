@@ -44,6 +44,7 @@ export interface Configschema {
   foobar: {
     enabled: boolean;
     address: string;
+    unmuteKeyword: string;
     [k: string]: unknown;
   };
   footpedal: {
