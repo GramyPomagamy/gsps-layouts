@@ -197,6 +197,12 @@
         "fullbleed": true
       },
       {
+        "name": "Panel hosta",
+        "title": "Panel host",
+        "file": "host-panel.html",
+        "fullbleed": true
+      },
+      {
         "name": "sponsors",
         "title": "Loga sponsorów (główny layout)",
         "file": "sponsors.html",
