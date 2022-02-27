@@ -1,7 +1,10 @@
 <template>
   <div
     id="container"
-    :style="{ backgroundColor: donationsToRead.length ? 'green' : 'red' }"
+    @click="enableFullscreen"
+    :style="{
+      backgroundColor: donationsToRead.length || readerAlert ? 'green' : 'red',
+    }"
   >
     <div id="run-container">
       <timer-view id="timer" />
@@ -16,6 +19,7 @@
         paddingBottom: '1px',
       }"
     >
+      <p v-if="readerAlert">Czytający chce coś powiedzieć</p>
       <p>Donacje oczekujące na przeczytanie: {{ donationsToRead.length }}</p>
       <p>Największa donacja: {{ topDonationAmount }}</p>
     </div>
@@ -43,6 +47,8 @@
     @Getter readonly timer!: Timer;
     @Getter readonly donationsToRead!: DonationsToRead;
 
+    readerAlert: boolean = false;
+
     get topDonationAmount() {
       if (this.donationsToRead.length) {
         const sorted = clone(this.donationsToRead).sort((a, b) => {
@@ -52,6 +58,16 @@
       } else {
         return '0.00 zł';
       }
+    }
+
+    enableFullscreen() {
+      document.getElementById('container')?.requestFullscreen();
+    }
+
+    mounted() {
+      nodecg.listenFor('toggleAlert', () => {
+        this.readerAlert = !this.readerAlert;
+      });
     }
   }
 </script>

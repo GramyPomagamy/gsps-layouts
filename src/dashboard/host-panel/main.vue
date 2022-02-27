@@ -20,10 +20,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import type {
-    Bids,
-    Total,
-  } from '@gsps-layouts/types/schemas';
+  import type { Bids, Total } from '@gsps-layouts/types/schemas';
   import { Milestones } from '@gsps-layouts/types';
   import { storeModule } from './store';
   import { Getter } from 'vuex-class';

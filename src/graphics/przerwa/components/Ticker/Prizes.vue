@@ -76,7 +76,6 @@
             Date.now() > prize.startTime &&
             Date.now() < prize.endTime
         );
-        console.log(activePrizes);
         if (activePrizes.length === 1) {
           this.$emit('label', 'NAGRODY');
           return activePrizes[0];

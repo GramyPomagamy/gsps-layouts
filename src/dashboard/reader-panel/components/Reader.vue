@@ -8,6 +8,11 @@
       <v-text-field v-model="readerField" dense outlined />
       <v-btn class="ml-3" @click="updateReader">Aktualizuj czytającego</v-btn>
     </div>
+    <v-btn block @click="sendAlert"
+      ><template v-if="!readerAlert"
+        >Daj runnerowi znać, że chcesz coś powiedzieć</template
+      ><template v-else>Usuń powiadomienie</template></v-btn
+    >
   </div>
 </template>
 
@@ -18,12 +23,17 @@
     data() {
       return {
         readerField: '',
+        readerAlert: false,
       };
     },
     methods: {
       updateReader() {
         this.$emit('update', this.readerField);
         this.readerField = '';
+      },
+      sendAlert() {
+        this.readerAlert = !this.readerAlert;
+        nodecg.sendMessage('toggleAlert');
       },
     },
   };
