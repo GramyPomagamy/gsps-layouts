@@ -65,8 +65,8 @@
         if (activePrizes.length === 1) {
           return activePrizes[0];
         } else if (activePrizes.length > 1) {
-          const rand = Math.floor(Math.random() * prizes.length);
-          return activePrizes.value[rand];
+          const rand = Math.floor(Math.random() * activePrizes.length);
+          return activePrizes[rand];
         } else {
           console.log('Prizes: unmounted');
           this.$emit('end');

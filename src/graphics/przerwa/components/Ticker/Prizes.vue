@@ -76,13 +76,14 @@
             Date.now() > prize.startTime &&
             Date.now() < prize.endTime
         );
+        console.log(activePrizes);
         if (activePrizes.length === 1) {
           this.$emit('label', 'NAGRODY');
           return activePrizes[0];
         } else if (activePrizes.length > 1) {
           this.$emit('label', 'NAGRODY');
-          const rand = Math.floor(Math.random() * prizes.length);
-          return activePrizes.value[rand];
+          const rand = Math.floor(Math.random() * activePrizes.length);
+          return activePrizes[rand];
         } else {
           this.$emit('label', '');
           console.log('Prizes: unmounted');
