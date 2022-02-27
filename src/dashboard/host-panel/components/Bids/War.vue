@@ -19,14 +19,19 @@
             <span>{{ formattedDate }}</span>
           </v-tooltip>
         </h5>
+        <h5 v-if="bid.longDescription">{{ bid.longDescription }}</h5>
       </v-col>
       <div style="width: 100%">
-        <template v-for="(option, index) in bid.options">
+        <template
+          v-if="bid.options.length > 0"
+          v-for="(option, index) in bid.options"
+        >
           <h3 :style="{ overflowWrap: 'break-word' }">
             {{ index + 1 }}. {{ option.name }} - {{ option.total }}
           </h3>
           <v-progress-linear :value="getProgress(option)" rounded height="10" />
         </template>
+        <h3 v-else>Brak opcji</h3>
       </div>
     </v-row>
   </div>

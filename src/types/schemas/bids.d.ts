@@ -9,6 +9,7 @@ export type Bids = {
   id: number;
   name: string;
   description?: string;
+  longDescription?: string;
   total: number;
   game?: string;
   category?: string;

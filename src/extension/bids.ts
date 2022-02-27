@@ -102,6 +102,8 @@ function processRawBids(bids: any[]) {
         description:
           bid.fields.shortdescription ||
           `No shortdescription for bid #${bid.pk}`,
+        longDescription:
+          bid.fields.description || `No description for bid #${bid.pk}`,
         total: parseFloat(bid.fields.total.toString()) + ' zł',
         rawTotal: parseFloat(bid.fields.total.toString()),
         state: bid.fields.state,

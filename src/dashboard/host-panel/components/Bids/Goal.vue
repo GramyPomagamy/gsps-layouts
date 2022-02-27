@@ -19,6 +19,7 @@
             <span>{{ formattedDate }}</span>
           </v-tooltip>
         </h5>
+        <h5 v-if="bid.longDescription">{{ bid.longDescription }}</h5>
       </v-col>
       <v-progress-linear :value="progress" rounded height="19">
         <template>
