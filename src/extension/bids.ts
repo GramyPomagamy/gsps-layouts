@@ -219,8 +219,8 @@ function processRawBids(bids: any[]) {
 }
 
 function sortBidsByEarliestEndTime(
-  a: { fields: { speedrun__endtime: string }; speedrunEndtime: number },
-  b: { fields: { speedrun__endtime: string }; speedrunEndtime: number }
+  a: { fields: { speedrun__endtime: string }; runEndTime: number },
+  b: { fields: { speedrun__endtime: string }; runEndTime: number }
 ) {
   // Raw format from tracker.
   if (a.fields && b.fields) {
@@ -231,7 +231,7 @@ function sortBidsByEarliestEndTime(
   }
 
   // Else, format from our own code.
-  return a.speedrunEndtime - b.speedrunEndtime;
+  return a.runEndTime - b.runEndTime;
 }
 
 nodecg().listenFor('updateBids', update);
