@@ -8,7 +8,11 @@
     }"
   >
     <p class="option-name label">{{ option.name }}</p>
-    <p class="option-total label" :class="totalClass">
+    <p
+      class="option-total label"
+      v-if="option.rawTotal != undefined"
+      :class="totalClass"
+    >
       {{ option.rawTotal }} PLN
     </p>
   </div>

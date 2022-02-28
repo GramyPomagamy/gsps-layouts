@@ -112,6 +112,7 @@ function processRawBids(bids: any[]) {
         runStartTime: Date.parse(bid.fields.speedrun__starttime),
         runEndTime: Date.parse(bid.fields.speedrun__endtime),
         public: bid.fields.public,
+        allowUserOptions: bid.fields.allowuseroptions,
       };
 
       // If this parent bid is not a target, that means it is a donation war that has options.

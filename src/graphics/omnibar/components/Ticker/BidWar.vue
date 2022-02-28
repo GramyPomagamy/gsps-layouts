@@ -10,7 +10,7 @@
           </p>
         </div>
         <div id="options">
-          <template v-if="currentBid.options.length > 0">
+          <template v-if="currentBid.options && currentBid.options.length > 0">
             <bid-war-option
               v-for="(option, index) in currentBid.options"
               :option="option"
@@ -22,9 +22,7 @@
             />
           </template>
           <template
-            v-else-if="
-              currentBid.allowUserOptions && !currentBid.options.length > 0
-            "
+            v-if="currentBid.allowUserOptions && !currentBid.options.length"
           >
             <bid-war-option
               :option="placeholderOption"
@@ -60,7 +58,7 @@
         currentBid: {},
         placeholderOption: {
           name: 'Wpłać jako pierwszy na tę licytację!',
-          rawTotal: '',
+          rawTotal: undefined,
         },
       };
     },
@@ -93,7 +91,7 @@
           onComplete: () => {
             setTimeout(() => {
               this.nextBid();
-            }, 1000);
+            }, 1500);
           },
         });
         arr.forEach((element) => {

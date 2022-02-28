@@ -22,7 +22,7 @@
           v-if="prize.minimumBid"
           :style="{ fontSize: '24px', marginTop: '-15px' }"
         >
-          Minimalna wpłata: {{ formatAmount(prize.minimumBid) }} zł
+          Minimalna suma donacji: {{ formatAmount(prize.minimumBid) }} zł
         </p>
         <p v-if="etaUntil" :style="{ fontSize: '24px', marginTop: '-15px' }">
           Wpłać w ciągu {{ etaUntil }}, aby mieć szansę wygrać!

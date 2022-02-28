@@ -8,7 +8,7 @@
       <p v-if="prize.provided">
         Nagroda dostarczona przez: <b>{{ prize.provided }}</b
         ><template v-if="prize.minimumBid"
-          >, minimalna wpłata:
+          >, minimalna suma donacji:
           <b>{{ formatAmount(prize.minimumBid) }} zł</b></template
         >
         <template v-if="etaUntil">w ciągu {{ etaUntil }}</template>
