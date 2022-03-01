@@ -53,11 +53,11 @@
       <div class="pa-2" style="height: 100%; overflow: auto">
         <div id="open-bids">
           <template v-for="bid in bids">
-            <reader-panel-bids-goal
+            <reader-panel-bid-goal
               v-if="
                 bid.type === 'challenge' &&
                 bidName(bid).includes(bidfilter) &&
-                bid.state === 'OPEN'
+                bid.state === 'OPENED'
               "
               :bid="bid"
               :key="bid.id"
@@ -66,7 +66,7 @@
               v-if="
                 bid.type != 'challenge' &&
                 bidName(bid).includes(bidfilter) &&
-                bid.state === 'OPEN'
+                bid.state === 'OPENED'
               "
               :bid="bid"
               :key="bid.id"
@@ -79,7 +79,7 @@
               v-if="
                 bid.type === 'challenge' &&
                 bidName(bid).includes(bidfilter) &&
-                bid.state != 'OPEN'
+                bid.state === 'CLOSED'
               "
               :bid="bid"
               :key="bid.id"
@@ -88,7 +88,7 @@
               v-if="
                 bid.type != 'challenge' &&
                 bidName(bid).includes(bidfilter) &&
-                bid.state != 'OPEN'
+                bid.state === 'CLOSED'
               "
               :bid="bid"
               :key="bid.id"
@@ -101,7 +101,7 @@
 </template>
 
 <script>
-  import ReaderPanelBidsGoal from './Bids/Goal.vue';
+  import ReaderPanelBidGoal from './Bids/Goal.vue';
   import ReaderPanelBidWar from './Bids/War.vue';
 
   export default {
@@ -115,7 +115,7 @@
       };
     },
     components: {
-      ReaderPanelBidsGoal,
+      ReaderPanelBidGoal,
       ReaderPanelBidWar,
     },
     props: ['bids'],

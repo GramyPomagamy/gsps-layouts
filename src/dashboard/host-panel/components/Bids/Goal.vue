@@ -49,7 +49,7 @@
   dayjs.extend(localizedFormat);
 
   export default {
-    name: 'ReaderPanelBidsGoal',
+    name: 'ReaderPanelBidGoal',
     props: ['bid'],
     computed: {
       progress: {
