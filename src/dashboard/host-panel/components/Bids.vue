@@ -60,7 +60,7 @@
                 bid.state === 'OPENED'
               "
               :bid="bid"
-              :key="bid.id"
+              :key="timestamp + bid.id"
             />
             <reader-panel-bid-war
               v-if="
@@ -69,7 +69,7 @@
                 bid.state === 'OPENED'
               "
               :bid="bid"
-              :key="bid.id"
+              :key="timestamp + bid.id"
             />
           </template>
         </div>
@@ -82,7 +82,7 @@
                 bid.state === 'CLOSED'
               "
               :bid="bid"
-              :key="bid.id"
+              :key="timestamp + bid.id"
             />
             <reader-panel-bid-war
               v-if="
@@ -91,7 +91,7 @@
                 bid.state === 'CLOSED'
               "
               :bid="bid"
-              :key="bid.id"
+              :key="timestamp + bid.id"
             />
           </template>
         </div>
@@ -112,6 +112,7 @@
         updating: false,
         refreshTimer: undefined,
         timeLeft: 20,
+        timestamp: Date.now(),
       };
     },
     components: {
@@ -146,6 +147,7 @@
         this.timeLeft = 20;
         this.startRefreshCountdown();
         this.updating = false;
+        this.timestamp = Date.now();
       });
 
       this.startRefreshCountdown();
