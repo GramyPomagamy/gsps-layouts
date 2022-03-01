@@ -25,7 +25,7 @@
         <template>
           <strong
             >{{ bid.total }} / {{ bid.goal }}
-            <template v-if="!bid.state === 'CLOSED'">
+            <template v-if="bid.state != 'CLOSED'">
               (Pozostało {{ amountLeft }} zł)</template
             ></strong
           >
