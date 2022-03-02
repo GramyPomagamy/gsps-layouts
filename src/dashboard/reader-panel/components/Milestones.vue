@@ -28,6 +28,7 @@
             @click="update"
             v-on="on"
             class="mt-4 ml-2"
+            clearable
             ><v-icon>mdi-refresh</v-icon></v-btn
           >
         </template>

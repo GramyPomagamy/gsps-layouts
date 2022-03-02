@@ -32,6 +32,7 @@
           outlined
           v-model="bidfilter"
           placeholder="Filtruj..."
+          clearable
         ></v-text-field>
         <v-tooltip left
           ><template v-slot:activator="{ on, attrs }">

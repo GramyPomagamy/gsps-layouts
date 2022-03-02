@@ -17,6 +17,7 @@
         outlined
         v-model="filter"
         placeholder="Filtruj..."
+        clearable
       ></v-text-field>
       <v-tooltip left
         ><template v-slot:activator="{ on, attrs }">
