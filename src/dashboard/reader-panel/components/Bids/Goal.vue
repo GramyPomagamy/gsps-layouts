@@ -59,7 +59,7 @@
       },
       amountLeft: {
         get() {
-          return this.bid.rawGoal - this.bid.rawTotal;
+          return (this.bid.rawGoal - this.bid.rawTotal).toFixed(2);
         },
       },
       etaUntil() {

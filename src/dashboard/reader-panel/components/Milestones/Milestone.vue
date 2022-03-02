@@ -34,7 +34,7 @@
       },
       amountLeft: {
         get() {
-          return this.milestone.amount - this.total;
+          return (this.milestone.amount - this.total).toFixed(2);
         },
       },
     },
