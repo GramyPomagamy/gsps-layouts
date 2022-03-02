@@ -76,7 +76,7 @@
         </div>
         <div id="closed-bids">
           <template v-for="bid in bids">
-            <reader-panel-bids-goal
+            <reader-panel-bid-goal
               v-if="
                 bid.type === 'challenge' &&
                 bidName(bid).includes(bidfilter) &&
