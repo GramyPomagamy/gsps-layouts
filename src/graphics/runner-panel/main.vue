@@ -3,7 +3,7 @@
     id="container"
     @click="enableFullscreen"
     :style="{
-      backgroundColor: donationsToRead.length || readerAlert ? 'green' : 'red',
+      backgroundColor: backgroundColor,
     }"
   >
     <div id="run-container">
@@ -68,6 +68,16 @@
       nodecg.listenFor('toggleAlert', () => {
         this.readerAlert = !this.readerAlert;
       });
+    }
+
+    get backgroundColor() {
+      if (this.donationsToRead.length > 0 && this.readerAlert) {
+        return 'yellow'
+      } else if(this.donationsToRead.length > 0 || this.readerAlert) {
+        return 'green'
+      } else {
+        return 'red'
+      }
     }
   }
 </script>
