@@ -42,7 +42,7 @@
 
         this.$data.sponsorTimeout = setTimeout(
           this.nextSponsor,
-          this.getCycle(this.sponsors[0].name) * 1000
+          this.getCycle(this.sponsors[nextIdx].name) * 1000
         );
       },
       getCycle(sponsor) {
