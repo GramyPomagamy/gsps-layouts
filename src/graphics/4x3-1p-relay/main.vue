@@ -86,9 +86,7 @@
         },
         function () {
           this.$data.numRunners = 0;
-          this.activeRun!.teams.forEach((team: any) => {
-            this.$data.numRunners += team.players.length;
-          });
+          this.$data.numRunners = this.activeRun!.teams.length;
         }
       );
     }

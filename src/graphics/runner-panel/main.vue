@@ -71,12 +71,12 @@
     }
 
     get backgroundColor() {
-      if (this.donationsToRead.length > 0 && this.readerAlert) {
-        return 'yellow'
-      } else if(this.donationsToRead.length > 0 || this.readerAlert) {
-        return 'green'
+      if (this.readerAlert) {
+        return 'yellow';
+      } else if (this.donationsToRead.length > 0) {
+        return 'green';
       } else {
-        return 'red'
+        return 'red';
       }
     }
   }
