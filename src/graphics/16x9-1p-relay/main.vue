@@ -74,9 +74,7 @@
     }
 
     mounted() {
-      this.activeRun!.teams.forEach((team: any) => {
-        this.$data.numRunners += team.players.length;
-      });
+      this.$data.numRunners = this.activeRun!.teams.length;
 
       this.$watch(
         function () {
