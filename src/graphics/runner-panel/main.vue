@@ -72,11 +72,11 @@
 
     get backgroundColor() {
       if (this.readerAlert) {
-        return 'yellow';
+        return '#FFC300';
       } else if (this.donationsToRead.length > 0) {
-        return 'green';
+        return '#357C3C';
       } else {
-        return 'red';
+        return '#FF5959';
       }
     }
   }
