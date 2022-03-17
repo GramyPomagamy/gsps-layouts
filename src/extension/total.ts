@@ -10,10 +10,12 @@ import io from 'socket.io-client';
 const totalLog = new (nodecg() as NodeCG).Logger(
   `${nodecg().bundleName}:total`
 );
-const eventID = (nodecg().bundleConfig as Configschema).tracker?.eventID;
+const config = (nodecg().bundleConfig as Configschema).tracker;
+const rootURL = config!.rootURL;
+const eventID = config!.eventID;
 const donationSocketUrl = (nodecg().bundleConfig as Configschema)
   .donationSocketUrl;
-const TOTAL_URL = `https://gsps.pl/donacje/${eventID}?json`;
+const TOTAL_URL = `${rootURL}/${eventID}?json`;
 
 autoUpdateTotalReplicant.on('change', (newVal) => {
   if (newVal) {
