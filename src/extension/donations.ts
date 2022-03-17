@@ -5,12 +5,17 @@ import { TaggedLogger } from './util/tagged-logger'
 import type { NodeCG } from 'nodecg/types/server';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import type { Tracker } from '@gsps-layouts/types';
-import { donationsToReadReplicant } from './util/replicants';
+import {
+  donationsToReadReplicant,
+  donationsToAcceptReplicant,
+  bidsToAcceptReplicant,
+} from './util/replicants';
 import { updatePrizes } from './prizes';
 
 const donationsLog = new TaggedLogger("donations");
 const config = (nodecg().bundleConfig as Configschema).tracker;
 const rootURL = config!.rootURL;
+const eventID = config!.eventID;
 const LOGIN_URL = `${rootURL}/admin/login/`;
 
 let isFirstLogin = true;
@@ -106,12 +111,8 @@ async function updateToReadDonations() {
   try {
     const resp = await needle(
       'get',
-      `${rootURL}/search?event=${
-        config!.eventID
-      }&type=donation&feed=toread`,
-      {
-        cookies: cookies,
-      }
+      `${rootURL}/search?event=${eventID}&type=donation&feed=toread`,
+      {cookies: cookies}
     );
     const currentDonations = processToReadDonations(resp.body);
     const donationBids = await getDonationBids();
@@ -130,10 +131,27 @@ async function updateToReadDonations() {
       donation.bid = donationBid;
     }
     donationsToReadReplicant.value = currentDonations;
+
+    const donationsToAcceptResp = await needle(
+      'get',
+      `${rootURL}/search?event=${eventID}&type=donation&commentstate=PENDING`,
+      {cookies: cookies}
+    );
+    donationsToAcceptReplicant.value = donationsToAcceptResp.body.length;
+
+    const bidsToAcceptResp = await needle(
+      'get',
+      `${rootURL}/search?event=${eventID}&type=bidtarget&state=PENDING`,
+      {cookies: cookies}
+    );
+    bidsToAcceptReplicant.value = bidsToAcceptResp.body.length;
+
     nodecg().sendMessage('donationsToRead:updated');
   } catch (err) {
     donationsLog.warn('Błąd przy aktualizowaniu donacji do przeczytania:', err);
     donationsToReadReplicant.value.length = 0; // Wyczyść dane na wszelki wypadek
+    donationsToAcceptReplicant.value = 0;
+    bidsToAcceptReplicant.value = 0;
     nodecg().sendMessage('donationsToRead:updated');
   }
   updateTimeout = setTimeout(updateToReadDonations, refreshTime);
