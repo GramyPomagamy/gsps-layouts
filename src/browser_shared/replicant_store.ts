@@ -57,6 +57,8 @@ export const reps: {
   videosCharity: ReplicantBrowser<Asset[]>;
   videosSponsors: ReplicantBrowser<Asset[]>;
   milestonesReplicant: ReplicantBrowser<Milestones>;
+  donationsToAccept: ReplicantBrowser<number>;
+  bidsToAccept: ReplicantBrowser<number>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
   totalReplicant: nodecg.Replicant('total'),
@@ -91,6 +93,8 @@ export const reps: {
   videosCharity: nodecg.Replicant('assets:videos-charity'),
   videosSponsors: nodecg.Replicant('assets:videos-sponsors'),
   milestonesReplicant: nodecg.Replicant('milestones'),
+  donationsToAccept: nodecg.Replicant('donationsToAccept'),
+  bidsToAccept: nodecg.Replicant('bidsToAccept'),
 };
 
 // All the replicant types.
@@ -119,6 +123,8 @@ export interface ReplicantTypes {
   videosCharity: Asset[];
   videosSponsors: Asset[];
   milestonesReplicant: Milestones;
+  donationsToAccept: number;
+  bidsToAccept: number;
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })

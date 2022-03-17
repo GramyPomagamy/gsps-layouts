@@ -50,6 +50,13 @@
       >
     </div>
     <v-divider />
+    <div class="pa-2">
+      Donacje do zaakceptowania: <b>{{ donationsToAccept }}</b>
+    </div>
+    <div class="pa-2">
+      Bidy do zaakceptowania: <b>{{ bidsToAccept }}</b>
+    </div>
+    <v-divider />
     <div class="pa-2" style="height: 100%; overflow: auto">
       <v-expansion-panels accordion v-if="donations && donations.length">
         <reader-panel-donation
@@ -70,7 +77,7 @@
   import ReaderPanelDonation from './Donations/Donation.vue';
   export default {
     name: 'ReaderPanelDonations',
-    props: ['donations'],
+    props: ['donations', 'donationsToAccept', 'bidsToAccept'],
     components: {
       ReaderPanelDonation,
     },
