@@ -6,10 +6,9 @@ import request from 'request';
 import { formatDollars } from './util/format-dollars';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import io from 'socket.io-client';
+import {TaggedLogger} from "./util/tagged-logger";
 
-const totalLog = new (nodecg() as NodeCG).Logger(
-  `${nodecg().bundleName}:total`
-);
+const totalLog = new TaggedLogger("total");
 const config = (nodecg().bundleConfig as Configschema).tracker;
 const rootURL = config!.rootURL;
 const eventID = config!.eventID;

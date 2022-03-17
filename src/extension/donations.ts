@@ -1,16 +1,14 @@
 import needle from 'needle';
 import type { NeedleResponse } from 'needle';
 import { get as nodecg } from './util/nodecg';
+import { TaggedLogger } from './util/tagged-logger'
 import type { NodeCG } from 'nodecg/types/server';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import type { Tracker } from '@gsps-layouts/types';
 import { donationsToReadReplicant } from './util/replicants';
 import { updatePrizes } from './prizes';
 
-const donationsLog = new (nodecg() as NodeCG).Logger(
-  `${nodecg().bundleName}:tracker`
-);
-
+const donationsLog = new TaggedLogger("donations");
 const config = (nodecg().bundleConfig as Configschema).tracker;
 const rootURL = config!.rootURL;
 const LOGIN_URL = `${rootURL}/admin/login/`;

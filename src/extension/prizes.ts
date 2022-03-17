@@ -5,13 +5,12 @@ import type { NodeCG } from 'nodecg/types/server';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import { Tracker } from '@gsps-layouts/types';
 import { getCookies } from './donations';
+import {TaggedLogger} from "./util/tagged-logger";
 
 const refreshTime = 60 * 1000; // Odśwież nagrody co 60s.
 const config = (nodecg().bundleConfig as Configschema).tracker;
 const rootURL = config!.rootURL;
-const prizesLog = new (nodecg() as NodeCG).Logger(
-  `${nodecg().bundleName}:nagrody`
-);
+const prizesLog = new TaggedLogger("nagrody");
 
 function processRawPrizes(
   rawPrizes: Tracker.Prize[]
