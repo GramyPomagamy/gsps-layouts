@@ -7,11 +7,14 @@ import type { Tracker } from '@gsps-layouts/types';
 import { donationsToReadReplicant } from './util/replicants';
 import { updatePrizes } from './prizes';
 
-const LOGIN_URL = 'https://gsps.pl/donacje/admin/login/';
 const donationsLog = new (nodecg() as NodeCG).Logger(
   `${nodecg().bundleName}:tracker`
 );
+
 const config = (nodecg().bundleConfig as Configschema).tracker;
+const rootURL = config!.rootURL;
+const LOGIN_URL = `${rootURL}/admin/login/`;
+
 let isFirstLogin = true;
 let cookies: NeedleResponse['cookies'];
 const refreshTime = 10 * 1000; // Odśwież donacje co 10 sekund.
@@ -105,7 +108,7 @@ async function updateToReadDonations() {
   try {
     const resp = await needle(
       'get',
-      `https://gsps.pl/donacje/search?event=${
+      `${rootURL}/search?event=${
         config!.eventID
       }&type=donation&feed=toread`,
       {
@@ -142,7 +145,7 @@ async function getDonationBids(): Promise<Tracker.DonationBid[]> {
   try {
     const resp = await needle(
       'get',
-      `https://gsps.pl/donacje/search?event=${
+      `${rootURL}/search?event=${
         config!.eventID
       }&type=donationbid`,
       {
@@ -163,7 +166,7 @@ async function setDonationAsRead(id: number): Promise<void> {
   try {
     const resp = await needle(
       'get',
-      `https://gsps.pl/donacje/edit?type=donation&id=${id}` +
+      `${rootURL}/edit?type=donation&id=${id}` +
         '&readstate=READ&commentstate=APPROVED',
       {
         cookies: cookies,

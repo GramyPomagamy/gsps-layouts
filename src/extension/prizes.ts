@@ -8,6 +8,7 @@ import { getCookies } from './donations';
 
 const refreshTime = 60 * 1000; // Odśwież nagrody co 60s.
 const config = (nodecg().bundleConfig as Configschema).tracker;
+const rootURL = config!.rootURL;
 const prizesLog = new (nodecg() as NodeCG).Logger(
   `${nodecg().bundleName}:nagrody`
 );
@@ -37,7 +38,7 @@ export async function updatePrizes(): Promise<void> {
   try {
     const resp = await needle(
       'get',
-      `https://gsps.pl/donacje/search?event=${config!.eventID}&type=prize`,
+      `${rootURL}/search?event=${config!.eventID}&type=prize`,
       {
         cookies: getCookies(),
       }

@@ -10,7 +10,7 @@
       "type": "string"
     },
     "tracker": {
-      "type": ["object", "null"],
+      "type": ["object"],
       "properties": {
         "username": {
           "type": "string"
@@ -20,6 +20,10 @@
         },
         "eventID": {
           "type": "number"
+        },
+        "rootURL": {
+          "type": "string",
+          "default": "https://gsps.pl/donacje"
         }
       },
       "description": "Login information for the private areas of the tracker API.",
