@@ -146,6 +146,12 @@
         "width": 3
       },
       {
+        "name": "host-countdown",
+        "title": "Odliczanie hostów",
+        "file": "host-countdown.html",
+        "width": 3
+      },
+      {
         "name": "edit-total",
         "title": "Edytuj kwotę",
         "file": "edit-total.html",
