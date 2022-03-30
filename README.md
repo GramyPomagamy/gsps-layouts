@@ -4,7 +4,7 @@
 
 > Zestaw grafik użytych podczas speedrunningowych wydarzeń charytatywnych Gramy Szybko, Pomagamy Skutecznie.
 
-*Te grafiki są stworzone do użycia z [NodeCG](https://nodecg.dev); jeśli nie wiesz co to jest, zalecany zapoznać się z podaną wcześniej stroną po więcej informacji.*
+*Te grafiki są stworzone do użycia z [NodeCG](https://nodecg.dev); jeśli nie wiesz co to jest, zalecamy zapoznać się z podaną wcześniej stroną po więcej informacji.*
 
 ***Ta dokumentacja nie jest w pełni gotowa i może zawierać błędy, ale powinna być wystarczająco poprawna aby być użyta jako instrukcja instalacji i użytkowania.***
 
