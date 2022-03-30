@@ -47,9 +47,15 @@ const TimeUtils = {
    * @returns {string} - The formatted time sting.
    */
   formatMilliseconds(inputMs: number): string {
+    let str = '';
+
+    if (inputMs < 0) {
+      str += '-';
+      inputMs = -inputMs;
+    }
+
     const { days, hours, minutes, seconds, milliseconds } =
       TimeUtils.parseMs(inputMs);
-    let str = '';
 
     if (days) {
       str += `${days}d `;
@@ -160,6 +166,30 @@ const TimeUtils = {
 
     stop() {
       clearInterval(this._interval);
+    }
+  },
+
+  /**
+   * A timer which counts down, even after meeting the target end time.
+   */
+  InfiniteCountdownTimer: class InfiniteCountdownTimer extends events.EventEmitter {
+    _interval: NodeJS.Timeout;
+    constructor(endTime: number, { tickRate = 100 } = {}) {
+      if (typeof endTime !== 'number') {
+        throw new Error('endTime must be defined and it must be a number');
+      }
+
+      super();
+      this._interval = setInterval(() => {
+        const currentTime = Date.now();
+        const timeRemaining = endTime - currentTime;
+        this.emit('tick', TimeUtils.createTimeStruct(timeRemaining));
+      }, tickRate);
+    }
+
+    stop() {
+      clearInterval(this._interval);
+      this.emit('done');
     }
   },
 };

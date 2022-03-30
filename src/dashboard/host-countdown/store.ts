@@ -3,12 +3,7 @@ import {
   ReplicantModule,
   ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store';
-import {
-  Bids,
-  Total,
-  Countdown,
-} from '@gsps-layouts/types/schemas';
-import { Milestones } from '@gsps-layouts/types';
+import { Countdown, CountdownRunning } from '@gsps-layouts/types/schemas';
 import clone from 'clone';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
@@ -24,20 +19,12 @@ class OurModule extends VuexModule {
   }
 
   // Helper getter to return a specific replicant.
-  get allBids(): Bids[] {
-    return this.reps.allBids;
-  }
-
-  get total(): Total {
-    return this.reps.totalReplicant;
-  }
-
-  get milestones(): Milestones {
-    return this.reps.milestonesReplicant;
-  }
-
   get hostCountdownReplicant(): Countdown {
     return this.reps.hostCountdownReplicant;
+  }
+
+  get hostCountdownRunningReplicant(): CountdownRunning {
+    return this.reps.hostCountdownRunningReplicant;
   }
 }
 
