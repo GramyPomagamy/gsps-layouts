@@ -38,6 +38,8 @@ export const reps: {
   autoUpdateTotalReplicant: ReplicantBrowser<AutoUpdateTotal>;
   countdownReplicant: ReplicantBrowser<Countdown>;
   countdownRunningReplicant: ReplicantBrowser<CountdownRunning>;
+  hostCountdownReplicant: ReplicantBrowser<Countdown>;
+  hostCountdownRunningReplicant: ReplicantBrowser<CountdownRunning>;
   nameCycleReplicant: ReplicantBrowser<NameCycle>;
   commentatorsReplicant: ReplicantBrowser<Commentators>;
   readerReplicant: ReplicantBrowser<Reader>;
@@ -65,6 +67,10 @@ export const reps: {
   autoUpdateTotalReplicant: nodecg.Replicant('autoUpdateTotal'),
   countdownReplicant: nodecg.Replicant('countdown', { persistent: false }),
   countdownRunningReplicant: nodecg.Replicant('countdownRunning', {
+    persistent: false,
+  }),
+  hostCountdownReplicant: nodecg.Replicant('hostCountdown', { persistent: false }),
+  hostCountdownRunningReplicant: nodecg.Replicant('hostCountdownRunning', {
     persistent: false,
   }),
   activeRunReplicant: nodecg.Replicant(
@@ -103,6 +109,8 @@ export interface ReplicantTypes {
   autoUpdateTotalReplicant: AutoUpdateTotal;
   countdownReplicant: Countdown;
   countdownRunningReplicant: CountdownRunning;
+  hostCountdownReplicant: Countdown;
+  hostCountdownRunningReplicant: CountdownRunning;
   activeRunReplicant: RunDataActiveRun;
   nameCycleReplicant: NameCycle;
   commentatorsReplicant: Commentators;
