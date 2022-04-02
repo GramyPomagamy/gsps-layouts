@@ -9,6 +9,7 @@
       <v-btn class="ml-3" @click="updateReader">Aktualizuj czytającego</v-btn>
     </div>
     <v-btn block @click="sendAlert"
+      :style="alertButtonStyles"
       ><template v-if="!readerAlert"
         >Daj runnerowi znać, że chcesz coś powiedzieć</template
       ><template v-else>Usuń powiadomienie</template></v-btn
@@ -36,5 +37,12 @@
         nodecg.sendMessage('toggleAlert');
       },
     },
+    computed: {
+      alertButtonStyles () {
+        if (this.readerAlert) {
+          return {"background-color": "#FFC300"};
+        }
+      }
+    }
   };
 </script>

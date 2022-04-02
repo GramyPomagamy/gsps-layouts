@@ -2,7 +2,8 @@ import needle from 'needle';
 import { get as nodecg } from './util/nodecg';
 import type { NodeCG } from 'nodecg/types/server';
 import type { NeedleResponse } from 'needle';
-const log = new (nodecg() as NodeCG).Logger(`${nodecg().bundleName}:foobar`);
+import {TaggedLogger} from "./util/tagged-logger";
+const log = new TaggedLogger("foobar");
 
 class FoobarControl {
   address: string;

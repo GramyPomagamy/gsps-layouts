@@ -1,17 +1,23 @@
 import needle from 'needle';
 import type { NeedleResponse } from 'needle';
 import { get as nodecg } from './util/nodecg';
+import { TaggedLogger } from './util/tagged-logger'
 import type { NodeCG } from 'nodecg/types/server';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import type { Tracker } from '@gsps-layouts/types';
-import { donationsToReadReplicant } from './util/replicants';
+import {
+  donationsToReadReplicant,
+  donationsToAcceptReplicant,
+  bidsToAcceptReplicant,
+} from './util/replicants';
 import { updatePrizes } from './prizes';
 
-const LOGIN_URL = 'https://gsps.pl/donacje/admin/login/';
-const donationsLog = new (nodecg() as NodeCG).Logger(
-  `${nodecg().bundleName}:tracker`
-);
+const donationsLog = new TaggedLogger("donations");
 const config = (nodecg().bundleConfig as Configschema).tracker;
+const rootURL = config!.rootURL;
+const eventID = config!.eventID;
+const LOGIN_URL = `${rootURL}/admin/login/`;
+
 let isFirstLogin = true;
 let cookies: NeedleResponse['cookies'];
 const refreshTime = 10 * 1000; // Odśwież donacje co 10 sekund.
@@ -105,12 +111,8 @@ async function updateToReadDonations() {
   try {
     const resp = await needle(
       'get',
-      `https://gsps.pl/donacje/search?event=${
-        config!.eventID
-      }&type=donation&feed=toread`,
-      {
-        cookies: cookies,
-      }
+      `${rootURL}/search?event=${eventID}&type=donation&feed=toread`,
+      {cookies: cookies}
     );
     const currentDonations = processToReadDonations(resp.body);
     const donationBids = await getDonationBids();
@@ -129,10 +131,27 @@ async function updateToReadDonations() {
       donation.bid = donationBid;
     }
     donationsToReadReplicant.value = currentDonations;
+
+    const donationsToAcceptResp = await needle(
+      'get',
+      `${rootURL}/search?event=${eventID}&type=donation&commentstate=PENDING`,
+      {cookies: cookies}
+    );
+    donationsToAcceptReplicant.value = donationsToAcceptResp.body.length;
+
+    const bidsToAcceptResp = await needle(
+      'get',
+      `${rootURL}/search?event=${eventID}&type=bidtarget&state=PENDING`,
+      {cookies: cookies}
+    );
+    bidsToAcceptReplicant.value = bidsToAcceptResp.body.length;
+
     nodecg().sendMessage('donationsToRead:updated');
   } catch (err) {
     donationsLog.warn('Błąd przy aktualizowaniu donacji do przeczytania:', err);
     donationsToReadReplicant.value.length = 0; // Wyczyść dane na wszelki wypadek
+    donationsToAcceptReplicant.value = 0;
+    bidsToAcceptReplicant.value = 0;
     nodecg().sendMessage('donationsToRead:updated');
   }
   updateTimeout = setTimeout(updateToReadDonations, refreshTime);
@@ -142,7 +161,7 @@ async function getDonationBids(): Promise<Tracker.DonationBid[]> {
   try {
     const resp = await needle(
       'get',
-      `https://gsps.pl/donacje/search?event=${
+      `${rootURL}/search?event=${
         config!.eventID
       }&type=donationbid`,
       {
@@ -163,7 +182,7 @@ async function setDonationAsRead(id: number): Promise<void> {
   try {
     const resp = await needle(
       'get',
-      `https://gsps.pl/donacje/edit?type=donation&id=${id}` +
+      `${rootURL}/edit?type=donation&id=${id}` +
         '&readstate=READ&commentstate=APPROVED',
       {
         cookies: cookies,

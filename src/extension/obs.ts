@@ -4,6 +4,7 @@ import FoobarControl from './foobar';
 import { Configschema } from '@gsps-layouts/types/schemas';
 import { get as nodecg } from './util/nodecg';
 import { obsDataReplicant } from './util/replicants';
+import {TaggedLogger} from "./util/tagged-logger";
 
 const obs = new OBSWebSocket();
 const config = (nodecg().bundleConfig as Configschema).obs;
@@ -12,7 +13,7 @@ let foobar: FoobarControl;
 if (foobarConfig.enabled) {
   foobar = new FoobarControl(foobarConfig.address);
 }
-const log = new (nodecg() as NodeCG).Logger(`${nodecg().bundleName}:OBS`);
+const log = new TaggedLogger("OBS");
 let reconnectTimeout: NodeJS.Timeout;
 
 // Connect to OBS

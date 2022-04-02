@@ -57,6 +57,14 @@ class OurModule extends VuexModule {
     return this.reps.activeRunReplicant;
   }
 
+  get donationsToAccept(): number {
+    return this.reps.donationsToAccept;
+  }
+
+  get bidsToAccept(): number {
+    return this.reps.bidsToAccept;
+  }
+
   @Action({ rawError: true })
   updateReader(val: string): void {
     replicantModule.setReplicant<Reader>({ name: 'readerReplicant', val });

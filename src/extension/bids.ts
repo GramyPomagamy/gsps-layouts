@@ -1,17 +1,20 @@
 import type { NodeCG } from 'nodecg/types/server';
 import type { Bids } from '@gsps-layouts/types/schemas';
 import { get as nodecg } from './util/nodecg';
+import { TaggedLogger } from './util/tagged-logger'
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import deepEqual from 'deep-equal';
 import numeral from 'numeral';
 import requestPromise from 'request-promise';
 import Bluebird from 'bluebird';
 
-const bidsLog = new (nodecg() as NodeCG).Logger(`${nodecg().bundleName}:bids`);
-const eventID = (nodecg().bundleConfig as Configschema).tracker?.eventID;
+const bidsLog = new TaggedLogger("bids");
+const config = (nodecg().bundleConfig as Configschema).tracker;
+const rootURL = config!.rootURL;
+const eventID = config!.eventID;
 const POLL_INTERVAL = 20 * 1000;
-const BIDS_URL = `https://gsps.pl/donacje/search?type=allbids&event=${eventID}`;
-const CURRENT_BIDS_URL = `https://gsps.pl/donacje/search?type=allbids&event=${eventID}&state=OPENED`;
+const BIDS_URL = `${rootURL}/search?type=allbids&event=${eventID}`;
+const CURRENT_BIDS_URL = `${rootURL}/search?type=allbids&event=${eventID}&state=OPENED`;
 const currentBidsRep = nodecg().Replicant<Bids>('currentBids', {
   defaultValue: [],
 });

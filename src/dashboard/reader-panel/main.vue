@@ -24,7 +24,12 @@
           />
         </div>
         <div id="right" class="column">
-          <reader-panel-donations :donations="donationsToRead" class="panel" />
+          <reader-panel-donations
+            :donations="donationsToRead"
+            :donationsToAccept="donationsToAccept"
+            :bidsToAccept="bidsToAccept"
+            class="panel"
+          />
         </div>
       </div>
     </v-container>
@@ -71,6 +76,8 @@
     @Getter readonly milestones!: Milestones;
     @Getter readonly timer!: Timer;
     @Getter readonly activeRun!: RunDataActiveRun;
+    @Getter readonly donationsToAccept!: number;
+    @Getter readonly bidsToAccept!: number;
 
     updateReader(name: string): void {
       storeModule.updateReader(name);

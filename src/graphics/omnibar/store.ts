@@ -3,7 +3,6 @@ import {
   ReplicantModule,
   ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store';
-import { Countdown } from '@gsps-layouts/types/schemas';
 import clone from 'clone';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
