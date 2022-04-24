@@ -1,13 +1,13 @@
 
-.fade-enter-active[data-v-09232a6d],
-.fade-leave-active[data-v-09232a6d] {
+.fade-enter-active[data-v-0c1870d3],
+.fade-leave-active[data-v-0c1870d3] {
   transition: opacity 1s;
 }
-.fade-enter[data-v-09232a6d],
-.fade-leave-to[data-v-09232a6d] {
+.fade-enter[data-v-0c1870d3],
+.fade-leave-to[data-v-0c1870d3] {
   opacity: 0;
 }
-.nameplate[data-v-09232a6d] {
+.nameplate[data-v-0c1870d3] {
   background-color: #3a008b;
   color: white;
   height: 36px;

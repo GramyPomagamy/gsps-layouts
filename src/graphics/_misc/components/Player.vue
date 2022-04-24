@@ -48,7 +48,7 @@
   @Component
   export default class Player extends Vue {
     @Getter readonly nameCycle!: NameCycle;
-    @Prop() player!: Player;
+    @Prop() player!: PlayerType;
   }
 </script>
 
