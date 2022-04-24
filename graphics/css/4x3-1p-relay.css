@@ -1,0 +1,125 @@
+
+.fade-enter-active[data-v-09232a6d],
+.fade-leave-active[data-v-09232a6d] {
+  transition: opacity 1s;
+}
+.fade-enter[data-v-09232a6d],
+.fade-leave-to[data-v-09232a6d] {
+  opacity: 0;
+}
+.nameplate[data-v-09232a6d] {
+  background-color: #3a008b;
+  color: white;
+  height: 36px;
+  font-size: 24px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+
+#sponsors-div[data-v-65c706b0] {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  vertical-align: middle;
+}
+.img[data-v-65c706b0] {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.fade-enter-active[data-v-65c706b0],
+.fade-leave-active[data-v-65c706b0] {
+  transition: opacity 1s;
+}
+.fade-enter[data-v-65c706b0],
+.fade-leave-to[data-v-65c706b0] {
+  opacity: 0;
+}
+
+
+#container {
+  text-align: center;
+}
+#Background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+}
+#timer {
+  position: relative;
+  left: -13.2px;
+  top: -180px;
+  height: 78px;
+  width: 556.8px;
+  font-size: 90px;
+  margin-left: 11px;
+  margin-bottom: 0px;
+}
+#bottomLeft {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 583px;
+  width: 578px;
+  height: 430px;
+}
+html {
+  display: block;
+  width: 1920px;
+  height: 1014px;
+}
+#RunInfo {
+  position: relative;
+  top: -80px;
+  left: 5px;
+  width: 551.8px;
+  height: 160px;
+}
+#runners {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  padding-left: 11px;
+}
+.Player {
+  position: relative;
+  top: -91px;
+  left: -11px;
+  margin-bottom: 0px;
+  width: 567px;
+}
+#commentators {
+  position: relative;
+  top: -91px;
+  left: -11px;
+  margin-bottom: 0px;
+  width: 567px;
+}
+#reader {
+  position: relative;
+  top: -91px;
+  left: -11px;
+  margin-bottom: 0px;
+  width: 567px;
+}
+#sponsors {
+  position: absolute;
+  top: 225px;
+  left: 30px;
+  width: 520px;
+  height: 175px;
+  /* 		background-color: aqua; */
+}
+
