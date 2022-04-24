@@ -27,7 +27,7 @@
         }
       },
       "description": "Login information for the private areas of the tracker API.",
-      "required": ["username", "password", "eventID"],
+      "required": ["username", "password", "eventID", "rootURL"],
       "default": null
     },
     "google": {
