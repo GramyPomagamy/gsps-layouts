@@ -32,29 +32,31 @@
   </div>
 </template>
 
-<script>
-  import fitty from 'fitty';
+<script lang="ts">
+  import { Vue, Component, Watch } from 'vue-property-decorator';
+  import { Getter } from 'vuex-class';
+  import type { Commentators } from '@gsps-layouts/types/schemas';
+  import fitty, { FittyInstance } from 'fitty';
 
-  export default {
-    name: 'CommentatorList',
-    props: ['commentators'],
-    data() {
-      return {
-        fittyInstance: undefined,
-      };
-    },
-    methods: {
-      fit() {
-        this.$data.fittyInstance = fitty('#commentatorNames', {
-          minSize: 1,
-          maxSize: 20,
-        });
-      },
-    },
+  @Component
+  export default class CommentatorList extends Vue {
+    @Getter readonly commentators!: Commentators;
+
+    fittyInstance: FittyInstance[] | undefined;
+
     mounted() {
-      setTimeout(() => {
-        this.fit();
-      }, 200);
-    },
-  };
+      this.fittyInstance = fitty('#commentatorNames', {
+        minSize: 1,
+        maxSize: 20,
+      });
+    }
+
+    @Watch('commentators')
+    onCommentatorsChange() {
+      this.fittyInstance = fitty('#commentatorNames', {
+        minSize: 1,
+        maxSize: 20,
+      });
+    }
+  }
 </script>

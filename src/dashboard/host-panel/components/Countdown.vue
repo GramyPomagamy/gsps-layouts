@@ -1,12 +1,19 @@
 <template>
-  <div class="grey darken-4 rounded-lg" :style="{ textAlign: 'center', width: '1200px' }">
+  <div
+    class="grey darken-4 rounded-lg"
+    :style="{ textAlign: 'center', width: '1200px' }"
+  >
     <h3
       style="width: 100%; text-align: center; position: sticky"
       class="grey darken-3 pa-1 rounded-tl-lg rounded-tr-lg"
     >
       POZOSTAŁY CZAS
     </h3>
-    <b><span :style="countdownStyles">{{ hostCountdownReplicant.formatted }}</span></b>
+    <b
+      ><span :style="countdownStyles">{{
+        hostCountdownReplicant.formatted
+      }}</span></b
+    >
   </div>
 </template>
 
@@ -15,7 +22,7 @@
     name: 'HostPanelCountdown',
     props: ['hostCountdownReplicant'],
     computed: {
-      countdownStyles () {
+      countdownStyles() {
         const underLimitColor = '#357C3C';
         const warningColor = '#FFC300';
         const overLimitColor = '#FF5959';
@@ -30,15 +37,14 @@
         let color = underLimitColor;
         if (secondsLeft <= 0) {
           color = overLimitColor;
-          fontSize = Math.min(baseFontSize + (-secondsLeft) * 2, maxFontSize);
-        }
-        else if (secondsLeft <= warningSeconds) {
+          fontSize = Math.min(baseFontSize + -secondsLeft * 2, maxFontSize);
+        } else if (secondsLeft <= warningSeconds) {
           color = warningColor;
         }
 
-        return {'color': color, "fontSize": `${fontSize}px`};
-      }
-    }
+        return { color: color, fontSize: `${fontSize}px` };
+      },
+    },
   };
 </script>
 

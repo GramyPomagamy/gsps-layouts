@@ -82,21 +82,12 @@
         </transition>
       </div>
     </div>
-    <run-info
-      id="RunInfo"
-      v-if="activeRun"
-      :run="activeRun"
-      :maxTitleSize="40"
-    />
+    <run-info id="RunInfo" v-if="activeRun" :maxTitleSize="40" />
     <timer-view id="timer" />
-    <sponsors-view id="sponsors" :sponsors="sponsors" :cycles="logoCycles" />
+    <sponsors id="sponsors" />
     <div id="miscinfo">
-      <reader-name :reader="reader" v-if="reader" id="reader" />
-      <commentator-list
-        :commentators="commentators"
-        v-if="commentators.amount > 0"
-        id="commentators"
-      />
+      <reader-name v-if="reader" id="reader" />
+      <commentator-list v-if="commentators.amount > 0" id="commentators" />
     </div>
   </div>
 </template>
@@ -119,7 +110,7 @@
   import Player from '../_misc/components/Player.vue';
   import CommentatorList from '../_misc/components/Commentator.vue';
   import ReaderName from '../_misc/components/Reader.vue';
-  import SponsorsView from '../_misc/components/Sponsors.vue';
+  import Sponsors from '../_misc/components/Sponsors.vue';
   import FinishTime from '../_misc/components/FinishTime.vue';
 
   @Component({
@@ -129,7 +120,7 @@
       Player,
       CommentatorList,
       ReaderName,
-      SponsorsView,
+      Sponsors,
       FinishTime,
     },
   })

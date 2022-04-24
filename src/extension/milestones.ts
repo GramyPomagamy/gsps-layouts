@@ -5,10 +5,10 @@ import type { RawMilestone } from '@gsps-layouts/types';
 import type { NodeCG } from 'nodecg/types/server';
 import needle from 'needle';
 import { milestonesReplicant } from './util/replicants';
-import {TaggedLogger} from "./util/tagged-logger";
+import { TaggedLogger } from './util/tagged-logger';
 
 const URL = (nodecg().bundleConfig as Configschema).milestonesUrl;
-const log = new TaggedLogger("milestones");
+const log = new TaggedLogger('milestones');
 let refreshTimeout: NodeJS.Timeout;
 
 async function updateMilestones() {

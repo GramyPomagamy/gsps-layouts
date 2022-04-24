@@ -6,3 +6,4 @@ export * from './logoCycle';
 export * from './tracker';
 export * from './rawMilestone';
 export * from './milestones';
+export * from './player';

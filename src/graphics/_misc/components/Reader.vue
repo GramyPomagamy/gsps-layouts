@@ -28,9 +28,13 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'ReaderName',
-    props: ['reader'],
-  };
+<script lang="ts">
+  import { Vue, Component } from 'vue-property-decorator';
+  import { Getter } from 'vuex-class';
+  import type { Reader } from '@gsps-layouts/types/schemas';
+
+  @Component
+  export default class ReaderName extends Vue {
+    @Getter readonly reader!: Reader;
+  }
 </script>

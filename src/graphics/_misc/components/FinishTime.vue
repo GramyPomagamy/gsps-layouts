@@ -74,11 +74,15 @@
   </span>
 </template>
 
-<script>
-  export default {
-    name: 'FinishTime',
-    props: ['time', 'place', 'side'],
-  };
+<script lang="ts">
+  import { Vue, Component, Prop } from 'vue-property-decorator';
+
+  @Component
+  export default class FinishTime extends Vue {
+    @Prop(String) time!: string;
+    @Prop(Number) place!: number;
+    @Prop(String) side!: string;
+  }
 </script>
 
 <style scoped>

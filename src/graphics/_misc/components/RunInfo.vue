@@ -4,7 +4,7 @@
       id="GameName"
       :style="{ color: 'white', 'text-shadow': 'black 2px 2px 8px' }"
     >
-      <b>{{ run.game }}</b>
+      <b>{{ activeRun.game }}</b>
     </div>
     <br />
     <div
@@ -15,50 +15,50 @@
         'font-size': '16px',
       }"
     >
-      {{ run.category || '?' }} / {{ run.system || '?' }} / EST:
-      {{ run.estimate || '?' }}
+      {{ activeRun.category || '?' }} / {{ activeRun.system || '?' }} / EST:
+      {{ activeRun.estimate || '?' }}
     </div>
   </div>
 </template>
 
-<script>
-  import fitty from 'fitty';
+<script lang="ts">
+  import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
+  import { Getter } from 'vuex-class';
+  import fitty, { FittyInstance } from 'fitty';
+  import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
 
-  export default {
-    name: 'RunInfo',
-    props: ['run', 'maxTitleSize', 'wrap'],
-    data() {
-      return {
-        $_fittyGame: undefined,
-        $_fittyInfo: undefined,
-      };
-    },
-    watch: {
-      run: {
-        handler: function () {
-          fitty.fitAll();
-        },
-        immediate: true,
-        deep: true,
-      },
-    },
-    methods: {
-      fitText() {
-        this.$data.$_fittyGame = fitty('#GameName', {
-          minSize: 1,
-          maxSize: this.maxTitleSize,
-          multiLine: this.wrap || false,
-        });
-        this.$data.$_fittyInfo = fitty('#GameInfo', {
-          minSize: 1,
-          maxSize: 24,
-        });
-      },
-    },
+  @Component
+  export default class RunInfo extends Vue {
+    @Getter readonly activeRun!: RunDataActiveRun;
+    @Prop(Number) maxTitleSize!: number;
+    @Prop({ default: false }) wrap!: boolean;
+
+    $_fittyGame: FittyInstance[] | undefined;
+    $_fittyInfo: FittyInstance[] | undefined;
+
+    fitText() {
+      this.$_fittyGame = fitty('#GameName', {
+        minSize: 1,
+        maxSize: this.maxTitleSize,
+        multiLine: this.wrap,
+      });
+      this.$_fittyInfo = fitty('#GameInfo', {
+        minSize: 1,
+        maxSize: 24,
+      });
+    }
+
     mounted() {
       setTimeout(() => {
         this.fitText();
       }, 200);
-    },
-  };
+    }
+
+    @Watch('run')
+    onRunChange() {
+      setTimeout(() => {
+        this.fitText();
+      }, 200);
+    }
+  }
 </script>
