@@ -54,7 +54,7 @@
       }, 200);
     }
 
-    @Watch('run')
+    @Watch('activeRun')
     onRunChange() {
       setTimeout(() => {
         this.fitText();
