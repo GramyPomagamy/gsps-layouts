@@ -138,12 +138,12 @@ html {
 }
 
 
-#reader[data-v-3fd32e03] {
+#reader[data-v-e4a860d2] {
   font-size: 26.4px;
   color: white;
   margin-left: 12px;
 }
-#reader-name[data-v-3fd32e03] {
+#reader-name[data-v-e4a860d2] {
   margin-top: -30px;
   margin-bottom: 12px;
   text-shadow: black 2px 2px 8px;
@@ -151,12 +151,12 @@ html {
 }
 
 
-#song[data-v-b6359d66] {
+#song[data-v-106a59de] {
   font-size: 26.4px;
   color: white;
   margin-left: 12px;
 }
-#song-name[data-v-b6359d66] {
+#song-name[data-v-106a59de] {
   margin-top: -30px;
   margin-bottom: 12px;
   text-shadow: black 2px 2px 8px;
@@ -164,22 +164,22 @@ html {
 }
 
 
-#total[data-v-04a2885e] {
+#total[data-v-0067f757] {
   color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 30px;
 }
-#totalAmount[data-v-04a2885e] {
+#totalAmount[data-v-0067f757] {
   font-weight: bold;
 }
-#totalCurrency[data-v-04a2885e] {
+#totalCurrency[data-v-0067f757] {
   font-size: 64px;
 }
 
 
-#runs-title[data-v-7e6eb574] {
+#runs-title[data-v-474c817e] {
   position: absolute;
   margin: auto;
   font-size: 24px;
@@ -190,36 +190,36 @@ html {
   text-align: left;
   margin-left: 30px;
 }
-#runs[data-v-7e6eb574] {
+#runs[data-v-474c817e] {
   position: absolute;
   top: 45px;
   width: 100%;
 }
-.run[data-v-7e6eb574] {
+.run[data-v-474c817e] {
   display: flex;
   flex-direction: column;
 }
-.name[data-v-7e6eb574] {
+.name[data-v-474c817e] {
   top: 0px;
   width: 100%;
   height: 30px;
   box-sizing: border-box;
   text-shadow: black 2px 2px 8px;
 }
-.name-text[data-v-7e6eb574] {
+.name-text[data-v-474c817e] {
   font-size: 40px;
   color: #ffffff;
   margin-left: 27px;
   margin-right: auto;
   font-weight: 600;
 }
-.info[data-v-7e6eb574] {
+.info[data-v-474c817e] {
   width: 100%;
   height: 27.6px;
   vertical-align: middle;
   text-shadow: black 2px 2px 8px;
 }
-.info-category[data-v-7e6eb574] {
+.info-category[data-v-474c817e] {
   position: relative;
   line-height: normal;
   font-size: 28.8px;
@@ -230,7 +230,7 @@ html {
   margin-right: auto;
   margin-top: 10px;
 }
-.info-runner[data-v-7e6eb574] {
+.info-runner[data-v-474c817e] {
   position: relative;
   top: -18px;
   line-height: normal;

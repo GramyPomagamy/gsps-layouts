@@ -1,6 +1,6 @@
 <template>
   <div id="total">
-    <div id="totalAmount"></div>
+    <div id="totalAmount" ref="totalAmount"></div>
     <div id="totalCurrency">PLN</div>
   </div>
 </template>
@@ -8,12 +8,13 @@
 <script lang="ts">
   import type { Total } from '../../../types/schemas';
   import gsap from 'gsap';
-  import { Component, Vue } from 'vue-property-decorator';
+  import { Component, Vue, Ref } from 'vue-property-decorator';
 
   const totalRep = nodecg.Replicant<Total>('total');
 
   @Component
   export default class BreakTotal extends Vue {
+    @Ref('totalAmount') totalEl!: HTMLSpanElement;
     data() {
       return {
         total: { raw: 0 },
@@ -22,7 +23,7 @@
 
     mounted() {
       const updateHandler = () => {
-        document.getElementById('totalAmount')!.innerHTML =
+        this.totalEl!.innerHTML =
           this.$data.total.raw.toLocaleString('en-US', {
             maximumFractionDigits: 0,
             minimumFractionDigits: 0,

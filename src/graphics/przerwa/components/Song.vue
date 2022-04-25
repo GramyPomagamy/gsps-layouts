@@ -9,18 +9,22 @@
     </p>
 
     <transition name="fade" mode="out-in">
-      <div class="marquee" id="song-name" :key="song">
-        <p>{{ song }}</p>
+      <div class="marquee" id="song-name" :key="currentSong">
+        <p>{{ currentSong }}</p>
       </div>
     </transition>
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'BreakSong',
-    props: ['song'],
-  };
+<script lang="ts">
+  import { Vue, Component } from 'vue-property-decorator';
+  import { Getter } from 'vuex-class';
+  import { Song } from '@gsps-layouts/types/schemas';
+
+  @Component
+  export default class BreakSong extends Vue {
+    @Getter readonly currentSong!: Song;
+  }
 </script>
 
 <style scoped>

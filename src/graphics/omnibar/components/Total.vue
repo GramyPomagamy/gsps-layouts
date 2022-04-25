@@ -1,19 +1,20 @@
 <template>
   <div id="total">
-    <span id="totalAmount"></span>
+    <span id="totalAmount" ref="totalAmount"></span>
     <div id="totalCurrency" style="font-size: 60%">PLN</div>
   </div>
 </template>
 
 <script lang="ts">
-  import type { Total } from '../../../types/schemas';
+  import type { Total } from '@gsps-layouts/types/schemas';
   import gsap from 'gsap';
-  import { Component, Vue } from 'vue-property-decorator';
+  import { Component, Vue, Ref } from 'vue-property-decorator';
 
   const totalRep = nodecg.Replicant<Total>('total');
 
   @Component
   export default class OmnibarTotal extends Vue {
+    @Ref('totalAmount') totalEl!: HTMLSpanElement;
     data() {
       return {
         total: { raw: 0 },
@@ -22,7 +23,7 @@
 
     mounted() {
       const updateHandler = () => {
-        document.getElementById('totalAmount')!.innerHTML =
+        this.totalEl.innerHTML =
           this.$data.total.raw.toLocaleString('en-US', {
             maximumFractionDigits: 0,
             minimumFractionDigits: 0,

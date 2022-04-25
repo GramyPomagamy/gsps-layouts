@@ -10,12 +10,11 @@
           :style="{
             width: '295px',
           }"
-          :reader="reader"
         />
-        <break-song id="song" :song="currentSong" />
+        <break-song id="song" />
       </div>
     </div>
-    <sponsors id="sponsors" :sponsors="sponsors" :cycles="logoCycles" />
+    <sponsors id="sponsors" />
   </div>
 </template>
 

@@ -7,7 +7,7 @@
 
     <div id="nextRunInfo" v-if="activeRun">
       <div id="nextRunLabel"><b>NADCHODZĄCY RUN</b></div>
-      <video-next-run :run="activeRun" />
+      <video-next-run />
     </div>
   </div>
 </template>
