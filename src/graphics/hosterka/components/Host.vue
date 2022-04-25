@@ -7,18 +7,20 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'Host',
-    props: ['host'],
-  };
+<script lang="ts">
+  import { Vue, Component, Prop } from 'vue-property-decorator';
+
+  @Component
+  export default class Host extends Vue {
+    @Prop(String) host!: string;
+  }
 </script>
 
 <style scoped>
   @import url('../../css/styles.css');
 
   .container {
-    background-color: rgb(0, 0, 0, 0.6);
+    background-color: rgb(0, 0, 0, 0.8);
     height: 58px;
     width: 400px;
     text-align: center;

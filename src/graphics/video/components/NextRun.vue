@@ -1,35 +1,37 @@
 <template>
   <div id="next-run-container">
-    <span v-if="run.game">
-      <b>{{ run.game }}</b>
+    <span v-if="activeRun.game">
+      <b>{{ activeRun.game }}</b>
     </span>
     <span>
-      <template v-if="run.category">{{ run.category }} /</template>
-      <template v-if="run.estimate">EST: {{ run.estimate }} /</template>
-      <template v-if="run.system">{{ run.system }} /</template>
-      <template v-if="run.teams.length > 0">{{ formatPlayers(run) }}</template>
+      <template v-if="activeRun.category">{{ activeRun.category }} /</template>
+      <template v-if="activeRun.estimate">EST: {{ activeRun.estimate }} /</template>
+      <template v-if="activeRun.system">{{ activeRun.system }} /</template>
+      <template v-if="activeRun.teams.length > 0">{{ formatPlayers(activeRun) }}</template>
     </span>
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'VideoNextRun',
-    props: ['run'],
-    methods: {
-      formatPlayers(run) {
-        return (
-          run.teams
-            .map(
-              (team) =>
-                team.name ||
-                team.players.map((player) => player.name).join(', ')
-            )
-            .join(' vs. ') || 'Bez gracza'
-        );
-      },
-    },
-  };
+<script lang="ts">
+  import { Vue, Component } from 'vue-property-decorator';
+  import { Getter } from 'vuex-class';
+  import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
+
+  @Component
+  export default class VideoNextRun extends Vue {
+    @Getter readonly activeRun!: RunDataActiveRun;
+
+    formatPlayers(run: RunDataActiveRun): string {
+      return (
+        run.teams
+          .map(
+            (team) =>
+              team.name || team.players.map((player) => player.name).join(', ')
+          )
+          .join(' vs. ') || 'Bez gracza'
+      );
+    }
+  }
 </script>
 
 <style scoped>
