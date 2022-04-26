@@ -40,5 +40,6 @@ export const donationsToReadReplicant =
   nodecg().Replicant<DonationsToRead>('donationsToRead');
 export const milestonesReplicant = nodecg().Replicant<Milestones>('milestones');
 export const prizesReplicant = nodecg().Replicant<Prizes>('prizes');
-export const donationsToAcceptReplicant = nodecg().Replicant<number>('donationsToAccept');
+export const donationsToAcceptReplicant =
+  nodecg().Replicant<number>('donationsToAccept');
 export const bidsToAcceptReplicant = nodecg().Replicant<number>('bidsToAccept');

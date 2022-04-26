@@ -3,11 +3,7 @@ import {
   ReplicantModule,
   ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store';
-import {
-  Bids,
-  Total,
-  Countdown,
-} from '@gsps-layouts/types/schemas';
+import { Bids, Total, Countdown } from '@gsps-layouts/types/schemas';
 import { Milestones } from '@gsps-layouts/types';
 import clone from 'clone';
 import Vue from 'vue';

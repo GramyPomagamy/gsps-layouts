@@ -6,62 +6,72 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+  import { Vue, Component } from 'vue-property-decorator';
+  import { Getter } from 'vuex-class';
   import clone from 'clone';
-  export default {
-    name: 'Sponsors',
-    props: ['sponsors', 'cycles'],
+  import type { Asset, LogoCycle } from '@gsps-layouts/types';
+
+  @Component
+  export default class Sponsors extends Vue {
+    @Getter readonly sponsors!: Asset[];
+    @Getter readonly logoCycles!: LogoCycle[];
+
+    currentSponsor: Asset | undefined;
+    sponsorTimeout: NodeJS.Timeout | undefined;
+
     data() {
       return {
         currentSponsor: undefined,
         sponsorTimeout: undefined,
       };
-    },
+    }
+
     mounted() {
       if (this.sponsors.length > 0) {
-        this.$data.currentSponsor = this.sponsors[0];
+        this.currentSponsor = this.sponsors[0];
       }
 
-      this.$data.sponsorTimeout = setTimeout(
+      this.sponsorTimeout = setTimeout(
         this.nextSponsor,
         this.getCycle(this.sponsors[0].name) * 1000
       );
-    },
-    methods: {
-      nextSponsor() {
-        if (!this.sponsors || this.sponsors.length <= 0) {
-          return;
-        }
+    }
 
-        let currentIdx = this.sponsors.indexOf(this.$data.currentSponsor);
-        let nextIdx = currentIdx + 1;
-        if (nextIdx >= this.sponsors.length) {
-          nextIdx = 0;
-        }
-        this.$data.currentSponsor = this.sponsors[nextIdx];
+    nextSponsor() {
+      if (!this.sponsors || this.sponsors.length <= 0) {
+        return;
+      }
 
-        this.$data.sponsorTimeout = setTimeout(
-          this.nextSponsor,
-          this.getCycle(this.sponsors[nextIdx].name) * 1000
-        );
-      },
-      getCycle(sponsor) {
-        let currentCycles = clone(this.cycles);
-        if (currentCycles) {
-          let cycle = 10;
-          for (let i = 0; i < currentCycles.length; i++) {
-            if (currentCycles[i].name === sponsor) {
-              cycle = currentCycles[i].cycle;
-              break;
-            }
+      let currentIdx = this.sponsors.indexOf(this.currentSponsor!);
+      let nextIdx = currentIdx + 1;
+      if (nextIdx >= this.sponsors.length) {
+        nextIdx = 0;
+      }
+      this.currentSponsor = this.sponsors[nextIdx];
+
+      this.sponsorTimeout = setTimeout(
+        this.nextSponsor,
+        this.getCycle(this.sponsors[nextIdx].name) * 1000
+      );
+    }
+
+    getCycle(sponsor: string): number {
+      let currentCycles = clone(this.logoCycles);
+      if (currentCycles) {
+        let cycle = 10;
+        for (let i = 0; i < currentCycles.length; i++) {
+          if (currentCycles[i].name === sponsor) {
+            cycle = currentCycles[i].cycle;
+            break;
           }
-          return cycle;
-        } else {
-          return 10;
         }
-      },
-    },
-  };
+        return cycle;
+      } else {
+        return 10;
+      }
+    }
+  }
 </script>
 
 <style scoped>

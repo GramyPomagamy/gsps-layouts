@@ -1,11 +1,11 @@
 import { get as nodecg } from './util/nodecg';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import type { NodeCG } from 'nodecg/types/server';
-import {TaggedLogger} from "./util/tagged-logger";
+import { TaggedLogger } from './util/tagged-logger';
 
 const router = nodecg().Router();
 const config = (nodecg().bundleConfig as Configschema).footpedal;
-const log = new TaggedLogger("footpedal");
+const log = new TaggedLogger('footpedal');
 
 router.get('/makeHighlight', (req: any, res: any) => {
   if (config.enabled) {

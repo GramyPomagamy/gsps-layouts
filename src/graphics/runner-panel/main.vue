@@ -1,6 +1,7 @@
 <template>
   <div
     id="container"
+    ref="container"
     @click="enableFullscreen"
     :style="{
       backgroundColor: backgroundColor,
@@ -27,7 +28,7 @@
 </template>
 
 <script lang="ts">
-  import { Vue, Component } from 'vue-property-decorator';
+  import { Vue, Component, Ref } from 'vue-property-decorator';
   import type {
     RunDataActiveRun,
     Timer,
@@ -43,6 +44,7 @@
     },
   })
   export default class extends Vue {
+    @Ref('container') containerEl!: HTMLElement;
     @Getter readonly activeRun!: RunDataActiveRun;
     @Getter readonly timer!: Timer;
     @Getter readonly donationsToRead!: DonationsToRead;
@@ -61,7 +63,7 @@
     }
 
     enableFullscreen() {
-      document.getElementById('container')?.requestFullscreen();
+      this.containerEl!.requestFullscreen();
     }
 
     mounted() {

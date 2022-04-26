@@ -16,7 +16,10 @@
         >
       </v-col>
       <v-col>
-        <v-btn @click="stopHostCountdown()" :disabled="!hostCountdownRunningReplicant">
+        <v-btn
+          @click="stopHostCountdown()"
+          :disabled="!hostCountdownRunningReplicant"
+        >
           <v-icon left>mdi-stop</v-icon>Zatrzymaj</v-btn
         >
       </v-col>

@@ -10,11 +10,15 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'BreakReader',
-    props: ['reader'],
-  };
+<script lang="ts">
+  import { Vue, Component } from 'vue-property-decorator';
+  import { Getter } from 'vuex-class';
+  import { Reader } from '@gsps-layouts/types/schemas';
+
+  @Component
+  export default class BreakReader extends Vue {
+    @Getter readonly reader!: Reader;
+  }
 </script>
 
 <style scoped>

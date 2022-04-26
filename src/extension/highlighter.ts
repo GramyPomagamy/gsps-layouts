@@ -7,7 +7,7 @@ import { get as nodecg } from './util/nodecg';
 import type { NodeCG } from 'nodecg/types/server';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
-import {TaggedLogger} from "./util/tagged-logger";
+import { TaggedLogger } from './util/tagged-logger';
 
 const googleConfig = (nodecg().bundleConfig as Configschema).google;
 
@@ -17,7 +17,7 @@ sheets.useServiceAccountAuth({
   client_email: googleConfig.service_email,
   private_key: googleConfig.private_key,
 });
-const log = new TaggedLogger("highlighter");
+const log = new TaggedLogger('highlighter');
 
 function makeHighlight() {
   if (googleConfig.enabled) {

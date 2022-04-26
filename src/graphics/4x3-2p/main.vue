@@ -26,7 +26,6 @@
         </transition>
 
         <commentator-list
-          :commentators="commentators"
           v-if="
             activeRun.teams[0].players.length < 2 && commentators.amount > 0
           "
@@ -56,20 +55,14 @@
         </transition>
 
         <reader-name
-          :reader="reader"
           v-if="activeRun.teams[1].players.length < 2 && reader"
           id="reader"
         />
       </div>
     </div>
-    <run-info
-      id="RunInfo"
-      v-if="activeRun"
-      :run="activeRun"
-      :maxTitleSize="43"
-    />
+    <run-info id="RunInfo" v-if="activeRun" :maxTitleSize="43" />
     <timer-view id="timer" />
-    <sponsors-view id="sponsors" :sponsors="sponsors" :cycles="logoCycles" />
+    <sponsors id="sponsors" />
   </div>
 </template>
 
@@ -91,7 +84,7 @@
   import Player from '../_misc/components/Player.vue';
   import CommentatorList from '../_misc/components/Commentator.vue';
   import ReaderName from '../_misc/components/Reader.vue';
-  import SponsorsView from '../_misc/components/Sponsors.vue';
+  import Sponsors from '../_misc/components/Sponsors.vue';
   import FinishTime from '../_misc/components/FinishTime.vue';
 
   @Component({
@@ -101,7 +94,7 @@
       Player,
       CommentatorList,
       ReaderName,
-      SponsorsView,
+      Sponsors,
       FinishTime,
     },
   })

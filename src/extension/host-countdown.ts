@@ -44,7 +44,9 @@ function startHostCountdown(startTime: string = '3:00') {
     hostCountdownTimer.removeAllListeners();
   }
 
-  hostCountdownTimer = new TimeUtils.InfiniteCountdownTimer(Date.now() + durationMs);
+  hostCountdownTimer = new TimeUtils.InfiniteCountdownTimer(
+    Date.now() + durationMs
+  );
   hostCountdownTimer.on('tick', (remainingTimeStruct: TimeStruct) => {
     hostCountdown.value = remainingTimeStruct;
   });

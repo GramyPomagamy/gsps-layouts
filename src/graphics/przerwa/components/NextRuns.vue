@@ -28,52 +28,51 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+  import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
   import fitty from 'fitty';
+  import type { RunData } from 'nodecg/bundles/nodecg-speedcontrol/src/types';
 
-  export default {
-    name: 'BreakNextRuns',
-    props: ['runs'],
+  @Component
+  export default class BreakNextRuns extends Vue {
+    @Prop() runs!: RunData[];
+
     data() {
       return {
         timestamp: Date.now(),
       };
-    },
-    methods: {
-      formatPlayers(run) {
-        return (
-          run.teams
-            .map(
-              (team) =>
-                team.name ||
-                team.players.map((player) => player.name).join(', ')
-            )
-            .join(' vs. ') || 'Bez gracza'
-        );
-      },
-      fitText() {
-        setTimeout(() => {
-          fitty('.name-text', {
-            minSize: 1,
-            maxSize: 38,
-          });
-        }, 500);
-      },
-    },
-    watch: {
-      runs: {
-        handler: function () {
-          this.fitText();
-          this.timestamp = Date.now();
-        },
-        immediate: true,
-        deep: true,
-      },
-    },
+    }
+
     mounted() {
       this.fitText();
-    },
-  };
+    }
+
+    formatPlayers(run: RunData): string {
+      return (
+        run.teams
+          .map(
+            (team) =>
+              team.name || team.players.map((player) => player.name).join(', ')
+          )
+          .join(' vs. ') || 'Bez gracza'
+      );
+    }
+
+    fitText(): void {
+      setTimeout(() => {
+        fitty('.name-text', {
+          minSize: 1,
+          maxSize: 38,
+        });
+      }, 400);
+    }
+
+    @Watch('runs')
+    onRunsChange() {
+      this.$data.timestamp = Date.now();
+      this.fitText();
+    }
+  }
 </script>
 
 <style scoped>

@@ -1,10 +1,10 @@
 import needle from 'needle';
 import { get as nodecg } from './util/nodecg';
-import { TaggedLogger } from './util/tagged-logger'
+import { TaggedLogger } from './util/tagged-logger';
 import type { NodeCG } from 'nodecg/types/server';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 
-const featuredLog = new TaggedLogger("featured");
+const featuredLog = new TaggedLogger('featured');
 const config = (nodecg().bundleConfig as Configschema).twitchExt;
 
 async function updateFeatured(players: Array<string>) {

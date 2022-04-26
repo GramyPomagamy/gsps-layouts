@@ -3,7 +3,7 @@
     <div class="nameplate">
       <transition name="fade">
         <span
-          v-if="cycle === 0"
+          v-if="nameCycle === 0"
           :style="{
             position: 'absolute',
             left: '0',
@@ -15,7 +15,7 @@
       </transition>
       <transition name="fade">
         <span
-          v-if="cycle === 1"
+          v-if="nameCycle === 1"
           :style="{
             marginTop: '0px',
             position: 'absolute',
@@ -39,11 +39,17 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'Player',
-    props: ['player', 'cycle'],
-  };
+<script lang="ts">
+  import { Vue, Component, Prop } from 'vue-property-decorator';
+  import { Getter } from 'vuex-class';
+  import type { PlayerType } from '@gsps-layouts/types';
+  import type { NameCycle } from '@gsps-layouts/types/schemas';
+
+  @Component
+  export default class Player extends Vue {
+    @Getter readonly nameCycle!: NameCycle;
+    @Prop() player!: PlayerType;
+  }
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 import needle from 'needle';
 import type { NeedleResponse } from 'needle';
 import { get as nodecg } from './util/nodecg';
-import { TaggedLogger } from './util/tagged-logger'
+import { TaggedLogger } from './util/tagged-logger';
 import type { NodeCG } from 'nodecg/types/server';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import type { Tracker } from '@gsps-layouts/types';
@@ -12,7 +12,7 @@ import {
 } from './util/replicants';
 import { updatePrizes } from './prizes';
 
-const donationsLog = new TaggedLogger("donations");
+const donationsLog = new TaggedLogger('donations');
 const config = (nodecg().bundleConfig as Configschema).tracker;
 const rootURL = config!.rootURL;
 const eventID = config!.eventID;
@@ -112,7 +112,7 @@ async function updateToReadDonations() {
     const resp = await needle(
       'get',
       `${rootURL}/search?event=${eventID}&type=donation&feed=toread`,
-      {cookies: cookies}
+      { cookies: cookies }
     );
     const currentDonations = processToReadDonations(resp.body);
     const donationBids = await getDonationBids();
@@ -135,14 +135,14 @@ async function updateToReadDonations() {
     const donationsToAcceptResp = await needle(
       'get',
       `${rootURL}/search?event=${eventID}&type=donation&commentstate=PENDING`,
-      {cookies: cookies}
+      { cookies: cookies }
     );
     donationsToAcceptReplicant.value = donationsToAcceptResp.body.length;
 
     const bidsToAcceptResp = await needle(
       'get',
       `${rootURL}/search?event=${eventID}&type=bidtarget&state=PENDING`,
-      {cookies: cookies}
+      { cookies: cookies }
     );
     bidsToAcceptReplicant.value = bidsToAcceptResp.body.length;
 
@@ -161,9 +161,7 @@ async function getDonationBids(): Promise<Tracker.DonationBid[]> {
   try {
     const resp = await needle(
       'get',
-      `${rootURL}/search?event=${
-        config!.eventID
-      }&type=donationbid`,
+      `${rootURL}/search?event=${config!.eventID}&type=donationbid`,
       {
         cookies: cookies,
       }

@@ -69,7 +69,9 @@ export const reps: {
   countdownRunningReplicant: nodecg.Replicant('countdownRunning', {
     persistent: false,
   }),
-  hostCountdownReplicant: nodecg.Replicant('hostCountdown', { persistent: false }),
+  hostCountdownReplicant: nodecg.Replicant('hostCountdown', {
+    persistent: false,
+  }),
   hostCountdownRunningReplicant: nodecg.Replicant('hostCountdownRunning', {
     persistent: false,
   }),
