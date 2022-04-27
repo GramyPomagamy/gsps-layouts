@@ -5,12 +5,15 @@ const nodecg_1 = require("./util/nodecg");
 const google_spreadsheet_1 = require("google-spreadsheet");
 const tagged_logger_1 = require("./util/tagged-logger");
 const googleConfig = (0, nodecg_1.get)().bundleConfig.google;
-const sheets = new google_spreadsheet_1.GoogleSpreadsheet(googleConfig.spreadsheetId);
-sheets.loadInfo();
-sheets.useServiceAccountAuth({
-    client_email: googleConfig.service_email,
-    private_key: googleConfig.private_key,
-});
+let sheets;
+if (googleConfig.enabled) {
+    sheets = new google_spreadsheet_1.GoogleSpreadsheet(googleConfig.spreadsheetId);
+    sheets.loadInfo();
+    sheets.useServiceAccountAuth({
+        client_email: googleConfig.service_email,
+        private_key: googleConfig.private_key,
+    });
+}
 const log = new tagged_logger_1.TaggedLogger('highlighter');
 function makeHighlight() {
     if (googleConfig.enabled) {
