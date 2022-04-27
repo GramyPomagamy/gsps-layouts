@@ -1,10 +1,10 @@
 <template>
-  <div id="Omnibar" class="Flex">
-    <img
-      id="Logo"
-      :event="currentEvent"
-      src="./img/GSPS_PNG.png"
-    />
+  <div
+    id="Omnibar"
+    class="Flex"
+  >
+    <img id="BG" :src="require(`./img/bg/${currentEvent.toLowerCase() || 'default'}.png`)" />
+    <img id="Logo" :event="currentEvent" src="./img/GSPS_PNG.png" />
     <div id="Body">
       <omnibar-ticker />
     </div>
@@ -36,8 +36,13 @@
     position: fixed;
     width: 1920px;
     height: 66px;
-    background: url('./img/omnibar_bg.png');
     justify-content: flex-start;
+  }
+  #BG {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
   }
 
   #Body {

@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <img id="Background" src="../img/layouts/standard_2.png" />
+    <img id="Background" :src="require(`../img/layouts/${currentEvent || 'default'}/standard_2.png`)" />
 
     <div v-if="activeRun" id="runners">
       <div v-if="activeRun.teams[0]" id="team1">

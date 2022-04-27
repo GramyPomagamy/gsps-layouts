@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <img id="Background" src="../img/layouts/standard_1.png" />
+    <img id="Background" :src="require(`../img/layouts/${currentEvent.toLowerCase() || 'default'}/standard_1.png`)" />
 
     <div id="bottomLeft">
       <div v-if="activeRun" id="runners">
@@ -61,6 +61,7 @@
     @Getter readonly reader!: Reader;
     @Getter readonly sponsors!: Asset[];
     @Getter readonly logoCycles!: LogoCycle[];
+    @Getter readonly currentEvent!: string;
     data() {
       return {
         numRunners: 0,

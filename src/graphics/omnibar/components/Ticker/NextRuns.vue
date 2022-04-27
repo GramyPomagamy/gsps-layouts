@@ -6,7 +6,7 @@
       :class="{ 'next-run': nextRuns[0].id === run.id }"
       v-for="(run, i) in nextRuns"
       :key="run.id"
-      :event="run.customData.originalEvent"
+      :event="currentEvent"
     >
       <span style="font-weight: 700"
         >{{ run.game }}
@@ -32,6 +32,7 @@
   const runDataArray = nodecg.Replicant('runDataArray', 'nodecg-speedcontrol');
   const obsData = nodecg.Replicant('obsData');
   const config = nodecg.bundleConfig.obs;
+  const currentEvent = nodecg.Replicant('currentEvent');
 
   export default {
     name: 'TickerNextRuns',
@@ -41,11 +42,15 @@
     data() {
       return {
         nextRuns: [],
+        currentEvent: ''
       };
     },
     mounted() {
       console.log('NextRuns: mounted');
       this.nextRuns = this.getNextRuns();
+      currentEvent.on('change', (newVal) => {
+        this.currentEvent = newVal;
+      })
 
       if (this.nextRuns.length) {
         const animateRuns = () => {

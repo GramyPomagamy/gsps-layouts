@@ -34,6 +34,10 @@ class OurModule extends VuexModule {
   get obsData(): ObsData {
     return this.reps.obsData;
   }
+
+  get currentEvent(): string {
+    return this.reps.currentEvent;
+  }
 }
 
 const store = new Store({

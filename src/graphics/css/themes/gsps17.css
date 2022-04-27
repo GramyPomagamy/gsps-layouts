@@ -1,18 +1,23 @@
+:root {
+  --theme-color: #862121;
+  --light-theme-color: #ad2a2a;
+}
+
 .next-run[event="GSPS17"] {
-    border-top: 5px solid #7f2915 !important;
-    border-bottom: 5px solid #7f2915 !important;
+    border-top: 5px solid var(--theme-color) !important;
+    border-bottom: 5px solid var(--theme-color) !important;
   }
 
   #Logo[event="GSPS17"] {
     z-index: 3;
     flex-shrink: 0;
-    background-color: #7f2915;
+    background-color: var(--theme-color);
     width: 7.4%;
   }
 
   #currentTimeDiv[event="GSPS17"] {
     color: white;
-    background-color: #7f2915;
+    background-color: var(--theme-color);
     font-size: 32px;
     position: relative;
     height: 100%;
@@ -29,7 +34,7 @@
   #label[event="GSPS17"] {
     font-weight: 700;
     height: 66px;
-    background-color: #7f2915;
+    background-color: var(--theme-color);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -43,7 +48,7 @@
   }
 
   .nameplate[event="GSPS17"] {
-    background-color: #7f2915;
+    background-color: var(--light-theme-color);
     color: white;
     height: 36px;
     font-size: 24px;

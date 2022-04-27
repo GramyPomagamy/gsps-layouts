@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <img id="Background" src="../img/layouts/video_bg-min.png" />
+    <img id="Background" :src="require(`../img/layouts/${currentEvent || 'default'}/video_bg-min.png`)" />
     <video id="player" ref="VideoPlayer">
       <source ref="PlayerSource" />
     </video>
@@ -32,6 +32,7 @@
     @Getter readonly videosCharity!: Asset[];
     @Getter readonly videosSponsors!: Asset[];
     @Getter readonly obsData!: ObsData;
+    @Getter readonly currentEvent!: string;
     @Ref('VideoPlayer') player!: HTMLVideoElement;
     @Ref('PlayerSource') playerSrc!: HTMLSourceElement;
 
