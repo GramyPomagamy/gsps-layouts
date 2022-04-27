@@ -54,6 +54,10 @@ class OurModule extends VuexModule {
   get timer(): Timer {
     return this.reps.timerReplicant;
   }
+
+    get currentEvent(): string {
+    return this.reps.currentEvent;
+  }
 }
 
 const store = new Store({

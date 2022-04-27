@@ -39,8 +39,6 @@
 </script>
 
 <style scoped>
-
-
   #currentTime {
     display: block;
     font-weight: 600;

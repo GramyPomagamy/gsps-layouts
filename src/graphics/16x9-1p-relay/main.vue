@@ -92,6 +92,7 @@
 
 <style>
   @import url('../css/styles.css');
+  @import url('../css/themes.css');
 
   #container {
     text-align: center;

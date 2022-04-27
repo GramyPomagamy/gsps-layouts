@@ -54,6 +54,10 @@ class OurModule extends VuexModule {
   get logoCycles(): LogoCycle[] {
     return this.reps.logoCycles;
   }
+
+  get currentEvent(): string {
+    return this.reps.currentEvent;
+  }
 }
 
 const store = new Store({

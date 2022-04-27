@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="nameplate">
+    <div class="nameplate" :event="currentEvent">
       <transition name="fade">
         <span
           v-if="nameCycle === 0"
@@ -48,6 +48,7 @@
   @Component
   export default class Player extends Vue {
     @Getter readonly nameCycle!: NameCycle;
+    @Getter readonly currentEvent!: string;
     @Prop() player!: PlayerType;
   }
 </script>
@@ -60,15 +61,5 @@
   .fade-enter,
   .fade-leave-to {
     opacity: 0;
-  }
-
-  .nameplate {
-    background-color: #3a008b;
-    color: white;
-    height: 36px;
-    font-size: 24px;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
   }
 </style>

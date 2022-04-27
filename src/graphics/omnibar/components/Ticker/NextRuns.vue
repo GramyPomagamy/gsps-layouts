@@ -115,7 +115,6 @@
 
 <style scoped>
   @import url('../../../css/themes.css');
-
   #nextRuns {
     display: flex;
     flex-direction: row;
