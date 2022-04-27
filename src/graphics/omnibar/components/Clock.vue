@@ -1,15 +1,28 @@
 <template>
-  <div id="currentTimeDiv">
+  <div id="currentTimeDiv" v-if="activeRun" :event="activeRun.customData.originalEvent">
+    <span id="currentTime">{{ clock }}</span>
+  </div>
+    <div id="currentTimeDiv" v-else>
     <span id="currentTime">{{ clock }}</span>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Ref } from 'vue-property-decorator';
+  import { Component, Vue } from 'vue-property-decorator';
+    import { Getter } from 'vuex-class';
+  import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
 
   @Component
   export default class OmnibarClock extends Vue {
-    get clock(): string {
+    @Getter readonly activeRun!: RunDataActiveRun;
+
+    data() {
+      return {
+        clock: ""
+      }
+    }
+
+    getClock(): void {
       var date_ob = new Date();
       // current hours
       let hours = ('0' + date_ob.getHours()).slice(-2);
@@ -17,27 +30,29 @@
       // current minutes
       let minutes = ('0' + date_ob.getMinutes()).slice(-2);
 
-      return hours + ':' + minutes;
+      this.$data.clock = hours + ':' + minutes;
+    }
+
+    mounted() {
+            if (this.activeRun) {
+        if (this.activeRun.customData.originalEvent) {
+          require(`../../css/themes/${this.activeRun.customData.originalEvent.toLowerCase()}.css`);
+        } else {
+          require(`../../css/themes/default.css`);
+        }
+      } else {
+        require(`../../css/themes/default.css`);
+      }
+      this.getClock();
+      setInterval(() => {
+        this.getClock();
+      }, 5000)
     }
   }
 </script>
 
 <style scoped>
-  #currentTimeDiv {
-    color: white;
-    background-color: #3a008b;
-    font-size: 32px;
-    position: relative;
-    height: 100%;
-    white-space: nowrap;
-    -ms-flex: none;
-    -webkit-flex: none;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    display: flex;
-    flex: none;
-  }
+
 
   #currentTime {
     display: block;

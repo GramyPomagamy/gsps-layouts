@@ -1,0 +1,43 @@
+.next-run[event="GSPS17"] {
+    border-top: 5px solid #7f2915 !important;
+    border-bottom: 5px solid #7f2915 !important;
+  }
+
+  #Logo[event="GSPS17"] {
+    z-index: 3;
+    flex-shrink: 0;
+    background-color: #7f2915;
+    width: 7.4%;
+  }
+
+  #currentTimeDiv[event="GSPS17"] {
+    color: white;
+    background-color: #7f2915;
+    font-size: 32px;
+    position: relative;
+    height: 100%;
+    white-space: nowrap;
+    -ms-flex: none;
+    -webkit-flex: none;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    flex: none;
+  }
+
+  #label[event="GSPS17"] {
+    font-weight: 700;
+    height: 66px;
+    background-color: #7f2915;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    min-width: 110px;
+    flex-shrink: 0;
+  }

@@ -1,0 +1,43 @@
+.next-run {
+    border-top: 5px solid #3a008b !important;
+    border-bottom: 5px solid #3a008b !important;
+  }
+
+  #Logo {
+    z-index: 3;
+    flex-shrink: 0;
+    background-color: #3a008b;
+    width: 7.4%;
+  }
+
+  #currentTimeDiv {
+    color: white;
+    background-color: #3a008b;
+    font-size: 32px;
+    position: relative;
+    height: 100%;
+    white-space: nowrap;
+    -ms-flex: none;
+    -webkit-flex: none;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    flex: none;
+  }
+
+  #label {
+    font-weight: 700;
+    height: 66px;
+    background-color: #3a008b;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    min-width: 110px;
+    flex-shrink: 0;
+  }

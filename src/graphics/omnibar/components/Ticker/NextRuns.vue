@@ -4,8 +4,9 @@
     <div
       class="run"
       :class="{ 'next-run': nextRuns[0].id === run.id }"
-      v-for="run in nextRuns"
+      v-for="(run, i) in nextRuns"
       :key="run.id"
+      :event="run.customData.originalEvent"
     >
       <span style="font-weight: 700"
         >{{ run.game }}
@@ -45,6 +46,13 @@
     mounted() {
       console.log('NextRuns: mounted');
       this.nextRuns = this.getNextRuns();
+
+      if (this.nextRuns[0].customData.originalEvent) {
+        require(`../../../css/themes/${this.nextRuns[0].customData.originalEvent.toLowerCase()}.css`)
+      } else {
+        require(`../../../css/themes/default.css`)
+      }
+
       if (this.nextRuns.length) {
         const animateRuns = () => {
           const elements = document.querySelectorAll('.run');
@@ -131,9 +139,5 @@
     flex-direction: column;
     height: 51px;
     opacity: 0;
-  }
-  .next-run {
-    border-top: 5px solid #3a008b;
-    border-bottom: 5px solid #3a008b;
   }
 </style>

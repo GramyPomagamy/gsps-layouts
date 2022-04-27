@@ -36,9 +36,9 @@
         activeRun,
       ).then(() => {
         this.messageTypes = [
-          this.gspsPromo(),
+/*           this.gspsPromo(),
           this.charityPromo(),
-          this.donationURL(),
+          this.donationURL(), */
           this.nextRuns(),
         ];
 

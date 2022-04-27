@@ -1,5 +1,10 @@
 <template>
-  <div id="label">
+  <div id="label" v-if="activeRun" :event="activeRun.customData.originalEvent">
+    <div id="label-text">
+      <span v-html="label"></span>
+    </div>
+  </div>
+  <div id="label" v-else>
     <div id="label-text">
       <span v-html="label"></span>
     </div>
@@ -9,10 +14,32 @@
 <script>
   import gsap from 'gsap';
 
+  const runDataActiveRun = nodecg.Replicant(
+    'runDataActiveRun',
+    'nodecg-speedcontrol'
+  );
+
   export default {
     name: 'TickerLabel',
     props: ['label'],
+    data() {
+      return {
+        activeRun: undefined,
+      };
+    },
     mounted() {
+      runDataActiveRun.on('change', (newVal) => {
+        this.$data.activeRun = newVal;
+      })
+      if (this.$data.activeRun) {
+        if (this.$data.activeRun.customData.originalEvent) {
+          require(`../../../css/themes/${this.$data.activeRun.customData.originalEvent.toLowerCase()}.css`);
+        } else {
+          require(`../../../css/themes/default.css`);
+        }
+      } else {
+        require(`../../../css/themes/default.css`);
+      }
       const labelAnim = () => {
         gsap.fromTo(
           '#label',
@@ -26,22 +53,6 @@
 </script>
 
 <style scoped>
-  #label {
-    font-weight: 700;
-    height: 66px;
-    background-color: #3a008b;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    min-width: 110px;
-    flex-shrink: 0;
-  }
-
   #label-text {
     padding: 0 15px;
     font-style: normal;
