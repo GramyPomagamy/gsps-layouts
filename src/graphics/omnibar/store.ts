@@ -3,7 +3,6 @@ import {
   ReplicantModule,
   ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store';
-import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
 import { Action, getModule, Module, VuexModule } from 'vuex-module-decorators';
@@ -17,8 +16,8 @@ class OurModule extends VuexModule {
     return this.context.rootState.ReplicantModule.reps;
   }
 
-  get activeRun(): RunDataActiveRun {
-    return this.reps.activeRunReplicant;
+  get currentEvent(): string {
+    return this.reps.currentEvent;
   }
 }
 

@@ -59,8 +59,8 @@ jobs:
       continue-on-error: true
       working-directory: ./nodecg/bundles/gsps-layouts
       run: |
-        git checkout main
-        git checkout build
+        git checkout classic
+        git checkout build-classic
 
     # Attempt to start to merge the main branch into build.
     # This can "error" but we want to continue regardless.
@@ -70,8 +70,8 @@ jobs:
       continue-on-error: true
       working-directory: ./nodecg/bundles/gsps-layouts
       run: |
-        git merge --no-commit main
-        git commit -m "Merge branch 'main' into build"
+        git merge --no-commit classic
+        git commit -m "Merge branch 'classic' into build-classic"
         
 
     # Setup some Node stuff
@@ -120,7 +120,7 @@ jobs:
         git commit -m "Built files" -a
 
     # Pushes the built files to a specific branch
-    - name: Push built files to "build" branch
+    - name: Push built files to "build-classic" branch
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets['GITHUB_TOKEN'] }}

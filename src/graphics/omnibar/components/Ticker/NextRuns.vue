@@ -47,12 +47,6 @@
       console.log('NextRuns: mounted');
       this.nextRuns = this.getNextRuns();
 
-      if (this.nextRuns[0].customData.originalEvent) {
-        require(`../../../css/themes/${this.nextRuns[0].customData.originalEvent.toLowerCase()}.css`)
-      } else {
-        require(`../../../css/themes/default.css`)
-      }
-
       if (this.nextRuns.length) {
         const animateRuns = () => {
           const elements = document.querySelectorAll('.run');
@@ -120,6 +114,8 @@
 </script>
 
 <style scoped>
+  @import url('../../../css/themes.css');
+
   #nextRuns {
     display: flex;
     flex-direction: row;

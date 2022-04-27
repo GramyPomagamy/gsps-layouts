@@ -2,11 +2,9 @@
   <div id="Omnibar" class="Flex">
     <img
       id="Logo"
-      v-if="activeRun"
-      :event="activeRun.customData.originalEvent"
+      :event="currentEvent"
       src="./img/GSPS_PNG.png"
     />
-    <img id="Logo" v-else src="./img/GSPS_PNG.png" />
     <div id="Body">
       <omnibar-ticker />
     </div>
@@ -28,19 +26,7 @@
     },
   })
   export default class extends Vue {
-    @Getter readonly activeRun!: RunDataActiveRun;
-
-    mounted() {
-      if (this.activeRun) {
-        if (this.activeRun.customData.originalEvent) {
-          require(`../css/themes/${this.activeRun.customData.originalEvent.toLowerCase()}.css`);
-        } else {
-          require(`../css/themes/default.css`);
-        }
-      } else {
-        require(`../css/themes/default.css`);
-      }
-    }
+    @Getter readonly currentEvent!: string;
   }
 </script>
 

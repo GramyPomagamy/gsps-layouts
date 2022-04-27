@@ -43,3 +43,4 @@ export const prizesReplicant = nodecg().Replicant<Prizes>('prizes');
 export const donationsToAcceptReplicant =
   nodecg().Replicant<number>('donationsToAccept');
 export const bidsToAcceptReplicant = nodecg().Replicant<number>('bidsToAccept');
+export const currentEventReplicant = nodecg().Replicant<string>('currentEvent');

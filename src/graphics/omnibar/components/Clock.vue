@@ -1,8 +1,5 @@
 <template>
-  <div id="currentTimeDiv" v-if="activeRun" :event="activeRun.customData.originalEvent">
-    <span id="currentTime">{{ clock }}</span>
-  </div>
-    <div id="currentTimeDiv" v-else>
+  <div id="currentTimeDiv" :event="currentEvent">
     <span id="currentTime">{{ clock }}</span>
   </div>
 </template>
@@ -10,11 +7,10 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator';
     import { Getter } from 'vuex-class';
-  import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
 
   @Component
   export default class OmnibarClock extends Vue {
-    @Getter readonly activeRun!: RunDataActiveRun;
+    @Getter readonly currentEvent!: string;
 
     data() {
       return {
@@ -34,15 +30,6 @@
     }
 
     mounted() {
-            if (this.activeRun) {
-        if (this.activeRun.customData.originalEvent) {
-          require(`../../css/themes/${this.activeRun.customData.originalEvent.toLowerCase()}.css`);
-        } else {
-          require(`../../css/themes/default.css`);
-        }
-      } else {
-        require(`../../css/themes/default.css`);
-      }
       this.getClock();
       setInterval(() => {
         this.getClock();

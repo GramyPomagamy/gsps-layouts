@@ -1,4 +1,8 @@
-import { nameCycleReplicant } from './util/replicants';
+import {
+  nameCycleReplicant,
+  activeRunReplicant,
+  currentEventReplicant,
+} from './util/replicants';
 
 // Controls the name cycling ticks for players/hosts
 function cycleNames(reset = false): void {
@@ -19,3 +23,11 @@ function cycleNames(reset = false): void {
   nameCycleReplicant.value = cycle;
 }
 cycleNames(true);
+
+activeRunReplicant.on('change', (newVal) => {
+  if (newVal.customData.originalEvent) {
+    currentEventReplicant.value = newVal.customData.originalEvent;
+  } else {
+    currentEventReplicant.value = '';
+  }
+});

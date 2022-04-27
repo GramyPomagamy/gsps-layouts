@@ -1,10 +1,5 @@
 <template>
-  <div id="label" v-if="activeRun" :event="activeRun.customData.originalEvent">
-    <div id="label-text">
-      <span v-html="label"></span>
-    </div>
-  </div>
-  <div id="label" v-else>
+  <div id="label" :event="currentEvent">
     <div id="label-text">
       <span v-html="label"></span>
     </div>
@@ -14,32 +9,21 @@
 <script>
   import gsap from 'gsap';
 
-  const runDataActiveRun = nodecg.Replicant(
-    'runDataActiveRun',
-    'nodecg-speedcontrol'
-  );
+  const currentEvent = nodecg.Replicant('currentEvent');
 
   export default {
     name: 'TickerLabel',
     props: ['label'],
     data() {
       return {
-        activeRun: undefined,
+        currentEvent: '',
       };
     },
     mounted() {
-      runDataActiveRun.on('change', (newVal) => {
-        this.$data.activeRun = newVal;
-      })
-      if (this.$data.activeRun) {
-        if (this.$data.activeRun.customData.originalEvent) {
-          require(`../../../css/themes/${this.$data.activeRun.customData.originalEvent.toLowerCase()}.css`);
-        } else {
-          require(`../../../css/themes/default.css`);
-        }
-      } else {
-        require(`../../../css/themes/default.css`);
-      }
+      currentEvent.on('change', (newVal) => {
+        this.$data.currentEvent = newVal;
+      });
+
       const labelAnim = () => {
         gsap.fromTo(
           '#label',
@@ -53,6 +37,8 @@
 </script>
 
 <style scoped>
+  @import url('../../../css/themes.css');
+
   #label-text {
     padding: 0 15px;
     font-style: normal;
