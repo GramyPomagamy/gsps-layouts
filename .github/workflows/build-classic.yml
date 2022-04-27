@@ -1,6 +1,6 @@
 # Based on the GitHub action found in the ESA layouts repo, big thanks for that
 
-name: Build
+name: Build (Classic)
 
 on:
   push:
