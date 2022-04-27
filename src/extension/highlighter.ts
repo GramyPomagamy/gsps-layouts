@@ -10,13 +10,17 @@ import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { TaggedLogger } from './util/tagged-logger';
 
 const googleConfig = (nodecg().bundleConfig as Configschema).google;
+let sheets: GoogleSpreadsheet;
 
-const sheets = new GoogleSpreadsheet(googleConfig.spreadsheetId);
-sheets.loadInfo();
-sheets.useServiceAccountAuth({
-  client_email: googleConfig.service_email,
-  private_key: googleConfig.private_key,
-});
+if (googleConfig.enabled) {
+  sheets = new GoogleSpreadsheet(googleConfig.spreadsheetId);
+  sheets.loadInfo();
+  sheets.useServiceAccountAuth({
+    client_email: googleConfig.service_email,
+    private_key: googleConfig.private_key,
+  });
+}
+
 const log = new TaggedLogger('highlighter');
 
 function makeHighlight() {
