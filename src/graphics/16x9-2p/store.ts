@@ -43,16 +43,8 @@ class OurModule extends VuexModule {
     return this.reps.readerReplicant;
   }
 
-  get sponsors(): Asset[] {
-    return this.reps.sponsors;
-  }
-
   get timer(): Timer {
     return this.reps.timerReplicant;
-  }
-
-  get logoCycles(): LogoCycle[] {
-    return this.reps.logoCycles;
   }
 
   get currentEvent(): string {

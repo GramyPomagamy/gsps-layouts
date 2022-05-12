@@ -22,7 +22,7 @@
       </div>
       <run-info id="RunInfo" v-if="activeRun" :maxTitleSize="30" />
       <timer-view id="timer" />
-      <sponsors id="sponsors" />
+      <event-logo id="event-logo" />
     </div>
   </div>
 </template>
@@ -35,14 +35,13 @@
     Commentators,
     Reader,
   } from '@gsps-layouts/types/schemas';
-  import type { Asset, LogoCycle } from '@gsps-layouts/types';
   import { Getter } from 'vuex-class';
   import TimerView from '../_misc/components/Timer.vue';
   import RunInfo from '../_misc/components/RunInfo.vue';
   import Player from '../_misc/components/Player.vue';
   import CommentatorList from '../_misc/components/Commentator.vue';
   import ReaderName from '../_misc/components/Reader.vue';
-  import Sponsors from '../_misc/components/Sponsors.vue';
+  import EventLogo from '../_misc/components/EventLogo.vue';
 
   @Component({
     components: {
@@ -51,7 +50,7 @@
       Player,
       CommentatorList,
       ReaderName,
-      Sponsors,
+      EventLogo,
     },
   })
   export default class extends Vue {
@@ -59,8 +58,6 @@
     @Getter readonly nameCycle!: NameCycle;
     @Getter readonly commentators!: Commentators;
     @Getter readonly reader!: Reader;
-    @Getter readonly sponsors!: Asset[];
-    @Getter readonly logoCycles!: LogoCycle[];
     @Getter readonly currentEvent!: string;
     data() {
       return {
@@ -170,7 +167,7 @@
     width: 567px;
   }
 
-  #sponsors {
+  #event-logo {
     position: absolute;
     top: 225px;
     left: 30px;

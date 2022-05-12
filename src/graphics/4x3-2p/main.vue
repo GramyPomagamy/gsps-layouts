@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <img id="Background" :src="require(`../img/layouts/${currentEvent || 'default'}/standard_2.png`)" />
+    <img id="Background" :src="require(`../img/layouts/${currentEvent.toLowerCase() || 'default'}/standard_2.png`)" />
 
     <div v-if="activeRun" id="runners">
       <div v-if="activeRun.teams[0]" id="team1">
@@ -62,7 +62,7 @@
     </div>
     <run-info id="RunInfo" v-if="activeRun" :maxTitleSize="43" />
     <timer-view id="timer" />
-    <sponsors id="sponsors" />
+    <event-logo id="sponsors" />
   </div>
 </template>
 
@@ -84,7 +84,7 @@
   import Player from '../_misc/components/Player.vue';
   import CommentatorList from '../_misc/components/Commentator.vue';
   import ReaderName from '../_misc/components/Reader.vue';
-  import Sponsors from '../_misc/components/Sponsors.vue';
+  import EventLogo from '../_misc/components/EventLogo.vue';
   import FinishTime from '../_misc/components/FinishTime.vue';
 
   @Component({
@@ -94,7 +94,7 @@
       Player,
       CommentatorList,
       ReaderName,
-      Sponsors,
+      EventLogo,
       FinishTime,
     },
   })
@@ -103,9 +103,8 @@
     @Getter readonly nameCycle!: NameCycle;
     @Getter readonly commentators!: Commentators;
     @Getter readonly reader!: Reader;
-    @Getter readonly sponsors!: Asset[];
     @Getter readonly timer!: Timer;
-    @Getter readonly logoCycles!: LogoCycle[];
+    @Getter readonly currentEvent!: string;
     data() {
       return {
         numRunners: 0,

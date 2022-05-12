@@ -14,7 +14,6 @@
         <break-song id="song" />
       </div>
     </div>
-    <sponsors id="sponsors" />
   </div>
 </template>
 
@@ -30,7 +29,6 @@
   import BreakTotal from './components/Total.vue';
   import BreakNextRuns from './components/NextRuns.vue';
   import BreakTicker from './components/Ticker.vue';
-  import Sponsors from '../_misc/components/Sponsors.vue';
   import clone from 'clone';
 
   @Component({
@@ -40,7 +38,6 @@
       BreakTotal,
       BreakNextRuns,
       BreakTicker,
-      Sponsors,
     },
   })
   export default class extends Vue {

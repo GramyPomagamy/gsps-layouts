@@ -12,8 +12,6 @@ import type {
   Commentators,
   Reader,
 } from '@gsps-layouts/types/schemas';
-import type { Asset, LogoCycle } from '@gsps-layouts/types';
-import clone from 'clone';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
 import { Action, getModule, Module, VuexModule } from 'vuex-module-decorators';
@@ -41,14 +39,6 @@ class OurModule extends VuexModule {
 
   get reader(): Reader {
     return this.reps.readerReplicant;
-  }
-
-  get sponsors(): Asset[] {
-    return this.reps.sponsors;
-  }
-
-  get logoCycles(): LogoCycle[] {
-    return this.reps.logoCycles;
   }
 
   get timer(): Timer {

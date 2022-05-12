@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <img id="Background" :src="require(`../img/layouts/${currentEvent || 'default'}/3x2_1-min.png`)" />
+    <img id="Background" :src="require(`../img/layouts/${currentEvent.toLowerCase() || 'default'}/3x2_1.png`)" />
 
     <div id="bottomLeft">
       <div v-if="activeRun" id="runners">
@@ -22,7 +22,7 @@
       </div>
       <run-info id="RunInfo" v-if="activeRun" :maxTitleSize="30" />
       <timer-view id="timer" />
-      <sponsors id="sponsors" />
+      <event-logo id="sponsors" />
     </div>
   </div>
 </template>
@@ -42,7 +42,7 @@
   import Player from '../_misc/components/Player.vue';
   import CommentatorList from '../_misc/components/Commentator.vue';
   import ReaderName from '../_misc/components/Reader.vue';
-  import Sponsors from '../_misc/components/Sponsors.vue';
+  import EventLogo from '../_misc/components/EventLogo.vue';
 
   @Component({
     components: {
@@ -51,7 +51,7 @@
       Player,
       CommentatorList,
       ReaderName,
-      Sponsors,
+      EventLogo,
     },
   })
   export default class extends Vue {
@@ -59,8 +59,8 @@
     @Getter readonly nameCycle!: NameCycle;
     @Getter readonly commentators!: Commentators;
     @Getter readonly reader!: Reader;
-    @Getter readonly sponsors!: Asset[];
-    @Getter readonly logoCycles!: LogoCycle[];
+    @Getter readonly currentEvent!: string;
+
     data() {
       return {
         numRunners: 0,
