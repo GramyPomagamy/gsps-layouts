@@ -116,22 +116,10 @@
     },
     "dashboardPanels": [
       {
-        "name": "total",
-        "title": "Zebrana kwota",
-        "file": "total.html",
-        "width": 3
-      },
-      {
         "name": "commentators",
         "title": "Komentatorzy",
         "file": "commentators.html",
         "width": 3
-      },
-      {
-        "name": "reader",
-        "title": "Czytający",
-        "file": "reader.html",
-        "width": 2
       },
       {
         "name": "hosterka",
@@ -144,29 +132,6 @@
         "title": "Odliczanie",
         "file": "countdown.html",
         "width": 3
-      },
-      {
-        "name": "host-countdown",
-        "title": "Odliczanie hostów",
-        "file": "host-countdown.html",
-        "width": 3
-      },
-      {
-        "name": "edit-total",
-        "title": "Edytuj kwotę",
-        "file": "edit-total.html",
-        "width": 3,
-        "dialog": true,
-        "dialogButtons": [
-          {
-            "name": "zapisz",
-            "type": "confirm"
-          },
-          {
-            "name": "anuluj",
-            "type": "dismiss"
-          }
-        ]
       },
       {
         "name": "obs-status",
@@ -195,32 +160,6 @@
         "file": "play-video.html",
         "width": 3,
         "workspace": "OBS"
-      },
-      {
-        "name": "Panel czytającego",
-        "title": "Panel czytającego",
-        "file": "reader-panel.html",
-        "fullbleed": true
-      },
-      {
-        "name": "Panel hosta",
-        "title": "Panel host",
-        "file": "host-panel.html",
-        "fullbleed": true
-      },
-      {
-        "name": "sponsors",
-        "title": "Loga sponsorów (główny layout)",
-        "file": "sponsors.html",
-        "width": 6,
-        "workspace": "Loga sponsorów"
-      },
-      {
-        "name": "sponsors-break",
-        "title": "Loga sponsorów (przerwa)",
-        "file": "sponsors-break.html",
-        "width": 6,
-        "workspace": "Loga sponsorów"
       }
     ],
     "graphics": [
@@ -296,22 +235,6 @@
       }
     ],
     "assetCategories": [
-      {
-        "name": "sponsors",
-        "title": "Loga sponsorów",
-        "allowedTypes": [
-          "png",
-          "PNG"
-        ]
-      },
-      {
-        "name": "sponsors-break",
-        "title": "Loga sponsorów (przerwa)",
-        "allowedTypes": [
-          "png",
-          "PNG"
-        ]
-      },
       {
         "name": "videos-charity",
         "title": "Filmy na przerwę (fundacja)",

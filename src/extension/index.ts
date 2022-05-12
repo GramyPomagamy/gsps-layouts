@@ -19,15 +19,10 @@ export = (nodecg: NodeCG): void => {
   set(nodecg);
   require('./countdown');
   require('./host-countdown');
-  require('./donations');
-  require('./total');
-  require('./bids');
   require('./layouts');
   require('./nowplaying');
   require('./obs');
   require('./highlighter');
   require('./footpedal');
-  require('./milestones');
-  require('./prizes');
   require('./featured');
 };
