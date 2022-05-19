@@ -25,8 +25,12 @@ function cycleNames(reset = false): void {
 cycleNames(true);
 
 activeRunReplicant.on('change', (newVal) => {
-  if (newVal.customData.originalEvent) {
-    currentEventReplicant.value = newVal.customData.originalEvent;
+  if (newVal) {
+    if (newVal.customData.originalEvent) {
+      currentEventReplicant.value = newVal.customData.originalEvent;
+    } else {
+      currentEventReplicant.value = '';
+    }
   } else {
     currentEventReplicant.value = '';
   }
