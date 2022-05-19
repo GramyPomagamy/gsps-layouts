@@ -176,10 +176,10 @@
 
   #sponsors {
     position: absolute;
-    bottom: 30px;
-    left: 25px;
+    bottom: 60px;
+    left: 20px;
     width: 400px;
-    height: 341px;
+    height: 371px;
     /* background-color: aqua; */
   }
 </style>
