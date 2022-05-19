@@ -1,23 +1,23 @@
 :root {
-  --theme-color: #862121;
+  --gsps17-theme-color: #862121;
   --light-theme-color: black;
 }
 
 .next-run[event='GSPS17'] {
-  border-top: 5px solid var(--theme-color) !important;
-  border-bottom: 5px solid var(--theme-color) !important;
+  border-top: 5px solid var(--gsps17-theme-color) !important;
+  border-bottom: 5px solid var(--gsps17-theme-color) !important;
 }
 
 #Logo[event='GSPS17'] {
   z-index: 3;
   flex-shrink: 0;
-  background-color: var(--theme-color);
+  background-color: var(--gsps17-theme-color);
   width: 7.4%;
 }
 
 #currentTimeDiv[event='GSPS17'] {
   color: white;
-  background-color: var(--theme-color);
+  background-color: var(--gsps17-theme-color);
   font-size: 32px;
   position: relative;
   height: 100%;
@@ -34,7 +34,7 @@
 #label[event='GSPS17'] {
   font-weight: 700;
   height: 66px;
-  background-color: var(--theme-color);
+  background-color: var(--gsps17-theme-color);
   display: flex;
   flex-direction: row;
   align-items: center;

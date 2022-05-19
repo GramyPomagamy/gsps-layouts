@@ -1,6 +1,11 @@
 <template>
   <div id="container">
-    <img id="Background" :src="require(`../img/layouts/${currentEvent || 'default'}/video_bg-min.png`)" />
+    <img
+      id="Background"
+      :src="
+        require(`../img/layouts/${currentEvent || 'default'}/video_bg-min.png`)
+      "
+    />
     <video id="player" ref="VideoPlayer">
       <source ref="PlayerSource" />
     </video>

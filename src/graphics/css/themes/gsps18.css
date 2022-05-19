@@ -1,0 +1,58 @@
+:root {
+  --gsps18-theme-color: #fc792a;
+  --light-theme-color: #000000;
+}
+
+.next-run[event='GSPS18'] {
+  border-top: 5px solid var(--gsps18-theme-color) !important;
+  border-bottom: 5px solid var(--gsps18-theme-color) !important;
+}
+
+#Logo[event='GSPS18'] {
+  z-index: 3;
+  flex-shrink: 0;
+  background-color: var(--gsps18-theme-color);
+  width: 7.4%;
+}
+
+#currentTimeDiv[event='GSPS18'] {
+  color: white;
+  background-color: var(--gsps18-theme-color);
+  font-size: 32px;
+  position: relative;
+  height: 100%;
+  white-space: nowrap;
+  -ms-flex: none;
+  -webkit-flex: none;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  flex: none;
+}
+
+#label[event='GSPS18'] {
+  font-weight: 700;
+  height: 66px;
+  background-color: var(--gsps18-theme-color);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  min-width: 110px;
+  flex-shrink: 0;
+}
+
+.nameplate[event='GSPS18'] {
+  background-color: var(--light-theme-color);
+  color: white;
+  height: 36px;
+  font-size: 24px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}

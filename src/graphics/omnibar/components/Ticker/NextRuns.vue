@@ -42,7 +42,7 @@
     data() {
       return {
         nextRuns: [],
-        currentEvent: ''
+        currentEvent: '',
       };
     },
     mounted() {
@@ -50,7 +50,7 @@
       this.nextRuns = this.getNextRuns();
       currentEvent.on('change', (newVal) => {
         this.currentEvent = newVal;
-      })
+      });
 
       if (this.nextRuns.length) {
         const animateRuns = () => {

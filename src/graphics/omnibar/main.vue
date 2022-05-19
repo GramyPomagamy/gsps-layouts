@@ -1,9 +1,9 @@
 <template>
-  <div
-    id="Omnibar"
-    class="Flex"
-  >
-    <img id="BG" :src="require(`./img/bg/${currentEvent.toLowerCase() || 'default'}.png`)" />
+  <div id="Omnibar" class="Flex">
+    <img
+      id="BG"
+      :src="require(`./img/bg/${currentEvent.toLowerCase() || 'default'}.png`)"
+    />
     <img id="Logo" :event="currentEvent" src="./img/GSPS_PNG.png" />
     <div id="Body">
       <omnibar-ticker />

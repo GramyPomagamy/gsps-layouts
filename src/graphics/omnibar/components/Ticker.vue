@@ -31,12 +31,9 @@
       };
     },
     mounted() {
-      NodeCG.waitForReplicants(
-        runs,
-        activeRun,
-      ).then(() => {
+      NodeCG.waitForReplicants(runs, activeRun).then(() => {
         this.messageTypes = [
-/*           this.gspsPromo(),
+          /*           this.gspsPromo(),
           this.charityPromo(),
           this.donationURL(), */
           this.nextRuns(),

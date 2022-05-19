@@ -104,7 +104,7 @@ export const reps: {
   milestonesReplicant: nodecg.Replicant('milestones'),
   donationsToAccept: nodecg.Replicant('donationsToAccept'),
   bidsToAccept: nodecg.Replicant('bidsToAccept'),
-  currentEvent: nodecg.Replicant('currentEvent')
+  currentEvent: nodecg.Replicant('currentEvent'),
 };
 
 // All the replicant types.

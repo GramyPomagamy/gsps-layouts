@@ -1,6 +1,13 @@
 <template>
   <div id="container">
-    <img id="Background" :src="require(`../img/layouts/${currentEvent.toLowerCase() || 'default'}/3x2_1.png`)" />
+    <img
+      id="Background"
+      :src="
+        require(`../img/layouts/${
+          currentEvent.toLowerCase() || 'default'
+        }/3x2_1.png`)
+      "
+    />
 
     <div id="bottomLeft">
       <div v-if="activeRun" id="runners">

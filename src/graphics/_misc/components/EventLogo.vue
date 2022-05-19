@@ -1,7 +1,11 @@
 <template>
   <div v-if="currentEvent" id="current-event-logo">
     <transition name="fade" mode="out-in">
-      <img class="img" :key="currentEvent" :src="require(`../../img/logos/${currentEvent.toLowerCase()}.png`)" />
+      <img
+        class="img"
+        :key="currentEvent"
+        :src="require(`../../img/logos/${currentEvent.toLowerCase()}.png`)"
+      />
     </transition>
   </div>
 </template>

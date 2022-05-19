@@ -6,7 +6,7 @@
 
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator';
-    import { Getter } from 'vuex-class';
+  import { Getter } from 'vuex-class';
 
   @Component
   export default class OmnibarClock extends Vue {
@@ -14,8 +14,8 @@
 
     data() {
       return {
-        clock: ""
-      }
+        clock: '',
+      };
     }
 
     getClock(): void {
@@ -33,7 +33,7 @@
       this.getClock();
       setInterval(() => {
         this.getClock();
-      }, 5000)
+      }, 5000);
     }
   }
 </script>
