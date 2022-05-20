@@ -56,3 +56,9 @@
   display: flex;
   flex-direction: row;
 }
+
+#break[event='GSPS17'] {
+  width: 1920px;
+  height: 1080px;
+  background-color: #862121da;
+}

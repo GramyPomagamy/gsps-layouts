@@ -1,16 +1,10 @@
 <template>
-  <div id="break">
-    <break-total id="total" />
+  <div id="break" :event="currentEvent">
     <break-next-runs id="next-runs" :runs="nextRuns" />
-    <break-ticker id="ticker" />
+    <img id="ClassicLogo" src="./img/GSPS_Classic_White.png" />
     <div id="bottom">
-      <img id="Logo" src="./img/GSPS_logo.png" />
+      <img id="GSPSLogo" src="./img/GSPS_logo.png" />
       <div id="names">
-        <break-reader
-          :style="{
-            width: '295px',
-          }"
-        />
         <break-song id="song" />
       </div>
     </div>
@@ -19,35 +13,25 @@
 
 <script lang="ts">
   import { Vue, Component, Watch } from 'vue-property-decorator';
-  import type { Bids, Reader, Song } from '@gsps-layouts/types/schemas';
+  import type { Song } from '@gsps-layouts/types/schemas';
   import { Getter } from 'vuex-class';
   import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
   import { RunData } from '../../../../nodecg-speedcontrol/src/types';
-  import { Asset, LogoCycle } from '@gsps-layouts/types';
-  import BreakReader from './components/Reader.vue';
   import BreakSong from './components/Song.vue';
-  import BreakTotal from './components/Total.vue';
   import BreakNextRuns from './components/NextRuns.vue';
-  import BreakTicker from './components/Ticker.vue';
   import clone from 'clone';
 
   @Component({
     components: {
-      BreakReader,
       BreakSong,
-      BreakTotal,
       BreakNextRuns,
-      BreakTicker,
     },
   })
   export default class extends Vue {
-    @Getter readonly currentBids!: Bids[]; // from store.ts
     @Getter readonly allRuns!: RunData[];
-    @Getter readonly reader!: Reader;
     @Getter readonly activeRun!: RunDataActiveRun;
     @Getter readonly currentSong!: Song;
-    @Getter readonly sponsors!: Asset[];
-    @Getter readonly logoCycles!: LogoCycle[];
+    @Getter readonly currentEvent!: string;
 
     nextRuns: RunData[] | null = null;
 
@@ -62,7 +46,7 @@
 
     get getNext3Runs(): RunData[] {
       const runIndex = this.findRunIndex;
-      return clone(this.allRuns).slice(runIndex).slice(0, 3);
+      return clone(this.allRuns).slice(runIndex).slice(0, 5);
     }
 
     get findRunIndex() {
@@ -78,19 +62,21 @@
 
 <style>
   @import url('../css/styles.css');
+  @import url('../css/themes.css');
 
-  html {
-    width: 1920px;
-    height: 1080px;
-    background-color: #41228eda;
+  #ClassicLogo {
+    position: absolute;
+    width: 35%;
+    right: 120px;
+    top: 160px;
   }
 
-  #Logo {
+  #GSPSLogo {
     margin-top: 45px;
     width: 11%;
     position: absolute;
     bottom: 2px;
-    left: 0px;
+    left: 20px;
     align-self: flex-start;
   }
 
@@ -111,7 +97,7 @@
   }
 
   #song {
-    width: 700px;
+    width: 100%;
     white-space: nowrap;
     overflow: visible;
     margin-right: 40px;

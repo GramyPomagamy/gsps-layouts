@@ -221,16 +221,8 @@
     ],
     "assetCategories": [
       {
-        "name": "videos-charity",
-        "title": "Filmy na przerwę (fundacja)",
-        "allowedTypes": [
-          "mp4",
-          "MP4"
-        ]
-      },
-      {
-        "name": "videos-sponsors",
-        "title": "Filmy na przerwę (sponsorzy)",
+        "name": "videos",
+        "title": "Filmy na przerwę",
         "allowedTypes": [
           "mp4",
           "MP4"

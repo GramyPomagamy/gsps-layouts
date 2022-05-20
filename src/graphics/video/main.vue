@@ -3,7 +3,7 @@
     <img
       id="Background"
       :src="
-        require(`../img/layouts/${currentEvent || 'default'}/video_bg-min.png`)
+        require(`../img/layouts/${currentEvent.toLowerCase() || 'default'}/video_bg.png`)
       "
     />
     <video id="player" ref="VideoPlayer">
@@ -25,8 +25,6 @@
   import { Getter } from 'vuex-class';
   import VideoNextRun from './components/NextRun.vue';
 
-  type VideoTypes = 'charity' | 'sponsors';
-
   @Component({
     components: {
       VideoNextRun,
@@ -34,8 +32,7 @@
   })
   export default class extends Vue {
     @Getter readonly activeRun!: RunDataActiveRun;
-    @Getter readonly videosCharity!: Asset[];
-    @Getter readonly videosSponsors!: Asset[];
+    @Getter readonly videos!: Asset[];
     @Getter readonly obsData!: ObsData;
     @Getter readonly currentEvent!: string;
     @Ref('VideoPlayer') player!: HTMLVideoElement;
@@ -46,31 +43,22 @@
     sceneName: string = this.config.scenes.video;
 
     video!: Asset;
-    videoType: VideoTypes = 'charity';
 
     @Watch('obsData')
     onOBSDataChanged(newVal: ObsData) {
       this.$nextTick(() => {
         if (newVal.scene === this.sceneName) {
-          this.videoType = 'charity';
-          this.playNextVideo('charity');
+          this.playNextVideo();
         }
       });
     }
 
-    async playNextVideo(type: VideoTypes): Promise<void> {
+    async playNextVideo(): Promise<void> {
       let video;
-      if (type === 'charity') {
-        video =
-          this.videosCharity[
-            Math.floor(Math.random() * this.videosCharity.length)
+      video =
+          this.videos[
+            Math.floor(Math.random() * this.videos.length)
           ];
-      } else {
-        video =
-          this.videosSponsors[
-            Math.floor(Math.random() * this.videosSponsors.length)
-          ];
-      }
       if (video) {
         this.video = video;
         this.playerSrc.src = video.url;
@@ -84,17 +72,12 @@
         console.error(
           'Coś się popsuło i nie było mnie słychać, więc spróbuję jeszcze raz...'
         );
-        this.playNextVideo(type);
+        this.playNextVideo();
       }
     }
 
     videoEnded(): void {
-      if (this.videoType === 'charity') {
-        this.playNextVideo('sponsors');
-        this.videoType = 'sponsors';
-      } else {
         nodecg.sendMessage('videoPlayerFinished');
-      }
     }
 
     mounted() {

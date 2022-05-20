@@ -23,13 +23,10 @@ class OurModule extends VuexModule {
     return this.reps.activeRunReplicant;
   }
 
-  get videosCharity(): Asset[] {
-    return this.reps.videosCharity;
+  get videos(): Asset[] {
+    return this.reps.videos;
   }
 
-  get videosSponsors(): Asset[] {
-    return this.reps.videosSponsors;
-  }
 
   get obsData(): ObsData {
     return this.reps.obsData;

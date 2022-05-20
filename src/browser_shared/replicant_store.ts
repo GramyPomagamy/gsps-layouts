@@ -56,8 +56,7 @@ export const reps: {
   hosterkaRep: ReplicantBrowser<Hosterka>;
   logoCycles: ReplicantBrowser<LogoCycle[]>;
   logoCyclesBreak: ReplicantBrowser<LogoCycle[]>;
-  videosCharity: ReplicantBrowser<Asset[]>;
-  videosSponsors: ReplicantBrowser<Asset[]>;
+  videos: ReplicantBrowser<Asset[]>;
   milestonesReplicant: ReplicantBrowser<Milestones>;
   donationsToAccept: ReplicantBrowser<number>;
   bidsToAccept: ReplicantBrowser<number>;
@@ -99,8 +98,7 @@ export const reps: {
   hosterkaRep: nodecg.Replicant('hosterka'),
   logoCycles: nodecg.Replicant('logoCycles'),
   logoCyclesBreak: nodecg.Replicant('logoCyclesBreak'),
-  videosCharity: nodecg.Replicant('assets:videos-charity'),
-  videosSponsors: nodecg.Replicant('assets:videos-sponsors'),
+  videos: nodecg.Replicant('assets:videos'),
   milestonesReplicant: nodecg.Replicant('milestones'),
   donationsToAccept: nodecg.Replicant('donationsToAccept'),
   bidsToAccept: nodecg.Replicant('bidsToAccept'),
@@ -132,8 +130,7 @@ export interface ReplicantTypes {
   hosterkaRep: Hosterka;
   logoCycles: LogoCycle[];
   logoCyclesBreak: LogoCycle[];
-  videosCharity: Asset[];
-  videosSponsors: Asset[];
+  videos: Asset[];
   milestonesReplicant: Milestones;
   donationsToAccept: number;
   bidsToAccept: number;

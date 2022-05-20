@@ -56,3 +56,9 @@
   display: flex;
   flex-direction: row;
 }
+
+#break[event='ZGSPS18'] {
+  width: 1920px;
+  height: 1080px;
+  background-color: #448aa6da;
+}
