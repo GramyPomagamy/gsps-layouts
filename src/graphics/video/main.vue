@@ -3,7 +3,9 @@
     <img
       id="Background"
       :src="
-        require(`../img/layouts/${currentEvent.toLowerCase() || 'default'}/video_bg.png`)
+        require(`../img/layouts/${
+          currentEvent.toLowerCase() || 'default'
+        }/video_bg.png`)
       "
     />
     <video id="player" ref="VideoPlayer">
@@ -55,10 +57,7 @@
 
     async playNextVideo(): Promise<void> {
       let video;
-      video =
-          this.videos[
-            Math.floor(Math.random() * this.videos.length)
-          ];
+      video = this.videos[Math.floor(Math.random() * this.videos.length)];
       if (video) {
         this.video = video;
         this.playerSrc.src = video.url;
@@ -77,7 +76,7 @@
     }
 
     videoEnded(): void {
-        nodecg.sendMessage('videoPlayerFinished');
+      nodecg.sendMessage('videoPlayerFinished');
     }
 
     mounted() {

@@ -6,17 +6,6 @@
  */
 
 export interface Configschema {
-  donationSocketUrl?: string;
-  milestonesUrl: string;
-  /**
-   * Login information for the private areas of the tracker API.
-   */
-  tracker: {
-    username: string;
-    password: string;
-    eventID: number;
-    [k: string]: unknown;
-  } | null;
   google: {
     enabled: boolean;
     spreadsheetId: string;

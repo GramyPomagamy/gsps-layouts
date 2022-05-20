@@ -3,33 +3,6 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "donationSocketUrl": {
-      "type": "string"
-    },
-    "milestonesUrl": {
-      "type": "string"
-    },
-    "tracker": {
-      "type": ["object"],
-      "properties": {
-        "username": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "eventID": {
-          "type": "number"
-        },
-        "rootURL": {
-          "type": "string",
-          "default": "https://gsps.pl/donacje"
-        }
-      },
-      "description": "Login information for the private areas of the tracker API.",
-      "required": ["username", "password", "eventID", "rootURL"],
-      "default": null
-    },
     "google": {
       "type": ["object"],
       "properties": {
@@ -126,10 +99,8 @@
   "required": [
     "obs",
     "foobar",
-    "tracker",
     "google",
     "footpedal",
-    "milestonesUrl",
     "twitchExt"
   ]
 }

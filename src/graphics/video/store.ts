@@ -27,7 +27,6 @@ class OurModule extends VuexModule {
     return this.reps.videos;
   }
 
-
   get obsData(): ObsData {
     return this.reps.obsData;
   }
