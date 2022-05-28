@@ -1,7 +1,7 @@
 <template>
   <div id="break" :event="currentEvent">
     <break-next-runs id="next-runs" :runs="nextRuns" />
-    <img id="ClassicLogo" src="./img/GSPS_Classic_White.png" />
+    <img id="ClassicLogo" src="../img/GSPS_Classic_White.png" />
     <div id="bottom">
       <img id="GSPSLogo" src="./img/GSPS_logo.png" />
       <div id="names">

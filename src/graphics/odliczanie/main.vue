@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <img id="Logo" src="../img/GSPS_Dzieciom_2022.png" />
+    <img id="Logo" src="../img/GSPS_Classic_White.png" />
     <img id="Background" src="../img/bg.png" />
     <div id="Countdown">
       <p id="CountdownTitle">ZACZYNAMY ZA</p>
@@ -51,7 +51,7 @@
 
   #Logo {
     margin-top: 60px;
-    width: 40%;
+    width: 27%;
   }
 
   #Countdown {
