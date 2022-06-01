@@ -33,9 +33,10 @@
     mounted() {
       NodeCG.waitForReplicants(runs, activeRun).then(() => {
         this.messageTypes = [
-          /*           this.gspsPromo(),
+          this.gspsPromo(),
           this.charityPromo(),
-          this.donationURL(), */
+          this.donationURL(),
+          this.storePromo(),
           this.nextRuns(),
         ];
 
@@ -55,20 +56,26 @@
 
       gspsPromo() {
         return this.genericMsg(
-          'Oglądacie&nbsp;<b style="color: #ffbd16">Gramy Szybko, Pomagamy Skutecznie Dzieciom 2022</b>!'
+          'Oglądacie&nbsp;<b style="color: #ffbd16">Gramy Szybko, Pomagamy Skutecznie Classic</b>!'
         );
       },
 
       charityPromo() {
         return this.genericMsg(
-          '<b>GSPS Dzieciom 2022</b>&nbsp;wspiera&nbsp;<b style="color: #ffbd16">Fundację Na Ratunek Dzieciom z Chorobą Nowotworową</b>!'
+          '<b style="color: #ffbd16">GSPS Classic</b>&nbsp;zbiera na&nbsp;<b style="color: #ffbd16">organizację przyszłych eventów</b>!'
         );
       },
 
       donationURL() {
         return this.genericMsg(
-          'Wesprzyj na&nbsp;<b style="color: #ffbd16">gsps.pl/wesprzyj</b>!'
+          'Możecie nas wesprzeć na&nbsp;<b style="color: #ffbd16">gsps.pl/fundacja</b>!'
         );
+      },
+
+      storePromo() {
+        return this.genericMsg(
+          'Na&nbsp;<b style="color: #ffbd16">sklep.gsps.pl</b>&nbsp;możecie kupić gadżety związane z tym eventem!'
+        )
       },
 
       genericMsg(string) {
