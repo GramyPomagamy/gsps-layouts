@@ -74,7 +74,7 @@
 
       storePromo() {
         return this.genericMsg(
-          'Na&nbsp;<b style="color: #ffbd16">sklep.gsps.pl</b>&nbsp;możecie kupić gadżety związane z tym eventem!'
+          'Na&nbsp;<b style="color: #ffbd16">gsps.pl/sklep</b>&nbsp;możecie kupić gadżety związane z tym eventem!'
         )
       },
 
