@@ -10,7 +10,7 @@
   >
     <div
       :style="{
-        'background-color': '#3A008B',
+        'background-color': 'black',
         width: '140px',
         'font-size': '18px',
       }"
