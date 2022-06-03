@@ -1,0 +1,50 @@
+
+#next-run-container[data-v-c828b230] {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: white;
+  font-size: 30px;
+  text-shadow: black 2px 2px 8px;
+}
+
+
+#container {
+  text-align: center;
+}
+#Background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+}
+#nextRunInfo {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 866px;
+  left: 208px;
+  width: 1502px;
+  height: 100px;
+  /* background-color: blue; */
+}
+#nextRunLabel {
+  text-align: center;
+  color: white;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+#player {
+  position: absolute;
+  left: 222px;
+  top: 26px;
+  width: 1476px;
+  height: 830px;
+}
+html {
+  display: block;
+  width: 1920px;
+  height: 1014px;
+}
+
