@@ -160,6 +160,13 @@
         "file": "play-video.html",
         "width": 3,
         "workspace": "OBS"
+      },
+      {
+        "name": "switch-demo",
+        "title": "Zmień na demoty",
+        "file": "switch-demo.html",
+        "width": 2,
+        "workspace": "OBS"
       }
     ],
     "graphics": [
