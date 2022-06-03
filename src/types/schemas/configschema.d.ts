@@ -23,6 +23,7 @@ export interface Configschema {
     scenes: {
       intermission: string;
       video: string;
+      demotywatory: string;
       [k: string]: unknown;
     };
     [k: string]: unknown;

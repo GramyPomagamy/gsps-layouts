@@ -59,6 +59,17 @@ function switchFromHostScreen() {
   obs.send('SetCurrentScene', { 'scene-name': config.scenes.intermission });
 }
 
+function switchToDemoty() {
+  let lastScene: string;
+  obs.send('GetCurrentScene').then((data) => {
+    lastScene = data.name;
+  });
+  obs.send('SetCurrentScene', { 'scene-name': config.scenes.demotywatory });
+  setTimeout(() => {
+    obs.send('SetCurrentScene', { 'scene-name': lastScene });
+  }, 5000);
+}
+
 function playIntermissionVideo() {
   obs.send('SetCurrentScene', { 'scene-name': config.scenes.video });
 }
@@ -113,3 +124,4 @@ nodecg().listenFor('switchToIntermission', switchToIntermission);
 nodecg().listenFor('switchFromHostScreen', switchFromHostScreen);
 nodecg().listenFor('videoPlayerFinished', switchFromHostScreen);
 nodecg().listenFor('playIntermissionVideo', playIntermissionVideo);
+nodecg().listenFor('switchToDemoty', switchToDemoty);

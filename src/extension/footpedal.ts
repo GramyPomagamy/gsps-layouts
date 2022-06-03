@@ -17,10 +17,10 @@ router.get('/makeHighlight', (req: any, res: any) => {
   }
 });
 
-router.get('/switchFromHostScreen', (req: any, res: any) => {
+router.get('/demotywatory', (req: any, res: any) => {
   if (config.enabled) {
     res.send('OK!');
-    nodecg().sendMessage('switchFromHostScreen');
+    nodecg().sendMessage('switchToDemoty');
   } else {
     res.send('Przełącznik jest wyłączony w konfiguracji');
     log.info('Przełącznik jest wyłączony w konfiguracji');

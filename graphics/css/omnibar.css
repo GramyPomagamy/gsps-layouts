@@ -309,16 +309,16 @@
 }
 
 
-#Ticker[data-v-48b43e64] {
+#Ticker[data-v-a885462a] {
   height: 100%;
   min-width: 0;
   flex: 1;
 }
-.fade-enter-active[data-v-48b43e64],
-.fade-leave-active[data-v-48b43e64] {
+.fade-enter-active[data-v-a885462a],
+.fade-leave-active[data-v-a885462a] {
   transition: opacity 0.5s;
 }
-.fade-enter[data-v-48b43e64], .fade-leave-to[data-v-48b43e64] /* .fade-leave-active below version 2.1.8 */ {
+.fade-enter[data-v-a885462a], .fade-leave-to[data-v-a885462a] /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
 

@@ -46,9 +46,13 @@
             "video": {
               "type": "string",
               "default": "Przerwa - film"
+            },
+            "demotywatory": {
+              "type": "string",
+              "default": "Śmieszne demotywatory 4:3"
             }
           },
-          "required": ["intermission", "video"]
+          "required": ["intermission", "video", "demotywatory"]
         }
       },
       "description": "Info needed to use OBS websockets.",
