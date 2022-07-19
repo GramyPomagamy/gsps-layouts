@@ -12,3 +12,4 @@ export * from './prizes';
 export * from './reader';
 export * from './song';
 export * from './total';
+export * from './windowInfo';

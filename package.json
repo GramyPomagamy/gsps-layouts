@@ -190,6 +190,20 @@
         "workspace": "OBS"
       },
       {
+        "name": "obs-cropper",
+        "title": "Cropper",
+        "file": "obs-cropper.html",
+        "width": 3,
+        "workspace": "OBS"
+      },
+      {
+        "name": "obs-cropper-settings",
+        "title": "Cropper Settings",
+        "file": "obs-cropper-settings.html",
+        "width": 3,
+        "workspace": "OBS"
+      },
+      {
         "name": "play-video",
         "title": "Film na przerwie",
         "file": "play-video.html",

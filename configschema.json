@@ -76,10 +76,32 @@
             }
           },
           "required": ["intermission", "video"]
+        },
+        "croppers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "sceneName": {
+                "type": "string"
+              },
+              "sourceName": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false,
+            "required": ["url", "name", "sceneName", "sourceName"]
+          }
         }
       },
       "description": "Info needed to use OBS websockets.",
-      "required": ["enabled", "address", "password", "scenes"]
+      "required": ["enabled", "address", "password", "scenes", "croppers"]
     },
     "foobar": {
       "type": ["object"],

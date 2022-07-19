@@ -23,11 +23,10 @@
 
     mounted() {
       const updateHandler = () => {
-        this.totalEl!.innerHTML =
-          this.$data.total.raw.toLocaleString('en-US', {
-            maximumFractionDigits: 0,
-            minimumFractionDigits: 0,
-          });
+        this.totalEl!.innerHTML = this.$data.total.raw.toLocaleString('en-US', {
+          maximumFractionDigits: 0,
+          minimumFractionDigits: 0,
+        });
       };
       totalRep.on('change', (newVal) => {
         gsap.to(this.$data.total, {
