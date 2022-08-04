@@ -5,9 +5,13 @@
     </span>
     <span>
       <template v-if="activeRun.category">{{ activeRun.category }} /</template>
-      <template v-if="activeRun.estimate">EST: {{ activeRun.estimate }} /</template>
+      <template v-if="activeRun.estimate"
+        >EST: {{ activeRun.estimate }} /</template
+      >
       <template v-if="activeRun.system">{{ activeRun.system }} /</template>
-      <template v-if="activeRun.teams.length > 0">{{ formatPlayers(activeRun) }}</template>
+      <template v-if="activeRun.teams.length > 0">{{
+        formatPlayers(activeRun)
+      }}</template>
     </span>
   </div>
 </template>

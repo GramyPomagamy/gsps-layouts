@@ -14,4 +14,10 @@ export interface ObsData {
   recording: boolean;
   disableTransitioning: boolean;
   transitionTimestamp: number;
+  croppers: {
+    url: string;
+    name: string;
+    sceneName: string;
+    sourceName: string;
+  }[];
 }

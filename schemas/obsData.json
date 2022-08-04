@@ -33,6 +33,29 @@
         "transitionTimestamp": {
             "type": "number",
             "default": 0
+        },
+        "croppers": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "sceneName": {
+                        "type": "string"
+                    },
+                    "sourceName": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false,
+                "required": ["url", "name", "sceneName", "sourceName"]
+            },
+            "default": []
         }
     },
     "required": [
@@ -41,6 +64,7 @@
         "streaming",
         "recording",
         "disableTransitioning",
-        "transitionTimestamp"
+        "transitionTimestamp",
+        "croppers"
     ]
 }

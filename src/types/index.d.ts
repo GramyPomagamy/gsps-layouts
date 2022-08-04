@@ -7,3 +7,4 @@ export * from './tracker';
 export * from './rawMilestone';
 export * from './milestones';
 export * from './player';
+export * from './cropper';

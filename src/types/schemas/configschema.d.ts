@@ -15,8 +15,9 @@ export interface Configschema {
     username: string;
     password: string;
     eventID: number;
+    rootURL: string;
     [k: string]: unknown;
-  } | null;
+  };
   google: {
     enabled: boolean;
     spreadsheetId: string;
@@ -36,6 +37,12 @@ export interface Configschema {
       video: string;
       [k: string]: unknown;
     };
+    croppers: {
+      url: string;
+      name: string;
+      sceneName: string;
+      sourceName: string;
+    }[];
     [k: string]: unknown;
   };
   /**

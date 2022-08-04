@@ -1,0 +1,37 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"pid": {
+			"type": "number"
+		},
+		"processName": {
+			"type": "string"
+		},
+		"windowTitle": {
+			"type": "string"
+		},
+		"x": {
+			"type": "number"
+		},
+		"y": {
+			"type": "number"
+		},
+		"w": {
+			"type": "number"
+		},
+		"h": {
+			"type": "number"
+		}
+	},
+	"required": [
+		"pid",
+		"processName",
+		"windowTitle",
+		"x",
+		"y",
+		"w",
+		"h"
+	]
+}
