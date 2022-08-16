@@ -8,3 +8,4 @@ export * from './rawMilestone';
 export * from './milestones';
 export * from './player';
 export * from './cropper';
+export * from './transformProperties';

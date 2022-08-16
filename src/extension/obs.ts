@@ -1,4 +1,5 @@
 import type { NodeCG } from 'nodecg/types/server';
+import type { TransformProperties } from '@gsps-layouts/types';
 import OBSWebSocket from 'obs-websocket-js';
 import FoobarControl from './foobar';
 import request from 'request';
@@ -25,36 +26,31 @@ if (config.enabled) {
   }
 
   log.info('Próbuję się połączyć z OBSem...');
-  obs
-    .connect({ address: config.address, password: config.password })
-    .catch((err) => {
-      log.error(`Nie udało się połączyć z OBSem! Powód: ${err.error}`);
-    });
+  obs.connect(config.address, config.password).catch((err) => {
+    log.error(`Nie udało się połączyć z OBSem! Powód: ${err}`);
+  });
 }
 
 function reconnectToOBS() {
   clearTimeout(reconnectTimeout);
   if (!obsDataReplicant.value.connected && config.enabled) {
     log.info('Próbuję się połączyć z OBSem...');
-    obs
-      .connect({
-        address: config.address,
-        password: config.password,
-      })
-      .catch((err) => {
-        log.error(`Nie udało się połączyć z OBSem! Powód: ${err.error}`);
-        reconnectTimeout = setTimeout(reconnectToOBS, 5000);
-      });
+    obs.connect(config.address, config.password).catch((err) => {
+      log.error(`Nie udało się połączyć z OBSem! Powód: ${err}`);
+      reconnectTimeout = setTimeout(reconnectToOBS, 5000);
+    });
   }
 }
 
 function switchToIntermission() {
-  obs.send('SetCurrentScene', { 'scene-name': config.scenes.intermission });
+  obs.call('SetCurrentProgramScene', { sceneName: config.scenes.intermission });
   if (!obsDataReplicant.value.studioMode) {
-    obs.send('EnableStudioMode').catch((err) => {
-      log.error(`Wystąpił błąd przy włączaniu Studio Mode: ${err.error};
+    obs
+      .call('SetStudioModeEnabled', { studioModeEnabled: true })
+      .catch((err) => {
+        log.error(`Wystąpił błąd przy włączaniu Studio Mode: ${err};
       }`);
-    });
+      });
   }
   setTimeout(() => {
     nodecg().sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
@@ -63,11 +59,11 @@ function switchToIntermission() {
 }
 
 function switchFromHostScreen() {
-  obs.send('SetCurrentScene', { 'scene-name': config.scenes.intermission });
+  obs.call('SetCurrentProgramScene', { sceneName: config.scenes.intermission });
 }
 
 function playIntermissionVideo() {
-  obs.send('SetCurrentScene', { 'scene-name': config.scenes.video });
+  obs.call('SetCurrentProgramScene', { sceneName: config.scenes.video });
 }
 
 function crop(cropInfo: { cropperIndex: number; windowInfo: WindowInfo }) {
@@ -76,64 +72,109 @@ function crop(cropInfo: { cropperIndex: number; windowInfo: WindowInfo }) {
   const cropperConfig = obsDataReplicant.value.croppers[cropperIndex];
 
   obs
-    .send('GetSceneItemProperties', {
-      'scene-name': cropperConfig.sceneName,
-      item: { name: cropperConfig.sourceName },
+    .call('GetSceneItemId', {
+      sceneName: cropperConfig.sceneName,
+      sourceName: cropperConfig.sourceName,
     })
     .then((data) => {
-      const width = data.width;
-      const height = data.height;
+      const itemId = data.sceneItemId;
+      obs
+        .call('GetSceneItemTransform', {
+          sceneName: cropperConfig.sceneName,
+          sceneItemId: itemId,
+        })
+        .then((data) => {
+          const transformData =
+            data.sceneItemTransform as unknown as TransformProperties;
+          const width = transformData.width;
+          const height = transformData.height;
 
-      const top = windowInfo.y;
-      const bottom = height - windowInfo.y - windowInfo.h;
-      const left = windowInfo.x;
-      const right = width - windowInfo.x - windowInfo.w;
+          const top = windowInfo.y;
+          const bottom = height - windowInfo.y - windowInfo.h;
+          const left = windowInfo.x;
+          const right = width - windowInfo.x - windowInfo.w;
 
-      obs.send('SetSceneItemProperties', {
-        'scene-name': cropperConfig.sceneName,
-        item: { name: cropperConfig.sourceName },
-        position: {},
-        scale: {},
-        crop: { top: top, bottom: bottom, left: left, right: right },
-        bounds: {},
-      });
+          obs
+            .call('SetSceneItemTransform', {
+              sceneName: cropperConfig.sceneName,
+              sceneItemId: itemId,
+              sceneItemTransform: {
+                cropTop: top,
+                cropBottom: bottom,
+                cropLeft: left,
+                cropRight: right,
+              },
+            })
+            .catch((error) => {
+              log.error(
+                `Failed to crop ${cropperConfig.sourceName}. Error: ${error}`
+              );
+            });
+        })
+        .catch((error) => {
+          log.error(
+            `Failed to fetch source ${cropperConfig.sourceName} properties. Error: ${error}`
+          );
+        });
     })
     .catch((error) => {
       log.error(
-        `Failed to fetch source ${cropperConfig.sourceName} properties. Error: ${error}`
+        `Failed to fetch source ${cropperConfig.sourceName} id. Error: ${error}`
       );
     });
 }
 
 function crop4By3(cropperIndex: number) {
   const cropperConfig = obsDataReplicant.value.croppers[cropperIndex];
-
   obs
-    .send('GetSceneItemProperties', {
-      'scene-name': cropperConfig.sceneName,
-      item: { name: cropperConfig.sourceName },
+    .call('GetSceneItemId', {
+      sceneName: cropperConfig.sceneName,
+      sourceName: cropperConfig.sourceName,
     })
     .then((data) => {
-      const width = data.width;
+      const itemId = data.sceneItemId;
+      obs
+        .call('GetSceneItemTransform', {
+          sceneName: cropperConfig.sceneName,
+          sceneItemId: itemId,
+        })
+        .then((data) => {
+          const transformData =
+            data.sceneItemTransform as unknown as TransformProperties;
+          const width = transformData.width;
 
-      const top = 0;
-      const bottom = 0;
-      const margin = width / 8;
-      const left = margin;
-      const right = margin;
+          const top = 0;
+          const bottom = 0;
+          const margin = width / 8;
+          const left = margin;
+          const right = margin;
 
-      obs.send('SetSceneItemProperties', {
-        'scene-name': cropperConfig.sceneName,
-        item: { name: cropperConfig.sourceName },
-        position: {},
-        scale: {},
-        crop: { top: top, bottom: bottom, left: left, right: right },
-        bounds: {},
-      });
+          obs
+            .call('SetSceneItemTransform', {
+              sceneName: cropperConfig.sceneName,
+              sceneItemId: itemId,
+              sceneItemTransform: {
+                cropTop: top,
+                cropBottom: bottom,
+                cropLeft: left,
+                cropRight: right,
+              },
+            })
+            .catch((error) => {
+              log.error(
+                `Failed to crop ${cropperConfig.sourceName}. Error: ${error}`
+              );
+            });
+        })
+        .catch((error) => {
+          log.error(
+            `Failed to fetch source ${cropperConfig.sourceName} properties. Error: ${error}`
+          );
+        });
     })
     .catch((error) => {
       log.error(
-        `Failed to fetch source ${cropperConfig.sourceName} properties. Error: ${error}`
+        `Failed to fetch source ${cropperConfig.sourceName} id. Error: ${error}`
       );
     });
 }
@@ -141,14 +182,35 @@ function crop4By3(cropperIndex: number) {
 function resetCrop(cropperIndex: number) {
   const cropperConfig = obsDataReplicant.value.croppers[cropperIndex];
 
-  obs.send('SetSceneItemProperties', {
-    'scene-name': cropperConfig.sceneName,
-    item: { name: cropperConfig.sourceName },
-    position: {},
-    scale: {},
-    crop: { top: 0, bottom: 0, left: 0, right: 0 },
-    bounds: {},
-  });
+  obs
+    .call('GetSceneItemId', {
+      sceneName: cropperConfig.sceneName,
+      sourceName: cropperConfig.sourceName,
+    })
+    .then((data) => {
+      const itemId = data.sceneItemId;
+      obs
+        .call('SetSceneItemTransform', {
+          sceneName: cropperConfig.sceneName,
+          sceneItemId: itemId,
+          sceneItemTransform: {
+            cropTop: 0,
+            cropBottom: 0,
+            cropLeft: 0,
+            cropRight: 0,
+          },
+        })
+        .catch((error) => {
+          log.error(
+            `Failed to crop ${cropperConfig.sourceName}. Error: ${error}`
+          );
+        });
+    })
+    .catch((error) => {
+      log.error(
+        `Failed to fetch source ${cropperConfig.sourceName} id. Error: ${error}`
+      );
+    });
 }
 
 function resetAllCrops() {
@@ -206,9 +268,9 @@ function modifyCropper(cropperIndex: number, newCropper: Cropper) {
   obsDataReplicant.value.croppers[cropperIndex] = newCropper;
 }
 
-obs.on('SwitchScenes', (data) => {
-  if (obsDataReplicant.value.scene != data['scene-name']) {
-    if (data['scene-name'].includes(foobarConfig.unmuteKeyword)) {
+obs.on('CurrentProgramSceneChanged', (data) => {
+  if (obsDataReplicant.value.scene != data.sceneName) {
+    if (data.sceneName.includes(foobarConfig.unmuteKeyword)) {
       if (foobarConfig.enabled) {
         foobar.unmute();
       }
@@ -217,28 +279,28 @@ obs.on('SwitchScenes', (data) => {
         foobar.mute();
       }
     }
-    obsDataReplicant.value.scene = data['scene-name'];
+    obsDataReplicant.value.scene = data.sceneName;
   }
 });
 
-obs.on('StreamStarted', () => {
-  obsDataReplicant.value.streaming = true;
+obs.on('RecordStateChanged', (data) => {
+  if (data.outputActive) {
+    obsDataReplicant.value.recording = true;
+  } else {
+    obsDataReplicant.value.recording = false;
+  }
 });
 
-obs.on('StreamStopped', () => {
-  obsDataReplicant.value.streaming = false;
+obs.on('StreamStateChanged', (data) => {
+  if (data.outputActive) {
+    obsDataReplicant.value.streaming = true;
+  } else {
+    obsDataReplicant.value.streaming = false;
+  }
 });
 
-obs.on('RecordingStarted', () => {
-  obsDataReplicant.value.recording = true;
-});
-
-obs.on('RecordingStopped', () => {
-  obsDataReplicant.value.recording = false;
-});
-
-obs.on('StudioModeSwitched', (data) => {
-  obsDataReplicant.value.studioMode = data['new-state'];
+obs.on('StudioModeStateChanged', (data) => {
+  obsDataReplicant.value.studioMode = data.studioModeEnabled;
 });
 
 obs.on('ConnectionOpened', () => {
