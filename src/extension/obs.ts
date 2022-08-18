@@ -1,4 +1,3 @@
-import type { NodeCG } from 'nodecg/types/server';
 import type { TransformProperties } from '@gsps-layouts/types';
 import OBSWebSocket from 'obs-websocket-js';
 import FoobarControl from './foobar';
@@ -28,6 +27,7 @@ if (config.enabled) {
   log.info('Próbuję się połączyć z OBSem...');
   obs.connect(config.address, config.password).catch((err) => {
     log.error(`Nie udało się połączyć z OBSem! Powód: ${err}`);
+    reconnectTimeout = setTimeout(reconnectToOBS, 5000);
   });
 }
 

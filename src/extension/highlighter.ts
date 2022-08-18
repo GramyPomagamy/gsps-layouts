@@ -4,7 +4,6 @@ import {
   obsDataReplicant,
 } from './util/replicants';
 import { get as nodecg } from './util/nodecg';
-import type { NodeCG } from 'nodecg/types/server';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { TaggedLogger } from './util/tagged-logger';

@@ -1,5 +1,4 @@
 import type { Donation } from '@gsps-layouts/types';
-import type { NodeCG } from 'nodecg/types/server';
 import { get as nodecg } from './util/nodecg';
 import { totalReplicant, autoUpdateTotalReplicant } from './util/replicants';
 import request from 'request';

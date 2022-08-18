@@ -1,6 +1,4 @@
 import needle from 'needle';
-import { get as nodecg } from './util/nodecg';
-import type { NodeCG } from 'nodecg/types/server';
 import type { NeedleResponse } from 'needle';
 import { TaggedLogger } from './util/tagged-logger';
 const log = new TaggedLogger('foobar');

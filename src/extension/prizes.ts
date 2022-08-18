@@ -1,7 +1,6 @@
 import needle from 'needle';
 import { prizesReplicant } from './util/replicants';
 import { get as nodecg } from './util/nodecg';
-import type { NodeCG } from 'nodecg/types/server';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import { Tracker } from '@gsps-layouts/types';
 import { getCookies } from './donations';

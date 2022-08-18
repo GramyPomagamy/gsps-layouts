@@ -1,4 +1,3 @@
-import type { NodeCG } from 'nodecg/types/server';
 import type { Bids } from '@gsps-layouts/types/schemas';
 import { get as nodecg } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';

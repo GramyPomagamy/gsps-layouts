@@ -1,6 +1,5 @@
 import { get as nodecg } from './util/nodecg';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
-import type { NodeCG } from 'nodecg/types/server';
 import { TaggedLogger } from './util/tagged-logger';
 
 const router = nodecg().Router();

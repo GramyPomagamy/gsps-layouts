@@ -2,7 +2,6 @@ import { get as nodecg } from './util/nodecg';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import { Milestones } from '@gsps-layouts/types';
 import type { RawMilestone } from '@gsps-layouts/types';
-import type { NodeCG } from 'nodecg/types/server';
 import needle from 'needle';
 import { milestonesReplicant } from './util/replicants';
 import { TaggedLogger } from './util/tagged-logger';
