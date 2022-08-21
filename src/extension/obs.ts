@@ -44,6 +44,7 @@ function reconnectToOBS() {
 
 function switchToIntermission() {
   obs.call('SetCurrentProgramScene', { sceneName: config.scenes.intermission });
+  obsDataReplicant.value.scene = config.scenes.intermission; // sometimes this isn't set automatically, setting it here just in case
   if (!obsDataReplicant.value.studioMode) {
     obs
       .call('SetStudioModeEnabled', { studioModeEnabled: true })
@@ -60,6 +61,7 @@ function switchToIntermission() {
 
 function switchFromHostScreen() {
   obs.call('SetCurrentProgramScene', { sceneName: config.scenes.intermission });
+  obsDataReplicant.value.scene = config.scenes.intermission; // sometimes this isn't set automatically, setting it here just in case
 }
 
 function playIntermissionVideo() {
@@ -270,6 +272,15 @@ function modifyCropper(cropperIndex: number, newCropper: Cropper) {
 
 obs.on('CurrentProgramSceneChanged', (data) => {
   if (obsDataReplicant.value.scene != data.sceneName) {
+    // host names showing
+    if (data.sceneName === config.scenes.hosterka) {
+      nodecg().sendMessage('showNames');
+      setTimeout(() => {
+        nodecg().sendMessage('hideNames');
+      }, 10 * 1000);
+    }
+
+    // foobar control
     if (data.sceneName.includes(foobarConfig.unmuteKeyword)) {
       if (foobarConfig.enabled) {
         foobar.unmute();

@@ -73,9 +73,13 @@
             "video": {
               "type": "string",
               "default": "Przerwa - film"
+            },
+            "hosterka": {
+              "type": "string",
+              "default": "Hosterka"
             }
           },
-          "required": ["intermission", "video"]
+          "required": ["intermission", "video", "hosterka"]
         },
         "croppers": {
           "type": "array",
