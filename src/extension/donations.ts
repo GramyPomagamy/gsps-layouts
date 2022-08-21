@@ -133,7 +133,7 @@ async function updateToReadDonations() {
 
     const donationsToAcceptResp = await needle(
       'get',
-      `${rootURL}/search?event=${eventID}&type=donation&commentstate=PENDING`,
+      `${rootURL}/search?event=${eventID}&type=donation&commentstate=PENDING&transactionstate=COMPLETED`,
       { cookies: cookies }
     );
     donationsToAcceptReplicant.value = donationsToAcceptResp.body.length;

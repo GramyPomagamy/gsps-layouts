@@ -24,6 +24,11 @@
         </div>
       </div>
     </v-container>
+    <v-container class="text-center">
+      <v-btn @click="switchToIntermission"
+        >Awaryjny przycisk zmiany na przerwę</v-btn
+      >
+    </v-container>
   </v-app>
 </template>
 
@@ -51,6 +56,10 @@
     @Getter readonly total!: Total;
     @Getter readonly milestones!: Milestones;
     @Getter readonly hostCountdownReplicant!: Countdown;
+
+    switchToIntermission(): void {
+      nodecg.sendMessage('switchFromHostScreen');
+    }
   }
 </script>
 

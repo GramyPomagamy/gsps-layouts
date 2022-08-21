@@ -78,7 +78,7 @@
       } else if (this.donationsToRead.length > 0) {
         return '#357C3C';
       } else {
-        return '#FF5959';
+        return 'black';
       }
     }
   }
