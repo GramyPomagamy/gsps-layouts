@@ -45,6 +45,7 @@ function reconnectToOBS() {
 function switchToIntermission() {
   obs.call('SetCurrentProgramScene', { sceneName: config.scenes.intermission });
   obsDataReplicant.value.scene = config.scenes.intermission; // sometimes this isn't set automatically, setting it here just in case
+  foobar.unmute();
   if (!obsDataReplicant.value.studioMode) {
     obs
       .call('SetStudioModeEnabled', { studioModeEnabled: true })
