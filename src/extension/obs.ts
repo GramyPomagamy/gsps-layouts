@@ -63,6 +63,7 @@ function switchToIntermission() {
 function switchFromHostScreen() {
   obs.call('SetCurrentProgramScene', { sceneName: config.scenes.intermission });
   obsDataReplicant.value.scene = config.scenes.intermission; // sometimes this isn't set automatically, setting it here just in case
+  foobar.unmute();
 }
 
 function playIntermissionVideo() {
