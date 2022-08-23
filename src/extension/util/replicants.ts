@@ -8,6 +8,7 @@ import {
   ObsData,
   DonationsToRead,
   Prizes,
+  Commentators,
 } from '@gsps-layouts/types/schemas';
 import { Milestones } from '@gsps-layouts/types';
 import type {
@@ -43,3 +44,5 @@ export const prizesReplicant = nodecg().Replicant<Prizes>('prizes');
 export const donationsToAcceptReplicant =
   nodecg().Replicant<number>('donationsToAccept');
 export const bidsToAcceptReplicant = nodecg().Replicant<number>('bidsToAccept');
+export const commentatorsReplicant =
+  nodecg().Replicant<Commentators>('commentators');

@@ -5,7 +5,7 @@ import request from 'request';
 import { Configschema, WindowInfo } from '@gsps-layouts/types/schemas';
 import { Cropper } from '@gsps-layouts/types';
 import { get as nodecg } from './util/nodecg';
-import { obsDataReplicant } from './util/replicants';
+import { obsDataReplicant, commentatorsReplicant } from './util/replicants';
 import { TaggedLogger } from './util/tagged-logger';
 
 const obs = new OBSWebSocket();
@@ -46,6 +46,7 @@ function switchToIntermission() {
   obs.call('SetCurrentProgramScene', { sceneName: config.scenes.intermission });
   obsDataReplicant.value.scene = config.scenes.intermission; // sometimes this isn't set automatically, setting it here just in case
   foobar.unmute();
+  commentatorsReplicant.value = { amount: 0, names: '' };
   if (!obsDataReplicant.value.studioMode) {
     obs
       .call('SetStudioModeEnabled', { studioModeEnabled: true })
