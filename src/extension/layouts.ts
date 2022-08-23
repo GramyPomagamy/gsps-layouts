@@ -45,4 +45,8 @@ function doAllPlayersInRunHaveTwitch(run: RunDataActiveRun): boolean {
   }
 }
 
+activeRunReplicant.on('change', () => {
+  cycleNames(true);
+});
+
 cycleNames(true);
