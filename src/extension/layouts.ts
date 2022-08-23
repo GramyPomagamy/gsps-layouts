@@ -33,7 +33,7 @@ function doAllPlayersInRunHaveTwitch(run: RunDataActiveRun): boolean {
     for (let i = 0; i < team.players.length; i++) {
       players.push(team.players[i].name);
       if (team.players[i].social.twitch) {
-        playersWithTwitch.push(team.players[i].social.twitch);
+        playersWithTwitch.push(team.players[i].name);
       }
     }
   }
