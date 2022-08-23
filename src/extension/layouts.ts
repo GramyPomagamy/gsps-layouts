@@ -18,6 +18,8 @@ function cycleNames(reset = false): void {
       cycleNames(true);
       return;
     }
+  } else {
+    setTimeout(cycleNames, 45 * 1000);
   }
 
   nameCycleReplicant.value = cycle;
