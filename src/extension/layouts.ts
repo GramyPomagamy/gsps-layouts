@@ -1,8 +1,11 @@
 import { nameCycleReplicant, activeRunReplicant } from './util/replicants';
 import { RunDataActiveRun } from '../../../nodecg-speedcontrol/src/types/schemas';
 
+let cycleTimeout: NodeJS.Timeout;
+
 // Controls the name cycling ticks for players/hosts
 function cycleNames(reset = false): void {
+  clearTimeout(cycleTimeout);
   let cycle = 0;
   if (doAllPlayersInRunHaveTwitch(activeRunReplicant.value)) {
     if (!reset) {
@@ -10,16 +13,16 @@ function cycleNames(reset = false): void {
     }
     if (cycle === 0) {
       // Name
-      setTimeout(cycleNames, 45 * 1000);
+      cycleTimeout = setTimeout(cycleNames, 45 * 1000);
     } else if (cycle === 1) {
       // Twitch
-      setTimeout(cycleNames, 15 * 1000);
+      cycleTimeout = setTimeout(cycleNames, 15 * 1000);
     } else {
       cycleNames(true);
       return;
     }
   } else {
-    setTimeout(cycleNames, 45 * 1000);
+    cycleTimeout = setTimeout(cycleNames, 45 * 1000);
   }
 
   nameCycleReplicant.value = cycle;
