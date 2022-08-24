@@ -134,7 +134,7 @@
   #prize-image {
     width: 50%;
     height: 330px;
-    margin-right: 10px;
+    margin-right: 20px;
   }
 
   #prize-info {
