@@ -16,6 +16,9 @@
         </div>
         <div id="right" class="column">
           <reader-panel-total class="panel" :total="total" />
+          <v-btn @click="switchToIntermission"
+            >Awaryjny przycisk zmiany na przerwę</v-btn
+          >
           <reader-panel-milestones
             class="panel"
             :milestones="milestones"
@@ -24,65 +27,60 @@
         </div>
       </div>
     </v-container>
-    <v-container class="text-center">
-      <v-btn @click="switchToIntermission"
-        >Awaryjny przycisk zmiany na przerwę</v-btn
-      >
-    </v-container>
   </v-app>
 </template>
 
 <script lang="ts">
-  import { Vue, Component } from 'vue-property-decorator';
-  import type { Bids, Total } from '@gsps-layouts/types/schemas';
-  import type { Countdown } from '@gsps-layouts/types/schemas/countdown';
-  import { Milestones } from '@gsps-layouts/types';
-  import { Getter } from 'vuex-class';
-  import ReaderPanelTotal from './components/Total.vue';
-  import ReaderPanelBids from './components/Bids.vue';
-  import ReaderPanelMilestones from './components/Milestones.vue';
-  import HostPanelCountdown from './components/Countdown.vue';
+import { Vue, Component } from 'vue-property-decorator';
+import type { Bids, Total } from '@gsps-layouts/types/schemas';
+import type { Countdown } from '@gsps-layouts/types/schemas/countdown';
+import { Milestones } from '@gsps-layouts/types';
+import { Getter } from 'vuex-class';
+import ReaderPanelTotal from './components/Total.vue';
+import ReaderPanelBids from './components/Bids.vue';
+import ReaderPanelMilestones from './components/Milestones.vue';
+import HostPanelCountdown from './components/Countdown.vue';
 
-  @Component({
-    components: {
-      ReaderPanelTotal,
-      ReaderPanelBids,
-      ReaderPanelMilestones,
-      HostPanelCountdown,
-    },
-  })
-  export default class extends Vue {
-    @Getter readonly allBids!: Bids[];
-    @Getter readonly total!: Total;
-    @Getter readonly milestones!: Milestones;
-    @Getter readonly hostCountdownReplicant!: Countdown;
+@Component({
+  components: {
+    ReaderPanelTotal,
+    ReaderPanelBids,
+    ReaderPanelMilestones,
+    HostPanelCountdown,
+  },
+})
+export default class extends Vue {
+  @Getter readonly allBids!: Bids[];
+  @Getter readonly total!: Total;
+  @Getter readonly milestones!: Milestones;
+  @Getter readonly hostCountdownReplicant!: Countdown;
 
-    switchToIntermission(): void {
-      nodecg.sendMessage('switchFromHostScreen');
-    }
+  switchToIntermission(): void {
+    nodecg.sendMessage('switchFromHostScreen');
   }
+}
 </script>
 
 <style>
-  #host-container {
-    display: flex;
-    flex-flow: row wrap;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    padding: 5px;
-  }
+#host-container {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  padding: 5px;
+}
 
-  .panel {
-    margin: 5px;
-  }
+.panel {
+  margin: 5px;
+}
 
-  .column {
-    flex-direction: column;
-  }
+.column {
+  flex-direction: column;
+}
 
-  .break {
-    flex-basis: 100%;
-    height: 0;
-  }
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
 </style>
