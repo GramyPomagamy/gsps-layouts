@@ -23,6 +23,8 @@
       <p v-if="readerAlert">Czytający chce coś powiedzieć</p>
       <p>Donacje oczekujące na przeczytanie: {{ donationsToRead.length }}</p>
       <p>Największa donacja: {{ topDonationAmount }}</p>
+      <br/>
+      <p>Obecny czytający: <b>{{ reader }}</b></p>
     </div>
   </div>
 </template>
@@ -33,7 +35,7 @@
     RunDataActiveRun,
     Timer,
   } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
-  import type { DonationsToRead } from '@gsps-layouts/types/schemas';
+  import type { DonationsToRead, Reader } from '@gsps-layouts/types/schemas';
   import { Getter } from 'vuex-class';
   import TimerView from '../_misc/components/Timer.vue';
   import clone from 'clone';
@@ -48,6 +50,7 @@
     @Getter readonly activeRun!: RunDataActiveRun;
     @Getter readonly timer!: Timer;
     @Getter readonly donationsToRead!: DonationsToRead;
+    @Getter readonly reader!: Reader;
 
     readerAlert: boolean = false;
 

@@ -7,7 +7,7 @@ import type {
   RunDataActiveRun,
   Timer,
 } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
-import type { DonationsToRead } from '@gsps-layouts/types/schemas';
+import type { DonationsToRead, Reader } from '@gsps-layouts/types/schemas';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
 import { Action, getModule, Module, VuexModule } from 'vuex-module-decorators';
@@ -31,6 +31,10 @@ class OurModule extends VuexModule {
 
   get donationsToRead(): DonationsToRead {
     return this.reps.donationsToRead;
+  }
+
+  get reader(): Reader {
+    return this.reps.readerReplicant;
   }
 }
 
