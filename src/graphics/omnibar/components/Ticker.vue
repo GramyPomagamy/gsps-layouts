@@ -80,7 +80,7 @@
 
       charityPromo() {
         return this.genericMsg(
-          '<b>GSPS 2022</b>&nbsp;wspiera&nbsp;<b style="color: #ffbd16">Antydepresyjny Telefon Fundacji ITAKA</b>!'
+          '<b>GSPS 2022</b>&nbsp;wspiera&nbsp;<b style="color: #ffbd16">Antydepresyjny Telefon Zaufania Fundacji ITAKA</b>!'
         );
       },
 
