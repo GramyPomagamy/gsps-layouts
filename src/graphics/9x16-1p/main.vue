@@ -224,10 +224,10 @@ export default class extends Vue {
 
 #sponsors {
   position: absolute;
-  bottom: 18px;
+  bottom:28px;
   right: 20px;
   width: 623px;
-  height: 370px;
+  height: 280px;
   /* 		background-color: aqua; */
 }
 
