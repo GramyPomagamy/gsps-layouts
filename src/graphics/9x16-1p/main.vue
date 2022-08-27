@@ -155,7 +155,7 @@ export default class extends Vue {
 
 #timer {
   left: 0px;
-  bottom: 100px;
+  bottom: 80px;
   height: 155.2px;
   width: 668.8px;
   font-size: 115.2px;
@@ -174,7 +174,7 @@ export default class extends Vue {
 
 #RunInfo {
   position: absolute;
-  bottom: 175px;
+  bottom: 155px;
   width: 668.8px;
   height: 160px;
 }
@@ -224,7 +224,7 @@ export default class extends Vue {
 
 #sponsors {
   position: absolute;
-  bottom: 58px;
+  bottom: 38px;
   right: 20px;
   width: 623px;
   height: 370px;
