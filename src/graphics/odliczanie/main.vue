@@ -1,6 +1,7 @@
 <template>
   <div id="container">
-    <img id="Logo" src="../img/GSPS_2022_logo.png" />
+    <img id="Logo" src="../img/GSPS_logo.png" />
+    <img id="Background" src="../img/bg.png" />
     <div id="Countdown">
       <p id="CountdownTitle">ZACZYNAMY ZA</p>
       <div id="CountdownTimer">{{ countdown.formatted }}</div>
@@ -45,7 +46,7 @@
     display: block;
     width: 1920px;
     height: 1080px;
-    background-color: #41228eda;
+    background-color: #41228e;
   }
 
   #Logo {

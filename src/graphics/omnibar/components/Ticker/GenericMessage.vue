@@ -17,7 +17,7 @@
           return {
             msg: '',
             size: 28,
-            time: 25,
+            time: 30,
           };
         },
       },
@@ -31,7 +31,7 @@
       normalisedData() {
         return {
           size: 30,
-          time: 20,
+          time: 30,
           ...this.data,
         };
       },

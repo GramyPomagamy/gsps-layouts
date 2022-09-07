@@ -49,13 +49,10 @@
       ).then(() => {
         this.messageTypes = [
           this.gspsPromo(),
-          this.charityPromo(),
           this.donationURL(),
-          this.nextRuns(),
-          this.bidGoal(),
-          this.bidWar(),
-          this.milestone(),
-          this.prizes(),
+          this.memePromo(),
+          this.big20Promo(),
+          this.shopURL(),
         ];
 
         this.currentComponent = this.messageTypes[0];
@@ -72,22 +69,34 @@
         this.timestamp = Date.now();
       },
 
-      gspsPromo() {
+      memePromo() {
         return this.genericMsg(
-          'Oglądacie&nbsp;<b style="color: #ffbd16">Gramy Szybko, Pomagamy Skutecznie 2022</b>!'
+          'Natalia, odpisz! Omnibar GSPSu to ostatnie miejsce gdzie mnie jeszcze nie zablokowałaś.'
         );
       },
 
-      charityPromo() {
+      big20Promo() {
         return this.genericMsg(
-          '<b>GSPS 2022</b>&nbsp;wspiera&nbsp;<b style="color: #ffbd16">Antydepresyjny Telefon Zaufania Fundacji ITAKA</b>!'
+          'Oglądacie zmagania polskich graczy w 15. edycji wyzwania Big 20.'
         );
       },
 
       donationURL() {
         return this.genericMsg(
-          'Wesprzyj na&nbsp;<b style="color: #ffbd16">gsps.pl/wesprzyj</b>!'
+          'Wesprzyj organizację przyszłych wydarzeń charytatywnych z serii GSPS na&nbsp;<b style="color: #ffbd16">gsps.pl/fundacja</b>!'
         );
+      },
+
+      shopURL() {
+        return this.genericMsg(
+          'Kup merch i wesprzyj organizację przyszłych wydarzeń charytatywnych z serii GSPS na&nbsp;<b style="color: #ffbd16">gsps.pl/sklep</b>!'
+        )
+      },
+
+      gspsPromo() {
+        return this.genericMsg(
+          'Wydarzenia charytatywne GSPS zebrały przez 5 lat w sumie już&nbsp;<b style="color: #ffbd16">ponad 185 tys. złotych na cele charytatywne</b>!'
+        )
       },
 
       genericMsg(string) {

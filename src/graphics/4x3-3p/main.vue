@@ -218,7 +218,7 @@
 
   #timer {
     left: 686.4px;
-    top: 225px;
+    top: 145px;
     height: 78px;
     width: 547.2px;
     font-size: 96px;
@@ -243,7 +243,7 @@
 
   #RunInfo {
     position: absolute;
-    top: 145px;
+    top:65px;
     left: 675px;
     width: 570px;
     height: 160px;

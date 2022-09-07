@@ -4,19 +4,20 @@
     <div id="Body">
       <omnibar-ticker />
     </div>
-    <omnibar-total class="OmnibarTotal"></omnibar-total>
+    <omnibar-clock class="OmnibarClock"></omnibar-clock>
   </div>
 </template>
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import OmnibarTotal from './components/Total.vue';
+  import { Getter } from 'vuex-class';
+  import OmnibarClock from './components/Clock.vue';
   import OmnibarTicker from './components/Ticker.vue';
 
   @Component({
     components: {
-      OmnibarTotal,
       OmnibarTicker,
+      OmnibarClock,
     },
   })
   export default class extends Vue {}
@@ -47,7 +48,7 @@
     position: relative;
   }
 
-  .OmnibarTotal {
+  .OmnibarClock {
     float: right;
   }
 </style>
