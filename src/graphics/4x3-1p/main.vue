@@ -1,18 +1,31 @@
 <template>
   <div id="container">
-    <img id="Background" src="../img/layouts/standard_1.png" />
-
+    <img id="Background" src="../img/layouts/standard_1_nocam.png" />
     <div id="bottomLeft">
+      <run-info id="RunInfo" v-if="activeRun" :maxTitleSize="30" />
+      <timer-view id="timer" />
       <div v-if="activeRun" id="runners">
-        <template v-if="activeRun.teams" v-for="team in activeRun.teams">
-          <template v-for="player in team.players">
-            <player
-              :key="player.id"
-              class="Player"
-              :cycle="nameCycle"
-              :player="player"
+        <template v-if="activeRun.teams" v-for="(team, teamIndex) in activeRun.teams">
+          <div>
+            <template v-for="player in team.players">
+              <player
+                :key="player.id"
+                class="Player"
+                :cycle="nameCycle"
+                :player="player"
+              />
+            </template>
+            <finish-time
+              v-if="
+                timer.teamFinishTimes[team.id] &&
+                timer.teamFinishTimes[team.id].state === 'completed'
+              "
+              :style="{ left: teamPositionLeft(teamIndex), top: teamPositionTop(teamIndex), position: 'relative', zIndex: 4 }"
+              :side="'left'"
+              :place="teamPlacement(teamIndex)"
+              :time="timer.teamFinishTimes[team.id].time"
             />
-          </template>
+          </div>
         </template>
         <commentator-list
           v-if="numRunners < 3 && commentators.amount > 0"
@@ -20,16 +33,16 @@
         />
         <reader-name v-if="numRunners < 4 && reader" id="reader" />
       </div>
-      <run-info id="RunInfo" v-if="activeRun" :maxTitleSize="30" />
-      <timer-view id="timer" />
-      <sponsors id="sponsors" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
+  import type {
+    RunDataActiveRun,
+    Timer,
+  } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
   import type {
     NameCycle,
     Commentators,
@@ -43,6 +56,7 @@
   import CommentatorList from '../_misc/components/Commentator.vue';
   import ReaderName from '../_misc/components/Reader.vue';
   import Sponsors from '../_misc/components/Sponsors.vue';
+  import FinishTime from '../_misc/components/FinishTime.vue';
 
   @Component({
     components: {
@@ -52,12 +66,14 @@
       CommentatorList,
       ReaderName,
       Sponsors,
+      FinishTime,
     },
   })
   export default class extends Vue {
     @Getter readonly activeRun!: RunDataActiveRun;
     @Getter readonly nameCycle!: NameCycle;
     @Getter readonly commentators!: Commentators;
+    @Getter readonly timer!: Timer;
     @Getter readonly reader!: Reader;
     @Getter readonly sponsors!: Asset[];
     @Getter readonly logoCycles!: LogoCycle[];
@@ -65,6 +81,32 @@
       return {
         numRunners: 0,
       };
+    }
+
+    teamPlacement(teamIndex: number) {
+      let place = 1;
+      if (this.placements.length > 0) {
+        this.placements.forEach((placement) => {
+          if (placement.object[0] === this.activeRun.teams[teamIndex].id) {
+            place = placement.place;
+          }
+        });
+      }
+      return place;
+    }
+
+    teamPositionLeft(teamIndex: number) {
+      return ["92px", "92px", "92px"][teamIndex];
+    }
+
+    teamPositionTop(teamIndex: number) {
+      return ["-129px", "-129px", "-129px"][teamIndex];
+    }
+
+    get placements() {
+      return Object.entries(this.timer.teamFinishTimes)
+        .sort(([, a], [, b]) => a.milliseconds - b.milliseconds)
+        .map((p, i) => ({ object: p, place: i + 1 }));
     }
 
     mounted() {
@@ -106,7 +148,7 @@
     position: relative;
     left: -13.2px;
     top: -180px;
-    height: 78px;
+    height: 35px;
     width: 556.8px;
     font-size: 90px;
     margin-left: 11px;
@@ -117,7 +159,7 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 583px;
+    top: 93px;
     width: 578px;
     height: 430px;
   }
@@ -142,6 +184,7 @@
     align-items: flex-start;
     position: relative;
     padding-left: 11px;
+    font-size: 28.8px;
   }
 
   .Player {
