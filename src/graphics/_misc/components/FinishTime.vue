@@ -15,7 +15,7 @@
           :style="{
             width: '80%',
             float: 'right',
-            'margin-top': '-3px',
+            'margin-top': '-5px',
             'z-index': '3',
           }"
           ><b>{{ time }}</b></span
@@ -31,7 +31,7 @@
             position: 'absolute',
           }"
         >
-          {{ place }}
+          <b>{{ place }}</b>
         </span>
       </div>
     </template>
@@ -67,7 +67,7 @@
             position: 'absolute',
           }"
         >
-          {{ place }}
+          <b>{{ place }}</b>
         </span>
       </div>
     </template>
