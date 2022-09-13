@@ -12,7 +12,7 @@ import type {
   DonationsToRead,
   Hosterka,
 } from '@gsps-layouts/types/schemas';
-import type { Asset, LogoCycle, Milestones } from '@gsps-layouts/types';
+import type { Asset, LogoCycle, Milestones, Big20Progress } from '@gsps-layouts/types';
 import type {
   RunDataActiveRun,
   RunDataArray,
@@ -61,6 +61,7 @@ export const reps: {
   milestonesReplicant: ReplicantBrowser<Milestones>;
   donationsToAccept: ReplicantBrowser<number>;
   bidsToAccept: ReplicantBrowser<number>;
+  big20Progress: ReplicantBrowser<Big20Progress>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
   totalReplicant: nodecg.Replicant('total'),
@@ -103,6 +104,7 @@ export const reps: {
   milestonesReplicant: nodecg.Replicant('milestones'),
   donationsToAccept: nodecg.Replicant('donationsToAccept'),
   bidsToAccept: nodecg.Replicant('bidsToAccept'),
+  big20Progress: nodecg.Replicant('big20Progress'),
 };
 
 // All the replicant types.
@@ -135,6 +137,7 @@ export interface ReplicantTypes {
   milestonesReplicant: Milestones;
   donationsToAccept: number;
   bidsToAccept: number;
+  big20Progress: Big20Progress;
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })

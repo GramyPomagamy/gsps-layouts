@@ -30,4 +30,5 @@ export = (nodecg: NodeCG): void => {
   require('./milestones');
   require('./prizes');
   require('./featured');
+  require('./big20Progress')
 };
