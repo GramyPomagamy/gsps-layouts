@@ -31,7 +31,7 @@ Na koniec, zainstaluj [nodecg-speedcontrol](https://github.com/speedcontrol/node
 > nodecg install speedcontrol/nodecg-speedcontrol
 > ```
 
-Grafiki GSPSowe polegają na wtyczce [obs-websocket](https://github.com/Palakis/obs-websocket), więc upewnij się że masz tą wtyczkę zainstalowaną (niestandarowy adres/port oraz hasło można podać w konfiguracji).
+Grafiki GSPSowe polegają na wtyczce [obs-websocket](https://github.com/Palakis/obs-websocket) (zawartej w OBSie 28!), więc upewnij się że masz tą wtyczkę zainstalowaną (niestandarowy adres/port oraz hasło można podać w konfiguracji).
 
 #### Odtwarzacz muzyki
 
@@ -43,7 +43,8 @@ Grafiki GSPSowe mogą sterować odtwarzaczem [foobar2000](https://www.foobar2000
 
 Lista wydarzeń, gdzie te grafiki zostały użyte. Sortowane od najnowszych:
 
-* GSPS Dzieciom 2022
+* GSPS 2022
+* [GSPS Dzieciom 2022](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p3448rkWwvfWORn5gFD8S-2)
 
 ## EN
 
@@ -76,7 +77,7 @@ Then, to get [nodecg-speedcontrol](https://github.com/speedcontrol/nodecg-speedc
 > nodecg install speedcontrol/nodecg-speedcontrol
 > ```
 
-This bundle relies on the [obs-websocket](https://github.com/Palakis/obs-websocket) plugin, so make sure you have this installed (custom address/port and password can be specified in the bundle's config if needed).
+This bundle relies on the [obs-websocket](https://github.com/Palakis/obs-websocket) plugin (included in OBS 28!), so make sure you have this installed (custom address/port and password can be specified in the bundle's config if needed).
 
 #### Music Player
 
@@ -88,4 +89,5 @@ This bundle can interface with [foobar2000](https://www.foobar2000.org/) using t
 
 Here's a list of events this bundle has been used at so far, most recent first:
 
-* GSPS Dzieciom 2022
+* GSPS 2022
+* [GSPS Dzieciom 2022](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p3448rkWwvfWORn5gFD8S-2)
