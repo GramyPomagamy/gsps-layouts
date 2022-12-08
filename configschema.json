@@ -3,16 +3,36 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "donationSocketUrl": {
-      "type": "string",
-      "default": null
+    "donationSocket": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "url": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "required": ["enabled"]
     },
-    "milestonesUrl": {
-      "type": "string",
-      "default": null
+    "milestones": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "url": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "required": ["enabled"]
     },
     "tracker": {
-      "type": ["object"],
+      "type": "object",
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -28,7 +48,7 @@
         },
         "eventID": {
           "type": "number",
-          "default": ""
+          "default": 18
         },
         "rootURL": {
           "type": "string",
@@ -39,7 +59,7 @@
       "required": ["enabled", "rootURL"]
     },
     "google": {
-      "type": ["object"],
+      "type": "object",
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -61,7 +81,7 @@
       "required": ["enabled"]
     },
     "obs": {
-      "type": ["object"],
+      "type": "object",
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -124,7 +144,7 @@
       "required": ["enabled"]
     },
     "foobar": {
-      "type": ["object"],
+      "type": "object",
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -143,7 +163,7 @@
       "required": ["enabled"]
     },
     "footpedal": {
-      "type": ["object"],
+      "type": "object",
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -173,7 +193,8 @@
     "tracker",
     "google",
     "footpedal",
-    "milestonesUrl",
+    "milestones",
+    "donationSocket",
     "twitchExt"
   ]
 }

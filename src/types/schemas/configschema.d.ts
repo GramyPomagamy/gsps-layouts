@@ -6,8 +6,16 @@
  */
 
 export interface Configschema {
-  donationSocketUrl?: string;
-  milestonesUrl: string;
+  donationSocket: {
+    enabled: boolean;
+    url?: string;
+    [k: string]: unknown;
+  };
+  milestones: {
+    enabled: boolean;
+    url?: string;
+    [k: string]: unknown;
+  };
   /**
    * Login information for the private areas of the tracker API.
    */
@@ -15,7 +23,7 @@ export interface Configschema {
     enabled: boolean;
     username?: string;
     password?: string;
-    eventID?: number & string;
+    eventID?: number;
     rootURL: string;
     [k: string]: unknown;
   };
