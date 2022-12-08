@@ -36,8 +36,9 @@ function processMilestones(milestones: RawMilestone[]): Milestones {
   return sorted;
 }
 
-updateMilestones();
-
-refreshTimeout = setTimeout(updateMilestones, 60 * 1000);
+if (URL) {
+  updateMilestones();
+  refreshTimeout = setTimeout(updateMilestones, 60 * 1000);
+}
 
 nodecg().listenFor('updateMilestones', updateMilestones);

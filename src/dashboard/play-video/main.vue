@@ -17,7 +17,7 @@
 
     config = (nodecg.bundleConfig as Configschema).obs;
 
-    sceneName: string = this.config.scenes.intermission;
+    sceneName: string = this.config.scenes!.intermission;
 
     playIntermissionVideo() {
       nodecg.sendMessage('playIntermissionVideo');

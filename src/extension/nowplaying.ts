@@ -6,7 +6,9 @@ import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import FoobarControl from './foobar';
 
 const config = (nodecg().bundleConfig as Configschema).foobar;
-const foobar = new FoobarControl(config.address);
+const foobar = new FoobarControl(config.address!);
+
+
 
 async function GetSong() {
   if (config.enabled) {

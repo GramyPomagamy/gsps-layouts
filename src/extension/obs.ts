@@ -13,14 +13,14 @@ const config = (nodecg().bundleConfig as Configschema).obs;
 const foobarConfig = (nodecg().bundleConfig as Configschema).foobar;
 let foobar: FoobarControl;
 if (foobarConfig.enabled) {
-  foobar = new FoobarControl(foobarConfig.address);
+  foobar = new FoobarControl(foobarConfig.address!);
 }
 const log = new TaggedLogger('OBS');
 let reconnectTimeout: NodeJS.Timeout;
 
 // Connect to OBS
 if (config.enabled) {
-  for (let cropper of config.croppers) {
+  for (let cropper of config.croppers!) {
     obsDataReplicant.value.croppers.push(cropper);
   }
 
@@ -43,8 +43,8 @@ function reconnectToOBS() {
 }
 
 function switchToIntermission() {
-  obs.call('SetCurrentProgramScene', { sceneName: config.scenes.intermission });
-  obsDataReplicant.value.scene = config.scenes.intermission; // sometimes this isn't set automatically, setting it here just in case
+  obs.call('SetCurrentProgramScene', { sceneName: config.scenes!.intermission });
+  obsDataReplicant.value.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
   foobar.unmute();
   commentatorsReplicant.value = { amount: 0, names: '' };
   if (!obsDataReplicant.value.studioMode) {
@@ -62,13 +62,13 @@ function switchToIntermission() {
 }
 
 function switchFromHostScreen() {
-  obs.call('SetCurrentProgramScene', { sceneName: config.scenes.intermission });
-  obsDataReplicant.value.scene = config.scenes.intermission; // sometimes this isn't set automatically, setting it here just in case
+  obs.call('SetCurrentProgramScene', { sceneName: config.scenes!.intermission });
+  obsDataReplicant.value.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
   foobar.unmute();
 }
 
 function playIntermissionVideo() {
-  obs.call('SetCurrentProgramScene', { sceneName: config.scenes.video });
+  obs.call('SetCurrentProgramScene', { sceneName: config.scenes!.video });
 }
 
 function crop(cropInfo: { cropperIndex: number; windowInfo: WindowInfo }) {
@@ -276,7 +276,7 @@ function modifyCropper(cropperIndex: number, newCropper: Cropper) {
 obs.on('CurrentProgramSceneChanged', (data) => {
   if (obsDataReplicant.value.scene != data.sceneName) {
     // host names showing
-    if (data.sceneName === config.scenes.hosterka) {
+    if (data.sceneName === config.scenes!.hosterka) {
       nodecg().sendMessage('showNames');
       setTimeout(() => {
         nodecg().sendMessage('hideNames');
@@ -284,15 +284,14 @@ obs.on('CurrentProgramSceneChanged', (data) => {
     }
 
     // foobar control
-    if (data.sceneName.includes(foobarConfig.unmuteKeyword)) {
-      if (foobarConfig.enabled) {
+    if (foobarConfig.enabled) {
+      if (data.sceneName.includes(foobarConfig.unmuteKeyword!)) {
         foobar.unmute();
-      }
-    } else {
-      if (foobarConfig.enabled) {
+      } else {
         foobar.mute();
       }
     }
+
     obsDataReplicant.value.scene = data.sceneName;
   }
 });

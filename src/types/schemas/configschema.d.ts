@@ -12,17 +12,18 @@ export interface Configschema {
    * Login information for the private areas of the tracker API.
    */
   tracker: {
-    username: string;
-    password: string;
-    eventID: number;
+    enabled: boolean;
+    username?: string;
+    password?: string;
+    eventID?: number & string;
     rootURL: string;
     [k: string]: unknown;
   };
   google: {
     enabled: boolean;
-    spreadsheetId: string;
-    service_email: string;
-    private_key: string;
+    spreadsheetId?: string;
+    service_email?: string;
+    private_key?: string;
     [k: string]: unknown;
   };
   /**
@@ -30,15 +31,15 @@ export interface Configschema {
    */
   obs: {
     enabled: boolean;
-    address: string;
-    password: string;
-    scenes: {
+    address?: string;
+    password?: string;
+    scenes?: {
       intermission: string;
       video: string;
       hosterka: string;
       [k: string]: unknown;
     };
-    croppers: {
+    croppers?: {
       url: string;
       name: string;
       sceneName: string;
@@ -51,8 +52,8 @@ export interface Configschema {
    */
   foobar: {
     enabled: boolean;
-    address: string;
-    unmuteKeyword: string;
+    address?: string;
+    unmuteKeyword?: string;
     [k: string]: unknown;
   };
   footpedal: {
@@ -61,7 +62,7 @@ export interface Configschema {
   };
   twitchExt: {
     enabled: boolean;
-    token: string;
+    token?: string;
     [k: string]: unknown;
   };
 }
