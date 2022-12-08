@@ -6,7 +6,7 @@ import needle from 'needle';
 import { milestonesReplicant } from './util/replicants';
 import { TaggedLogger } from './util/tagged-logger';
 
-const URL = (nodecg().bundleConfig as Configschema).milestonesUrl;
+const config = (nodecg().bundleConfig as Configschema).milestones;
 const log = new TaggedLogger('milestones');
 let refreshTimeout: NodeJS.Timeout;
 
@@ -14,7 +14,7 @@ async function updateMilestones() {
   nodecg().sendMessage('milestones:updating');
   clearTimeout(refreshTimeout);
   try {
-    const raw = await needle('get', URL);
+    const raw = await needle('get', config.url!);
     const milestones = processMilestones(raw.body);
     milestonesReplicant.value = milestones;
     nodecg().sendMessage('milestones:updated');
@@ -36,8 +36,9 @@ function processMilestones(milestones: RawMilestone[]): Milestones {
   return sorted;
 }
 
-updateMilestones();
-
-refreshTimeout = setTimeout(updateMilestones, 60 * 1000);
+if (config.enabled) {
+  updateMilestones();
+  refreshTimeout = setTimeout(updateMilestones, 60 * 1000);
+}
 
 nodecg().listenFor('updateMilestones', updateMilestones);

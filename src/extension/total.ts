@@ -11,8 +11,7 @@ const totalLog = new TaggedLogger('total');
 const config = (nodecg().bundleConfig as Configschema).tracker;
 const rootURL = config!.rootURL;
 const eventID = config!.eventID;
-const donationSocketUrl = (nodecg().bundleConfig as Configschema)
-  .donationSocketUrl;
+const socketConfig = (nodecg().bundleConfig as Configschema).donationSocket;
 const TOTAL_URL = `${rootURL}/${eventID}?json`;
 
 autoUpdateTotalReplicant.on('change', (newVal) => {
@@ -24,12 +23,12 @@ autoUpdateTotalReplicant.on('change', (newVal) => {
   }
 });
 
-if (donationSocketUrl) {
-  const socket = io(donationSocketUrl);
+if (socketConfig.enabled) {
+  const socket = io(socketConfig.url!);
   let loggedXhrPollError = false;
 
   socket.on('connect', () => {
-    totalLog.info('Connected to donation socket', donationSocketUrl);
+    totalLog.info('Connected to donation socket', socketConfig.url!);
     loggedXhrPollError = false;
   });
 
@@ -75,9 +74,7 @@ if (donationSocketUrl) {
   });
 } else {
   totalLog.warn(
-    `cfg/${
-      nodecg().bundleName
-    }.json is missing the "donationSocketUrl" property.` +
+    `cfg/${nodecg().bundleName}.json has the donation socket disabled.` +
       '\n\tThis means that we cannot receive new incoming PayPal donations from the tracker,' +
       '\n\tand that donation notifications will not be displayed as a result. The total also will not update.'
   );

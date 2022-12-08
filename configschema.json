@@ -3,23 +3,52 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "donationSocketUrl": {
-      "type": "string"
+    "donationSocket": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "url": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "required": ["enabled"]
     },
-    "milestonesUrl": {
-      "type": "string"
+    "milestones": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "url": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "required": ["enabled"]
     },
     "tracker": {
-      "type": ["object"],
+      "type": "object",
       "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
         "username": {
-          "type": "string"
+          "type": "string",
+          "default": ""
         },
         "password": {
-          "type": "string"
+          "type": "string",
+          "default": ""
         },
         "eventID": {
-          "type": "number"
+          "type": "number",
+          "default": 18
         },
         "rootURL": {
           "type": "string",
@@ -27,33 +56,36 @@
         }
       },
       "description": "Login information for the private areas of the tracker API.",
-      "required": ["username", "password", "eventID", "rootURL"],
-      "default": null
+      "required": ["enabled", "rootURL"]
     },
     "google": {
-      "type": ["object"],
-      "properties": {
-        "enabled": {
-          "type": "boolean"
-        },
-        "spreadsheetId": {
-          "type": "string"
-        },
-        "service_email": {
-          "type": "string"
-        },
-        "private_key": {
-          "type": "string"
-        }
-      },
-      "required": ["enabled", "spreadsheetId", "service_email", "private_key"]
-    },
-    "obs": {
-      "type": ["object"],
+      "type": "object",
       "properties": {
         "enabled": {
           "type": "boolean",
-          "default": true
+          "default": false
+        },
+        "spreadsheetId": {
+          "type": "string",
+          "default": ""
+        },
+        "service_email": {
+          "type": "string",
+          "default": ""
+        },
+        "private_key": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "required": ["enabled"]
+    },
+    "obs": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
         },
         "address": {
           "type": "string",
@@ -87,16 +119,20 @@
             "type": "object",
             "properties": {
               "url": {
-                "type": "string"
+                "type": "string",
+                "default": ""
               },
               "name": {
-                "type": "string"
+                "type": "string",
+                "default": ""
               },
               "sceneName": {
-                "type": "string"
+                "type": "string",
+                "default": ""
               },
               "sourceName": {
-                "type": "string"
+                "type": "string",
+                "default": ""
               }
             },
             "additionalProperties": false,
@@ -105,14 +141,14 @@
         }
       },
       "description": "Info needed to use OBS websockets.",
-      "required": ["enabled", "address", "password", "scenes", "croppers"]
+      "required": ["enabled"]
     },
     "foobar": {
-      "type": ["object"],
+      "type": "object",
       "properties": {
         "enabled": {
           "type": "boolean",
-          "default": true
+          "default": false
         },
         "address": {
           "type": "string",
@@ -124,14 +160,14 @@
         }
       },
       "description": "Info needed to control foobar2000.",
-      "required": ["enabled", "address", "unmuteKeyword"]
+      "required": ["enabled"]
     },
     "footpedal": {
-      "type": ["object"],
+      "type": "object",
       "properties": {
         "enabled": {
           "type": "boolean",
-          "default": true
+          "default": false
         }
       },
       "required": ["enabled"]
@@ -140,13 +176,15 @@
       "type": "object",
       "properties": {
         "enabled": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": false
         },
         "token": {
-          "type": "string"
+          "type": "string",
+          "default": ""
         }
       },
-      "required": ["enabled", "token"]
+      "required": ["enabled"]
     }
   },
   "required": [
@@ -155,7 +193,8 @@
     "tracker",
     "google",
     "footpedal",
-    "milestonesUrl",
+    "milestones",
+    "donationSocket",
     "twitchExt"
   ]
 }

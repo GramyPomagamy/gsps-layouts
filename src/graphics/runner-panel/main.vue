@@ -23,8 +23,10 @@
       <p v-if="readerAlert">Czytający chce coś powiedzieć</p>
       <p>Donacje oczekujące na przeczytanie: {{ donationsToRead.length }}</p>
       <p>Największa donacja: {{ topDonationAmount }}</p>
-      <br/>
-      <p>Obecny czytający: <b>{{ reader }}</b></p>
+      <br />
+      <p>
+        Obecny czytający: <b>{{ reader }}</b>
+      </p>
     </div>
   </div>
 </template>

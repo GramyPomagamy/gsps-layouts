@@ -15,8 +15,8 @@ if (googleConfig.enabled) {
   sheets = new GoogleSpreadsheet(googleConfig.spreadsheetId);
   sheets.loadInfo();
   sheets.useServiceAccountAuth({
-    client_email: googleConfig.service_email,
-    private_key: googleConfig.private_key,
+    client_email: googleConfig.service_email!,
+    private_key: googleConfig.private_key!,
   });
 }
 

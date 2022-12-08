@@ -201,12 +201,14 @@ export function getCookies(): NeedleResponse['cookies'] {
   return cookies;
 }
 
-loginToTracker().then(() => {
-  updateToReadDonations();
-  updatePrizes();
-});
+if (config.enabled) {
+  loginToTracker().then(() => {
+    updateToReadDonations();
+    updatePrizes();
+  });
 
-nodecg().listenFor('updateDonations', updateToReadDonations);
-nodecg().listenFor('setDonationAsRead', (id) => {
-  setDonationAsRead(id);
-});
+  nodecg().listenFor('updateDonations', updateToReadDonations);
+  nodecg().listenFor('setDonationAsRead', (id) => {
+    setDonationAsRead(id);
+  });
+}

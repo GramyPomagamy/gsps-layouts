@@ -37,7 +37,7 @@
 
     config = (nodecg.bundleConfig as Configschema).obs;
 
-    sceneName: string = this.config.scenes.video;
+    sceneName: string = this.config.scenes!.video;
 
     video!: Asset;
     videoType: VideoTypes = 'charity';
