@@ -138,6 +138,20 @@
             "additionalProperties": false,
             "required": ["url", "name", "sceneName", "sourceName"]
           }
+        },
+        "timestamps": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false
+            },
+            "csv_folder_path": {
+              "type": "string",
+              "description": "The path to save CSV files with VoD timestamps."
+            }
+          },
+          "required": ["enabled"]
         }
       },
       "description": "Info needed to use OBS websockets.",

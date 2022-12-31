@@ -11,10 +11,7 @@ import {
   Commentators,
 } from '@gsps-layouts/types/schemas';
 import { Milestones } from '@gsps-layouts/types';
-import type {
-  RunDataActiveRun,
-  Timer,
-} from 'speedcontrol/src/types/schemas';
+import type { RunDataActiveRun, Timer } from 'speedcontrol/src/types/schemas';
 import { get as nodecg } from './nodecg';
 
 /**

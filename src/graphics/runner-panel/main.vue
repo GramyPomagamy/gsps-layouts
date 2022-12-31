@@ -33,10 +33,7 @@
 
 <script lang="ts">
   import { Vue, Component, Ref } from 'vue-property-decorator';
-  import type {
-    RunDataActiveRun,
-    Timer,
-  } from 'speedcontrol/src/types/schemas';
+  import type { RunDataActiveRun, Timer } from 'speedcontrol/src/types/schemas';
   import type { DonationsToRead, Reader } from '@gsps-layouts/types/schemas';
   import { Getter } from 'vuex-class';
   import TimerView from '../_misc/components/Timer.vue';

@@ -52,7 +52,10 @@ function switchToIntermission() {
     sceneName: config.scenes!.intermission,
   });
   obsDataReplicant.value.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
-  foobar.unmute();
+  if (foobarConfig.enabled) {
+    foobar.unmute();
+  }
+
   commentatorsReplicant.value = { amount: 0, names: '' };
   if (!obsDataReplicant.value.studioMode) {
     obs
@@ -73,7 +76,10 @@ function switchFromHostScreen() {
     sceneName: config.scenes!.intermission,
   });
   obsDataReplicant.value.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
-  foobar.unmute();
+  if (foobarConfig.enabled) {
+    foobar.unmute();
+  }
+
 }
 
 function playIntermissionVideo() {
@@ -312,7 +318,7 @@ obs.on('CurrentProgramSceneChanged', (data) => {
             if (data.outputActive) {
               nodecg().sendMessage('createVoDTimeStamp', {
                 timestamp: data.outputDuration,
-                currentRun: activeRunReplicant.value,
+                run: activeRunReplicant.value,
               });
             }
           });
@@ -360,7 +366,7 @@ activeRunReplicant.on('change', () => {
   if (loggedTimestampForCurrentGame) {
     loggedTimestampForCurrentGame = false;
   }
-})
+});
 
 nodecg().listenFor('switchToIntermission', switchToIntermission);
 nodecg().listenFor('switchFromHostScreen', switchFromHostScreen);

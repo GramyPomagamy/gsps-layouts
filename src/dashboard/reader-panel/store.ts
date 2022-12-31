@@ -9,10 +9,7 @@ import {
   Total,
   Reader,
 } from '@gsps-layouts/types/schemas';
-import type {
-  RunDataActiveRun,
-  Timer,
-} from 'speedcontrol/src/types/schemas';
+import type { RunDataActiveRun, Timer } from 'speedcontrol/src/types/schemas';
 import { Milestones } from '@gsps-layouts/types';
 import clone from 'clone';
 import Vue from 'vue';

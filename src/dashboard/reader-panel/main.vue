@@ -44,10 +44,7 @@
     Total,
     Reader,
   } from '@gsps-layouts/types/schemas';
-  import type {
-    RunDataActiveRun,
-    Timer,
-  } from 'speedcontrol/src/types/schemas';
+  import type { RunDataActiveRun, Timer } from 'speedcontrol/src/types/schemas';
   import { Milestones } from '@gsps-layouts/types';
   import { storeModule } from './store';
   import { Getter } from 'vuex-class';

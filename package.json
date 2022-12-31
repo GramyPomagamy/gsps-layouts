@@ -42,6 +42,7 @@
     "@types/request": "^2.48.6",
     "@types/request-promise": "^4.1.48",
     "bluebird": "^3.7.2",
+    "csv-stringify": "^6.2.3",
     "dayjs": "^1.10.7",
     "deep-equal": "^2.0.5",
     "events": "^3.3.0",
