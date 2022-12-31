@@ -31,7 +31,7 @@
 <script lang="ts">
   import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
   import fitty from 'fitty';
-  import type { RunData } from 'nodecg/bundles/nodecg-speedcontrol/src/types';
+  import type { RunData } from 'speedcontrol/src/types';
 
   @Component
   export default class BreakNextRuns extends Vue {

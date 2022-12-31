@@ -14,7 +14,7 @@
 
 <script lang="ts">
   import { Vue, Component, Watch, Ref } from 'vue-property-decorator';
-  import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
+  import type { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
   import type { Asset } from '@gsps-layouts/types';
   import type { ObsData, Configschema } from '@gsps-layouts/types/schemas';
   import { Getter } from 'vuex-class';

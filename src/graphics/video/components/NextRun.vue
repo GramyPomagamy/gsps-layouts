@@ -19,7 +19,7 @@
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
   import { Getter } from 'vuex-class';
-  import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
+  import type { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 
   @Component
   export default class VideoNextRun extends Vue {

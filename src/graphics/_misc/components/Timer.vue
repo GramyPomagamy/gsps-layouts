@@ -10,7 +10,7 @@
 <script lang="ts">
   import { Vue, Component, Watch, Ref } from 'vue-property-decorator';
   import { Getter } from 'vuex-class';
-  import type { Timer } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
+  import type { Timer } from 'speedcontrol/src/types/schemas';
   import gsap from 'gsap';
   const timerColors = {
     running: 'white',
