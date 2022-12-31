@@ -29,7 +29,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
+  import type { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
   import type {
     NameCycle,
     Commentators,

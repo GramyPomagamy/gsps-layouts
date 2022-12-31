@@ -25,7 +25,7 @@
   import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
   import { Getter } from 'vuex-class';
   import fitty, { FittyInstance } from 'fitty';
-  import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
+  import type { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 
   @Component
   export default class RunInfo extends Vue {

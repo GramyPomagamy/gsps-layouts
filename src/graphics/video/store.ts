@@ -3,7 +3,7 @@ import {
   ReplicantModule,
   ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store';
-import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
+import type { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 import type { Asset } from '@gsps-layouts/types';
 import type { ObsData } from '@gsps-layouts/types/schemas';
 import Vue from 'vue';

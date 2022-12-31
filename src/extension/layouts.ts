@@ -31,18 +31,22 @@ function cycleNames(reset = false): void {
 function doAllPlayersInRunHaveTwitch(run: RunDataActiveRun): boolean {
   let players = [];
   let playersWithTwitch = [];
-  for (let i = 0; i < run.teams.length; i++) {
-    let team = run.teams[i];
-    for (let i = 0; i < team.players.length; i++) {
-      players.push(team.players[i].name);
-      if (team.players[i].social.twitch) {
-        playersWithTwitch.push(team.players[i].name);
+  if (run && run.teams) {
+    for (let i = 0; i < run.teams.length; i++) {
+      let team = run.teams[i];
+      for (let i = 0; i < team.players.length; i++) {
+        players.push(team.players[i].name);
+        if (team.players[i].social.twitch) {
+          playersWithTwitch.push(team.players[i].name);
+        }
       }
     }
-  }
 
-  if (JSON.stringify(players) === JSON.stringify(playersWithTwitch)) {
-    return true;
+    if (JSON.stringify(players) === JSON.stringify(playersWithTwitch)) {
+      return true;
+    } else {
+      return false;
+    }
   } else {
     return false;
   }

@@ -29,8 +29,8 @@
   import type {
     Timer,
     RunDataActiveRunSurrounding,
-  } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
-  import type { RunData } from 'nodecg/bundles/nodecg-speedcontrol/src/types';
+  } from 'speedcontrol/src/types/schemas';
+  import type { RunData } from 'speedcontrol/src/types';
 
   @Component
   export default class extends Vue {

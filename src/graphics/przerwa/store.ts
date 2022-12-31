@@ -2,8 +2,8 @@ import {
   ReplicantModule,
   ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store';
-import type { RunDataArray } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
-import type { RunDataActiveRun } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
+import type { RunDataArray } from 'speedcontrol/src/types/schemas';
+import type { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 import { Bids, Reader, Song } from '@gsps-layouts/types/schemas';
 import { Asset, LogoCycle } from '@gsps-layouts/types';
 import Vue from 'vue';
