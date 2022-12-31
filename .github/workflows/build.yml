@@ -85,6 +85,7 @@ jobs:
       with:
         node-version: '16'
         cache: 'pnpm'
+        cache-dependency-path: ./nodecg/bundles/gsps-layouts/pnpm-lock.yaml
         
     # Install NPM dependencies
     - name: Install NPM dependencies
