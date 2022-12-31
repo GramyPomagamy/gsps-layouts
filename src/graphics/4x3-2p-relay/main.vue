@@ -66,10 +66,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator';
-  import type {
-    RunDataActiveRun,
-    Timer,
-  } from 'speedcontrol/src/types/schemas';
+  import type { RunDataActiveRun, Timer } from 'speedcontrol/src/types/schemas';
   import type {
     NameCycle,
     Commentators,

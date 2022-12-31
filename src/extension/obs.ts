@@ -5,7 +5,11 @@ import request from 'request';
 import { Configschema, WindowInfo } from '@gsps-layouts/types/schemas';
 import { Cropper } from '@gsps-layouts/types';
 import { get as nodecg } from './util/nodecg';
-import { obsDataReplicant, commentatorsReplicant } from './util/replicants';
+import {
+  obsDataReplicant,
+  commentatorsReplicant,
+  activeRunReplicant,
+} from './util/replicants';
 import { TaggedLogger } from './util/tagged-logger';
 
 const obs = new OBSWebSocket();
@@ -17,6 +21,7 @@ if (foobarConfig.enabled) {
 }
 const log = new TaggedLogger('OBS');
 let reconnectTimeout: NodeJS.Timeout;
+let loggedTimestampForCurrentGame = false;
 
 // Connect to OBS
 if (config.enabled) {
@@ -47,7 +52,10 @@ function switchToIntermission() {
     sceneName: config.scenes!.intermission,
   });
   obsDataReplicant.value.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
-  foobar.unmute();
+  if (foobarConfig.enabled) {
+    foobar.unmute();
+  }
+
   commentatorsReplicant.value = { amount: 0, names: '' };
   if (!obsDataReplicant.value.studioMode) {
     obs
@@ -68,7 +76,10 @@ function switchFromHostScreen() {
     sceneName: config.scenes!.intermission,
   });
   obsDataReplicant.value.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
-  foobar.unmute();
+  if (foobarConfig.enabled) {
+    foobar.unmute();
+  }
+
 }
 
 function playIntermissionVideo() {
@@ -296,6 +307,26 @@ obs.on('CurrentProgramSceneChanged', (data) => {
       }
     }
 
+    if (config.scenes) {
+      if (
+        obsDataReplicant.value.scene === config.scenes!.intermission &&
+        data.sceneName != config.scenes!.intermission &&
+        data.sceneName != config.scenes!.video
+      ) {
+        if (!loggedTimestampForCurrentGame) {
+          obs.call('GetRecordStatus').then((data) => {
+            if (data.outputActive) {
+              nodecg().sendMessage('createVoDTimeStamp', {
+                timestamp: data.outputDuration,
+                run: activeRunReplicant.value,
+              });
+            }
+          });
+          loggedTimestampForCurrentGame = true;
+        }
+      }
+    }
+
     obsDataReplicant.value.scene = data.sceneName;
   }
 });
@@ -329,6 +360,12 @@ obs.on('ConnectionClosed', () => {
   log.info('Rozłączono z OBSem! Próbuję połączyć się ponownie za 5 sekund...');
   setTimeout(reconnectToOBS, 5000);
   obsDataReplicant.value.connected = false;
+});
+
+activeRunReplicant.on('change', () => {
+  if (loggedTimestampForCurrentGame) {
+    loggedTimestampForCurrentGame = false;
+  }
 });
 
 nodecg().listenFor('switchToIntermission', switchToIntermission);
