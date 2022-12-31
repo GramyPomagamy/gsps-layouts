@@ -69,7 +69,7 @@
   import type {
     RunDataActiveRun,
     Timer,
-  } from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
+  } from 'speedcontrol/src/types/schemas';
   import type {
     NameCycle,
     Commentators,

@@ -7,7 +7,7 @@ import type {
   RunDataArray,
   Timer,
   RunDataActiveRunSurrounding,
-} from 'nodecg/bundles/nodecg-speedcontrol/src/types/schemas';
+} from 'speedcontrol/src/types/schemas';
 import { ObsData } from '@gsps-layouts/types/schemas';
 import clone from 'clone';
 import Vue from 'vue';

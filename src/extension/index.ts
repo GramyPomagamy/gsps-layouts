@@ -8,7 +8,7 @@ require('module-alias').addAlias(
   require('path').join(__dirname, '.')
 );
 
-import type { NodeCG } from 'nodecg/types/server';
+import type { NodeCG } from 'nodecg-types/types/server';
 import { set } from './util/nodecg';
 
 export = (nodecg: NodeCG): void => {
