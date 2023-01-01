@@ -66,8 +66,8 @@ function formatPlayers(run: RunDataActiveRun) {
     run.teams
       .map(
         (team) =>
-          team.name || team.players.map((player) => player.name).join(', ')
+          team.name || team.players.map((player) => player.name).join(';')
       )
-      .join(' vs. ') || 'Bez gracza'
+      .join(';') || 'Bez gracza'
   );
 }
