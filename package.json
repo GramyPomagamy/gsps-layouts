@@ -53,7 +53,7 @@
     "module-alias": "^2.2.2",
     "needle": "^3.0.0",
     "numeral": "^2.0.6",
-    "obs-websocket-js": "^5.0.1",
+    "obs-websocket-js": "^5.0.2",
     "parse-ms": "^2.1.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",

@@ -26,6 +26,10 @@
             "type": "boolean",
             "default": false
         },
+        "recordingName": {
+            "type": "string",
+            "default": ""
+        },
         "disableTransitioning": {
             "type": "boolean",
             "default": false
@@ -63,6 +67,7 @@
         "transitioning",
         "streaming",
         "recording",
+        "recordingName",
         "disableTransitioning",
         "transitionTimestamp",
         "croppers"

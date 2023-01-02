@@ -287,6 +287,29 @@ function modifyCropper(cropperIndex: number, newCropper: Cropper) {
   obsDataReplicant.value.croppers[cropperIndex] = newCropper;
 }
 
+async function getRecordingPath(): Promise<string> {
+  let outputPath = '';
+
+  // need to supress errors here since obs-websocket-js doesn't have any of this in their types
+  // @ts-ignore
+  const { outputs } = await obs.call('GetOutputList');
+
+  for (let i = 0; i < outputs.length; i++) {
+    // @ts-ignore
+    const settings = await obs.call('GetOutputSettings', {
+      outputName: outputs[i].outputName,
+    });
+
+    // @ts-ignore
+    if (settings.outputSettings && settings.outputSettings.path) {
+      // @ts-ignore
+      outputPath = settings.outputSettings.path;
+    }
+  }
+
+  return outputPath;
+}
+
 obs.on('CurrentProgramSceneChanged', (data) => {
   if (obsDataReplicant.value.scene != data.sceneName) {
     // host names showing
@@ -315,11 +338,13 @@ obs.on('CurrentProgramSceneChanged', (data) => {
         data.sceneName != config.scenes!.video
       ) {
         if (!loggedTimestampForCurrentGame) {
-          obs.call('GetRecordStatus').then((data) => {
+          obs.call('GetRecordStatus').then(async (data) => {
             if (data.outputActive) {
+              obsDataReplicant.value.recordingName = await getRecordingPath();
               nodecg().sendMessage('createVoDTimeStamp', {
                 timestamp: data.outputDuration,
                 run: activeRunReplicant.value,
+                recordingName: obsDataReplicant.value.recordingName,
               });
             }
           });
@@ -335,6 +360,8 @@ obs.on('CurrentProgramSceneChanged', (data) => {
 obs.on('RecordStateChanged', (data) => {
   if (data.outputActive) {
     obsDataReplicant.value.recording = true;
+    // @ts-expect-error
+    obsDataReplicant.value.recordingName = data.outputPath;
   } else {
     obsDataReplicant.value.recording = false;
   }
