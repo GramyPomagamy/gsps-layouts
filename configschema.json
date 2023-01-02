@@ -109,9 +109,13 @@
             "hosterka": {
               "type": "string",
               "default": "Hosterka"
+            },
+            "countdown": {
+              "type": "string",
+              "default": "Odliczanie [M]"
             }
           },
-          "required": ["intermission", "video", "hosterka"]
+          "required": ["intermission", "video", "hosterka", "countdown"]
         },
         "croppers": {
           "type": "array",

@@ -45,6 +45,7 @@ export interface Configschema {
       intermission: string;
       video: string;
       hosterka: string;
+      countdown: string;
       [k: string]: unknown;
     };
     croppers?: {
