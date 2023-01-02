@@ -4,30 +4,27 @@ import { TaggedLogger } from './util/tagged-logger';
 import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 import fs from 'fs';
 import { stringify } from 'csv-stringify';
+import path from 'path';
 
 const log = new TaggedLogger('VoD Timestamp');
 const config = (nodecg().bundleConfig as Configschema).obs;
 
-nodecg().listenFor('createVoDTimeStamp', ({ timestamp, run }) => {
-  if (config.timestamps?.enabled) {
-    createVoDTimeStamp(timestamp, run);
+nodecg().listenFor(
+  'createVoDTimeStamp',
+  ({ timestamp, run, recordingName }) => {
+    if (config.timestamps?.enabled) {
+      createVoDTimeStamp(timestamp, run, recordingName);
+    }
   }
-});
+);
 
-function createVoDTimeStamp(timestamp: number, run: RunDataActiveRun) {
-  const date = new Date();
-  const fileName =
-    date.getFullYear() +
-    '-' +
-    (date.getMonth() + 1) +
-    '-' +
-    date.getDate() +
-    '.csv';
-  const path = config.timestamps?.csv_folder_path! + '\\' + fileName;
-
-  if (!fs.existsSync(config.timestamps?.csv_folder_path!)) {
-    fs.mkdirSync(config.timestamps?.csv_folder_path!, { recursive: true });
-  }
+function createVoDTimeStamp(
+  timestamp: number,
+  run: RunDataActiveRun,
+  recordingName: string
+) {
+  const fileName = getFileName(recordingName) + '.csv';
+  const path = getDirectory(recordingName) + '\\' + fileName;
 
   if (run && run.game) {
     stringify(
@@ -70,4 +67,12 @@ function formatPlayers(run: RunDataActiveRun) {
       )
       .join(';') || 'Bez gracza'
   );
+}
+
+function getFileName(filePath: string) {
+  return path.parse(filePath).name;
+}
+
+function getDirectory(filePath: string) {
+  return path.parse(filePath).dir;
 }
