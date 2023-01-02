@@ -79,7 +79,6 @@ function switchFromHostScreen() {
   if (foobarConfig.enabled) {
     foobar.unmute();
   }
-
 }
 
 function playIntermissionVideo() {
@@ -308,8 +307,10 @@ obs.on('CurrentProgramSceneChanged', (data) => {
     }
 
     if (config.scenes) {
+      // timestamp when switching from intermission or countdown to game/hosterka
       if (
-        obsDataReplicant.value.scene === config.scenes!.intermission &&
+        (obsDataReplicant.value.scene === config.scenes!.intermission ||
+          obsDataReplicant.value.scene === config.scenes!.countdown) &&
         data.sceneName != config.scenes!.intermission &&
         data.sceneName != config.scenes!.video
       ) {
