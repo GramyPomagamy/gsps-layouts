@@ -34,6 +34,7 @@ function createVoDTimeStamp(
           game: run.game,
           category: run.category,
           players: formatPlayers(run),
+          twitch: formatTwitch(run),
         },
       ],
       {
@@ -67,6 +68,16 @@ function formatPlayers(run: RunDataActiveRun) {
       )
       .join(';') || 'Bez gracza'
   );
+}
+
+function formatTwitch(run: RunDataActiveRun) {
+  return run.teams
+    .map(
+      (team) =>
+        team.name ||
+        team.players.map((player) => player.social.twitch).join(';')
+    )
+    .join(';');
 }
 
 function getFileName(filePath: string) {
