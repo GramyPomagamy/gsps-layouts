@@ -56,10 +56,6 @@ export interface Configschema {
     }[];
     timestamps?: {
       enabled: boolean;
-      /**
-       * The path to save CSV files with VoD timestamps.
-       */
-      csv_folder_path?: string;
       [k: string]: unknown;
     };
     [k: string]: unknown;
