@@ -149,10 +149,6 @@
             "enabled": {
               "type": "boolean",
               "default": false
-            },
-            "csv_folder_path": {
-              "type": "string",
-              "description": "The path to save CSV files with VoD timestamps."
             }
           },
           "required": ["enabled"]
