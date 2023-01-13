@@ -4,12 +4,13 @@
       <v-btn
         :disabled="obsData.scene != sceneName"
         @click="playShortIntermissionVideo"
+        class="mx-auto"
         ><v-icon left>mdi-play</v-icon>Krótki film na przerwie</v-btn
       >
       <v-btn
         :disabled="obsData.scene != sceneName"
         @click="playLongIntermissionVideo"
-        class="ml-6"
+        class="mx-auto"
         ><v-icon left>mdi-play</v-icon>Długi (ok. 5min) film na przerwie</v-btn
       >
     </v-row>
