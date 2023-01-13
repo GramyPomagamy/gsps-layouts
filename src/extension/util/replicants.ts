@@ -14,10 +14,6 @@ import { Milestones } from '@gsps-layouts/types';
 import type { RunDataActiveRun, Timer } from 'speedcontrol/src/types/schemas';
 import { get as nodecg } from './nodecg';
 
-/**
- * This is where you can declare all your replicant to import easily into other files,
- * and to make sure they have any correct settings on startup.
- */
 export const totalReplicant = nodecg().Replicant<Total>('total');
 export const autoUpdateTotalReplicant =
   nodecg().Replicant<AutoUpdateTotal>('autoUpdateTotal');
@@ -44,5 +40,8 @@ export const bidsToAcceptReplicant = nodecg().Replicant<number>('bidsToAccept');
 export const commentatorsReplicant =
   nodecg().Replicant<Commentators>('commentators');
 export const readerAlertReplicant = nodecg().Replicant<boolean>('readerAlert', {
+  defaultValue: false,
+});
+export const playLongVideoReplicant = nodecg().Replicant<boolean>('playLongVideo', {
   defaultValue: false,
 });

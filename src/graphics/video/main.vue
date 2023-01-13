@@ -31,6 +31,8 @@
     @Getter readonly activeRun!: RunDataActiveRun;
     @Getter readonly videosCharity!: Asset[];
     @Getter readonly videosSponsors!: Asset[];
+    @Getter readonly videosLong!: Asset[];
+    @Getter readonly playLongVideo!: boolean;
     @Getter readonly obsData!: ObsData;
     @Ref('VideoPlayer') player!: HTMLVideoElement;
     @Ref('PlayerSource') playerSrc!: HTMLSourceElement;
@@ -46,13 +48,37 @@
     onOBSDataChanged(newVal: ObsData) {
       this.$nextTick(() => {
         if (newVal.scene === this.sceneName) {
-          this.videoType = 'charity';
-          this.playNextVideo('charity');
+          if (this.playLongVideo) {
+            this.playNextLongVideo();
+          } else {
+            this.videoType = 'charity';
+            this.playNextShortVideo('charity');
+          }
         }
       });
     }
 
-    async playNextVideo(type: VideoTypes): Promise<void> {
+    async playNextLongVideo(): Promise<void> {
+      let video =
+        this.videosLong[Math.floor(Math.random() * this.videosLong.length)];
+      if (video) {
+        this.video = video;
+        this.playerSrc.src = video.url;
+        this.playerSrc.type = `video/${video.ext
+          .toLowerCase()
+          .replace('.', '')}`;
+        this.player.volume = 0.5;
+        this.player.load();
+        this.player.play();
+      } else {
+        console.error(
+          'Coś się popsuło i nie było mnie słychać, więc spróbuję jeszcze raz...'
+        );
+        this.playNextLongVideo();
+      }
+    }
+
+    async playNextShortVideo(type: VideoTypes): Promise<void> {
       let video;
       if (type === 'charity') {
         video =
@@ -78,13 +104,13 @@
         console.error(
           'Coś się popsuło i nie było mnie słychać, więc spróbuję jeszcze raz...'
         );
-        this.playNextVideo(type);
+        this.playNextShortVideo(type);
       }
     }
 
     videoEnded(): void {
-      if (this.videoType === 'charity') {
-        this.playNextVideo('sponsors');
+      if (this.videoType === 'charity' && !this.playLongVideo) {
+        this.playNextShortVideo('sponsors');
         this.videoType = 'sponsors';
       } else {
         nodecg.sendMessage('videoPlayerFinished');

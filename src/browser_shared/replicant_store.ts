@@ -58,10 +58,12 @@ export const reps: {
   logoCyclesBreak: ReplicantBrowser<LogoCycle[]>;
   videosCharity: ReplicantBrowser<Asset[]>;
   videosSponsors: ReplicantBrowser<Asset[]>;
+  videosLong: ReplicantBrowser<Asset[]>;
   milestonesReplicant: ReplicantBrowser<Milestones>;
   donationsToAccept: ReplicantBrowser<number>;
   bidsToAccept: ReplicantBrowser<number>;
   readerAlert: ReplicantBrowser<boolean>;
+  playLongVideo: ReplicantBrowser<boolean>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
   totalReplicant: nodecg.Replicant('total'),
@@ -101,10 +103,12 @@ export const reps: {
   logoCyclesBreak: nodecg.Replicant('logoCyclesBreak'),
   videosCharity: nodecg.Replicant('assets:videos-charity'),
   videosSponsors: nodecg.Replicant('assets:videos-sponsors'),
+  videosLong: nodecg.Replicant('assets:videos-long'),
   milestonesReplicant: nodecg.Replicant('milestones'),
   donationsToAccept: nodecg.Replicant('donationsToAccept'),
   bidsToAccept: nodecg.Replicant('bidsToAccept'),
   readerAlert: nodecg.Replicant('readerAlert', { defaultValue: false }),
+  playLongVideo: nodecg.Replicant('playLongVideo', { defaultValue: false }),
 };
 
 // All the replicant types.
@@ -134,10 +138,12 @@ export interface ReplicantTypes {
   logoCyclesBreak: LogoCycle[];
   videosCharity: Asset[];
   videosSponsors: Asset[];
+  videosLong: Asset[];
   milestonesReplicant: Milestones;
   donationsToAccept: number;
   bidsToAccept: number;
   readerAlert: boolean;
+  playLongVideo: boolean;
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })
