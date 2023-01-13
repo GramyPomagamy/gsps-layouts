@@ -9,6 +9,7 @@ import {
   obsDataReplicant,
   commentatorsReplicant,
   activeRunReplicant,
+  playLongVideoReplicant,
 } from './util/replicants';
 import { TaggedLogger } from './util/tagged-logger';
 
@@ -72,21 +73,17 @@ function switchToIntermission() {
 }
 
 function switchFromHostScreen() {
-  if (
-    obsDataReplicant.value.scene ==
-    (config.scenes?.hosterka || config.scenes?.video)
-  ) {
-    obs.call('SetCurrentProgramScene', {
-      sceneName: config.scenes!.intermission,
-    });
-    obsDataReplicant.value.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
-    if (foobarConfig.enabled) {
-      foobar.unmute();
-    }
+  obs.call('SetCurrentProgramScene', {
+    sceneName: config.scenes!.intermission,
+  });
+  obsDataReplicant.value.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
+  if (foobarConfig.enabled) {
+    foobar.unmute();
   }
 }
 
-function playIntermissionVideo() {
+function playIntermissionVideo(playLongVideo: boolean) {
+  playLongVideoReplicant.value = playLongVideo;
   obs.call('SetCurrentProgramScene', { sceneName: config.scenes!.video });
 }
 
@@ -404,7 +401,9 @@ activeRunReplicant.on('change', () => {
 nodecg().listenFor('switchToIntermission', switchToIntermission);
 nodecg().listenFor('switchFromHostScreen', switchFromHostScreen);
 nodecg().listenFor('videoPlayerFinished', switchFromHostScreen);
-nodecg().listenFor('playIntermissionVideo', playIntermissionVideo);
+nodecg().listenFor('playIntermissionVideo', (playLongVideo) => {
+  playIntermissionVideo(playLongVideo);
+});
 nodecg().listenFor('refreshWindows', refreshWindows);
 nodecg().listenFor('crop', crop);
 nodecg().listenFor('crop4By3', crop4By3);

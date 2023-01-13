@@ -358,6 +358,14 @@
           "mp4",
           "MP4"
         ]
+      },
+      {
+        "name": "videos-long",
+        "title": "Długie filmy na przerwę",
+        "allowedTypes": [
+          "mp4",
+          "MP4"
+        ]
       }
     ]
   }

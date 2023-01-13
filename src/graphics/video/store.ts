@@ -31,6 +31,14 @@ class OurModule extends VuexModule {
     return this.reps.videosSponsors;
   }
 
+  get videosLong(): Asset[] {
+    return this.reps.videosLong;
+  }
+
+  get playLongVideo(): boolean {
+    return this.reps.playLongVideo;
+  }
+
   get obsData(): ObsData {
     return this.reps.obsData;
   }

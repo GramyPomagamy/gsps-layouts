@@ -1,8 +1,18 @@
 <template>
   <v-app>
-    <v-btn :disabled="obsData.scene != sceneName" @click="playIntermissionVideo"
-      ><v-icon left>mdi-play</v-icon>Odtwórz film na przerwie</v-btn
-    >
+    <v-row no-gutters>
+      <v-btn
+        :disabled="obsData.scene != sceneName"
+        @click="playShortIntermissionVideo"
+        ><v-icon left>mdi-play</v-icon>Krótki film na przerwie</v-btn
+      >
+      <v-btn
+        :disabled="obsData.scene != sceneName"
+        @click="playLongIntermissionVideo"
+        class="ml-6"
+        ><v-icon left>mdi-play</v-icon>Długi (ok. 5min) film na przerwie</v-btn
+      >
+    </v-row>
   </v-app>
 </template>
 
@@ -19,8 +29,12 @@
 
     sceneName: string = this.config.scenes!.intermission;
 
-    playIntermissionVideo() {
-      nodecg.sendMessage('playIntermissionVideo');
+    playShortIntermissionVideo() {
+      nodecg.sendMessage('playIntermissionVideo', false);
+    }
+
+    playLongIntermissionVideo() {
+      nodecg.sendMessage('playIntermissionVideo', true);
     }
   }
 </script>
