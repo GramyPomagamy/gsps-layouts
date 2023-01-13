@@ -43,3 +43,6 @@ export const donationsToAcceptReplicant =
 export const bidsToAcceptReplicant = nodecg().Replicant<number>('bidsToAccept');
 export const commentatorsReplicant =
   nodecg().Replicant<Commentators>('commentators');
+export const readerAlertReplicant = nodecg().Replicant<boolean>('readerAlert', {
+  defaultValue: false,
+});

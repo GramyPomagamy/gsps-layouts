@@ -33,6 +33,10 @@ class OurModule extends VuexModule {
   get reader(): Reader {
     return this.reps.readerReplicant;
   }
+
+  get readerAlert(): boolean {
+    return this.reps.readerAlert;
+  }
 }
 
 const store = new Store({

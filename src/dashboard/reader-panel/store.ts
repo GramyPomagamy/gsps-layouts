@@ -62,6 +62,10 @@ class OurModule extends VuexModule {
     return this.reps.bidsToAccept;
   }
 
+  get readerAlert(): boolean {
+    return this.reps.readerAlert;
+  }
+
   @Action({ rawError: true })
   updateReader(val: string): void {
     replicantModule.setReplicant<Reader>({ name: 'readerReplicant', val });

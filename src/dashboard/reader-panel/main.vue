@@ -75,6 +75,7 @@
     @Getter readonly activeRun!: RunDataActiveRun;
     @Getter readonly donationsToAccept!: number;
     @Getter readonly bidsToAccept!: number;
+    @Getter readonly readerAlert!: boolean;
 
     updateReader(name: string): void {
       storeModule.updateReader(name);
