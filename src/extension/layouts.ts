@@ -1,5 +1,10 @@
-import { nameCycleReplicant, activeRunReplicant } from './util/replicants';
+import {
+  nameCycleReplicant,
+  activeRunReplicant,
+  readerAlertReplicant,
+} from './util/replicants';
 import { RunDataActiveRun } from '../../../nodecg-speedcontrol/src/types/schemas';
+import { get as nodecg } from './util/nodecg';
 
 let cycleTimeout: NodeJS.Timeout;
 
@@ -57,3 +62,9 @@ activeRunReplicant.on('change', () => {
 });
 
 cycleNames(true);
+
+function toggleReaderAlert() {
+  readerAlertReplicant.value = !readerAlertReplicant.value;
+}
+
+nodecg().listenFor('toggleAlert', toggleReaderAlert);

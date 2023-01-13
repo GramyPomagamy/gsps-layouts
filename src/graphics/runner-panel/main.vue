@@ -50,8 +50,7 @@
     @Getter readonly timer!: Timer;
     @Getter readonly donationsToRead!: DonationsToRead;
     @Getter readonly reader!: Reader;
-
-    readerAlert: boolean = false;
+    @Getter readonly readerAlert!: boolean;
 
     get topDonationAmount() {
       if (this.donationsToRead.length) {
@@ -66,12 +65,6 @@
 
     enableFullscreen() {
       this.containerEl!.requestFullscreen();
-    }
-
-    mounted() {
-      nodecg.listenFor('toggleAlert', () => {
-        this.readerAlert = !this.readerAlert;
-      });
     }
 
     get backgroundColor() {

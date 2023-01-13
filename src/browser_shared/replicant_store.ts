@@ -61,6 +61,7 @@ export const reps: {
   milestonesReplicant: ReplicantBrowser<Milestones>;
   donationsToAccept: ReplicantBrowser<number>;
   bidsToAccept: ReplicantBrowser<number>;
+  readerAlert: ReplicantBrowser<boolean>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
   totalReplicant: nodecg.Replicant('total'),
@@ -103,6 +104,7 @@ export const reps: {
   milestonesReplicant: nodecg.Replicant('milestones'),
   donationsToAccept: nodecg.Replicant('donationsToAccept'),
   bidsToAccept: nodecg.Replicant('bidsToAccept'),
+  readerAlert: nodecg.Replicant('readerAlert', { defaultValue: false }),
 };
 
 // All the replicant types.
@@ -135,6 +137,7 @@ export interface ReplicantTypes {
   milestonesReplicant: Milestones;
   donationsToAccept: number;
   bidsToAccept: number;
+  readerAlert: boolean;
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })

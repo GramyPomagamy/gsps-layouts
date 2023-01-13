@@ -16,32 +16,31 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'ReaderPanelReader',
-    props: ['reader'],
-    data() {
-      return {
-        readerField: '',
-        readerAlert: false,
-      };
-    },
-    methods: {
-      updateReader() {
-        this.$emit('update', this.readerField);
-        this.readerField = '';
-      },
-      sendAlert() {
-        this.readerAlert = !this.readerAlert;
-        nodecg.sendMessage('toggleAlert');
-      },
-    },
-    computed: {
-      alertButtonStyles() {
-        if (this.readerAlert) {
-          return { 'background-color': '#FFC300' };
-        }
-      },
-    },
-  };
+<script lang="ts">
+  import { Vue, Component } from 'vue-property-decorator';
+  import { Getter } from 'vuex-class';
+  import type { Reader } from '@gsps-layouts/types/schemas';
+
+  @Component
+  export default class ReaderPanelReader extends Vue {
+    @Getter readonly reader!: Reader;
+    @Getter readonly readerAlert!: boolean;
+
+    readerField = '';
+
+    updateReader() {
+      this.$emit('update', this.readerField);
+      this.readerField = '';
+    }
+    
+    sendAlert() {
+      nodecg.sendMessage('toggleAlert');
+    }
+
+    get alertButtonStyles() {
+      if (this.readerAlert) {
+        return { 'background-color': '#FFC300' };
+      }
+    }
+  }
 </script>

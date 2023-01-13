@@ -8,6 +8,7 @@ import {
   donationsToReadReplicant,
   donationsToAcceptReplicant,
   bidsToAcceptReplicant,
+  readerAlertReplicant,
 } from './util/replicants';
 import { updatePrizes } from './prizes';
 
@@ -209,6 +210,7 @@ if (config.enabled) {
 
   nodecg().listenFor('updateDonations', updateToReadDonations);
   nodecg().listenFor('setDonationAsRead', (id) => {
+    readerAlertReplicant.value = false;
     setDonationAsRead(id);
   });
 }
