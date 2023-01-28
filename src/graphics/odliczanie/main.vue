@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <img id="Logo" src="../img/GSPS_2022_logo.png" />
+    <img id="Logo" src="../img/GSPS_Dzieciom_2023_logo.png" />
     <div id="Countdown">
       <p id="CountdownTitle">ZACZYNAMY ZA</p>
       <div id="CountdownTimer">{{ countdown.formatted }}</div>
