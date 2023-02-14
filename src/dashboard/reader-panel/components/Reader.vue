@@ -32,7 +32,7 @@
       this.$emit('update', this.readerField);
       this.readerField = '';
     }
-    
+
     sendAlert() {
       nodecg.sendMessage('toggleAlert');
     }

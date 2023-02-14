@@ -31,4 +31,5 @@ export = (nodecg: NodeCG): void => {
   require('./prizes');
   require('./featured');
   require('./timestamps');
+  require('./secondary-timer');
 };

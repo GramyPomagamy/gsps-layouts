@@ -41,6 +41,7 @@ specifiers:
   google-spreadsheet: ^3.2.0
   gsap: ^3.7.1
   html-webpack-plugin: ^5.5.0
+  livesplit-core: ^0.10.2
   milliseconds: ^1.0.3
   mini-css-extract-plugin: ^2.4.5
   module-alias: ^2.2.2
@@ -98,6 +99,7 @@ dependencies:
   fitty: 2.3.6
   google-spreadsheet: 3.3.0
   gsap: 3.11.4
+  livesplit-core: 0.10.2
   milliseconds: 1.0.3
   module-alias: 2.2.2
   needle: 3.2.0
@@ -736,7 +738,7 @@ packages:
       source-map: 0.6.1
       vue-template-es2015-compiler: 1.9.1
     optionalDependencies:
-      prettier: 2.8.1
+      prettier: 2.5.1
     transitivePeerDependencies:
       - arc-templates
       - atpl
@@ -3434,6 +3436,10 @@ packages:
   /livereload-js/2.4.0:
     resolution: {integrity: sha512-XPQH8Z2GDP/Hwz2PCDrh2mth4yFejwA1OZ/81Ti3LgKyhDcEjsSsqFWZojHG0va/duGd+WyosY7eXLDoOyqcPw==}
     dev: true
+
+  /livesplit-core/0.10.2:
+    resolution: {integrity: sha512-gsZzALQgghQzjH3aAiM1tUJF2CRB+/vtFPCb20ho/rxHbr/OY32WJxU8nWM2AzODfwICLq1tJW7kXlmPHEd50w==}
+    dev: false
 
   /load-json-file/4.0.0:
     resolution: {integrity: sha512-Kx8hMakjX03tiGTLAIdJ+lL0htKnXjEZN6hk/tozf/WOuYGdZBJrZ+rCJRbVCugsjB3jMLn9746NsQIf5VjBMw==}

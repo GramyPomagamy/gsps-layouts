@@ -11,6 +11,7 @@ import type {
   ObsData,
   DonationsToRead,
   Hosterka,
+  SecondaryTimer,
 } from '@gsps-layouts/types/schemas';
 import type { Asset, LogoCycle, Milestones } from '@gsps-layouts/types';
 import type {
@@ -64,6 +65,7 @@ export const reps: {
   bidsToAccept: ReplicantBrowser<number>;
   readerAlert: ReplicantBrowser<boolean>;
   playLongVideo: ReplicantBrowser<boolean>;
+  secondaryTimer: ReplicantBrowser<SecondaryTimer>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
   totalReplicant: nodecg.Replicant('total'),
@@ -109,6 +111,7 @@ export const reps: {
   bidsToAccept: nodecg.Replicant('bidsToAccept'),
   readerAlert: nodecg.Replicant('readerAlert', { defaultValue: false }),
   playLongVideo: nodecg.Replicant('playLongVideo', { defaultValue: false }),
+  secondaryTimer: nodecg.Replicant('secondaryTimer'),
 };
 
 // All the replicant types.
@@ -144,6 +147,7 @@ export interface ReplicantTypes {
   bidsToAccept: number;
   readerAlert: boolean;
   playLongVideo: boolean;
+  secondaryTimer: SecondaryTimer;
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })
