@@ -9,6 +9,7 @@ import {
   DonationsToRead,
   Prizes,
   Commentators,
+  SecondaryTimer,
 } from '@gsps-layouts/types/schemas';
 import { Milestones } from '@gsps-layouts/types';
 import type { RunDataActiveRun, Timer } from 'speedcontrol/src/types/schemas';
@@ -42,6 +43,11 @@ export const commentatorsReplicant =
 export const readerAlertReplicant = nodecg().Replicant<boolean>('readerAlert', {
   defaultValue: false,
 });
-export const playLongVideoReplicant = nodecg().Replicant<boolean>('playLongVideo', {
-  defaultValue: false,
-});
+export const playLongVideoReplicant = nodecg().Replicant<boolean>(
+  'playLongVideo',
+  {
+    defaultValue: false,
+  }
+);
+export const secondaryTimerReplicant =
+  nodecg().Replicant<SecondaryTimer>('secondaryTimer');

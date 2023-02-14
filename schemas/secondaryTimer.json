@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "time": {
+      "type": "string",
+      "default": "00:00:00"
+    },
+    "milliseconds": {
+      "type": "number",
+      "default": 0
+    },
+    "timestamp": {
+      "type": "number",
+      "default": 0
+    },
+    "phase": {
+      "type": "string",
+      "default": "stopped",
+      "enum": [
+        "stopped",
+        "running",
+        "paused",
+        "finished"
+      ]
+    }
+  },
+  "required": ["enabled", "time", "phase", "milliseconds", "timestamp"]
+}

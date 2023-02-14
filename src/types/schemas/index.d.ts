@@ -10,6 +10,7 @@ export * from './nameCycle';
 export * from './obsData';
 export * from './prizes';
 export * from './reader';
+export * from './secondaryTimer';
 export * from './song';
 export * from './total';
 export * from './windowInfo';

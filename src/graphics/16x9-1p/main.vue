@@ -22,6 +22,7 @@
     <run-info id="RunInfo" v-if="activeRun" :maxTitleSize="36" />
     <timer-view id="timer" />
     <sponsors id="sponsors" />
+    <secondary-timer id="secondary-timer" />
   </div>
 </template>
 
@@ -41,6 +42,7 @@
   import CommentatorList from '../_misc/components/Commentator.vue';
   import ReaderName from '../_misc/components/Reader.vue';
   import Sponsors from '../_misc/components/Sponsors.vue';
+  import SecondaryTimer from '../_misc/components/SecondaryTimer.vue';
 
   @Component({
     components: {
@@ -50,6 +52,7 @@
       CommentatorList,
       ReaderName,
       Sponsors,
+      SecondaryTimer,
     },
   })
   export default class extends Vue {
@@ -59,6 +62,7 @@
     @Getter readonly reader!: Reader;
     @Getter readonly sponsors!: Asset[];
     @Getter readonly logoCycles!: LogoCycle[];
+
     data() {
       return {
         numRunners: 0,
@@ -107,6 +111,15 @@
     height: 153.6px;
     width: 576px;
     font-size: 92px;
+  }
+
+  #secondary-timer {
+    position: absolute;
+    right: -195px;
+    bottom: 110px;
+    height: 153.6px;
+    width: 576px;
+    font-size: 56px;
   }
 
   #bottomLeft {

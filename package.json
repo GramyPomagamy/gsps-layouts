@@ -49,6 +49,7 @@
     "fitty": "^2.3.5",
     "google-spreadsheet": "^3.2.0",
     "gsap": "^3.7.1",
+    "livesplit-core": "^0.10.2",
     "milliseconds": "^1.0.3",
     "module-alias": "^2.2.2",
     "needle": "^3.0.0",
@@ -151,6 +152,12 @@
         "name": "host-countdown",
         "title": "Odliczanie hostów",
         "file": "host-countdown.html",
+        "width": 3
+      },
+      {
+        "name": "secondary-timer",
+        "title": "Dodatkowy timer",
+        "file": "secondary-timer.html",
         "width": 3
       },
       {

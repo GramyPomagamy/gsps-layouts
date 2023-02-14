@@ -8,6 +8,7 @@ import type {
   NameCycle,
   Commentators,
   Reader,
+  SecondaryTimer,
 } from '@gsps-layouts/types/schemas';
 import type { Asset, LogoCycle } from '@gsps-layouts/types';
 import clone from 'clone';
@@ -50,6 +51,10 @@ class OurModule extends VuexModule {
 
   get timer(): Timer {
     return this.reps.timerReplicant;
+  }
+
+  get secondaryTimer(): SecondaryTimer {
+    return this.reps.secondaryTimer;
   }
 }
 
