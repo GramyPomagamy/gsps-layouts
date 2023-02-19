@@ -7,23 +7,24 @@ import { get as nodecg } from './util/nodecg';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { TaggedLogger } from './util/tagged-logger';
+import io from 'socket.io-client';
 
-const googleConfig = (nodecg().bundleConfig as Configschema).google;
+const config = (nodecg().bundleConfig as Configschema).highlighter;
 let sheets: GoogleSpreadsheet;
 
-if (googleConfig.enabled) {
-  sheets = new GoogleSpreadsheet(googleConfig.spreadsheetId);
+if (config.enabled) {
+  sheets = new GoogleSpreadsheet(config.spreadsheetId);
   sheets.loadInfo();
   sheets.useServiceAccountAuth({
-    client_email: googleConfig.service_email!,
-    private_key: googleConfig.private_key!,
+    client_email: config.service_email!,
+    private_key: config.private_key!,
   });
 }
 
 const log = new TaggedLogger('highlighter');
 
 function makeHighlight() {
-  if (googleConfig.enabled) {
+  if (config.enabled) {
     const sheet = sheets.sheetsByTitle['Raw'];
     const timestamp = formatTime(Date.now());
     const timer = timerReplicant.value.time;
@@ -60,3 +61,29 @@ function formatTime(timestamp: number) {
 }
 
 nodecg().listenFor('makeHighlight', makeHighlight);
+
+if (config.remote && config.remote.enabled) {
+  const socket = io(config.remote.url!);
+  let loggedXhrPollError = false;
+
+  socket.on('connect', () => {
+    log.info(`Podłączono do socketa highlightera na ${config.remote!.url!}`);
+    loggedXhrPollError = false;
+  });
+
+  socket.on('connect_error', (err: { message: string }) => {
+    if (err.message === 'xhr poll error') {
+      if (loggedXhrPollError) {
+        return;
+      }
+
+      loggedXhrPollError = true;
+    }
+
+    log.error('Highlighter socket connect_error:', err);
+  });
+
+  socket.on('highlight', () => {
+    makeHighlight();
+  });
+}
