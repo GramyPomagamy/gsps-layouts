@@ -27,11 +27,16 @@ export interface Configschema {
     rootURL: string;
     [k: string]: unknown;
   };
-  google: {
+  highlighter: {
     enabled: boolean;
     spreadsheetId?: string;
     service_email?: string;
     private_key?: string;
+    remote?: {
+      enabled: boolean;
+      url?: string;
+      [k: string]: unknown;
+    };
     [k: string]: unknown;
   };
   /**

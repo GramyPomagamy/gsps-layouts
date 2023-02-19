@@ -58,7 +58,7 @@
       "description": "Login information for the private areas of the tracker API.",
       "required": ["enabled", "rootURL"]
     },
-    "google": {
+    "highlighter": {
       "type": "object",
       "properties": {
         "enabled": {
@@ -76,6 +76,20 @@
         "private_key": {
           "type": "string",
           "default": ""
+        },
+        "remote": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false
+            },
+            "url": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          "required": ["enabled"]
         }
       },
       "required": ["enabled"]
@@ -205,7 +219,7 @@
     "obs",
     "foobar",
     "tracker",
-    "google",
+    "highlighter",
     "footpedal",
     "milestones",
     "donationSocket",
