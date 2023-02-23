@@ -74,13 +74,13 @@
 
       gspsPromo() {
         return this.genericMsg(
-          'Oglądacie&nbsp;<b style="color: #ffbd16">Gramy Szybko, Pomagamy Skutecznie 2022</b>!'
+          'Oglądacie&nbsp;<b style="color: #ffbd16">Gramy Szybko, Pomagamy Skutecznie Dzieciom 2023</b>!'
         );
       },
 
       charityPromo() {
         return this.genericMsg(
-          '<b>GSPS 2022</b>&nbsp;wspiera&nbsp;<b style="color: #ffbd16">Antydepresyjny Telefon Zaufania Fundacji ITAKA</b>!'
+          '<b>GSPS Dzieciom 2023</b>&nbsp;wspiera&nbsp;<b style="color: #ffbd16">Fundację Na Ratunek Dzieciom z Chorobą Nowotworową</b>!'
         );
       },
 
