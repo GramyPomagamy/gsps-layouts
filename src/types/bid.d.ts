@@ -1,16 +1,24 @@
 export interface Bid {
-  fields: {
-    state: string;
-    parent: any;
-    name: any;
-    shortdescription: string;
-    total: number;
-    game: string;
-    category: string;
-    endTime: string;
-    public: any;
-    istarget: boolean;
-    goal: string | number;
-  };
-  pk: number;
+  id: number;
+  name: string;
+  description?: string;
+  longDescription?: string;
+  total: string;
+  rawTotal: number;
+  game?: string;
+  category?: string;
+  runStartTime?: number;
+  runEndTime?: number;
+  type: string;
+  allowUserOptions: boolean;
+  options: {
+    id: number;
+    parent: number;
+    name: string;
+    total: string;
+    rawTotal: number;
+    speedrun: number;
+  }[];
+  goal?: number;
+  public: string;
 }

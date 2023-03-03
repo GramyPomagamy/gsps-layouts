@@ -7,6 +7,7 @@ const config = (nodecg().bundleConfig as Configschema).sd;
 const router = nodecg().Router();
 
 if (config.enabled) {
+  logger.debug('HTTP Endpointy dla Decka włączone');
   router.get('/sd/showNextPrize/:tier', (req, res) => {
     res.send('OK!');
     nodecg().sendMessage('showNextPrize', req.params['tier']);
@@ -37,3 +38,5 @@ if (config.enabled) {
     logger.debug('Zmieniam scenę na przerwę');
   });
 }
+
+nodecg().mount(router);
