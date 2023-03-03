@@ -72,6 +72,9 @@
             return;
           } else {
             this.currentBidIndex++;
+            if (this.currentBidIndex + 1 > this.bids.length) {
+              this.currentBidIndex = 0;
+            }
             this.currentBid = this.bids[this.currentBidIndex];
           }
         }
