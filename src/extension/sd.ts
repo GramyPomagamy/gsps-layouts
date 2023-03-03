@@ -11,7 +11,7 @@ if (config.enabled) {
   router.get('/sd/showNextPrize/:tier', (req, res) => {
     res.send('OK!');
     nodecg().sendMessage('showNextPrize', req.params['tier']);
-    logger.debug('Pokazuję następną nagrodę');
+    logger.debug(`Pokazuję następną nagrodę z tieru ${req.params['tier']}`);
   });
 
   router.get('/sd/hidePrizes', (req, res) => {

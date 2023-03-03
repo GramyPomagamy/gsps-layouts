@@ -1,6 +1,8 @@
 <template>
-  <h2>{{ bid.game }}</h2>
-  <h3>{{ bid.description }}</h3>
+  <div>
+    <h2>{{ bid.game }}</h2>
+    <h3>{{ bid.description }}</h3>
+  </div>
 </template>
 
 <script lang="ts">

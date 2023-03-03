@@ -21,7 +21,13 @@
       <transition name="fade" mode="out-in" appear>
         <bid-panel
           :bid="currentBid"
-          v-if="showBids && currentBid && bids.length > 0"
+          v-if="showBids && !showPrizes && currentBid && bids.length > 0"
+        />
+        <prize-panel
+          :prize="currentPrize"
+          v-else-if="
+            showPrizes && !showBids && currentPrize && prizes.length > 0
+          "
         />
       </transition>
     </div>
@@ -35,11 +41,14 @@
   import { Getter } from 'vuex-class';
   import Host from './components/Host.vue';
   import BidPanel from './components/BidPanel.vue';
+  import PrizePanel from './components/PrizePanel.vue';
+  import clone from 'clone';
 
   @Component({
     components: {
       Host,
       BidPanel,
+      PrizePanel,
     },
   })
   export default class extends Vue {
@@ -49,8 +58,10 @@
 
     showNames: boolean = false;
     showBids: boolean = false;
+    showPrizes: boolean = false;
     currentBid: Bid | null = null;
     currentBidIndex = 0;
+    currentPrize: Prize | null = null;
 
     mounted(): void {
       nodecg.listenFor('showNames', () => {
@@ -82,6 +93,22 @@
 
       nodecg.listenFor('hideBids', () => {
         this.showBids = false;
+      });
+
+      nodecg.listenFor('showNextPrize', (tier: number) => {
+        console.log('Pokazuję następną nagrodę');
+        this.showPrizes = true;
+        const cloned = clone(this.prizes);
+        const prizesInTier = cloned.filter(
+          (prize) => prize.minimumBid == tier
+        );
+        console.log(prizesInTier);
+        this.currentPrize =
+          prizesInTier[Math.floor(Math.random() * prizesInTier.length)];
+      });
+
+      nodecg.listenFor('hidePrizes', () => {
+        this.showPrizes = false;
       });
     }
   }
@@ -120,7 +147,8 @@
   .fade-leave-active {
     transition: opacity 0.5s;
   }
-  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  .fade-enter,
+  .fade-leave-to {
     opacity: 0;
   }
 </style>
