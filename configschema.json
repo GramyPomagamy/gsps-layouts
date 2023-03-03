@@ -213,6 +213,18 @@
         }
       },
       "required": ["enabled"]
+    },
+    "sd": {
+      "type": "object",
+      "description": "Stream Deck related settings",
+      "properties": {
+        "enabled": {
+          "description": "Enable the Stream Deck HTTP endpoints",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": ["enabled"]
     }
   },
   "required": [
@@ -223,6 +235,7 @@
     "footpedal",
     "milestones",
     "donationSocket",
-    "twitchExt"
+    "twitchExt",
+    "sd"
   ]
 }

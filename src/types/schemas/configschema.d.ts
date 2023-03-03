@@ -83,4 +83,14 @@ export interface Configschema {
     token?: string;
     [k: string]: unknown;
   };
+  /**
+   * Stream Deck related settings
+   */
+  sd: {
+    /**
+     * Enable the Stream Deck HTTP endpoints
+     */
+    enabled: boolean;
+    [k: string]: unknown;
+  };
 }
