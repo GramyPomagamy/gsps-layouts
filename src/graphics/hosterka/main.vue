@@ -62,6 +62,18 @@
     currentBid: Bid | null = null;
     currentBidIndex = 0;
     currentPrize: Prize | null = null;
+    currentPrizeIndex = 0;
+    currentPrizeTier = 0;
+
+    getPrize(tier: number): Prize {
+      const cloned = clone(this.prizes);
+      const prizesInTier = cloned.filter((prize) => prize.minimumBid == tier);
+      if (this.currentPrizeIndex + 1 > prizesInTier.length) {
+        this.currentPrizeIndex = 0;
+      }
+      let selectedPrize = prizesInTier[this.currentPrizeIndex];
+      return selectedPrize;
+    }
 
     mounted(): void {
       nodecg.listenFor('showNames', () => {
@@ -97,14 +109,27 @@
 
       nodecg.listenFor('showNextPrize', (tier: number) => {
         console.log('Pokazuję następną nagrodę');
-        this.showPrizes = true;
-        const cloned = clone(this.prizes);
-        const prizesInTier = cloned.filter(
-          (prize) => prize.minimumBid == tier
-        );
-        console.log(prizesInTier);
-        this.currentPrize =
-          prizesInTier[Math.floor(Math.random() * prizesInTier.length)];
+        if (this.prizes.length > 0) {
+          // If prize panel is disabled, enable it and start from the beginning of current tier
+          if (!this.showPrizes) {
+            this.currentPrizeIndex = 0;
+            this.currentPrizeTier = tier;
+            this.currentPrize = this.getPrize(tier);
+            this.showPrizes = true;
+          } else {
+            // If different tier, start from the beginning
+            if (tier != this.currentPrizeTier) {
+              this.currentPrizeTier = tier;
+              this.currentPrizeIndex = 0;
+            } else {
+              this.currentPrizeIndex++;
+              this.currentPrizeTier = tier;
+            }
+
+            this.showPrizes = true;
+            this.currentPrize = this.getPrize(tier);
+          }
+        }
       });
 
       nodecg.listenFor('hidePrizes', () => {
