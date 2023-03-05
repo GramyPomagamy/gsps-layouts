@@ -1,7 +1,7 @@
 <template>
   <div
     class="grey darken-4 rounded-lg"
-    :style="{ textAlign: 'center', width: '1200px' }"
+    :style="{ textAlign: 'center', width: '1000px' }"
   >
     <h3
       style="width: 100%; text-align: center; position: sticky"

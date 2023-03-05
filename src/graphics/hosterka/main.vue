@@ -99,6 +99,7 @@
               this.currentBidIndex = 0;
             }
             this.currentBid = this.bids[this.currentBidIndex];
+            nodecg.sendMessage('chosenBid', this.bids[this.currentBidIndex]);
           }
         }
       });
@@ -114,8 +115,10 @@
           if (!this.showPrizes) {
             this.currentPrizeIndex = 0;
             this.currentPrizeTier = tier;
-            this.currentPrize = this.getPrize(tier);
+            const prizeToShow = this.getPrize(tier);
+            this.currentPrize = prizeToShow;
             this.showPrizes = true;
+            nodecg.sendMessage('chosenPrize', prizeToShow);
           } else {
             // If different tier, start from the beginning
             if (tier != this.currentPrizeTier) {
@@ -127,7 +130,9 @@
             }
 
             this.showPrizes = true;
-            this.currentPrize = this.getPrize(tier);
+            const prizeToShow = this.getPrize(tier);
+            this.currentPrize = prizeToShow;
+            nodecg.sendMessage('chosenPrize', prizeToShow);
           }
         }
       });
