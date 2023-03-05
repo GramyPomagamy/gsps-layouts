@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-  import { Vue, Component } from 'vue-property-decorator';
+  import { Vue, Component, Watch } from 'vue-property-decorator';
   import type { Bids, Total } from '@gsps-layouts/types/schemas';
   import type { Countdown } from '@gsps-layouts/types/schemas/countdown';
   import { Bid, Milestones, Prize } from '@gsps-layouts/types';
@@ -63,30 +63,41 @@
     @Getter readonly total!: Total;
     @Getter readonly milestones!: Milestones;
     @Getter readonly hostCountdownReplicant!: Countdown;
+    @Getter readonly currentBid!: Bid;
+    @Getter readonly currentPrize!: Prize;
+    @Getter readonly showBidsPanel!: boolean;
+    @Getter readonly showPrizePanel!: boolean;
 
     shownItemOnPanel: Bid | Prize | null = null;
     showBidPrizePanel = false;
 
-    mounted() {
-      nodecg.listenFor('chosenBid', (bid: Bid) => {
-        this.shownItemOnPanel = bid;
-        this.showBidPrizePanel = true;
-      });
+    @Watch('currentBid')
+    onCurrentBidChange(bid: Bid | null) {
+      this.shownItemOnPanel = bid;
+    }
 
-      nodecg.listenFor('chosenPrize', (prize: Prize) => {
-        this.shownItemOnPanel = prize;
-        this.showBidPrizePanel = true;
-      });
+    @Watch('currentPrize')
+    onCurrentPrizeChange(prize: Prize | null) {
+      this.shownItemOnPanel = prize;
+    }
 
-      nodecg.listenFor('hideBids', () => {
-        this.shownItemOnPanel = null;
+    @Watch('showBidsPanel')
+    onShowBidsPanelChange(value: boolean) {
+      console.log(value);
+      if (!value && !this.showPrizePanel) {
         this.showBidPrizePanel = false;
-      });
+      } else {
+        this.showBidPrizePanel = true;
+      }
+    }
 
-      nodecg.listenFor('hidePrizes', () => {
-        this.shownItemOnPanel = null;
+    @Watch('showPrizePanel')
+    onShowPrizePanelChange(value: boolean) {
+      if (!value && !this.showBidsPanel) {
         this.showBidPrizePanel = false;
-      });
+      } else {
+        this.showBidPrizePanel = true;
+      }
     }
 
     switchToIntermission(): void {

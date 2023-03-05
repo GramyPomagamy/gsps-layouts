@@ -14,7 +14,13 @@ import type {
   SecondaryTimer,
   Prizes,
 } from '@gsps-layouts/types/schemas';
-import type { Asset, LogoCycle, Milestones } from '@gsps-layouts/types';
+import type {
+  Asset,
+  LogoCycle,
+  Milestones,
+  Bid,
+  Prize,
+} from '@gsps-layouts/types';
 import type {
   RunDataActiveRun,
   RunDataArray,
@@ -68,6 +74,12 @@ export const reps: {
   playLongVideo: ReplicantBrowser<boolean>;
   secondaryTimer: ReplicantBrowser<SecondaryTimer>;
   prizes: ReplicantBrowser<Prizes>;
+  currentlyShownBid: ReplicantBrowser<Bid | null>;
+  currentlyShownPrize: ReplicantBrowser<Prize | null>;
+  currentlyShownBidIndex: ReplicantBrowser<number>;
+  currentlyShownPrizeIndex: ReplicantBrowser<number>;
+  showBidsPanel: ReplicantBrowser<boolean>;
+  showPrizePanel: ReplicantBrowser<boolean>;
   [k: string]: ReplicantBrowser<unknown>;
 } = {
   totalReplicant: nodecg.Replicant('total'),
@@ -115,6 +127,20 @@ export const reps: {
   playLongVideo: nodecg.Replicant('playLongVideo', { defaultValue: false }),
   secondaryTimer: nodecg.Replicant('secondaryTimer'),
   prizes: nodecg.Replicant('prizes'),
+  currentlyShownBid: nodecg.Replicant('currentlyShownBid', {
+    defaultValue: null,
+  }),
+  currentlyShownPrize: nodecg.Replicant('currentlyShownPrize', {
+    defaultValue: null,
+  }),
+  showBidsPanel: nodecg.Replicant('showBidsPanel', {
+    defaultValue: false,
+  }),
+  showPrizePanel: nodecg.Replicant('showPrizePanel', {
+    defaultValue: false,
+  }),
+  currentlyShownPrizeIndex: nodecg.Replicant('currentlyShownPrizeIndex'),
+  currentlyShownBidIndex: nodecg.Replicant('currentlyShownPrizeIndex'),
 };
 
 // All the replicant types.
@@ -152,6 +178,12 @@ export interface ReplicantTypes {
   playLongVideo: boolean;
   secondaryTimer: SecondaryTimer;
   prizes: Prizes;
+  currentlyShownBid: Bid | null;
+  currentlyShownPrize: Prize | null;
+  showBidsPanel: boolean;
+  showPrizePanel: boolean;
+  currentlyShownPrizeIndex: number;
+  currentlyShownBidIndex: number;
 }
 
 @Module({ name: 'ReplicantModule', namespaced: true })
