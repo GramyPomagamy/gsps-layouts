@@ -32,4 +32,5 @@ export = (nodecg: NodeCG): void => {
   require('./featured');
   require('./timestamps');
   require('./secondary-timer');
+  require('./sd');
 };

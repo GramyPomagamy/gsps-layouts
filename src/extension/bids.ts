@@ -1,4 +1,3 @@
-import type { Bids } from '@gsps-layouts/types/schemas';
 import { get as nodecg } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
 import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
@@ -6,6 +5,7 @@ import deepEqual from 'deep-equal';
 import numeral from 'numeral';
 import requestPromise from 'request-promise';
 import Bluebird from 'bluebird';
+import { currentBidsRep, allBidsRep } from './util/replicants';
 
 const bidsLog = new TaggedLogger('bids');
 const config = (nodecg().bundleConfig as Configschema).tracker;
@@ -14,10 +14,6 @@ const eventID = config!.eventID;
 const POLL_INTERVAL = 20 * 1000;
 const BIDS_URL = `${rootURL}/search?type=allbids&event=${eventID}`;
 const CURRENT_BIDS_URL = `${rootURL}/search?type=allbids&event=${eventID}&state=OPENED`;
-const currentBidsRep = nodecg().Replicant<Bids>('currentBids', {
-  defaultValue: [],
-});
-const allBidsRep = nodecg().Replicant<Bids>('allBids', { defaultValue: [] });
 let updateTimeout: NodeJS.Timeout;
 
 // Get latest bid data every POLL_INTERVAL milliseconds

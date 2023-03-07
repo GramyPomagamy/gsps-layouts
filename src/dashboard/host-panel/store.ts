@@ -3,8 +3,8 @@ import {
   ReplicantModule,
   ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store';
-import { Bids, Total, Countdown } from '@gsps-layouts/types/schemas';
-import { Milestones } from '@gsps-layouts/types';
+import { Bids, Total, Countdown, Prizes } from '@gsps-layouts/types/schemas';
+import { Milestones, Prize, Bid } from '@gsps-layouts/types';
 import clone from 'clone';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
@@ -34,6 +34,34 @@ class OurModule extends VuexModule {
 
   get hostCountdownReplicant(): Countdown {
     return this.reps.hostCountdownReplicant;
+  }
+
+  get prizes(): Prizes {
+    return this.reps.prizes;
+  }
+
+  get currentBid(): Bid | null {
+    return this.reps.currentlyShownBid;
+  }
+
+  get currentBidIndex(): number {
+    return this.reps.currentlyShownBidIndex;
+  }
+
+  get currentPrize(): Prize | null {
+    return this.reps.currentlyShownPrize;
+  }
+
+  get currentPrizeIndex(): number {
+    return this.reps.currentlyShownPrizeIndex;
+  }
+
+  get showPrizePanel(): boolean {
+    return this.reps.showPrizePanel;
+  }
+
+  get showBidsPanel(): boolean {
+    return this.reps.showBidsPanel;
   }
 }
 

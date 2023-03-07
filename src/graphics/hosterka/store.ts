@@ -3,7 +3,8 @@ import {
   ReplicantModule,
   ReplicantTypes,
 } from '@gsps-layouts/browser_shared/replicant_store';
-import type { Hosterka } from '@gsps-layouts/types/schemas';
+import { Bid, Prize } from '@gsps-layouts/types';
+import type { Hosterka, Prizes, Bids } from '@gsps-layouts/types/schemas';
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
 import { Action, getModule, Module, VuexModule } from 'vuex-module-decorators';
@@ -19,6 +20,38 @@ class OurModule extends VuexModule {
 
   get hosterka(): Hosterka {
     return this.reps.hosterkaRep;
+  }
+
+  get bids(): Bids[] {
+    return this.reps.currentBids;
+  }
+
+  get prizes(): Prizes {
+    return this.reps.prizes;
+  }
+
+  get currentBid(): Bid | null {
+    return this.reps.currentlyShownBid;
+  }
+
+  get currentBidIndex(): number {
+    return this.reps.currentlyShownBidIndex;
+  }
+
+  get currentPrize(): Prize | null {
+    return this.reps.currentlyShownPrize;
+  }
+
+  get currentPrizeIndex(): number {
+    return this.reps.currentlyShownPrizeIndex;
+  }
+
+  get showPrizePanel(): boolean {
+    return this.reps.showPrizePanel;
+  }
+
+  get showBidsPanel(): boolean {
+    return this.reps.showBidsPanel;
   }
 }
 

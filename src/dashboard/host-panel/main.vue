@@ -3,6 +3,13 @@
     <v-container fluid>
       <div id="host-container">
         <div>
+          <reader-bid-prize-panel
+            class="panel"
+            :item="shownItemOnPanel"
+            v-if="showBidPrizePanel"
+          />
+        </div>
+        <div>
           <host-panel-countdown
             class="panel"
             :hostCountdownReplicant="hostCountdownReplicant"
@@ -16,14 +23,14 @@
         </div>
         <div id="right" class="column">
           <reader-panel-total class="panel" :total="total" />
-          <v-btn @click="switchToIntermission"
-            >Awaryjny przycisk zmiany na przerwę</v-btn
-          >
           <reader-panel-milestones
             class="panel"
             :milestones="milestones"
             :total="total"
           />
+          <v-btn @click="switchToIntermission"
+            >Awaryjny przycisk zmiany na przerwę</v-btn
+          >
         </div>
       </div>
     </v-container>
@@ -31,15 +38,16 @@
 </template>
 
 <script lang="ts">
-  import { Vue, Component } from 'vue-property-decorator';
+  import { Vue, Component, Watch } from 'vue-property-decorator';
   import type { Bids, Total } from '@gsps-layouts/types/schemas';
   import type { Countdown } from '@gsps-layouts/types/schemas/countdown';
-  import { Milestones } from '@gsps-layouts/types';
+  import { Bid, Milestones, Prize } from '@gsps-layouts/types';
   import { Getter } from 'vuex-class';
   import ReaderPanelTotal from './components/Total.vue';
   import ReaderPanelBids from './components/Bids.vue';
   import ReaderPanelMilestones from './components/Milestones.vue';
   import HostPanelCountdown from './components/Countdown.vue';
+  import ReaderBidPrizePanel from './components/BidPrizePanel.vue';
 
   @Component({
     components: {
@@ -47,6 +55,7 @@
       ReaderPanelBids,
       ReaderPanelMilestones,
       HostPanelCountdown,
+      ReaderBidPrizePanel,
     },
   })
   export default class extends Vue {
@@ -54,6 +63,42 @@
     @Getter readonly total!: Total;
     @Getter readonly milestones!: Milestones;
     @Getter readonly hostCountdownReplicant!: Countdown;
+    @Getter readonly currentBid!: Bid;
+    @Getter readonly currentPrize!: Prize;
+    @Getter readonly showBidsPanel!: boolean;
+    @Getter readonly showPrizePanel!: boolean;
+
+    shownItemOnPanel: Bid | Prize | null = null;
+    showBidPrizePanel = false;
+
+    @Watch('currentBid')
+    onCurrentBidChange(bid: Bid | null) {
+      this.shownItemOnPanel = bid;
+    }
+
+    @Watch('currentPrize')
+    onCurrentPrizeChange(prize: Prize | null) {
+      this.shownItemOnPanel = prize;
+    }
+
+    @Watch('showBidsPanel')
+    onShowBidsPanelChange(value: boolean) {
+      console.log(value);
+      if (!value && !this.showPrizePanel) {
+        this.showBidPrizePanel = false;
+      } else {
+        this.showBidPrizePanel = true;
+      }
+    }
+
+    @Watch('showPrizePanel')
+    onShowPrizePanelChange(value: boolean) {
+      if (!value && !this.showBidsPanel) {
+        this.showBidPrizePanel = false;
+      } else {
+        this.showBidPrizePanel = true;
+      }
+    }
 
     switchToIntermission(): void {
       nodecg.sendMessage('switchFromHostScreen');

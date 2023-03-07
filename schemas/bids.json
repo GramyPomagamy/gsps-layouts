@@ -18,6 +18,9 @@
         "type": "string"
       },
       "total": {
+        "type": "string"
+      },
+      "rawTotal": {
         "type": "number"
       },
       "game": {
@@ -32,8 +35,11 @@
       "runEndTime": {
         "type": "number"
       },
-      "war": {
-        "type": "boolean"
+      "type": {
+        "type": "string"
+      },
+      "public": {
+        "type": "string"
       },
       "allowUserOptions": {
         "type": "boolean"
@@ -54,6 +60,12 @@
               "type": "string"
             },
             "total": {
+              "type": "string"
+            },
+            "rawTotal": {
+              "type": "number"
+            },
+            "speedrun": {
               "type": "number"
             }
           },
@@ -61,7 +73,9 @@
             "id",
             "parent",
             "name",
-            "total"
+            "total",
+            "rawTotal",
+            "speedrun"
           ]
         }
       },
@@ -73,9 +87,11 @@
       "id",
       "name",
       "total",
-      "war",
+      "rawTotal",
+      "type",
       "allowUserOptions",
-      "options"
+      "options",
+      "public"
     ]
   },
   "default": []

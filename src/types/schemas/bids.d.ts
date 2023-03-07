@@ -10,18 +10,22 @@ export type Bids = {
   name: string;
   description?: string;
   longDescription?: string;
-  total: number;
+  total: string;
+  rawTotal: number;
   game?: string;
   category?: string;
   runStartTime?: number;
   runEndTime?: number;
-  war: boolean;
+  type: string;
+  public: string;
   allowUserOptions: boolean;
   options: {
     id: number;
     parent: number;
     name: string;
-    total: number;
+    total: string;
+    rawTotal: number;
+    speedrun: number;
   }[];
   goal?: number;
 }[];

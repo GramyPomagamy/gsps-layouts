@@ -10,8 +10,9 @@ import {
   Prizes,
   Commentators,
   SecondaryTimer,
+  Bids,
 } from '@gsps-layouts/types/schemas';
-import { Milestones } from '@gsps-layouts/types';
+import { Bid, Milestones, Prize } from '@gsps-layouts/types';
 import type { RunDataActiveRun, Timer } from 'speedcontrol/src/types/schemas';
 import { get as nodecg } from './nodecg';
 
@@ -51,3 +52,31 @@ export const playLongVideoReplicant = nodecg().Replicant<boolean>(
 );
 export const secondaryTimerReplicant =
   nodecg().Replicant<SecondaryTimer>('secondaryTimer');
+export const currentBidsRep = nodecg().Replicant<Bids>('currentBids', {
+  defaultValue: [],
+});
+export const allBidsRep = nodecg().Replicant<Bids>('allBids', {
+  defaultValue: [],
+});
+export const currentlyShownPrizeIndex = nodecg().Replicant<number>(
+  'currentlyShownPrizeIndex',
+  { defaultValue: 0 }
+);
+export const currentlyShownBidIndex = nodecg().Replicant<number>(
+  'currentlyShownBidIndex',
+  { defaultValue: 0 }
+);
+export const showBidsPanel = nodecg().Replicant<boolean>('showBidsPanel', {
+  defaultValue: false,
+});
+export const showPrizePanel = nodecg().Replicant<boolean>('showPrizePanel', {
+  defaultValue: false,
+});
+export const currentlyShownBid = nodecg().Replicant<Bid | null>(
+  'currentlyShownBid',
+  { defaultValue: null }
+);
+export const currentlyShownPrize = nodecg().Replicant<Prize | null>(
+  'currentlyShownPrize',
+  { defaultValue: null }
+);
