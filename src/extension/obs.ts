@@ -1,4 +1,4 @@
-import type { TransformProperties } from '@gsps-layouts/types';
+import type { Asset, TransformProperties } from '@gsps-layouts/types';
 import OBSWebSocket from 'obs-websocket-js';
 import FoobarControl from './foobar';
 import request from 'request';
@@ -10,8 +10,13 @@ import {
   commentatorsReplicant,
   activeRunReplicant,
   playLongVideoReplicant,
+  videosCharity,
+  videosSponsors,
+  videosLong,
 } from './util/replicants';
 import { TaggedLogger } from './util/tagged-logger';
+
+type VideoTypes = 'charity' | 'sponsors';
 
 const obs = new OBSWebSocket();
 const config = (nodecg().bundleConfig as Configschema).obs;
@@ -23,6 +28,8 @@ if (foobarConfig.enabled) {
 const log = new TaggedLogger('OBS');
 let reconnectTimeout: NodeJS.Timeout;
 let loggedTimestampForCurrentGame = false;
+let videoToPlay: Asset | undefined;
+let videoType: VideoTypes = 'charity';
 
 // Connect to OBS
 if (config.enabled) {
@@ -82,8 +89,61 @@ function switchFromHostScreen() {
   }
 }
 
-function playIntermissionVideo(playLongVideo: boolean) {
-  playLongVideoReplicant.value = playLongVideo;
+function playLongVideo() {
+  log.debug('Puszczam długi film')
+  videoToPlay =
+    videosLong.value[Math.floor(Math.random() * videosLong.value.length)];
+  if (videoToPlay) {
+    obs.call('SetInputSettings', {
+      inputName: config.sources!.intermissionVideo,
+      inputSettings: {
+        input: `http://localhost:${nodecg().config.port}${videoToPlay!.url}`,
+      },
+    });
+  } else {
+    console.error(
+      'Coś się popsuło i nie było mnie słychać, więc spróbuję jeszcze raz...'
+    );
+    playLongVideo();
+  }
+}
+
+function playShortVideo(type: VideoTypes) {
+  log.debug('Puszczam krótki film')
+  if (type == 'charity') {
+    videoToPlay =
+      videosCharity.value[
+        Math.floor(Math.random() * videosCharity.value.length)
+      ];
+  } else {
+    videoToPlay =
+      videosSponsors.value[
+        Math.floor(Math.random() * videosSponsors.value.length)
+      ];
+  }
+  if (videoToPlay) {
+    obs.call('SetInputSettings', {
+      inputName: config.sources!.intermissionVideo,
+      inputSettings: {
+        input: `http://localhost:${nodecg().config.port}${videoToPlay!.url}`,
+      },
+    });
+  } else {
+    console.error(
+      'Coś się popsuło i nie było mnie słychać, więc spróbuję jeszcze raz...'
+    );
+    playShortVideo(type);
+  }
+}
+
+async function playIntermissionVideo(longVideo: boolean) {
+  playLongVideoReplicant.value = longVideo;
+  if (longVideo) {
+    playLongVideo();
+  } else {
+    videoType = 'charity';
+    playShortVideo('charity');
+  }
   obs.call('SetCurrentProgramScene', { sceneName: config.scenes!.video });
 }
 
@@ -379,6 +439,17 @@ obs.on('StreamStateChanged', (data) => {
 
 obs.on('StudioModeStateChanged', (data) => {
   obsDataReplicant.value.studioMode = data.studioModeEnabled;
+});
+
+obs.on('MediaInputPlaybackEnded', (data) => {
+  if (data.inputName === config.sources!.intermissionVideo) {
+    if (videoType === 'charity' && !playLongVideoReplicant.value) {
+      playShortVideo('sponsors');
+      videoType = 'sponsors';
+    } else {
+      switchFromHostScreen();
+    }
+  }
 });
 
 obs.on('ConnectionOpened', () => {
