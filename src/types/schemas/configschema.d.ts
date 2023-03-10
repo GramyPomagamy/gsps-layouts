@@ -53,6 +53,10 @@ export interface Configschema {
       countdown: string;
       [k: string]: unknown;
     };
+    sources?: {
+      intermissionVideo: string;
+      [k: string]: unknown;
+    };
     croppers?: {
       url: string;
       name: string;

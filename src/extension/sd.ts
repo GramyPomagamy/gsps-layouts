@@ -89,7 +89,7 @@ function getPrize(tier: number): Prize | null {
 
 function getBid(): Bid | null {
   if (currentBidsRep.value.length > 0) {
-    const currentBids = clone(currentBidsRep.value)
+    const currentBids = clone(currentBidsRep.value);
     // If bid panel is disabled, enable it and set it to show first bid in the list
     if (!showBidsPanel.value) {
       showBidsPanel.value = true;
