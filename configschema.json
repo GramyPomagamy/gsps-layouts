@@ -131,6 +131,16 @@
           },
           "required": ["intermission", "video", "hosterka", "countdown"]
         },
+        "sources": {
+          "type": "object",
+          "properties": {
+            "intermissionVideo": {
+              "type": "string",
+              "default": "Film na przerwie - źródło"
+            }
+          },
+          "required": ["intermissionVideo"]
+        },
         "croppers": {
           "type": "array",
           "items": {

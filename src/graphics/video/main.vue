@@ -1,9 +1,6 @@
 <template>
   <div id="container">
     <img id="Background" src="../img/layouts/video_bg-min.png" />
-    <video id="player" ref="VideoPlayer">
-      <source ref="PlayerSource" />
-    </video>
 
     <div id="nextRunInfo" v-if="activeRun">
       <div id="nextRunLabel"><b>NADCHODZĄCY RUN</b></div>
@@ -20,8 +17,6 @@
   import { Getter } from 'vuex-class';
   import VideoNextRun from './components/NextRun.vue';
 
-  type VideoTypes = 'charity' | 'sponsors';
-
   @Component({
     components: {
       VideoNextRun,
@@ -34,92 +29,6 @@
     @Getter readonly videosLong!: Asset[];
     @Getter readonly playLongVideo!: boolean;
     @Getter readonly obsData!: ObsData;
-    @Ref('VideoPlayer') player!: HTMLVideoElement;
-    @Ref('PlayerSource') playerSrc!: HTMLSourceElement;
-
-    config = (nodecg.bundleConfig as Configschema).obs;
-
-    sceneName: string = this.config.scenes!.video;
-
-    video!: Asset;
-    videoType: VideoTypes = 'charity';
-
-    @Watch('obsData')
-    onOBSDataChanged(newVal: ObsData) {
-      this.$nextTick(() => {
-        if (newVal.scene === this.sceneName) {
-          if (this.playLongVideo) {
-            this.playNextLongVideo();
-          } else {
-            this.videoType = 'charity';
-            this.playNextShortVideo('charity');
-          }
-        }
-      });
-    }
-
-    async playNextLongVideo(): Promise<void> {
-      let video =
-        this.videosLong[Math.floor(Math.random() * this.videosLong.length)];
-      if (video) {
-        this.video = video;
-        this.playerSrc.src = video.url;
-        this.playerSrc.type = `video/${video.ext
-          .toLowerCase()
-          .replace('.', '')}`;
-        this.player.volume = 0.5;
-        this.player.load();
-        this.player.play();
-      } else {
-        console.error(
-          'Coś się popsuło i nie było mnie słychać, więc spróbuję jeszcze raz...'
-        );
-        this.playNextLongVideo();
-      }
-    }
-
-    async playNextShortVideo(type: VideoTypes): Promise<void> {
-      let video;
-      if (type === 'charity') {
-        video =
-          this.videosCharity[
-            Math.floor(Math.random() * this.videosCharity.length)
-          ];
-      } else {
-        video =
-          this.videosSponsors[
-            Math.floor(Math.random() * this.videosSponsors.length)
-          ];
-      }
-      if (video) {
-        this.video = video;
-        this.playerSrc.src = video.url;
-        this.playerSrc.type = `video/${video.ext
-          .toLowerCase()
-          .replace('.', '')}`;
-        this.player.volume = 0.5;
-        this.player.load();
-        this.player.play();
-      } else {
-        console.error(
-          'Coś się popsuło i nie było mnie słychać, więc spróbuję jeszcze raz...'
-        );
-        this.playNextShortVideo(type);
-      }
-    }
-
-    videoEnded(): void {
-      if (this.videoType === 'charity' && !this.playLongVideo) {
-        this.playNextShortVideo('sponsors');
-        this.videoType = 'sponsors';
-      } else {
-        nodecg.sendMessage('videoPlayerFinished');
-      }
-    }
-
-    mounted() {
-      this.player.addEventListener('ended', this.videoEnded);
-    }
   }
 </script>
 
