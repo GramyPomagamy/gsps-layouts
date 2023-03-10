@@ -12,7 +12,7 @@ import {
   SecondaryTimer,
   Bids,
 } from '@gsps-layouts/types/schemas';
-import { Bid, Milestones, Prize } from '@gsps-layouts/types';
+import { Bid, Milestones, Prize, Asset } from '@gsps-layouts/types';
 import type { RunDataActiveRun, Timer } from 'speedcontrol/src/types/schemas';
 import { get as nodecg } from './nodecg';
 
@@ -80,3 +80,10 @@ export const currentlyShownPrize = nodecg().Replicant<Prize | null>(
   'currentlyShownPrize',
   { defaultValue: null }
 );
+export const videosCharity = nodecg().Replicant<Asset[]>(
+  'assets:videos-charity'
+);
+export const videosSponsors = nodecg().Replicant<Asset[]>(
+  'assets:videos-sponsors'
+);
+export const videosLong = nodecg().Replicant<Asset[]>('assets:videos-long');
