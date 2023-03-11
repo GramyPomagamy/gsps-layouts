@@ -129,6 +129,7 @@
         nodecg.sendMessage('updateBids');
       },
       startRefreshCountdown() {
+        clearInterval(this.refreshTimer);
         this.refreshTimer = setInterval(() => {
           if (this.timeLeft == 1) {
             clearInterval(this.refreshTimer);
