@@ -13,6 +13,9 @@ import {
   videosCharity,
   videosSponsors,
   videosLong,
+  hosterka,
+  showBidsPanel,
+  showPrizePanel,
 } from './util/replicants';
 import { TaggedLogger } from './util/tagged-logger';
 
@@ -73,6 +76,10 @@ function switchToIntermission() {
       }`);
       });
   }
+  nodecg().sendMessage('hideNames');
+  hosterka.value = { host1: '', host2: '' };
+  showBidsPanel.value = false;
+  showPrizePanel.value = false;
   setTimeout(() => {
     nodecg().sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
   }, 1000);
@@ -87,10 +94,13 @@ function switchFromHostScreen() {
   if (foobarConfig.enabled) {
     foobar.unmute();
   }
+  hosterka.value = { host1: '', host2: '' };
+  showBidsPanel.value = false;
+  showPrizePanel.value = false;
 }
 
 function playLongVideo() {
-  log.debug('Puszczam długi film')
+  log.debug('Puszczam długi film');
   videoToPlay =
     videosLong.value[Math.floor(Math.random() * videosLong.value.length)];
   if (videoToPlay) {
@@ -109,7 +119,7 @@ function playLongVideo() {
 }
 
 function playShortVideo(type: VideoTypes) {
-  log.debug('Puszczam krótki film')
+  log.debug('Puszczam krótki film');
   if (type == 'charity') {
     videoToPlay =
       videosCharity.value[
