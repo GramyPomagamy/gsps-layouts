@@ -11,6 +11,7 @@ import {
   Commentators,
   SecondaryTimer,
   Bids,
+  Hosterka,
 } from '@gsps-layouts/types/schemas';
 import { Bid, Milestones, Prize, Asset } from '@gsps-layouts/types';
 import type { RunDataActiveRun, Timer } from 'speedcontrol/src/types/schemas';
@@ -87,3 +88,4 @@ export const videosSponsors = nodecg().Replicant<Asset[]>(
   'assets:videos-sponsors'
 );
 export const videosLong = nodecg().Replicant<Asset[]>('assets:videos-long');
+export const hosterka = nodecg().Replicant<Hosterka>('hosterka');
