@@ -4,7 +4,7 @@ import { TaggedLogger } from './util/tagged-logger';
 
 /** Code relating to the Featured Channels extension. */
 export const featuredChannels = (nodecg: NodeCG) => {
-  const featuredLog = new TaggedLogger('featured');
+  const featuredLog = new TaggedLogger('featured', nodecg);
   const config = nodecg.bundleConfig.twitchExt;
 
   async function updateFeatured(players: Array<string>) {

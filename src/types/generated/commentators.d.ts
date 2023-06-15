@@ -20,5 +20,5 @@ export type Commentators = {
 		| 'onu/jejo'
 		| 'ne/nego'
 		| 'onu/jegu'
-		| null;
+		| '';
 }[];

@@ -1,14 +1,19 @@
-import { get as nodecg } from './nodecg';
+import { BundleNodecgInstance } from './nodecg';
+import NodeCG from '@nodecg/types';
+
+type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'replicants';
 
 export class TaggedLogger {
   tag: string;
+  nodecg: BundleNodecgInstance;
 
-  constructor(tag: string) {
+  constructor(tag: string, nodecg: BundleNodecgInstance) {
     this.tag = tag;
+    this.nodecg = nodecg;
   }
 
-  log(level: string, ...msg: Array<any>) {
-    (nodecg().log as any)[level](`[${this.tag}]`, ...msg);
+  log(level: LogLevel, ...msg: Array<any>) {
+    (this.nodecg.log as NodeCG.Logger)[level](`[${this.tag}]`, ...msg);
   }
 
   trace(...msg: Array<any>) {

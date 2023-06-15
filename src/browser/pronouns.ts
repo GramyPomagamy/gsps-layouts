@@ -1,0 +1,15 @@
+export const pronouns = {
+  '(brak)': '',
+  'ona/jej': 'ona/jej',
+  'on/jego': 'on/jego',
+  'ono/jego': 'ono/jego',
+  'ono/jej': 'ono/jej',
+  'ono/jejgo': 'ono/jejgo',
+  'ono/jeno': 'ono/jeno',
+  'ono/jenu': 'ono/jenu',
+  'ono/ich': 'ono/ich',
+  'onu/jenu': 'onu/jenu',
+  'onu/jejo': 'onu/jejo',
+  'ne/nego': 'ne/nego',
+  'onu/jegu': 'onu/jegu',
+};

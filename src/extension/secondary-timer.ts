@@ -9,7 +9,7 @@ export const secondaryTimer = (nodecg: NodeCG) => {
   const timerRep = nodecg.Replicant('secondaryTimer');
   // eslint-disable-next-line prefer-const
   let timer: livesplitCore.Timer;
-  const logger = new TaggedLogger('Secondary Timer');
+  const logger = new TaggedLogger('Secondary Timer', nodecg);
 
   // Cross references for LiveSplit's TimerPhases.
   const LS_TIMER_PHASE = {

@@ -8,7 +8,7 @@ import Bluebird from 'bluebird';
 export const bids = (nodecg: NodeCG) => {
   const currentBidsRep = nodecg.Replicant('currentBids');
   const allBidsRep = nodecg.Replicant('allBids');
-  const bidsLog = new TaggedLogger('bids');
+  const bidsLog = new TaggedLogger('bids', nodecg);
   const config = nodecg.bundleConfig.tracker;
   const rootURL = config!.rootURL;
   const eventID = config!.eventID;

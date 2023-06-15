@@ -6,7 +6,7 @@ import { TaggedLogger } from './util/tagged-logger';
 export const footpedal = (nodecg: BundleNodecgInstance) => {
   const router = (nodecg as unknown as NodeCG.ServerAPI).Router();
   const config = nodecg.bundleConfig.footpedal;
-  const log = new TaggedLogger('footpedal');
+  const log = new TaggedLogger('Footpedal', nodecg);
 
   router.get('/makeHighlight', (_req, res) => {
     if (config.enabled) {

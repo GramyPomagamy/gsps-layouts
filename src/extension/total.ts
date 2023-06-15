@@ -8,7 +8,7 @@ import { NodeCG } from './util/nodecg';
 
 /** Code related to handling the total amount of money raised. */
 export const total = (nodecg: NodeCG) => {
-  const totalLog = new TaggedLogger('total');
+  const totalLog = new TaggedLogger('total', nodecg);
   const config = nodecg.bundleConfig.tracker;
   const rootURL = config!.rootURL;
   const eventID = config!.eventID;

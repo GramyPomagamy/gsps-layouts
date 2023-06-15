@@ -20,5 +20,5 @@ export interface Reader {
 		| 'onu/jejo'
 		| 'ne/nego'
 		| 'onu/jegu'
-		| null;
+		| '';
 }

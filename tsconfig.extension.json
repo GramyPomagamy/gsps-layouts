@@ -3,6 +3,7 @@
     "compilerOptions": {
         "rootDir": "src/extension",
         "outDir": "extension",
+        "noEmit": true
     },
     "include": [
         "src/extension/**/*.ts",

@@ -1,4 +1,5 @@
 import { NodeCG } from './util/nodecg';
+import { countdown } from './countdown';
 import { donationsPrizes } from './donations-prizes';
 import { featuredChannels } from './featured';
 import { footpedal } from './footpedal';
@@ -14,6 +15,7 @@ import { total } from './total';
 import { timestamps } from './timestamps';
 
 export default (nodecg: NodeCG) => {
+  countdown(nodecg);
   donationsPrizes(nodecg);
   featuredChannels(nodecg);
   footpedal(nodecg);

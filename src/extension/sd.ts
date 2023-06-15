@@ -15,7 +15,7 @@ export const streamDeck = (nodecg: BundleNodecgInstance) => {
   const currentlyShownBid = nodecg.Replicant('currentlyShownBid');
   const currentlyShownPrize = nodecg.Replicant('currentlyShownPrize');
 
-  const logger = new TaggedLogger('Stream Deck');
+  const logger = new TaggedLogger('Stream Deck', nodecg);
   const config = nodecg.bundleConfig.sd;
   const router = (nodecg as unknown as NodeCG.ServerAPI).Router();
   let currentPrizeTier = 10;

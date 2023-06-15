@@ -6,7 +6,7 @@ import FoobarControl from './foobar';
 /** Code relating to the current song playing in foobar2000. */
 export const nowPlaying = (nodecg: NodeCG) => {
   const config = nodecg.bundleConfig.foobar;
-  const foobar = new FoobarControl(config.address!);
+  const foobar = new FoobarControl(config.address!, nodecg);
   const songReplicant = nodecg.Replicant('song');
 
   async function GetSong() {

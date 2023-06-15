@@ -7,7 +7,7 @@ import path from 'path';
 
 /** Code related to making timestamps for later VoD cutting. */
 export const timestamps = (nodecg: NodeCG) => {
-  const log = new TaggedLogger('VoD Timestamp');
+  const log = new TaggedLogger('VoD Timestamp', nodecg);
   const config = nodecg.bundleConfig.obs;
 
   nodecg.listenFor('createVoDTimeStamp', ({ timestamp, run, recordingName }) => {

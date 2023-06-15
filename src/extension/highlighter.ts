@@ -26,7 +26,7 @@ export const highligher = (nodecg: NodeCG) => {
     });
   }
 
-  const log = new TaggedLogger('highlighter');
+  const log = new TaggedLogger('highlighter', nodecg);
 
   function makeHighlight() {
     if (config.enabled) {

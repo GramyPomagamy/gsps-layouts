@@ -30,9 +30,9 @@ export const obs = (nodecg: NodeCG) => {
   const foobarConfig = nodecg.bundleConfig.foobar;
   let foobar: FoobarControl;
   if (foobarConfig.enabled) {
-    foobar = new FoobarControl(foobarConfig.address!);
+    foobar = new FoobarControl(foobarConfig.address!, nodecg);
   }
-  const log = new TaggedLogger('OBS');
+  const log = new TaggedLogger('OBS', nodecg);
   let reconnectTimeout: NodeJS.Timeout;
   let loggedTimestampForCurrentGame = false;
   let videoToPlay: Asset | undefined;

@@ -7,7 +7,7 @@ import { TaggedLogger } from './util/tagged-logger';
 export const milestones = (nodecg: NodeCG) => {
   const milestonesReplicant = nodecg.Replicant('milestones');
   const config = nodecg.bundleConfig.milestones;
-  const log = new TaggedLogger('milestones');
+  const log = new TaggedLogger('milestones', nodecg);
   let refreshTimeout: NodeJS.Timeout;
 
   async function updateMilestones() {

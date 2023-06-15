@@ -16,7 +16,7 @@ export const donationsPrizes = (nodecg: NodeCG) => {
   const bidsToAcceptReplicant = nodecg.Replicant('bidsToAccept');
   const readerAlertReplicant = nodecg.Replicant('readerAlert');
 
-  const donationsLog = new TaggedLogger('donations');
+  const donationsLog = new TaggedLogger('donations', nodecg);
   const config = nodecg.bundleConfig.tracker;
   const rootURL = config!.rootURL;
   const eventID = config!.eventID;
@@ -178,7 +178,7 @@ export const donationsPrizes = (nodecg: NodeCG) => {
 
   const prizesReplicant = nodecg.Replicant('prizes');
   const prizeRefreshTime = 60 * 1000; // Odśwież nagrody co 60s.
-  const prizesLog = new TaggedLogger('nagrody');
+  const prizesLog = new TaggedLogger('nagrody', nodecg);
 
   function processRawPrizes(rawPrizes: Tracker.Prize[]): Tracker.FormattedPrize[] {
     return Array.from(rawPrizes)

@@ -20,9 +20,7 @@
     "autofix": "run-s autofix:*",
     "autofix:browser": "eslint --fix --ext .ts,.tsx src/browser",
     "autofix:extension": "eslint --fix --ext .ts src/extension && eslint --fix --ext .d.ts src/nodecg",
-    "build": "run-s clean build:*",
-    "build:browser": "vite build",
-    "build:extension": "tsc -b tsconfig.extension.json",
+    "build": "npm run clean && vite build",
     "clean": "trash node_modules/.cache && trash shared/dist && trash dashboard && trash graphics && trash extension",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "prettify": "prettier --write src/browser src/extension",
@@ -30,8 +28,8 @@
     "schema-types": "nodecg schema-types -o src/types/generated",
     "start": "node ../..",
     "watch": "run-p watch:*",
-    "watch:browser": "vite",
-    "watch:extension": "tsc -b tsconfig.extension.json -w --preserveWatchOutput"
+    "watch:vite": "vite",
+    "watch:tsc": "tsc -b tsconfig.extension.json -w --preserveWatchOutput"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -40,6 +38,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.4",
     "@vitejs/plugin-react": "^4.0.0",
+    "animate.css": "^4.1.1",
     "bluebird": "^3.7.2",
     "csv-stringify": "^6.4.0",
     "dayjs": "^1.11.8",
@@ -57,6 +56,8 @@
     "parse-ms": "^2.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.9.0",
+    "react-transition-group": "^4.4.5",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "socket.io-client": "^4.6.2",
@@ -73,6 +74,7 @@
     "@types/numeral": "^2.0.2",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
+    "@types/react-transition-group": "^4.4.6",
     "@types/request": "^2.48.8",
     "@types/request-promise": "^4.1.48",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
@@ -89,6 +91,8 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.8",
     "rollup": "^3.25.1",
+    "rollup-plugin-esbuild": "^5.0.0",
+    "rollup-plugin-node-externals": "^6.1.1",
     "trash-cli": "^5.0.0",
     "ts-nodecg": "^0.3.1",
     "typescript": "^5.0.2",
@@ -99,17 +103,81 @@
     "compatibleRange": "^1.8.1 || ^2.0.0",
     "dashboardPanels": [
       {
-        "file": "example.html",
-        "name": "example",
-        "title": "Example",
-        "width": 2
+        "file": "total.html",
+        "name": "total",
+        "title": "Zebrana kwota",
+        "width": 3,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
+        "name": "countdown",
+        "title": "Odliczanie",
+        "file": "countdown.html",
+        "width": 3,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
+        "name": "highlight",
+        "title": "Highlighter",
+        "file": "highlight.html",
+        "width": 3,
+        "workspace": "2. GSPS - OBS"
+      },
+      {
+        "name": "next-run",
+        "title": "Zmiana na przerwę",
+        "file": "next-run.html",
+        "width": 3,
+        "workspace": "2. GSPS - OBS"
+      },
+      {
+        "name": "edit-total",
+        "title": "Edytuj kwotę",
+        "file": "edit-total.html",
+        "width": 3,
+        "dialog": true
+      },
+      {
+        "name": "reader",
+        "title": "Czytający",
+        "file": "reader.html",
+        "width": 4,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
+        "name": "host-countdown",
+        "title": "Odliczanie hostów",
+        "file": "host-countdown.html",
+        "width": 3,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
+        "name": "obs-status",
+        "title": "Status",
+        "file": "obs-status.html",
+        "width": 3,
+        "workspace": "2. GSPS - OBS"
+      },
+      {
+        "name": "play-video",
+        "title": "Film na przerwie",
+        "file": "play-video.html",
+        "width": 3,
+        "workspace": "2. GSPS - OBS"
+      },
+      {
+        "name": "secondary-timer",
+        "title": "Dodatkowy timer",
+        "file": "secondary-timer.html",
+        "width": 3,
+        "workspace": "1. GSPS - Ogólne"
       }
     ],
     "graphics": [
       {
-        "file": "example.html",
+        "file": "odliczanie.html",
         "width": 1920,
-        "height": 1080
+        "height": 1030
       }
     ]
   }

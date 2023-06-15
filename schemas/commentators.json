@@ -7,7 +7,7 @@
     "properties": {
       "name": { "type": "string" },
       "pronouns": {
-        "type": ["string", "null"],
+        "type": "string",
         "enum": [
           "ona/jej",
           "on/jego",
@@ -21,10 +21,11 @@
           "onu/jejo",
           "ne/nego",
           "onu/jegu",
-          null
+          ""
         ]
       }
     },
     "required": ["name", "pronouns"]
-  }
+  },
+  "default": []
 }
