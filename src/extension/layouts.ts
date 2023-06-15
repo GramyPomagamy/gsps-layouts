@@ -1,70 +1,77 @@
-import {
-  nameCycleReplicant,
-  activeRunReplicant,
-  readerAlertReplicant,
-} from './util/replicants';
 import { RunDataActiveRun } from '../../../nodecg-speedcontrol/src/types/schemas';
-import { get as nodecg } from './util/nodecg';
+import { NodeCG, SpeedcontrolNodecgInstance } from './util/nodecg';
 
 let cycleTimeout: NodeJS.Timeout;
 
-// Controls the name cycling ticks for players/hosts
-function cycleNames(reset = false): void {
-  clearTimeout(cycleTimeout);
-  let cycle = 0;
-  if (doAllPlayersInRunHaveTwitch(activeRunReplicant.value)) {
-    if (!reset) {
-      cycle = nameCycleReplicant.value + 1;
-    }
-    if (cycle === 0) {
-      // Name
-      cycleTimeout = setTimeout(cycleNames, 45 * 1000);
-    } else if (cycle === 1) {
-      // Twitch
-      cycleTimeout = setTimeout(cycleNames, 15 * 1000);
+/** Code relating to misc. layout functions. */
+export const layouts = (nodecg: NodeCG) => {
+  const nameCycleReplicant = nodecg.Replicant('nameCycle');
+  const activeRunReplicant = (nodecg as unknown as SpeedcontrolNodecgInstance).Replicant(
+    'runDataActiveRun',
+    'nodecg-speedcontrol'
+  );
+  const readerAlertReplicant = nodecg.Replicant('readerAlert');
+
+  // Controls the name cycling ticks for players/hosts
+  function cycleNames(reset = false): void {
+    clearTimeout(cycleTimeout);
+    let cycle = 0;
+    if (doAllPlayersInRunHaveTwitch(activeRunReplicant.value!)) {
+      if (!reset) {
+        cycle = nameCycleReplicant.value! + 1;
+      }
+      if (cycle === 0) {
+        // Name
+        cycleTimeout = setTimeout(cycleNames, 45 * 1000);
+      } else if (cycle === 1) {
+        // Twitch
+        cycleTimeout = setTimeout(cycleNames, 15 * 1000);
+      } else {
+        cycleNames(true);
+        return;
+      }
     } else {
-      cycleNames(true);
-      return;
+      cycleTimeout = setTimeout(cycleNames, 45 * 1000);
     }
-  } else {
-    cycleTimeout = setTimeout(cycleNames, 45 * 1000);
+
+    nameCycleReplicant.value = cycle;
   }
 
-  nameCycleReplicant.value = cycle;
-}
-
-function doAllPlayersInRunHaveTwitch(run: RunDataActiveRun): boolean {
-  let players = [];
-  let playersWithTwitch = [];
-  if (run && run.teams) {
-    for (let i = 0; i < run.teams.length; i++) {
-      let team = run.teams[i];
-      for (let i = 0; i < team.players.length; i++) {
-        players.push(team.players[i].name);
-        if (team.players[i].social.twitch) {
-          playersWithTwitch.push(team.players[i].name);
+  function doAllPlayersInRunHaveTwitch(run: RunDataActiveRun): boolean {
+    const players = [];
+    const playersWithTwitch = [];
+    if (run && run.teams) {
+      for (let i = 0; i < run.teams.length; i++) {
+        const team = run.teams[i];
+        if (team) {
+          for (let i = 0; i < team.players.length; i++) {
+            players.push(team.players[i]!.name);
+            if (team.players[i]!.social.twitch) {
+              playersWithTwitch.push(team.players[i]!.name);
+            }
+          }
         }
       }
-    }
 
-    if (JSON.stringify(players) === JSON.stringify(playersWithTwitch)) {
-      return true;
+      if (JSON.stringify(players) === JSON.stringify(playersWithTwitch)) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
-  } else {
-    return false;
   }
-}
 
-activeRunReplicant.on('change', () => {
+  activeRunReplicant.on('change', () => {
+    cycleNames(true);
+  });
+
   cycleNames(true);
-});
 
-cycleNames(true);
+  function toggleReaderAlert() {
+    readerAlertReplicant.value = !readerAlertReplicant.value;
+  }
 
-function toggleReaderAlert() {
-  readerAlertReplicant.value = !readerAlertReplicant.value;
-}
-
-nodecg().listenFor('toggleAlert', toggleReaderAlert);
+  nodecg.listenFor('toggleAlert', toggleReaderAlert);
+};

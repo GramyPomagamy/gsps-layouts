@@ -1,15 +1,30 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "items": {
     "type": "object",
+    "additionalProperties": false,
     "properties": {
-      "amount": {
-        "type": "number",
-        "default": 0
-      },
-      "names": {
-        "type": "string",
-        "default": ""
+      "name": { "type": "string" },
+      "pronouns": {
+        "type": ["string", "null"],
+        "enum": [
+          "ona/jej",
+          "on/jego",
+          "ono/jego",
+          "ono/jej",
+          "ono/jejgo",
+          "ono/jeno",
+          "ono/jenu",
+          "ono/ich",
+          "onu/jenu",
+          "onu/jejo",
+          "ne/nego",
+          "onu/jegu",
+          null
+        ]
       }
     },
-    "required": ["amount", "names"]
+    "required": ["name", "pronouns"]
   }
+}

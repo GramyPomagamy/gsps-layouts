@@ -1,36 +1,30 @@
-/* eslint-disable global-require */
+import { NodeCG } from './util/nodecg';
+import { donationsPrizes } from './donations-prizes';
+import { featuredChannels } from './featured';
+import { footpedal } from './footpedal';
+import { highligher } from './highlighter';
+import { hostCountdown } from './host-countdown';
+import { layouts } from './layouts';
+import { milestones } from './milestones';
+import { nowPlaying } from './nowplaying';
+import { obs } from './obs';
+import { secondaryTimer } from './secondary-timer';
+import { streamDeck } from './sd';
+import { total } from './total';
+import { timestamps } from './timestamps';
 
-// This must go first so we can use module aliases!
-/* eslint-disable import/first */
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('module-alias').addAlias(
-  '@gsps-layouts',
-  require('path').join(__dirname, '.')
-);
-
-import type { NodeCG } from 'nodecg-types/types/server';
-import { set } from './util/nodecg';
-
-export = (nodecg: NodeCG): void => {
-  /**
-   * Because of how `import`s work, it helps to use `require`s to force
-   * things to be loaded *after* the NodeCG context is set.
-   */
-  set(nodecg);
-  require('./countdown');
-  require('./host-countdown');
-  require('./donations');
-  require('./total');
-  require('./bids');
-  require('./layouts');
-  require('./nowplaying');
-  require('./obs');
-  require('./highlighter');
-  require('./footpedal');
-  require('./milestones');
-  require('./prizes');
-  require('./featured');
-  require('./timestamps');
-  require('./secondary-timer');
-  require('./sd');
+export default (nodecg: NodeCG) => {
+  donationsPrizes(nodecg);
+  featuredChannels(nodecg);
+  footpedal(nodecg);
+  highligher(nodecg);
+  hostCountdown(nodecg);
+  layouts(nodecg);
+  milestones(nodecg);
+  nowPlaying(nodecg);
+  obs(nodecg);
+  secondaryTimer(nodecg);
+  streamDeck(nodecg);
+  total(nodecg);
+  timestamps(nodecg);
 };

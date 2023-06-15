@@ -1,17 +1,19 @@
 'use strict';
 
-import { get as nodecg } from './util/nodecg';
-import { songReplicant } from './util/replicants';
-import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
+import { NodeCG } from './util/nodecg';
 import FoobarControl from './foobar';
 
-const config = (nodecg().bundleConfig as Configschema).foobar;
-const foobar = new FoobarControl(config.address!);
+/** Code relating to the current song playing in foobar2000. */
+export const nowPlaying = (nodecg: NodeCG) => {
+  const config = nodecg.bundleConfig.foobar;
+  const foobar = new FoobarControl(config.address!);
+  const songReplicant = nodecg.Replicant('song');
 
-async function GetSong() {
-  if (config.enabled) {
-    songReplicant.value = await foobar.getSong();
+  async function GetSong() {
+    if (config.enabled) {
+      songReplicant.value = await foobar.getSong();
+    }
   }
-}
 
-setInterval(GetSong, 3000);
+  setInterval(GetSong, 3000);
+};

@@ -32,7 +32,7 @@ const TimeUtils = {
    * @param {Number} [milliseconds = 0] - The value to instantiate this TimeObject with, in milliseconds.
    * @returns {TimeStruct} - A populated TimeStruct object.
    */
-  createTimeStruct(ms: number = 0): TimeStruct {
+  createTimeStruct(ms = 0): TimeStruct {
     const parsedTime = TimeUtils.parseMs(ms);
     return Object.assign({}, parsedTime, {
       formatted: TimeUtils.formatMilliseconds(ms),
@@ -54,8 +54,7 @@ const TimeUtils = {
       inputMs = -inputMs;
     }
 
-    const { days, hours, minutes, seconds, milliseconds } =
-      TimeUtils.parseMs(inputMs);
+    const { days, hours, minutes, seconds } = TimeUtils.parseMs(inputMs);
 
     if (days) {
       str += `${days}d `;
@@ -100,20 +99,20 @@ const TimeUtils = {
     let ms = 0;
     const timeParts = timeString.split(':').filter((part) => part.trim());
     if (timeParts.length === 3) {
-      ms += milliseconds.hours(parseInt(timeParts[0], 10));
-      ms += milliseconds.minutes(parseInt(timeParts[1], 10));
-      ms += milliseconds.seconds(parseFloat(timeParts[2]));
+      ms += milliseconds.hours(parseInt(timeParts[0]!, 10));
+      ms += milliseconds.minutes(parseInt(timeParts[1]!, 10));
+      ms += milliseconds.seconds(parseFloat(timeParts[2]!));
       return ms;
     }
 
     if (timeParts.length === 2) {
-      ms += milliseconds.minutes(parseInt(timeParts[0], 10));
-      ms += milliseconds.seconds(parseFloat(timeParts[1]));
+      ms += milliseconds.minutes(parseInt(timeParts[0]!, 10));
+      ms += milliseconds.seconds(parseFloat(timeParts[1]!));
       return ms;
     }
 
     if (timeParts.length === 1) {
-      ms += milliseconds.seconds(parseFloat(timeParts[0]));
+      ms += milliseconds.seconds(parseFloat(timeParts[0]!));
       return ms;
     }
 
