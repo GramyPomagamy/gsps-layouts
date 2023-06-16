@@ -6,19 +6,18 @@ import { Button, Stack } from '@mui/material';
 const obsDataRep = nodecg.Replicant('obsData');
 const intermissionSceneName = nodecg.bundleConfig.obs.scenes?.intermission;
 
-const App = () => {
+export const App = () => {
   const [obsData] = useReplicant(obsDataRep);
   return (
     <DashboardThemeProvider>
       {obsData && (
-        <Stack padding={1} useFlexGap>
+        <Stack spacing={1} useFlexGap>
           <Button
             variant="contained"
             disabled={obsData.scene != intermissionSceneName}
             onClick={() => {
               nodecg.sendMessage('playIntermissionVideo', false);
-            }}
-            style={{ marginBottom: '5px' }}>
+            }}>
             Krótki film na przerwie
           </Button>
           <Button

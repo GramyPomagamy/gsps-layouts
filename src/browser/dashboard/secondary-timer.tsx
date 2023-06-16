@@ -1,11 +1,11 @@
 import { useReplicant } from '../../use-replicant';
 import { DashboardThemeProvider } from './components/DashboardThemeProvider';
-import { createRoot } from 'react-dom/client';
+import { render } from '../render';
 import { Button, Grid, Typography } from '@mui/material';
 
 const secondaryTimerRep = nodecg.Replicant('secondaryTimer');
 
-const App = () => {
+export const App = () => {
   const [timer] = useReplicant(secondaryTimerRep);
 
   return (
@@ -50,6 +50,4 @@ const App = () => {
   );
 };
 
-const container = document.getElementById('root');
-const root = createRoot(container!);
-root.render(<App />);
+render(<App />);

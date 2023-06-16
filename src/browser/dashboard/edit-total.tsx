@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Button, Container, Grid, Stack, TextField } from '@mui/material';
 import NodeCG from '@nodecg/types';
 
-const App = () => {
+export const App = () => {
   const [amount, setAmount] = useState(0);
 
   return (

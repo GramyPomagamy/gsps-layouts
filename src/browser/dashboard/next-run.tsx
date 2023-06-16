@@ -19,7 +19,7 @@ const runDataActiveSurroundingRep = (nodecg as unknown as SpeedcontrolNodecgInst
   'nodecg-speedcontrol'
 );
 
-const App = () => {
+export const App = () => {
   const [obsData] = useReplicant(obsDataRep);
   const [timer] = useReplicant(timerRep);
   const [runData] = useReplicant(runDataRep);

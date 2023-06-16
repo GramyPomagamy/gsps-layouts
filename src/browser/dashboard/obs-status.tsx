@@ -5,7 +5,7 @@ import { Typography } from '@mui/material';
 
 const obsDataRep = nodecg.Replicant('obsData');
 
-const App = () => {
+export const App = () => {
   const [obsData] = useReplicant(obsDataRep);
   return (
     <DashboardThemeProvider>

@@ -2,7 +2,7 @@ import { DashboardThemeProvider } from './components/DashboardThemeProvider';
 import { render } from '../render';
 import { Button, Stack } from '@mui/material';
 
-const App = () => {
+export const App = () => {
   return (
     <DashboardThemeProvider>
       <Stack>

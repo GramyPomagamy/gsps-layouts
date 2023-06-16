@@ -1,11 +1,11 @@
 import { render } from '../render';
-import gspsLogo from './_misc/img/GSPS_PNG.png';
-import mainBg from './_misc/img/main-background.png';
+import gspsLogo from './img/GSPS_PNG.png';
+import mainBg from './img/main-background.png';
 import styled from 'styled-components';
 import { IoIosMusicalNotes } from 'react-icons/io';
 import { IconContext } from 'react-icons';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
-import './_misc/style.css';
+import './css/style.css';
 import 'animate.css';
 import { useRef } from 'react';
 import { useReplicant } from '../../use-replicant';
@@ -24,7 +24,7 @@ const LayoutContainer = styled.div`
 
 const LogoDiv = styled.div`
   position: fixed;
-  top: 180px;
+  top: 100px;
   width: 1920px;
   height: 500px;
   text-align: center;

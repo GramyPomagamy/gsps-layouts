@@ -39,12 +39,12 @@
     "@mui/material": "^5.13.4",
     "@vitejs/plugin-react": "^4.0.0",
     "animate.css": "^4.1.1",
+    "auto-text-size": "github:hoXyy/auto-text-size",
     "bluebird": "^3.7.2",
     "csv-stringify": "^6.4.0",
     "dayjs": "^1.11.8",
     "deep-equal": "^2.2.1",
     "events": "^3.3.0",
-    "fitty": "^2.3.7",
     "google-spreadsheet": "^3.3.0",
     "gsap": "^3.12.1",
     "klona": "^2.0.6",
@@ -74,6 +74,7 @@
     "@types/numeral": "^2.0.2",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
+    "@types/react-textfit": "^1.1.0",
     "@types/react-transition-group": "^4.4.6",
     "@types/request": "^2.48.8",
     "@types/request-promise": "^4.1.48",
@@ -171,11 +172,30 @@
         "file": "secondary-timer.html",
         "width": 3,
         "workspace": "1. GSPS - Ogólne"
+      },
+      {
+        "name": "obs-cropper",
+        "title": "Cropper",
+        "file": "obs-cropper.html",
+        "width": 3,
+        "workspace": "2. GSPS - OBS"
+      },
+      {
+        "name": "obs-cropper-settings",
+        "title": "Cropper Settings",
+        "file": "obs-cropper-settings.html",
+        "width": 3,
+        "workspace": "2. GSPS - OBS"
       }
     ],
     "graphics": [
       {
         "file": "odliczanie.html",
+        "width": 1920,
+        "height": 1030
+      },
+      {
+        "file": "4x3-1p.html",
         "width": 1920,
         "height": 1030
       }

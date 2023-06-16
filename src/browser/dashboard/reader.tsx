@@ -19,21 +19,21 @@ import { pronouns as pronounsMap } from '../pronouns';
 
 const readerRep = nodecg.Replicant('reader');
 
-const App = () => {
+export const App = () => {
   const [reader, setReader] = useReplicant(readerRep);
   const [readerName, setReaderName] = useState('');
   const [readerPronouns, setReaderPronouns] = useState<Pronouns>('');
 
   useEffect(() => {
-    if (reader) {
-      setReaderName(reader.name ?? '');
-      setReaderPronouns(reader.pronouns);
-    }
+    if (typeof reader === 'undefined') return;
+
+    setReaderName(reader.name);
+    setReaderPronouns(reader.pronouns);
   }, [reader]);
 
   return (
     <DashboardThemeProvider>
-      <Stack padding={1} useFlexGap>
+      <Stack spacing={1} useFlexGap>
         <Typography variant="h6" style={{ marginBottom: '25px' }} align="center">
           Obecny czytający:
           {reader && (

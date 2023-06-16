@@ -17,7 +17,7 @@ import NodeCG from '@nodecg/types';
 const totalRep = nodecg.Replicant('total');
 const autoUpdateTotalRep = nodecg.Replicant('autoUpdateTotal');
 
-const App = () => {
+export const App = () => {
   const [total] = useReplicant(totalRep);
   const [autoUpdateTotal, setAutoUpdateTotal] = useReplicant(autoUpdateTotalRep);
 

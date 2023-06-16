@@ -10,7 +10,7 @@ const countdownRunningRep = nodecg.Replicant('countdownRunning', {
   persistent: false,
 });
 
-const App = () => {
+export const App = () => {
   const [countdownRunning] = useReplicant(countdownRunningRep);
   const [countdown] = useReplicant(countdownRep);
   const [countdownText, setCountdownText] = useState('10:00');

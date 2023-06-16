@@ -26,6 +26,9 @@ dependencies:
   animate.css:
     specifier: ^4.1.1
     version: 4.1.1
+  auto-text-size:
+    specifier: github:hoXyy/auto-text-size
+    version: github.com/hoXyy/auto-text-size/6672c048105e2407bad5c1af705142876ffcd401(react@18.2.0)
   bluebird:
     specifier: ^3.7.2
     version: 3.7.2
@@ -41,9 +44,6 @@ dependencies:
   events:
     specifier: ^3.3.0
     version: 3.3.0
-  fitty:
-    specifier: ^2.3.7
-    version: 2.3.7
   google-spreadsheet:
     specifier: ^3.3.0
     version: 3.3.0
@@ -127,6 +127,9 @@ devDependencies:
   '@types/react-dom':
     specifier: ^18.0.11
     version: 18.2.5
+  '@types/react-textfit':
+    specifier: ^1.1.0
+    version: 1.1.0
   '@types/react-transition-group':
     specifier: ^4.4.6
     version: 4.4.6
@@ -2579,6 +2582,12 @@ packages:
       '@types/react': 18.2.12
     dev: false
 
+  /@types/react-textfit@1.1.0:
+    resolution: {integrity: sha512-iF49wuf4TMUKxcQjKyZcaJRN8rKFrXUBIAo0KQ0O/orHLQpwCyxpiD8NlPRqmcRN3FOAxSiRAOENbEQF1bhqiQ==}
+    dependencies:
+      '@types/react': 18.2.12
+    dev: true
+
   /@types/react-transition-group@4.4.6:
     resolution: {integrity: sha512-VnCdSxfcm08KjsJVQcfBmhEQAPnLB8G08hAxn39azX1qYBQ/5RVQuoHuKIcfKOdncuaUvEpFKFzEvbtIMsfVew==}
     dependencies:
@@ -4180,10 +4189,6 @@ packages:
       locate-path: 6.0.0
       path-exists: 4.0.0
     dev: true
-
-  /fitty@2.3.7:
-    resolution: {integrity: sha512-yucQBzDD8sRa8EXfHu4/h9vNDFHUXpYtC+nydtBRfLSjzToCEvacy4qiBJyihgUVrqpXB+Kp5kWCbROSrePd2g==}
-    dev: false
 
   /flat-cache@3.0.4:
     resolution: {integrity: sha512-dm9s5Pw7Jc0GvMYbshN6zchCA9RgQlzzEZX3vylR9IqFfS8XciblUXOKfW6SiuJ0e13eDYZoZV5wdrev7P3Nwg==}
@@ -7228,3 +7233,16 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  github.com/hoXyy/auto-text-size/6672c048105e2407bad5c1af705142876ffcd401(react@18.2.0):
+    resolution: {tarball: https://codeload.github.com/hoXyy/auto-text-size/tar.gz/6672c048105e2407bad5c1af705142876ffcd401}
+    id: github.com/hoXyy/auto-text-size/6672c048105e2407bad5c1af705142876ffcd401
+    name: auto-text-size
+    version: 0.2.1
+    prepare: true
+    requiresBuild: true
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
+    dev: false
