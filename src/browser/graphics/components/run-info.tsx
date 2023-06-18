@@ -8,11 +8,10 @@ const activeRunRep = (nodecg as unknown as SpeedcontrolNodecgInstance).Replicant
   'nodecg-speedcontrol'
 );
 
-const GameInfoContainer = styled.div<{ size: number }>`
+const GameInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  font-size: ${(props) => props.size}px;
   margin-left: 3px;
   margin-right: 3px;
   text-align: center;
@@ -21,7 +20,7 @@ const GameInfoContainer = styled.div<{ size: number }>`
 
 const Game = styled.span`
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 3px;
 `;
 const Category = styled.span`
   font-size: 0.7em;
@@ -32,7 +31,7 @@ const RunInfo = ({ fontSize }: { fontSize: number }) => {
   const [activeRun] = useReplicant(activeRunRep);
 
   return (
-    <GameInfoContainer size={fontSize} className="shadow">
+    <GameInfoContainer className="shadow">
       {activeRun && (
         <>
           <Game>

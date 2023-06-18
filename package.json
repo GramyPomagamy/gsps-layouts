@@ -146,6 +146,13 @@
         "workspace": "1. GSPS - Ogólne"
       },
       {
+        "name": "commentators",
+        "title": "Komentatorzy",
+        "file": "commentators.html",
+        "width": 4,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
         "name": "host-countdown",
         "title": "Odliczanie hostów",
         "file": "host-countdown.html",
@@ -198,6 +205,11 @@
         "file": "4x3-1p.html",
         "width": 1920,
         "height": 1030
+      },
+      {
+        "file": "omnibar.html",
+        "width": 1920,
+        "height": 50
       }
     ]
   }
