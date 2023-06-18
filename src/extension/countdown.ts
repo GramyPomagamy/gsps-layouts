@@ -1,22 +1,24 @@
 'use strict';
 
 // Ours
-import { NodeCG } from './util/nodecg';
+import { NodeCGServer } from './util/nodecg';
 import TimeUtils, { TimeStruct, ICountdownTimer } from './lib/time';
+import { CountdownRunning } from 'src/types/generated';
 
 /** Code related to the start of stream countdown. */
-export const countdown = (nodecg: NodeCG) => {
-  const time = nodecg.Replicant('countdown', {
+export const countdown = (nodecg: NodeCGServer) => {
+  const time = nodecg.Replicant<TimeStruct>('countdown', {
     defaultValue: TimeUtils.createTimeStruct(600 * 1000),
     persistent: false,
   });
-  const running = nodecg.Replicant('countdownRunning', {
+  
+  const running = nodecg.Replicant<CountdownRunning>('countdownRunning', {
     defaultValue: false,
     persistent: false,
   });
   let countdownTimer: ICountdownTimer;
 
-  nodecg.listenFor('startCountdown', (startTime) => {
+  nodecg.listenFor('startCountdown', (startTime: string) => {
     start(startTime);
   });
   nodecg.listenFor('stopCountdown', () => {

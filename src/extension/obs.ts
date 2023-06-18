@@ -2,28 +2,29 @@
 import OBSWebSocket from 'obs-websocket-js';
 import FoobarControl from './foobar';
 import request from 'request';
-import { WindowInfo } from '../types/generated';
+import { Commentators, Hosterka, ObsData, WindowInfo } from '../types/generated';
 import { Cropper, Asset, TransformProperties } from '../types/custom';
-import { NodeCG, SpeedcontrolNodecgInstance } from './util/nodecg';
+import { NodeCGServer } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
+import { RunDataActiveRun } from '../../../nodecg-speedcontrol/src/types';
 
 type VideoTypes = 'charity' | 'sponsors';
 
 /** Code relating to OBS functions. */
-export const obs = (nodecg: NodeCG) => {
-  const obsDataReplicant = nodecg.Replicant('obsData');
-  const commentatorsReplicant = nodecg.Replicant('commentators');
-  const activeRunReplicant = (nodecg as unknown as SpeedcontrolNodecgInstance).Replicant(
+export const obs = (nodecg: NodeCGServer) => {
+  const obsDataReplicant = nodecg.Replicant<ObsData>('obsData');
+  const commentatorsReplicant = nodecg.Replicant<Commentators>('commentators');
+  const activeRunReplicant = nodecg.Replicant<RunDataActiveRun>(
     'runDataActiveRun',
     'nodecg-speedcontrol'
   );
-  const playLongVideoReplicant = nodecg.Replicant('playLongVideo');
-  const videosCharity = nodecg.Replicant('assets:videos-charity');
-  const videosSponsors = nodecg.Replicant('assets:videos-sponsors');
-  const videosLong = nodecg.Replicant('assets:videos-long');
-  const hosterkaReplicant = nodecg.Replicant('hosterka');
-  const showBidsPanel = nodecg.Replicant('showBidsPanel');
-  const showPrizePanel = nodecg.Replicant('showPrizePanel');
+  const playLongVideoReplicant = nodecg.Replicant<boolean>('playLongVideo');
+  const videosCharity = nodecg.Replicant<Asset[]>('assets:videos-charity');
+  const videosSponsors = nodecg.Replicant<Asset[]>('assets:videos-sponsors');
+  const videosLong = nodecg.Replicant<Asset[]>('assets:videos-long');
+  const hosterkaReplicant = nodecg.Replicant<Hosterka>('hosterka');
+  const showBidsPanel = nodecg.Replicant<boolean>('showBidsPanel');
+  const showPrizePanel = nodecg.Replicant<boolean>('showPrizePanel');
 
   const obs = new OBSWebSocket();
   const config = nodecg.bundleConfig.obs;
@@ -83,10 +84,7 @@ export const obs = (nodecg: NodeCG) => {
     showBidsPanel.value = false;
     showPrizePanel.value = false;
     setTimeout(() => {
-      (nodecg as unknown as SpeedcontrolNodecgInstance).sendMessageToBundle(
-        'changeToNextRun',
-        'nodecg-speedcontrol'
-      );
+      nodecg.sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
     }, 1000);
     resetAllCrops();
   }

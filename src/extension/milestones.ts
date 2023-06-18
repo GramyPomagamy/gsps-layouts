@@ -1,11 +1,11 @@
-import { NodeCG } from './util/nodecg';
+import { NodeCGServer } from './util/nodecg';
 import { Milestones, RawMilestone } from '../types/custom';
 import needle from 'needle';
 import { TaggedLogger } from './util/tagged-logger';
 
 /** Code relating to milestones. */
-export const milestones = (nodecg: NodeCG) => {
-  const milestonesReplicant = nodecg.Replicant('milestones');
+export const milestones = (nodecg: NodeCGServer) => {
+  const milestonesReplicant = nodecg.Replicant<Milestones>('milestones');
   const config = nodecg.bundleConfig.milestones;
   const log = new TaggedLogger('milestones', nodecg);
   let refreshTimeout: NodeJS.Timeout;

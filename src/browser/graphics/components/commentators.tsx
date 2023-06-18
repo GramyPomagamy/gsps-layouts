@@ -1,7 +1,6 @@
+import { Commentators } from 'src/types/generated';
 import styled from 'styled-components';
-import { useReplicant } from '../../../use-replicant';
-
-const commentatorsRep = nodecg.Replicant('commentators');
+import { useReplicant } from 'use-nodecg';
 
 const CommentatorsContainer = styled.div`
   display: flex;
@@ -42,7 +41,7 @@ const Pronouns = styled.span`
 `;
 
 const Commentators = () => {
-  const [commentators] = useReplicant(commentatorsRep);
+  const [commentators] = useReplicant<Commentators | undefined>('commentators', undefined);
 
   if (commentators && commentators.length) {
     return (

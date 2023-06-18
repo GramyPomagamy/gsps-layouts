@@ -1,13 +1,12 @@
 import { PlayerType } from '../../../types/custom';
 import styled from 'styled-components';
-import { useReplicant } from '../../../use-replicant';
+import { useReplicant } from 'use-nodecg';
 import 'animate.css';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import { useRef } from 'react';
 import { FaTwitch } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
-
-const nameCycleRep = nodecg.Replicant('nameCycle');
+import { NameCycle } from '../../../types/generated';
 
 const NameplateContainer = styled.div`
   background-color: #5f3ac2;
@@ -50,7 +49,7 @@ const TwitchIcon = styled(FaTwitch)`
 `;
 
 const Nameplate = ({ player }: { player: PlayerType }) => {
-  const [nameCycle] = useReplicant(nameCycleRep);
+  const [nameCycle] = useReplicant<NameCycle>('nameCycle', 0);
   const nameRef = useRef(null);
 
   return (

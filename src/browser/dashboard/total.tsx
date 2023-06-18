@@ -1,4 +1,4 @@
-import { useReplicant } from '../../use-replicant';
+import { useReplicant } from 'use-nodecg';
 import { DashboardThemeProvider } from './components/DashboardThemeProvider';
 import { render } from '../render';
 import {
@@ -12,14 +12,14 @@ import {
   Container,
   Stack,
 } from '@mui/material';
-import NodeCG from '@nodecg/types';
-
-const totalRep = nodecg.Replicant('total');
-const autoUpdateTotalRep = nodecg.Replicant('autoUpdateTotal');
+import { AutoUpdateTotal, Total } from 'src/types/generated';
 
 export const App = () => {
-  const [total] = useReplicant(totalRep);
-  const [autoUpdateTotal, setAutoUpdateTotal] = useReplicant(autoUpdateTotalRep);
+  const [total] = useReplicant<Total | undefined>('total', undefined);
+  const [autoUpdateTotal, setAutoUpdateTotal] = useReplicant<AutoUpdateTotal>(
+    'autoUpdateTotal',
+    false
+  );
 
   return (
     <DashboardThemeProvider>
@@ -28,7 +28,7 @@ export const App = () => {
           <Tooltip
             title="Naciśnij, aby edytować kwotę"
             onClick={() => {
-              (nodecg as unknown as NodeCG.ClientAPI).getDialog('edit-total')!.open();
+              nodecg.getDialog('edit-total')!.open();
             }}>
             <Paper style={{ textAlign: 'center' }} variant="outlined" elevation={3}>
               {total && (

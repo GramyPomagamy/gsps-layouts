@@ -1,32 +1,13 @@
-import { CreateNodecgInstance } from 'ts-nodecg/server';
+import type NodeCG from '@nodecg/types';
 import { Configschema } from '../../types/generated';
-import { ReplicantMap } from '../../types/replicants';
-import { MessageMap } from '../../types/messages';
-import { SpeedcontrolMessageMap, SpeedcontrolReplicantMap } from 'src/types/speedcontrol';
 
-export type BundleNodecgInstance = CreateNodecgInstance<
-  'gsps-layouts',
-  Configschema,
-  ReplicantMap,
-  MessageMap
->;
+let nodecg: NodeCG.ServerAPI<Configschema>;
+export type NodeCGServer = NodeCG.ServerAPI<Configschema>;
 
-export type SpeedcontrolNodecgInstance = CreateNodecgInstance<
-  'nodecg-speedcontrol',
-  Configschema,
-  SpeedcontrolReplicantMap,
-  SpeedcontrolMessageMap,
-  true
->;
-
-export type NodeCG = BundleNodecgInstance;
-
-let nodecg: NodeCG;
-
-export function set(ctx: NodeCG): void {
+export function set(ctx: NodeCG.ServerAPI<Configschema>): void {
   nodecg = ctx;
 }
 
-export function get(): NodeCG {
+export function get(): NodeCG.ServerAPI<Configschema> {
   return nodecg;
 }

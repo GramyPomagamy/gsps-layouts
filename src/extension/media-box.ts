@@ -1,12 +1,13 @@
 import { klona } from 'klona/json';
-import { BundleNodecgInstance } from './util/nodecg';
+import { NodeCGServer } from './util/nodecg';
+import { Asset, MediaBoxItem } from '../types/custom';
 
 /** Code relating to the media box. */
-export const mediaBox = (nodecg: BundleNodecgInstance) => {
-  const mediaBoxAssets = nodecg.Replicant('assets:media-box');
-  const mediaBoxBreakAssets = nodecg.Replicant('assets:media-box-break');
-  const currentMediaBoxItem = nodecg.Replicant('mediaBoxItem');
-  const currentMediaBoxBreakItem = nodecg.Replicant('mediaBoxItemBreak');
+export const mediaBox = (nodecg: NodeCGServer) => {
+  const mediaBoxAssets = nodecg.Replicant<Asset[]>('assets:media-box');
+  const mediaBoxBreakAssets = nodecg.Replicant<Asset[]>('assets:media-box-break');
+  const currentMediaBoxItem = nodecg.Replicant<MediaBoxItem>('mediaBoxItem');
+  const currentMediaBoxBreakItem = nodecg.Replicant<MediaBoxItem>('mediaBoxItemBreak');
   let currentItemIndex = 0;
   let currentBreakItemIndex = 0;
 

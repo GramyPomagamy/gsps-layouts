@@ -1,6 +1,7 @@
-import { useReplicant } from '../../../use-replicant';
-import { SpeedcontrolNodecgInstance } from '../../../types/speedcontrol';
+import { useReplicant } from 'use-nodecg';
 import styled from 'styled-components';
+import { Timer } from '../../../../../nodecg-speedcontrol/src/types/schemas/timer';
+import { RunDataActiveRun } from '../../../../../nodecg-speedcontrol/src/types/schemas';
 
 type TimerPhases = 'running' | 'finished' | 'stopped' | 'running';
 
@@ -10,15 +11,6 @@ const timerColors = {
   stopped: '#a5a3a3',
   paused: '#a5a3a3',
 };
-
-const timerRep = (nodecg as unknown as SpeedcontrolNodecgInstance).Replicant(
-  'timer',
-  'nodecg-speedcontrol'
-);
-const activeRunRep = (nodecg as unknown as SpeedcontrolNodecgInstance).Replicant(
-  'runDataActiveRun',
-  'nodecg-speedcontrol'
-);
 
 const TimerContainer = styled.div<{ size: number }>`
   font-size: ${(props) => props.size}px;
@@ -42,8 +34,12 @@ const Estimate = styled.span`
 `;
 
 const Timer = ({ fontSize }: { fontSize: number }) => {
-  const [timer] = useReplicant(timerRep);
-  const [activeRun] = useReplicant(activeRunRep);
+  const [timer] = useReplicant<Timer | undefined>('timer', undefined, {
+    namespace: 'nodecg-speedcontrol',
+  });
+  const [activeRun] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
+    namespace: 'nodecg-speedcontrol',
+  });
   return (
     <>
       {timer && (

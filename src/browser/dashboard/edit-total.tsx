@@ -2,7 +2,6 @@ import { DashboardThemeProvider } from './components/DashboardThemeProvider';
 import { render } from '../render';
 import { useState } from 'react';
 import { Button, Container, Grid, Stack, TextField } from '@mui/material';
-import NodeCG from '@nodecg/types';
 
 export const App = () => {
   const [amount, setAmount] = useState(0);
@@ -26,7 +25,7 @@ export const App = () => {
                 color="success"
                 onClick={() => {
                   nodecg.sendMessage('setTotal', { type: 'cash', newValue: amount });
-                  (nodecg as unknown as NodeCG.ClientAPI).getDialog('edit-total')!.close();
+                  nodecg.getDialog('edit-total')!.close();
                 }}
                 fullWidth>
                 Zapisz
@@ -37,7 +36,7 @@ export const App = () => {
                 variant="contained"
                 color="error"
                 onClick={() => {
-                  (nodecg as unknown as NodeCG.ClientAPI).getDialog('edit-total')!.close();
+                  nodecg.getDialog('edit-total')!.close();
                 }}
                 fullWidth>
                 Anuluj

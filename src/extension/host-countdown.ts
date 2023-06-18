@@ -1,16 +1,17 @@
 'use strict';
 
 // Ours
-import { NodeCG } from './util/nodecg';
+import { NodeCGServer } from './util/nodecg';
 import TimeUtils, { TimeStruct, ICountdownTimer } from './lib/time';
+import { CountdownRunning } from 'src/types/generated';
 
 /** Code relating to the host dashboard countdown. */
-export const hostCountdown = (nodecg: NodeCG) => {
-  const hostCountdown = nodecg.Replicant('hostCountdown', {
+export const hostCountdown = (nodecg: NodeCGServer) => {
+  const hostCountdown = nodecg.Replicant<TimeStruct>('hostCountdown', {
     defaultValue: TimeUtils.createTimeStruct(3 * 60 * 1000),
     persistent: false,
   });
-  const hostCountdownRunning = nodecg.Replicant('hostCountdownRunning', {
+  const hostCountdownRunning = nodecg.Replicant<CountdownRunning>('hostCountdownRunning', {
     defaultValue: false,
     persistent: false,
   });

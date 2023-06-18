@@ -1,4 +1,4 @@
-import { NodeCG } from './util/nodecg';
+import { NodeCGServer } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
 import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 import fs from 'fs';
@@ -6,7 +6,7 @@ import { stringify } from 'csv-stringify';
 import path from 'path';
 
 /** Code related to making timestamps for later VoD cutting. */
-export const timestamps = (nodecg: NodeCG) => {
+export const timestamps = (nodecg: NodeCGServer) => {
   const log = new TaggedLogger('VoD Timestamp', nodecg);
   const config = nodecg.bundleConfig.obs;
 

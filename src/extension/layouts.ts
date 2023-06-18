@@ -1,12 +1,13 @@
+import { NameCycle } from 'src/types/generated';
 import { RunDataActiveRun } from '../../../nodecg-speedcontrol/src/types/schemas';
-import { NodeCG, SpeedcontrolNodecgInstance } from './util/nodecg';
+import { NodeCGServer } from './util/nodecg';
 
 let cycleTimeout: NodeJS.Timeout;
 
 /** Code relating to misc. layout functions. */
-export const layouts = (nodecg: NodeCG) => {
-  const nameCycleReplicant = nodecg.Replicant('nameCycle');
-  const activeRunReplicant = (nodecg as unknown as SpeedcontrolNodecgInstance).Replicant(
+export const layouts = (nodecg: NodeCGServer) => {
+  const nameCycleReplicant = nodecg.Replicant<NameCycle>('nameCycle');
+  const activeRunReplicant = nodecg.Replicant<RunDataActiveRun>(
     'runDataActiveRun',
     'nodecg-speedcontrol'
   );

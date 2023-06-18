@@ -8,11 +8,8 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import './css/style.css';
 import 'animate.css';
 import { useRef } from 'react';
-import { useReplicant } from '../../use-replicant';
-
-const countdownRep = nodecg.Replicant('countdown');
-const countdownRunningRep = nodecg.Replicant('countdownRunning');
-const songRep = nodecg.Replicant('song');
+import { useReplicant } from 'use-nodecg';
+import { Countdown, CountdownRunning, Song } from 'src/types/generated';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -64,9 +61,9 @@ const SongName = styled.div`
 `;
 
 export const Odliczanie = () => {
-  const [countdown] = useReplicant(countdownRep);
-  const [countdownRunning] = useReplicant(countdownRunningRep);
-  const [song] = useReplicant(songRep);
+  const [countdown] = useReplicant<Countdown | undefined>('countdown', undefined);
+  const [countdownRunning] = useReplicant<CountdownRunning>('countdownRunning', false);
+  const [song] = useReplicant<Song>('song', '');
   const songRef = useRef(null);
   const countdownRef = useRef(null);
 

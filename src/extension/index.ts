@@ -1,4 +1,4 @@
-import { NodeCG } from './util/nodecg';
+import NodeCG from '@nodecg/types';
 import { countdown } from './countdown';
 import { donationsPrizes } from './donations-prizes';
 import { featuredChannels } from './featured';
@@ -14,8 +14,9 @@ import { streamDeck } from './sd';
 import { total } from './total';
 import { timestamps } from './timestamps';
 import { mediaBox } from './media-box';
+import { Configschema } from '../types/generated';
 
-export default (nodecg: NodeCG) => {
+export default (nodecg: NodeCG.ServerAPI<Configschema>) => {
   countdown(nodecg);
   donationsPrizes(nodecg);
   featuredChannels(nodecg);

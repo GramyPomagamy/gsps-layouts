@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import livesplitCore from 'livesplit-core';
 import { msToTimeStr } from './util/helpers';
-import { NodeCG } from './util/nodecg';
+import { NodeCGServer } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
+import { SecondaryTimer } from 'src/types/generated';
 
 /** Code relating to the secondary timer. */
-export const secondaryTimer = (nodecg: NodeCG) => {
-  const timerRep = nodecg.Replicant('secondaryTimer');
+export const secondaryTimer = (nodecg: NodeCGServer) => {
+  const timerRep = nodecg.Replicant<SecondaryTimer>('secondaryTimer');
   // eslint-disable-next-line prefer-const
   let timer: livesplitCore.Timer;
   const logger = new TaggedLogger('Secondary Timer', nodecg);

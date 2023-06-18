@@ -1,6 +1,6 @@
 import { DashboardThemeProvider } from './components/DashboardThemeProvider';
 import { render } from '../render';
-import { useReplicant } from '../../use-replicant';
+import { useReplicant } from 'use-nodecg';
 import { useEffect, useState } from 'react';
 import { Commentators } from '../../types/generated';
 import {
@@ -17,10 +17,11 @@ import {
 import { Pronouns } from 'src/types/custom';
 import { pronouns as pronounsMap } from '../pronouns';
 
-const commentatorsRep = nodecg.Replicant('commentators');
-
 export const App = () => {
-  const [liveCommentatorList, setLiveCommentatorList] = useReplicant(commentatorsRep);
+  const [liveCommentatorList, setLiveCommentatorList] = useReplicant<Commentators>(
+    'commentators',
+    []
+  );
   const [localCommentatorList, setLocalCommentatorList] = useState<Commentators>([]);
 
   useEffect(() => {

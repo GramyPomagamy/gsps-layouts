@@ -1,10 +1,9 @@
-import { BundleNodecgInstance } from './util/nodecg';
-import NodeCG from '@nodecg/types';
+import { NodeCGServer } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
 
 /** Code relating to functions done by the footpedal (and some other stuff that also uses it). */
-export const footpedal = (nodecg: BundleNodecgInstance) => {
-  const router = (nodecg as unknown as NodeCG.ServerAPI).Router();
+export const footpedal = (nodecg: NodeCGServer) => {
+  const router = nodecg.Router();
   const config = nodecg.bundleConfig.footpedal;
   const log = new TaggedLogger('Footpedal', nodecg);
 
@@ -28,5 +27,5 @@ export const footpedal = (nodecg: BundleNodecgInstance) => {
     }
   });
 
-  (nodecg as unknown as NodeCG.ServerAPI).mount(router);
+  nodecg.mount(router);
 };

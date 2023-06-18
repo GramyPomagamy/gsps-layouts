@@ -1,18 +1,13 @@
-import { useReplicant } from '../../use-replicant';
+import { useReplicant } from 'use-nodecg';
 import { DashboardThemeProvider } from './components/DashboardThemeProvider';
 import { createRoot } from 'react-dom/client';
 import { Button, Grid, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-
-const countdownRep = nodecg.Replicant('hostCountdown');
-const countdownRunningRep = nodecg.Replicant('hostCountdownRunning', {
-  defaultValue: false,
-  persistent: false,
-});
+import { Countdown, CountdownRunning } from 'src/types/generated';
 
 export const App = () => {
-  const [countdownRunning] = useReplicant(countdownRunningRep);
-  const [countdown] = useReplicant(countdownRep);
+  const [countdown] = useReplicant<Countdown | undefined>('hostCountdown', undefined);
+  const [countdownRunning] = useReplicant<CountdownRunning>('hostCountdownRunning', false);
   const [countdownText, setCountdownText] = useState('10:00');
 
   useEffect(() => {

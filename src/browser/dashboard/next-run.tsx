@@ -1,29 +1,30 @@
 import { DashboardThemeProvider } from './components/DashboardThemeProvider';
 import { render } from '../render';
-import { SpeedcontrolNodecgInstance } from 'src/types/speedcontrol';
-import { useReplicant } from '../../use-replicant';
+import { useReplicant } from 'use-nodecg';
 import { Alert, Button, Stack } from '@mui/material';
-import { RunData } from '../../../../nodecg-speedcontrol/src/types/schemas';
-
-const obsDataRep = nodecg.Replicant('obsData');
-const timerRep = (nodecg as unknown as SpeedcontrolNodecgInstance).Replicant(
-  'timer',
-  'nodecg-speedcontrol'
-);
-const runDataRep = (nodecg as unknown as SpeedcontrolNodecgInstance).Replicant(
-  'runDataArray',
-  'nodecg-speedcontrol'
-);
-const runDataActiveSurroundingRep = (nodecg as unknown as SpeedcontrolNodecgInstance).Replicant(
-  'runDataActiveRunSurrounding',
-  'nodecg-speedcontrol'
-);
+import {
+  RunData,
+  RunDataActiveRunSurrounding,
+  RunDataArray,
+} from '../../../../nodecg-speedcontrol/src/types/schemas';
+import { ObsData } from 'src/types/generated';
+import { Timer } from '../../../../nodecg-speedcontrol/src/types/schemas/timer';
 
 export const App = () => {
-  const [obsData] = useReplicant(obsDataRep);
-  const [timer] = useReplicant(timerRep);
-  const [runData] = useReplicant(runDataRep);
-  const [runDataActiveRunSurrounding] = useReplicant(runDataActiveSurroundingRep);
+  const [obsData] = useReplicant<ObsData | undefined>('obsData', undefined);
+  const [timer] = useReplicant<Timer | undefined>('timer', undefined, {
+    namespace: 'nodecg-speedcontrol',
+  });
+  const [runData] = useReplicant<RunDataArray | undefined>('runDataArray', undefined, {
+    namespace: 'nodecg-speedcontrol',
+  });
+  const [runDataActiveRunSurrounding] = useReplicant<RunDataActiveRunSurrounding | undefined>(
+    'runDataActiverunSurrounding',
+    undefined,
+    {
+      namespace: 'nodecg-speedcontrol',
+    }
+  );
 
   const getNextRun = (): RunData | undefined => {
     if (runData) {
@@ -60,9 +61,7 @@ export const App = () => {
           }}>
           <span>
             {nextRun ? (
-              <>
-                {nextRunGameName}
-              </>
+              <>{nextRunGameName}</>
             ) : runData?.length ? (
               <>Koniec runów</>
             ) : (

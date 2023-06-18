@@ -4,18 +4,19 @@ import { formatDollars } from './util/format-dollars';
 import type { Configschema } from '../types/generated/configschema';
 import io from 'socket.io-client';
 import { TaggedLogger } from './util/tagged-logger';
-import { NodeCG } from './util/nodecg';
+import { NodeCGServer } from './util/nodecg';
+import { AutoUpdateTotal, Total } from 'src/types/generated';
 
 /** Code related to handling the total amount of money raised. */
-export const total = (nodecg: NodeCG) => {
+export const total = (nodecg: NodeCGServer) => {
   const totalLog = new TaggedLogger('total', nodecg);
   const config = nodecg.bundleConfig.tracker;
   const rootURL = config!.rootURL;
   const eventID = config!.eventID;
   const socketConfig = (nodecg.bundleConfig as Configschema).donationSocket;
   const TOTAL_URL = `${rootURL}/${eventID}?json`;
-  const totalReplicant = nodecg.Replicant('total');
-  const autoUpdateTotalReplicant = nodecg.Replicant('autoUpdateTotal');
+  const totalReplicant = nodecg.Replicant<Total>('total');
+  const autoUpdateTotalReplicant = nodecg.Replicant<AutoUpdateTotal>('autoUpdateTotal');
 
   autoUpdateTotalReplicant.on('change', (newVal) => {
     if (newVal) {

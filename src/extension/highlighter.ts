@@ -1,16 +1,18 @@
-import { NodeCG, SpeedcontrolNodecgInstance } from './util/nodecg';
+import { NodeCGServer } from './util/nodecg';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { TaggedLogger } from './util/tagged-logger';
 import io from 'socket.io-client';
+import { ObsData } from 'src/types/generated';
+import { RunDataActiveRun, Timer } from '../../../nodecg-speedcontrol/src/types';
 
 /** Code related to the highlighter. */
-export const highligher = (nodecg: NodeCG) => {
-  const obsDataReplicant = nodecg.Replicant('obsData');
-  const timerReplicant = (nodecg as unknown as SpeedcontrolNodecgInstance).Replicant(
+export const highligher = (nodecg: NodeCGServer) => {
+  const obsDataReplicant = nodecg.Replicant<ObsData>('obsData');
+  const timerReplicant = nodecg.Replicant<Timer>(
     'timer',
     'nodecg-speedcontrol'
   );
-  const activeRunReplicant = (nodecg as unknown as SpeedcontrolNodecgInstance).Replicant(
+  const activeRunReplicant = nodecg.Replicant<RunDataActiveRun>(
     'runDataActiveRun',
     'nodecg-speedcontrol'
   );

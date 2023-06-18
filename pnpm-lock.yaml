@@ -98,6 +98,9 @@ dependencies:
   svg.js:
     specifier: ^2.7.1
     version: 2.7.1
+  use-nodecg:
+    specifier: 0.4.1-2
+    version: 0.4.1-2
 
 devDependencies:
   '@nodecg/types':
@@ -190,9 +193,6 @@ devDependencies:
   trash-cli:
     specifier: ^5.0.0
     version: 5.0.0
-  ts-nodecg:
-    specifier: ^0.3.1
-    version: 0.3.1(typescript@5.1.3)
   typescript:
     specifier: ^5.0.2
     version: 5.1.3
@@ -2438,12 +2438,6 @@ packages:
     resolution: {integrity: sha512-mMUu4nWHLBlHtxXY17Fg6+ucS/MnndyOWyOe7MmwkoMYxvfQU2ajtRaEvqSUv+aVkMqH/C0NCI8UoVfRNQ10yg==}
     dev: true
 
-  /@types/engine.io@3.1.7:
-    resolution: {integrity: sha512-qNjVXcrp+1sS8YpRUa714r0pgzOwESdW5UjHL7D/2ZFdBX0BXUXtg1LUrp+ylvqbvMcMWUy73YpRoxPN2VoKAQ==}
-    dependencies:
-      '@types/node': 20.3.1
-    dev: true
-
   /@types/estree@1.0.1:
     resolution: {integrity: sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==}
     dev: true
@@ -2635,29 +2629,6 @@ packages:
     dependencies:
       '@types/mime': 3.0.1
       '@types/node': 20.3.1
-    dev: true
-
-  /@types/socket.io-client@1.4.36:
-    resolution: {integrity: sha512-ZJWjtFBeBy1kRSYpVbeGYTElf6BqPQUkXDlHHD4k/42byCN5Rh027f4yARHCink9sKAkbtGZXEAmR0ZCnc2/Ag==}
-    dev: true
-
-  /@types/socket.io-parser@3.0.0:
-    resolution: {integrity: sha512-Ry/rbTE6HQNL9eu3LpL1Ocup5VexXu1bSSGlSho/IR5LuRc8YvxwSNJ3JxqTltVJEATLbZkMQETSbxfKNgp4Ew==}
-    deprecated: This is a stub types definition. socket.io-parser provides its own type definitions, so you do not need this installed.
-    dependencies:
-      socket.io-parser: 4.2.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
-  /@types/socket.io@2.1.13:
-    resolution: {integrity: sha512-JRgH3nCgsWel4OPANkhH8TelpXvacAJ9VeryjuqCDiaVDMpLysd6sbt0dr6Z15pqH3p2YpOT3T1C5vQ+O/7uyg==}
-    dependencies:
-      '@types/engine.io': 3.1.7
-      '@types/node': 20.3.1
-      '@types/socket.io-parser': 3.0.0
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /@types/soundjs@0.6.28:
@@ -5096,6 +5067,10 @@ packages:
       p-locate: 5.0.0
     dev: true
 
+  /lodash.clone@4.5.0:
+    resolution: {integrity: sha512-GhrVeweiTD6uTmmn5hV/lzgCQhccwReIVRLHp7LT4SopOjqEZ5BbX8b5WWEtAKasjmy8hR7ZPwsYlxRCku5odg==}
+    dev: false
+
   /lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
 
@@ -6115,7 +6090,7 @@ packages:
     resolution: {integrity: sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ==}
     engines: {npm: '>=2.0.0'}
     dependencies:
-      tslib: 1.9.3
+      tslib: 1.14.1
     dev: true
 
   /safe-buffer@5.2.1:
@@ -6612,20 +6587,6 @@ packages:
       typescript: 5.1.3
     dev: true
 
-  /ts-nodecg@0.3.1(typescript@5.1.3):
-    resolution: {integrity: sha512-eUG4BGVGcQRIvVb9ncUm2xF/6dEKoJxdHcylhaaj/NuwPZRNWE/uDpD4j4KmHbeAGjWH9hsg+8jFXfMN9TKfEA==}
-    peerDependencies:
-      typescript: '*'
-    dependencies:
-      '@types/express': 4.17.17
-      '@types/socket.io': 2.1.13
-      '@types/socket.io-client': 1.4.36
-      '@types/soundjs': 0.6.28
-      typescript: 5.1.3
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
     dev: true
@@ -6849,6 +6810,13 @@ packages:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
       punycode: 2.3.0
+
+  /use-nodecg@0.4.1-2:
+    resolution: {integrity: sha512-MY15FJfrdwZrXwMJnDP21QqeB0PhyVv6kBFnzqG7x47RRJljyfPAWDB+ikvQq5Kkl3P6TpXj9oF3lytBQfzsqQ==}
+    dependencies:
+      lodash.clone: 4.5.0
+      tslib: 2.5.3
+    dev: false
 
   /user-home@2.0.0:
     resolution: {integrity: sha512-KMWqdlOcjCYdtIJpicDSFBQ8nFwS2i9sslAd6f4+CBGcU4gist2REnr2fxj2YocvJFxSF3ZOHLYLVZnUxv4BZQ==}

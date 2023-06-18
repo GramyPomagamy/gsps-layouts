@@ -1,9 +1,9 @@
 import needle from 'needle';
-import { NodeCG, SpeedcontrolNodecgInstance } from './util/nodecg';
+import { NodeCGServer } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
 
 /** Code relating to the Featured Channels extension. */
-export const featuredChannels = (nodecg: NodeCG) => {
+export const featuredChannels = (nodecg: NodeCGServer) => {
   const featuredLog = new TaggedLogger('featured', nodecg);
   const config = nodecg.bundleConfig.twitchExt;
 
@@ -29,13 +29,9 @@ export const featuredChannels = (nodecg: NodeCG) => {
     }
   }
 
-  (nodecg as unknown as SpeedcontrolNodecgInstance).listenFor(
-    'repeaterFeaturedChannels',
-    'nodecg-speedcontrol',
-    (names) => {
-      if (config.enabled) {
-        updateFeatured(names);
-      }
+  nodecg.listenFor('repeaterFeaturedChannels', 'nodecg-speedcontrol', (names) => {
+    if (config.enabled) {
+      updateFeatured(names);
     }
-  );
+  });
 };

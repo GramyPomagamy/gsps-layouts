@@ -1,14 +1,13 @@
 import { DashboardThemeProvider } from './components/DashboardThemeProvider';
 import { render } from '../render';
-import { useReplicant } from '../../use-replicant';
+import { useReplicant } from 'use-nodecg';
 import { Cropper } from '../../types/custom';
 import { useEffect, useState } from 'react';
 import { Button, Divider, Stack, TextField } from '@mui/material';
-
-const obsDataRep = nodecg.Replicant('obsData');
+import { ObsData } from 'src/types/generated';
 
 export const App = () => {
-  const [obsData] = useReplicant(obsDataRep);
+  const [obsData] = useReplicant<ObsData | undefined>('obsData', undefined);
   const [croppers, setCroppers] = useState<{ index: number; cropper: Cropper }[]>([]);
 
   useEffect(() => {

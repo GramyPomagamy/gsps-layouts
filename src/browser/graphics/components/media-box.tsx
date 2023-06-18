@@ -1,11 +1,9 @@
-import { useReplicant } from '../../../use-replicant';
-import { Asset } from '../../../types/custom';
+import { useReplicant } from 'use-nodecg';
+import { Asset, MediaBoxItem } from '../../../types/custom';
 import styled from 'styled-components';
 import { useEffect, useRef } from 'react';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import 'animate.css';
-
-const mediaBoxItemRep = nodecg.Replicant('mediaBoxItem');
 
 const MediaBoxContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
@@ -30,7 +28,7 @@ const ImageSrc = styled.img`
 `;
 
 const MediaBox = ({ useTopBorder }: { useTopBorder: boolean }) => {
-  const [mediaBoxItem] = useReplicant(mediaBoxItemRep);
+  const [mediaBoxItem] = useReplicant<MediaBoxItem | undefined>('mediaBoxItem', undefined);
   const mediaBoxRef = useRef(null);
 
   return (

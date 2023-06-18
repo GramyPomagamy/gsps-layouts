@@ -1,23 +1,23 @@
-import { BundleNodecgInstance } from './util/nodecg';
-import NodeCG from '@nodecg/types';
+import { NodeCGServer } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
 import { Bid, Prize } from '../types/custom';
 import { klona } from 'klona/json';
+import { Bids } from 'src/types/generated';
 
 /** Code relating to the Stream Deck integration. */
-export const streamDeck = (nodecg: BundleNodecgInstance) => {
-  const prizesReplicant = nodecg.Replicant('prizes');
-  const currentBidsRep = nodecg.Replicant('currentBids');
-  const currentlyShownBidIndex = nodecg.Replicant('currentlyShownBidIndex');
-  const currentlyShownPrizeIndex = nodecg.Replicant('currentlyShownPrizeIndex');
-  const showBidsPanel = nodecg.Replicant('showBidsPanel');
-  const showPrizePanel = nodecg.Replicant('showPrizePanel');
-  const currentlyShownBid = nodecg.Replicant('currentlyShownBid');
-  const currentlyShownPrize = nodecg.Replicant('currentlyShownPrize');
+export const streamDeck = (nodecg: NodeCGServer) => {
+  const prizesReplicant = nodecg.Replicant<Prize[]>('prizes');
+  const currentBidsRep = nodecg.Replicant<Bids>('currentBids');
+  const currentlyShownBidIndex = nodecg.Replicant<number>('currentlyShownBidIndex');
+  const currentlyShownPrizeIndex = nodecg.Replicant<number>('currentlyShownPrizeIndex');
+  const showBidsPanel = nodecg.Replicant<boolean>('showBidsPanel');
+  const showPrizePanel = nodecg.Replicant<boolean>('showPrizePanel');
+  const currentlyShownBid = nodecg.Replicant<Bid>('currentlyShownBid');
+  const currentlyShownPrize = nodecg.Replicant<Prize>('currentlyShownPrize');
 
   const logger = new TaggedLogger('Stream Deck', nodecg);
   const config = nodecg.bundleConfig.sd;
-  const router = (nodecg as unknown as NodeCG.ServerAPI).Router();
+  const router = nodecg.Router();
   let currentPrizeTier = 10;
 
   if (config.enabled) {
@@ -52,7 +52,7 @@ export const streamDeck = (nodecg: BundleNodecgInstance) => {
 
     router.get('/sd/hidePrizes', (_req, res) => {
       res.send('OK!');
-      currentlyShownPrize.value = null;
+      currentlyShownPrize.value = undefined;
       showPrizePanel.value = false;
       logger.debug('Ukrywam nagrody');
     });
@@ -66,7 +66,7 @@ export const streamDeck = (nodecg: BundleNodecgInstance) => {
 
     router.get('/sd/hideBids', (_req, res) => {
       res.send('OK!');
-      currentlyShownBid.value = null;
+      currentlyShownBid.value = undefined;
       showBidsPanel.value = false;
       logger.debug('Ukrywam licytacje');
     });
@@ -78,17 +78,17 @@ export const streamDeck = (nodecg: BundleNodecgInstance) => {
     });
   }
 
-  function getPrize(tier: number): Prize | null {
+  function getPrize(tier: number): Prize | undefined {
     const cloned = klona(prizesReplicant.value!);
     const prizesInTier = cloned.filter((prize) => prize.minimumBid == tier);
     if (currentlyShownPrizeIndex.value! + 1 > prizesInTier.length) {
       currentlyShownPrizeIndex.value = 0;
     }
     const selectedPrize = prizesInTier[currentlyShownPrizeIndex.value!];
-    return selectedPrize!;
+    return selectedPrize || undefined;
   }
 
-  function getBid(): Bid | null {
+  function getBid(): Bid | undefined {
     if (currentBidsRep.value!.length > 0) {
       const currentBids = klona(currentBidsRep.value!);
       // If bid panel is disabled, enable it and set it to show first bid in the list
@@ -105,9 +105,9 @@ export const streamDeck = (nodecg: BundleNodecgInstance) => {
       }
     } else {
       showBidsPanel.value = false;
-      return null;
+      return undefined;
     }
   }
 
-  (nodecg as unknown as NodeCG.ServerAPI).mount(router);
+  nodecg.mount(router);
 };

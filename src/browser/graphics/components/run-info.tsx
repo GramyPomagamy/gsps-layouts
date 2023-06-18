@@ -1,12 +1,7 @@
-import { useReplicant } from '../../../use-replicant';
-import { SpeedcontrolNodecgInstance } from '../../../types/speedcontrol';
+import { useReplicant } from 'use-nodecg';
 import styled from 'styled-components';
 import { AutoTextSize } from 'auto-text-size';
-
-const activeRunRep = (nodecg as unknown as SpeedcontrolNodecgInstance).Replicant(
-  'runDataActiveRun',
-  'nodecg-speedcontrol'
-);
+import { RunDataActiveRun } from '../../../../../nodecg-speedcontrol/src/types/schemas';
 
 const GameInfoContainer = styled.div`
   display: flex;
@@ -28,7 +23,9 @@ const Category = styled.span`
 `;
 
 const RunInfo = ({ fontSize }: { fontSize: number }) => {
-  const [activeRun] = useReplicant(activeRunRep);
+  const [activeRun] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
+    namespace: 'nodecg-speedcontrol',
+  });
 
   return (
     <GameInfoContainer className="shadow">

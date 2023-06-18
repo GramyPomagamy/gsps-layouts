@@ -1,6 +1,6 @@
 import { DashboardThemeProvider } from './components/DashboardThemeProvider';
 import { render } from '../render';
-import { useReplicant } from '../../use-replicant';
+import { useReplicant } from 'use-nodecg';
 import {
   Button,
   FormControl,
@@ -16,11 +16,10 @@ import {
 import { useEffect, useState } from 'react';
 import { Pronouns } from 'src/types/custom';
 import { pronouns as pronounsMap } from '../pronouns';
-
-const readerRep = nodecg.Replicant('reader');
+import { Reader } from 'src/types/generated';
 
 export const App = () => {
-  const [reader, setReader] = useReplicant(readerRep);
+  const [reader, setReader] = useReplicant<Reader | undefined>('reader', undefined);
   const [readerName, setReaderName] = useState('');
   const [readerPronouns, setReaderPronouns] = useState<Pronouns>('');
 

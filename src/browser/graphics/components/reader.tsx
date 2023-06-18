@@ -1,7 +1,6 @@
+import { Reader } from 'src/types/generated';
 import styled from 'styled-components';
-import { useReplicant } from '../../../use-replicant';
-
-const readerRep = nodecg.Replicant('reader');
+import { useReplicant } from 'use-nodecg';
 
 const ReaderContainer = styled.div`
   display: flex;
@@ -34,7 +33,8 @@ const Pronouns = styled.span`
 `;
 
 const Reader = () => {
-  const [reader] = useReplicant(readerRep);
+  const [reader] = useReplicant<Reader | undefined>('reader', undefined);
+  
   return (
     <>
       {reader && (

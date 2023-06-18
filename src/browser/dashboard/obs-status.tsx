@@ -1,12 +1,11 @@
 import { DashboardThemeProvider } from './components/DashboardThemeProvider';
 import { render } from '../render';
-import { useReplicant } from '../../use-replicant';
+import { useReplicant } from 'use-nodecg';
 import { Typography } from '@mui/material';
-
-const obsDataRep = nodecg.Replicant('obsData');
+import { ObsData } from 'src/types/generated';
 
 export const App = () => {
-  const [obsData] = useReplicant(obsDataRep);
+  const [obsData] = useReplicant<ObsData | undefined>('obsData', undefined);
   return (
     <DashboardThemeProvider>
       {obsData && (

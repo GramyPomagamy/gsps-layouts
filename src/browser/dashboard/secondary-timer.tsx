@@ -1,12 +1,11 @@
-import { useReplicant } from '../../use-replicant';
+import { useReplicant } from 'use-nodecg';
 import { DashboardThemeProvider } from './components/DashboardThemeProvider';
 import { render } from '../render';
 import { Button, Grid, Typography } from '@mui/material';
-
-const secondaryTimerRep = nodecg.Replicant('secondaryTimer');
+import { SecondaryTimer } from 'src/types/generated';
 
 export const App = () => {
-  const [timer] = useReplicant(secondaryTimerRep);
+  const [timer] = useReplicant<SecondaryTimer | undefined>('secondaryTimer', undefined);
 
   return (
     <DashboardThemeProvider>

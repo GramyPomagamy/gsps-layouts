@@ -8,13 +8,8 @@ import MediaBox from './components/media-box';
 import Nameplate from './components/nameplate';
 import Reader from './components/reader';
 import Commentators from './components/commentators';
-import { SpeedcontrolNodecgInstance } from '../../types/speedcontrol';
-import { useReplicant } from '../../use-replicant';
-
-const activeRunRep = (nodecg as unknown as SpeedcontrolNodecgInstance).Replicant(
-  'runDataActiveRun',
-  'nodecg-speedcontrol'
-);
+import { useReplicant } from 'use-nodecg';
+import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -45,7 +40,10 @@ const Names = styled.div`
 `;
 
 export const App = () => {
-  const [activeRun] = useReplicant(activeRunRep);
+  const [activeRun] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
+    namespace: 'nodecg-speedcontrol',
+  });
+  
   return (
     <LayoutContainer>
       <Info>

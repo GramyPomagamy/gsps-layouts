@@ -1,8 +1,9 @@
 import needle from 'needle';
 import type { NeedleResponse } from 'needle';
-import { NodeCG } from './util/nodecg';
+import { NodeCGServer } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
 import type { Tracker } from '../types/custom';
+import { DonationsToRead, Prizes } from 'src/types/generated';
 
 let cookies: NeedleResponse['cookies'];
 let isFirstLogin = true;
@@ -10,11 +11,11 @@ const refreshTime = 10 * 1000; // Odśwież donacje co 10 sekund.
 let updateTimeout: NodeJS.Timeout;
 
 /** Code relating to donations and prizes. */
-export const donationsPrizes = (nodecg: NodeCG) => {
-  const donationsToReadReplicant = nodecg.Replicant('donationsToRead');
-  const donationsToAcceptReplicant = nodecg.Replicant('donationsToAccept');
-  const bidsToAcceptReplicant = nodecg.Replicant('bidsToAccept');
-  const readerAlertReplicant = nodecg.Replicant('readerAlert');
+export const donationsPrizes = (nodecg: NodeCGServer) => {
+  const donationsToReadReplicant = nodecg.Replicant<DonationsToRead>('donationsToRead');
+  const donationsToAcceptReplicant = nodecg.Replicant<number>('donationsToAccept');
+  const bidsToAcceptReplicant = nodecg.Replicant<number>('bidsToAccept');
+  const readerAlertReplicant = nodecg.Replicant<boolean>('readerAlert');
 
   const donationsLog = new TaggedLogger('donations', nodecg);
   const config = nodecg.bundleConfig.tracker;
@@ -176,7 +177,7 @@ export const donationsPrizes = (nodecg: NodeCG) => {
     }
   }
 
-  const prizesReplicant = nodecg.Replicant('prizes');
+  const prizesReplicant = nodecg.Replicant<Prizes>('prizes');
   const prizeRefreshTime = 60 * 1000; // Odśwież nagrody co 60s.
   const prizesLog = new TaggedLogger('nagrody', nodecg);
 

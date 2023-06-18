@@ -62,7 +62,8 @@
     "request-promise": "^4.2.6",
     "socket.io-client": "^4.6.2",
     "styled-components": "6.0.0-rc.3",
-    "svg.js": "^2.7.1"
+    "svg.js": "^2.7.1",
+    "use-nodecg": "0.4.1-2"
   },
   "devDependencies": {
     "@nodecg/types": "^2.1.8",
@@ -95,7 +96,6 @@
     "rollup-plugin-esbuild": "^5.0.0",
     "rollup-plugin-node-externals": "^6.1.1",
     "trash-cli": "^5.0.0",
-    "ts-nodecg": "^0.3.1",
     "typescript": "^5.0.2",
     "vite": "^4.3.9",
     "vite-plugin-checker": "^0.6.0"

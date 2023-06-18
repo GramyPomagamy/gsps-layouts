@@ -1,13 +1,13 @@
 import { DashboardThemeProvider } from './components/DashboardThemeProvider';
 import { render } from '../render';
-import { useReplicant } from '../../use-replicant';
+import { useReplicant } from 'use-nodecg';
 import { Button, Stack } from '@mui/material';
+import { ObsData } from 'src/types/generated';
 
-const obsDataRep = nodecg.Replicant('obsData');
 const intermissionSceneName = nodecg.bundleConfig.obs.scenes?.intermission;
 
 export const App = () => {
-  const [obsData] = useReplicant(obsDataRep);
+  const [obsData] = useReplicant<ObsData | undefined>('obsData', undefined);
   return (
     <DashboardThemeProvider>
       {obsData && (

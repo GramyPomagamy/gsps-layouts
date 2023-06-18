@@ -1,13 +1,14 @@
-import { NodeCG } from './util/nodecg';
+import { NodeCGServer } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
 import deepEqual from 'deep-equal';
 import numeral from 'numeral';
 import requestPromise from 'request-promise';
 import Bluebird from 'bluebird';
+import { Bids } from 'src/types/generated';
 
-export const bids = (nodecg: NodeCG) => {
-  const currentBidsRep = nodecg.Replicant('currentBids');
-  const allBidsRep = nodecg.Replicant('allBids');
+export const bids = (nodecg: NodeCGServer) => {
+  const currentBidsRep = nodecg.Replicant<Bids>('currentBids');
+  const allBidsRep = nodecg.Replicant<Bids>('allBids');
   const bidsLog = new TaggedLogger('bids', nodecg);
   const config = nodecg.bundleConfig.tracker;
   const rootURL = config!.rootURL;
