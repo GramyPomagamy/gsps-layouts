@@ -8,7 +8,7 @@ import 'animate.css';
 const MediaBoxContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
-  padding: 15px;
+  padding: 0px;
   flex: 1;
   object-fit: contain;
   vertical-align: middle;

@@ -1,6 +1,6 @@
 import { useReplicant } from 'use-nodecg';
 import styled from 'styled-components';
-import { Timer } from '../../../../../nodecg-speedcontrol/src/types/schemas/timer';
+import { Timer as TimerType } from '../../../../../nodecg-speedcontrol/src/types/schemas/timer';
 import { RunDataActiveRun } from '../../../../../nodecg-speedcontrol/src/types/schemas';
 
 type TimerPhases = 'running' | 'finished' | 'stopped' | 'running';
@@ -33,8 +33,8 @@ const Estimate = styled.span`
   font-weight: 500;
 `;
 
-const Timer = ({ fontSize }: { fontSize: number }) => {
-  const [timer] = useReplicant<Timer | undefined>('timer', undefined, {
+export const Timer = ({ fontSize }: { fontSize: number }) => {
+  const [timer] = useReplicant<TimerType | undefined>('timer', undefined, {
     namespace: 'nodecg-speedcontrol',
   });
   const [activeRun] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
