@@ -1,5 +1,5 @@
 import { TimeStruct } from 'src/extension/lib/time';
-import { Asset, Bid, LogoCycle, Milestones, Prize } from './custom';
+import { Asset, Bid, LogoCycle, MediaBoxItem, Milestones, Prize } from './custom';
 import {
   AutoUpdateTotal,
   Bids,
@@ -35,9 +35,11 @@ type ReplicantMap = {
   total: Total;
   logoCycles: Array<LogoCycle>;
   logoCyclesBreak: Array<LogoCycle>;
-  'assets:videosCharity': Array<Asset>;
-  'assets:videosSponsors': Array<Asset>;
-  'assets:videosLong': Array<Asset>;
+  'assets:videos-charity': Array<Asset>;
+  'assets:videos-sponsors': Array<Asset>;
+  'assets:videos-long': Array<Asset>;
+  'assets:media-box': Array<Asset>;
+  'assets:media-box-break': Array<Asset>;
   milestones: Milestones;
   donationsToAccept: number;
   bidsToAccept: number;
@@ -51,6 +53,8 @@ type ReplicantMap = {
   showPrizePanel: boolean;
   hostCountdown: TimeStruct;
   hostCountdownRunning: boolean;
+  mediaBoxItem: MediaBoxItem;
+  mediaBoxItemBreak: MediaBoxItem;
 };
 
 export {
@@ -73,5 +77,6 @@ export {
   Bid,
   Prize,
   Milestones,
+  MediaBoxItem,
   ReplicantMap,
 };

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useReplicant } from '../../../use-replicant';
-import { AutoTextSize } from 'auto-text-size';
 
 const commentatorsRep = nodecg.Replicant('commentators');
 

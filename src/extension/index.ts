@@ -13,6 +13,7 @@ import { secondaryTimer } from './secondary-timer';
 import { streamDeck } from './sd';
 import { total } from './total';
 import { timestamps } from './timestamps';
+import { mediaBox } from './media-box';
 
 export default (nodecg: NodeCG) => {
   countdown(nodecg);
@@ -22,6 +23,7 @@ export default (nodecg: NodeCG) => {
   highligher(nodecg);
   hostCountdown(nodecg);
   layouts(nodecg);
+  mediaBox(nodecg);
   milestones(nodecg);
   nowPlaying(nodecg);
   obs(nodecg);

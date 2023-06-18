@@ -41,4 +41,6 @@ export type MessageMap = {
   secondaryTimerPause: {};
   windowsRefreshed: { data: { cropperIndex: number; windows: WindowInfo[] } };
   'total:manuallyUpdated': { data: Total };
+  'mediaBox:showNextItem': {};
+  'mediaBox:showNextBreakItem': {};
 };

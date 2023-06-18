@@ -18,9 +18,9 @@ export const obs = (nodecg: NodeCG) => {
     'nodecg-speedcontrol'
   );
   const playLongVideoReplicant = nodecg.Replicant('playLongVideo');
-  const videosCharity = nodecg.Replicant('assets:videosCharity');
-  const videosSponsors = nodecg.Replicant('assets:videosSponsors');
-  const videosLong = nodecg.Replicant('assets:videosLong');
+  const videosCharity = nodecg.Replicant('assets:videos-charity');
+  const videosSponsors = nodecg.Replicant('assets:videos-sponsors');
+  const videosLong = nodecg.Replicant('assets:videos-long');
   const hosterkaReplicant = nodecg.Replicant('hosterka');
   const showBidsPanel = nodecg.Replicant('showBidsPanel');
   const showPrizePanel = nodecg.Replicant('showPrizePanel');
