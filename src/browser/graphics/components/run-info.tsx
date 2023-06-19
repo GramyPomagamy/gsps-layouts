@@ -10,7 +10,6 @@ const GameInfoContainer = styled.div`
   margin-left: 3px;
   margin-right: 3px;
   text-align: center;
-  overflow: hidden;
 `;
 
 const Game = styled.span`
@@ -42,8 +41,8 @@ const RunInfo = ({ fontSize }: { fontSize: number }) => {
           <Category>
             <AutoTextSize
               style={{ marginLeft: 'auto', marginRight: 'auto' }}
-              maxFontSizePx={fontSize * 0.8}
-              mode="box">
+              maxFontSizePx={fontSize * 0.7}
+              mode="oneline">
               {activeRun.category || '?'} - {activeRun.system || '?'}
             </AutoTextSize>
           </Category>
