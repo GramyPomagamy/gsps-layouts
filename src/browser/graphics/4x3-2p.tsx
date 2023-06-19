@@ -75,6 +75,7 @@ export const App = () => {
                           </>
                         );
                       })}
+                      {activeRun.teams[0].players.length < 5 && <Commentators />}
                     </>
                   ) : (
                     <>
@@ -85,13 +86,13 @@ export const App = () => {
                           </>
                         );
                       })}
+                      {activeRun.teams[0].players.length < 5 && <Commentators />}
                     </>
                   )}
                 </>
               )}
             </>
           )}
-          <Commentators />
         </Names>
 
         <RunInfo fontSize={44} />

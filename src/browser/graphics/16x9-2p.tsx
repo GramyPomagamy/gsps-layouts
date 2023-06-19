@@ -86,6 +86,7 @@ export const App = () => {
                           </>
                         );
                       })}
+                      {activeRun.teams[0].players.length < 5 && <Commentators />}
                     </>
                   )}
                 </>
