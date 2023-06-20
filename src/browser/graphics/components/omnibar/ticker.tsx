@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import { useReplicant } from 'use-nodecg';
-import { RunDataArray } from '../../../../../../nodecg-speedcontrol/src/types/schemas';
 import GenericMessage from './ticker/generic-message';
-import { useEffect, useState } from 'react';
+import NextRuns from './ticker/next-runs';
+import { useLayoutEffect, useState } from 'react';
 
 const TickerContainer = styled.div`
   flex: 1;
@@ -14,9 +13,6 @@ const TickerContainer = styled.div`
 const Ticker = () => {
   const [currentElement, setCurrentElement] = useState<React.JSX.Element | undefined>(undefined);
   const [timestamp, setTimestamp] = useState(Date.now());
-  const [runs] = useReplicant<RunDataArray | undefined>('runDataArray', undefined, {
-    namespace: 'nodecg-speedcontrol',
-  });
   let currentComponentIndex = 0;
 
   function genericMsg(message: string) {
@@ -39,7 +35,11 @@ const Ticker = () => {
     return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
   }
 
-  const messageTypes = [gspsPromo(), charityPromo(), donationURL()];
+  function nextRuns() {
+    return <NextRuns onEnd={showNextElement} />;
+  }
+
+  const messageTypes = [gspsPromo(), charityPromo(), donationURL(), nextRuns()];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');
@@ -51,7 +51,7 @@ const Ticker = () => {
     setCurrentElement(messageTypes[currentComponentIndex]);
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // set first element on mount
     setCurrentElement(messageTypes[0]);
   }, []);

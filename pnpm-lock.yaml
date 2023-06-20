@@ -50,6 +50,9 @@ dependencies:
   gsap:
     specifier: ^3.12.1
     version: 3.12.1
+  humanize-duration:
+    specifier: ^3.28.0
+    version: 3.28.0
   klona:
     specifier: ^2.0.6
     version: 2.0.6
@@ -115,6 +118,9 @@ devDependencies:
   '@types/google-spreadsheet':
     specifier: ^3.3.2
     version: 3.3.2
+  '@types/humanize-duration':
+    specifier: ^3.27.1
+    version: 3.27.1
   '@types/milliseconds':
     specifier: ^0.0.30
     version: 0.0.30
@@ -2477,6 +2483,10 @@ packages:
     resolution: {integrity: sha512-uBwRhNwx5JPsmrV+XmD77dxL8vVdOY/Aba1kx/mxtR6jePLZIN06I1jjEXEFidAyLUz+JWCphsVk8CCJ2Kzy2w==}
     dev: true
 
+  /@types/humanize-duration@3.27.1:
+    resolution: {integrity: sha512-K3e+NZlpCKd6Bd/EIdqjFJRFHbrq5TzPPLwREk5Iv/YoIjQrs6ljdAUCo+Lb2xFlGNOjGSE0dqsVD19cZL137w==}
+    dev: true
+
   /@types/json-schema@7.0.12:
     resolution: {integrity: sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==}
     dev: true
@@ -4605,6 +4615,10 @@ packages:
       debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
+
+  /humanize-duration@3.28.0:
+    resolution: {integrity: sha512-jMAxraOOmHuPbffLVDKkEKi/NeG8dMqP8lGRd6Tbf7JgAeG33jjgPWDbXXU7ypCI0o+oNKJFgbSB9FKVdWNI2A==}
+    dev: false
 
   /iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}

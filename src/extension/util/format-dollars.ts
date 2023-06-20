@@ -7,8 +7,8 @@
  */
 export function formatDollars(amount: Number): string {
   return (
-    parseFloat(amount as unknown as string).toLocaleString('en-US', {
+    parseFloat(amount.toString()).toLocaleString('en-US', {
       maximumFractionDigits: 0,
-    }) + ' zł'
+    }) + ' PLN'
   );
 }

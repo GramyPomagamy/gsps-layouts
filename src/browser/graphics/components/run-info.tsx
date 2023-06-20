@@ -42,7 +42,7 @@ const RunInfo = ({ fontSize }: { fontSize: number }) => {
             <AutoTextSize
               style={{ marginLeft: 'auto', marginRight: 'auto' }}
               maxFontSizePx={fontSize * 0.7}
-              mode="oneline">
+              mode="box">
               {activeRun.category || '?'} - {activeRun.system || '?'}
             </AutoTextSize>
           </Category>

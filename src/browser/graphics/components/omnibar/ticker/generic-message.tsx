@@ -25,7 +25,6 @@ const GenericMessage = ({ message, onEnd }: { message: string; onEnd: () => void
       tl.addLabel('end', '+=20');
       tl.to(messageRef.current, { x: '5px', duration: 1 }, 'end');
       tl.to(messageRef.current, { opacity: 0, duration: 1 }, 'end');
-      console.log(tl);
     });
 
     return () => ctx.revert();
