@@ -135,7 +135,7 @@ export const App = () => {
           )}
           <Reader />
         </Names>
-        <MediaBox useTopBorder={false} />
+        <MediaBox />
       </BottomRight>
     </LayoutContainer>
   );

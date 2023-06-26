@@ -77,7 +77,7 @@ export const App = () => {
         )}
         <Commentators />
         <Reader />
-        <MediaBox useTopBorder={false} />
+        <MediaBox />
       </LeftSide>
       <BottomRight>
         <Run fontSize={56} />

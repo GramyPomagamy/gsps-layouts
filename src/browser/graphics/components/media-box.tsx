@@ -27,62 +27,126 @@ const ImageSrc = styled.img`
   margin: auto;
 `;
 
-const MediaBox = ({ useTopBorder }: { useTopBorder: boolean }) => {
+const MediaBox = ({
+  useTopBorder = false,
+  useBreakItem = false,
+}: {
+  useTopBorder?: boolean;
+  useBreakItem?: boolean;
+}) => {
   const [mediaBoxItem] = useReplicant<MediaBoxItem | undefined>('mediaBoxItem', undefined);
+  const [breakMediaBoxItem] = useReplicant<MediaBoxItem | undefined>(
+    'mediaBoxItemBreak',
+    undefined
+  );
   const mediaBoxRef = useRef(null);
 
-  return (
-    <MediaBoxContainer style={{ borderTop: useTopBorder ? '5px solid #5f3ac2' : '' }}>
-      {mediaBoxItem && (
-        <SwitchTransition mode="out-in">
-          <CSSTransition
-            appear
-            key={mediaBoxItem.asset.name}
-            nodeRef={mediaBoxRef}
-            in={true}
-            timeout={1000}
-            classNames={{
-              appearActive: 'animate__animated animate__fadeIn',
-              enterActive: 'animate__animated animate__fadeIn',
-              exitActive: 'animate__animated animate__fadeOut',
-            }}>
-            <span ref={mediaBoxRef}>
-              {mediaBoxItem.type == 'video' ? (
-                <Video video={mediaBoxItem.asset} />
-              ) : (
-                <Image image={mediaBoxItem.asset} timeout={mediaBoxItem.timeout || 1000} />
-              )}
-            </span>
-          </CSSTransition>
-        </SwitchTransition>
-      )}
-    </MediaBoxContainer>
-  );
+  if (useBreakItem) {
+    return (
+      <MediaBoxContainer style={{ borderTop: useTopBorder ? '5px solid #5f3ac2' : '' }}>
+        {breakMediaBoxItem && (
+          <SwitchTransition mode="out-in">
+            <CSSTransition
+              appear
+              key={breakMediaBoxItem.asset.name}
+              nodeRef={mediaBoxRef}
+              in={true}
+              timeout={1000}
+              classNames={{
+                appearActive: 'animate__animated animate__fadeIn',
+                enterActive: 'animate__animated animate__fadeIn',
+                exitActive: 'animate__animated animate__fadeOut',
+              }}>
+              <span ref={mediaBoxRef}>
+                {breakMediaBoxItem.type == 'video' ? (
+                  <Video isBreakItem={useBreakItem} video={breakMediaBoxItem.asset} />
+                ) : (
+                  <Image
+                    isBreakItem={useBreakItem}
+                    image={breakMediaBoxItem.asset}
+                    timeout={breakMediaBoxItem.timeout || 1000}
+                  />
+                )}
+              </span>
+            </CSSTransition>
+          </SwitchTransition>
+        )}
+      </MediaBoxContainer>
+    );
+  } else {
+    return (
+      <MediaBoxContainer style={{ borderTop: useTopBorder ? '5px solid #5f3ac2' : '' }}>
+        {mediaBoxItem && (
+          <SwitchTransition mode="out-in">
+            <CSSTransition
+              appear
+              key={mediaBoxItem.asset.name}
+              nodeRef={mediaBoxRef}
+              in={true}
+              timeout={1000}
+              classNames={{
+                appearActive: 'animate__animated animate__fadeIn',
+                enterActive: 'animate__animated animate__fadeIn',
+                exitActive: 'animate__animated animate__fadeOut',
+              }}>
+              <span ref={mediaBoxRef}>
+                {mediaBoxItem.type == 'video' ? (
+                  <Video isBreakItem={useBreakItem} video={mediaBoxItem.asset} />
+                ) : (
+                  <Image
+                    isBreakItem={useBreakItem}
+                    image={mediaBoxItem.asset}
+                    timeout={mediaBoxItem.timeout || 10000}
+                  />
+                )}
+              </span>
+            </CSSTransition>
+          </SwitchTransition>
+        )}
+      </MediaBoxContainer>
+    );
+  }
 };
 
 export default MediaBox;
 
-const Video = ({ video }: { video: Asset }) => {
+const Video = ({ video, isBreakItem = false }: { video: Asset; isBreakItem: boolean }) => {
   return (
     <video
       autoPlay
       muted
       onEnded={() => {
-        nodecg.sendMessage('mediaBox:showNextItem');
+        if (isBreakItem) {
+          nodecg.sendMessage('mediaBox:showBreakNextItem');
+        } else {
+          nodecg.sendMessage('mediaBox:showNextItem');
+        }
       }}>
       <source type={`video/${video.ext.toLowerCase().replace('.', '')}`}></source>
     </video>
   );
 };
 
-const Image = ({ image, timeout }: { image: Asset; timeout: number }) => {
+const Image = ({
+  image,
+  timeout,
+  isBreakItem = false,
+}: {
+  image: Asset;
+  timeout: number;
+  isBreakItem: boolean;
+}) => {
   useEffect(() => {
     const messageTimeout = setTimeout(() => {
-      nodecg.sendMessage('mediaBox:showNextItem');
+      if (isBreakItem) {
+        nodecg.sendMessage('mediaBox:showNextBreakItem');
+      } else {
+        nodecg.sendMessage('mediaBox:showNextItem');
+      }
     }, timeout);
 
     return clearTimeout(messageTimeout);
-  }, [timeout]);
+  }, [isBreakItem, timeout]);
 
   return <ImageSrc src={image.url} />;
 };
