@@ -37,7 +37,7 @@ const Reader = () => {
 
   return (
     <>
-      {reader && (
+      {reader && reader.name.length > 0 && (
         <ReaderContainer>
           <ReaderLabel>
             <p style={{ marginTop: '4px' }}>Czytający</p>

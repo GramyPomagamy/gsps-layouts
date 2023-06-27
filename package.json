@@ -110,18 +110,16 @@
     "assetCategories": [
       {
         "name": "media-box",
-        "title": "Obrazy i filmiki dla media boxa",
+        "title": "Obrazy dla media boxa",
         "allowedTypes": [
-          "png",
-          "mp4"
+          "png"
         ]
       },
       {
         "name": "media-box-break",
-        "title": "Obrazy i filmiki dla media boxa (przerwa)",
+        "title": "Obrazy dla media boxa (przerwa)",
         "allowedTypes": [
-          "png",
-          "mp4"
+          "png"
         ]
       },
       {
@@ -269,6 +267,11 @@
         "file": "omnibar.html",
         "width": 1920,
         "height": 50
+      },
+      {
+        "file": "przerwa.html",
+        "width": 1920,
+        "height": 1030
       }
     ]
   }
