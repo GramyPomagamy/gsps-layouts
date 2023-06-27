@@ -15,14 +15,16 @@ const MediaBoxContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-flow: column;
+  object-fit: contain;
 `;
 
 const Image = styled.img`
-  width: 85%;
-  height: 85%;
+  max-width: 85%;
+  max-height: 85%;
+  width: auto;
+  height: auto;
   min-width: 0;
   min-height: 0;
-  flex: 1 0 auto;
 `;
 
 const MediaBox = ({
@@ -77,9 +79,7 @@ const MediaBox = ({
                 enterActive: 'animate__animated animate__fadeIn',
                 exitActive: 'animate__animated animate__fadeOut',
               }}>
-              <span ref={mediaBoxRef}>
-                <Image src={mediaBoxItem.asset.url} />
-              </span>
+              <Image ref={mediaBoxRef} src={mediaBoxItem.asset.url} />
             </CSSTransition>
           </SwitchTransition>
         )}
