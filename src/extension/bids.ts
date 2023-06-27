@@ -142,7 +142,7 @@ export const bids = (nodecg: NodeCGServer) => {
     // to assign them to their parents in the parentBidsById object.
     childBids.forEach((bid) => {
       // ignore if bid total is 0
-      if (bid.total == 0) {
+      if (parseFloat(bid.total) == 0) {
         return;
       }
 
