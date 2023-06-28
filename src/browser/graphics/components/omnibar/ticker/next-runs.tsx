@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { RunData } from '../../../../../../../nodecg-speedcontrol/src/types/schemas';
 import { ObsData } from 'src/types/generated';
 import { timeToRun } from '../../../../time-to-run';
+import { formatPlayers } from '../../../../format-players';
 
 const runDataActiveRun = nodecg.Replicant<RunData>('runDataActiveRun', 'nodecg-speedcontrol');
 const runDataArray = nodecg.Replicant<RunData[]>('runDataArray', 'nodecg-speedcontrol');
@@ -77,14 +78,6 @@ const NextRuns = ({ onEnd }: { onEnd: () => void }) => {
     } else {
       return runDataArray.value.findIndex((run) => run.id === runDataActiveRun.value!.id);
     }
-  }
-
-  function formatPlayers(run: RunData) {
-    return (
-      run.teams
-        .map((team) => team.name || team.players.map((player) => player.name).join(', '))
-        .join(' vs. ') || 'Bez gracza'
-    );
   }
 
   useEffect(() => {

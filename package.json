@@ -51,6 +51,7 @@
     "klona": "^2.0.6",
     "livesplit-core": "^0.10.2",
     "milliseconds": "^1.0.3",
+    "moment": "^2.29.4",
     "needle": "^3.2.0",
     "numeral": "^2.0.6",
     "obs-websocket-js": "^5.0.3",

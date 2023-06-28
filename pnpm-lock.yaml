@@ -62,6 +62,9 @@ dependencies:
   milliseconds:
     specifier: ^1.0.3
     version: 1.0.3
+  moment:
+    specifier: ^2.29.4
+    version: 2.29.4
   needle:
     specifier: ^3.2.0
     version: 3.2.0
@@ -5277,6 +5280,10 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
     dev: true
+
+  /moment@2.29.4:
+    resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
+    dev: false
 
   /mount-point@3.0.0:
     resolution: {integrity: sha512-jAhfD7ZCG+dbESZjcY1SdFVFqSJkh/yGbdsifHcPkvuLRO5ugK0Ssmd9jdATu29BTd4JiN+vkpMzVvsUgP3SZA==}
