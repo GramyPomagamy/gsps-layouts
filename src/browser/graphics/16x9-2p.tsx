@@ -10,6 +10,7 @@ import Reader from './components/reader';
 import Commentators from './components/commentators';
 import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
+import { Fragment } from 'react';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -64,7 +65,7 @@ export const App = () => {
                     <>
                       {activeRun.teams.map((team) => {
                         return (
-                          <>
+                          <Fragment key={team.id}>
                             {team.players.map((player, index) => {
                               if (index % 2 == 0) {
                                 return <Nameplate key={player.name} player={player} />;
@@ -72,7 +73,7 @@ export const App = () => {
                                 return <></>;
                               }
                             })}
-                          </>
+                          </Fragment>
                         );
                       })}
                       {activeRun.teams[0].players.length < 5 && <Commentators />}
@@ -81,9 +82,9 @@ export const App = () => {
                     <>
                       {activeRun.teams[0].players.map((player) => {
                         return (
-                          <>
+                          <Fragment key={player.id}>
                             <Nameplate key={player.name} player={player} />
-                          </>
+                          </Fragment>
                         );
                       })}
                       {activeRun.teams[0].players.length < 5 && <Commentators />}
@@ -106,9 +107,9 @@ export const App = () => {
                 <>
                   {activeRun.teams[1].players.map((player) => {
                     return (
-                      <>
+                      <Fragment key={player.id}>
                         <Nameplate key={player.name} player={player} />
-                      </>
+                      </Fragment>
                     );
                   })}
                 </>
@@ -117,7 +118,7 @@ export const App = () => {
                   <>
                     {activeRun.teams.map((team) => {
                       return (
-                        <>
+                        <Fragment key={team.id}>
                           {team.players.map((player, index) => {
                             if (index % 2 != 0) {
                               return <Nameplate key={player.name} player={player} />;
@@ -125,7 +126,7 @@ export const App = () => {
                               return <></>;
                             }
                           })}
-                        </>
+                        </Fragment>
                       );
                     })}
                   </>

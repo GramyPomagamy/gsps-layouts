@@ -10,6 +10,7 @@ import Reader from './components/reader';
 import Commentators from './components/commentators';
 import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
+import { Fragment } from 'react';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -43,7 +44,7 @@ export const App = () => {
   const [activeRun] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
     namespace: 'nodecg-speedcontrol',
   });
-  
+
   return (
     <LayoutContainer>
       <Info>
@@ -52,11 +53,11 @@ export const App = () => {
             <>
               {activeRun.teams.map((team) => {
                 return (
-                  <>
+                  <Fragment key={team.id}>
                     {team.players.map((player) => {
                       return <Nameplate key={player.name} player={player} />;
                     })}
-                  </>
+                  </Fragment>
                 );
               })}
             </>
