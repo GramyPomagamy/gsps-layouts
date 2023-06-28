@@ -6,6 +6,7 @@ import { Commentators } from '../../types/generated';
 import {
   Button,
   Divider,
+  Fab,
   FormControl,
   Grid,
   InputLabel,
@@ -14,9 +15,11 @@ import {
   SelectChangeEvent,
   Stack,
   TextField,
+  Tooltip,
 } from '@mui/material';
 import { Pronouns } from 'src/types/custom';
 import { pronouns as pronounsMap } from '../pronouns';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export const App = () => {
   const [liveCommentatorList, setLiveCommentatorList] = useReplicant<Commentators>(
@@ -68,7 +71,7 @@ export const App = () => {
         {localCommentatorList.map((commentator, index) => (
           <div key={index}>
             <Grid container spacing={2} style={{ width: '100%', marginBottom: '25px' }}>
-              <Grid item xs={7}>
+              <Grid item xs={6.7}>
                 <TextField
                   variant="outlined"
                   value={commentator.name}
@@ -79,7 +82,7 @@ export const App = () => {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={4}>
                 <FormControl fullWidth>
                   <InputLabel id={`pronouns-select-label-${index}`}>Zaimki</InputLabel>
                   <Select
@@ -97,6 +100,21 @@ export const App = () => {
                     ))}
                   </Select>
                 </FormControl>
+              </Grid>
+              <Grid item xs={1}>
+                <Tooltip title="Usuń komentatora">
+                  <Fab
+                    color="primary"
+                    aria-label="delete"
+                    onClick={() => {
+                      const newVal = Array.from(localCommentatorList);
+                      newVal.splice(index, 1);
+                      console.log(newVal);
+                      setLocalCommentatorList(newVal);
+                    }}>
+                    <DeleteIcon />
+                  </Fab>
+                </Tooltip>
               </Grid>
             </Grid>
           </div>
