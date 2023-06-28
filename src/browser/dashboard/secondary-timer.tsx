@@ -1,11 +1,11 @@
 import { useReplicant } from 'use-nodecg';
 import { DashboardThemeProvider } from './components/DashboardThemeProvider';
 import { render } from '../render';
-import { Button, Grid, Typography } from '@mui/material';
+import { Button, FormControlLabel, FormGroup, Grid, Switch, Typography } from '@mui/material';
 import { SecondaryTimer } from 'src/types/generated';
 
 export const App = () => {
-  const [timer] = useReplicant<SecondaryTimer | undefined>('secondaryTimer', undefined);
+  const [timer, setTimer] = useReplicant<SecondaryTimer | undefined>('secondaryTimer', undefined);
 
   return (
     <DashboardThemeProvider>
@@ -13,6 +13,21 @@ export const App = () => {
         {timer && (
           <>
             {' '}
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={timer.enabled}
+                    onChange={(event) => {
+                      const newVal = { ...timer };
+                      newVal.enabled = event.target.checked;
+                      setTimer(newVal);
+                    }}
+                  />
+                }
+                label="Włącz dodatkowy timer"
+              />
+            </FormGroup>
             <Typography variant="h3" gutterBottom>
               <b>{timer.time}</b>
             </Typography>
