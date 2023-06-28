@@ -10,7 +10,7 @@ export const mediaBox = (nodecg: NodeCGServer) => {
   const currentMediaBoxBreakItem = nodecg.Replicant<MediaBoxItem>('mediaBoxItemBreak');
   const logoCycles = nodecg.Replicant<LogoCycle[]>('logoCycles', { defaultValue: [] });
   const logoCyclesBreak = nodecg.Replicant<LogoCycle[]>('logoCyclesBreak', { defaultValue: [] });
-  
+
   let currentItemIndex = 0;
   let currentBreakItemIndex = 0;
   let imageTimeout: NodeJS.Timeout;
@@ -25,7 +25,10 @@ export const mediaBox = (nodecg: NodeCGServer) => {
       }
       const asset = mediaBoxAssets.value[currentItemIndex];
       if (asset && asset.ext) {
-        imageTimeout = setTimeout(showNextMediaBoxItem, 5000);
+        imageTimeout = setTimeout(
+          showNextMediaBoxItem,
+          (logoCycles.value.find((cycle) => cycle.name === asset.name)?.cycle || 10) * 1000
+        );
         currentMediaBoxItem.value = {
           asset: klona(asset),
         };
@@ -43,7 +46,10 @@ export const mediaBox = (nodecg: NodeCGServer) => {
       }
       const asset = mediaBoxBreakAssets.value[currentBreakItemIndex];
       if (asset && asset.ext) {
-        breakImageTimeout = setTimeout(showNextMediaBoxItem, 5000);
+        breakImageTimeout = setTimeout(
+          showNextMediaBoxItem,
+          (logoCyclesBreak.value.find((cycle) => cycle.name === asset.name)?.cycle || 10) * 1000
+        );
         currentMediaBoxBreakItem.value = { asset: klona(asset) };
         return;
       }
