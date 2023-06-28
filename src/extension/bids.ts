@@ -141,11 +141,6 @@ export const bids = (nodecg: NodeCGServer) => {
     // Now that we have a big array of all child bids (i.e., donation war options), we need
     // to assign them to their parents in the parentBidsById object.
     childBids.forEach((bid) => {
-      // ignore if bid total is 0
-      if (parseFloat(bid.total) == 0) {
-        return;
-      }
-
       const formattedChildBid = {
         id: bid.pk,
         parent: bid.fields.parent,

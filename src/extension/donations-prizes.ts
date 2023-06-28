@@ -129,7 +129,10 @@ export const donationsPrizes = (nodecg: NodeCGServer) => {
         `${rootURL}/search?event=${eventID}&type=bidtarget&state=PENDING`,
         { cookies: cookies }
       );
-      bidsToAcceptReplicant.value = bidsToAcceptResp.body.length;
+      const filteredBidsToAccept = (bidsToAcceptResp.body as Array<any>).filter(
+        (bid) => bid.fields.total != '0.00'
+      );
+      bidsToAcceptReplicant.value = filteredBidsToAccept.length;
 
       nodecg.sendMessage('donationsToRead:updated');
     } catch (err) {
