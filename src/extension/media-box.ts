@@ -34,6 +34,9 @@ export const mediaBox = (nodecg: NodeCGServer) => {
         };
         return;
       }
+    } else {
+      // if no assets found, try again in one second
+      breakImageTimeout = setTimeout(showNextMediaBoxItem, 1000);
     }
   }
 
@@ -47,12 +50,15 @@ export const mediaBox = (nodecg: NodeCGServer) => {
       const asset = mediaBoxBreakAssets.value[currentBreakItemIndex];
       if (asset && asset.ext) {
         breakImageTimeout = setTimeout(
-          showNextMediaBoxItem,
+          showNextBreakMediaBoxItem,
           (logoCyclesBreak.value.find((cycle) => cycle.name === asset.name)?.cycle || 10) * 1000
         );
         currentMediaBoxBreakItem.value = { asset: klona(asset) };
         return;
       }
+    } else {
+      // if no assets found, try again in one second
+      breakImageTimeout = setTimeout(showNextBreakMediaBoxItem, 1000);
     }
   }
 
