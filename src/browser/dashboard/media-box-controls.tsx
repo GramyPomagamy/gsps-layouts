@@ -46,6 +46,34 @@ const AssetTimeouts = () => {
     setLocalLogoCyclesBreak(logoCyclesBreak);
   }, [logoCyclesBreak]);
 
+  function updateCycle(name: string, newCycle: string) {
+    const index = localLogoCycles.findIndex((cycle) => cycle.name === name);
+    const newCycles = [...localLogoCycles];
+    if (index > -1) {
+      const updatedCycle = { ...localLogoCycles[index], cycle: parseInt(newCycle), name: name };
+      newCycles[index] = updatedCycle;
+    } else {
+      newCycles.push({ name: name, cycle: parseInt(newCycle) });
+    }
+    setLocalLogoCycles(newCycles);
+  }
+
+  function updateBreakCycle(name: string, newCycle: string) {
+    const index = localLogoCyclesBreak.findIndex((cycle) => cycle.name === name);
+    const newCycles = [...localLogoCyclesBreak];
+    if (index > -1) {
+      const updatedCycle = {
+        ...localLogoCyclesBreak[index],
+        cycle: parseInt(newCycle),
+        name: name,
+      };
+      newCycles[index] = updatedCycle;
+    } else {
+      newCycles.push({ name: name, cycle: parseInt(newCycle) });
+    }
+    setLocalLogoCyclesBreak(newCycles);
+  }
+
   return (
     <Paper>
       <Stack useFlexGap spacing={4} sx={{ textAlign: 'center' }}>
@@ -84,31 +112,21 @@ const AssetTimeouts = () => {
                         flexDirection: 'column',
                         alignItems: 'center',
                         gap: '2px',
+                        lineHeight: '0px',
                         marginTop: '5px',
                         marginBottom: '5px',
                         width: '100%',
                       }}>
                       <img src={asset.url} width="15%" />
-                      {asset.name}
+                      <p>{asset.name}</p>
                       <p>
-                        Obecny cykl:
-                        {logoCycles.find((cycle) => cycle.name === asset.name)?.cycle || 10}
+                        Obecny cykl: <span> </span>
+                        {logoCycles.find((cycle) => cycle.name === asset.name)?.cycle || 10} sek.
                       </p>
                       <TextField
                         label="Długość cyklu w sekundach"
                         onChange={(event) => {
-                          const newCycles = [...localLogoCycles];
-                          const cycle = newCycles.find((cycle) => cycle.name === asset.name);
-                          if (cycle) {
-                            const index = newCycles.indexOf(cycle);
-                            newCycles[index]!.cycle = parseInt(event.target.value);
-                          } else {
-                            newCycles.push({
-                              name: asset.name,
-                              cycle: parseInt(event.target.value),
-                            });
-                          }
-                          setLocalLogoCycles(newCycles);
+                          updateCycle(asset.name, event.target.value);
                         }}
                       />
                     </div>
@@ -136,31 +154,23 @@ const AssetTimeouts = () => {
                         flexDirection: 'column',
                         alignItems: 'center',
                         gap: '2px',
+                        lineHeight: '0px',
                         marginTop: '5px',
                         marginBottom: '5px',
                         width: '100%',
                       }}>
                       <img src={asset.url} width="15%" />
-                      {asset.name}
+                      <p>{asset.name}</p>
                       <p>
-                        Obecny cykl:
-                        {logoCyclesBreak.find((cycle) => cycle.name === asset.name)?.cycle || 10}
+                        Obecny cykl: <span> </span>
+                        {logoCyclesBreak.find((cycle) => cycle.name === asset.name)?.cycle ||
+                          10}{' '}
+                        sek.
                       </p>
                       <TextField
                         label="Długość cyklu w sekundach"
                         onChange={(event) => {
-                          const newCycles = [...localLogoCyclesBreak];
-                          const cycle = newCycles.find((cycle) => cycle.name === asset.name);
-                          if (cycle) {
-                            const index = newCycles.indexOf(cycle);
-                            newCycles[index]!.cycle = parseInt(event.target.value);
-                          } else {
-                            newCycles.push({
-                              name: asset.name,
-                              cycle: parseInt(event.target.value),
-                            });
-                          }
-                          setLocalLogoCyclesBreak(newCycles);
+                          updateBreakCycle(asset.name, event.target.value);
                         }}
                       />
                     </div>
