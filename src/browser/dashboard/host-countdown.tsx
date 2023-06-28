@@ -20,7 +20,7 @@ export const App = () => {
     <DashboardThemeProvider>
       <TextField
         label="Czas odliczania hostów"
-        variant="filled"
+        variant="outlined"
         disabled={countdownRunning}
         value={countdownText}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {

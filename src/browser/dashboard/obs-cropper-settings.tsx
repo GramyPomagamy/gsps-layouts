@@ -59,7 +59,7 @@ export const CropperSettings = ({ index, cropper }: CropperProps) => {
       <Divider />
       <TextField
         value={cropperName}
-        variant="filled"
+        variant="outlined"
         label="Nazwa"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setCropperName(event.target.value);
@@ -68,7 +68,7 @@ export const CropperSettings = ({ index, cropper }: CropperProps) => {
       />
       <TextField
         value={cropperScene}
-        variant="filled"
+        variant="outlined"
         label="Scena"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setCropperScene(event.target.value);
@@ -77,7 +77,7 @@ export const CropperSettings = ({ index, cropper }: CropperProps) => {
       />
       <TextField
         value={cropperSource}
-        variant="filled"
+        variant="outlined"
         label="Źródło"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setCropperSource(event.target.value);
@@ -86,7 +86,7 @@ export const CropperSettings = ({ index, cropper }: CropperProps) => {
       />
       <TextField
         value={cropperURL}
-        variant="filled"
+        variant="outlined"
         label="URL"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           setCropperURL(event.target.value);

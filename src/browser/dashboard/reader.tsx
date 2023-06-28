@@ -45,7 +45,7 @@ export const App = () => {
         <Grid container spacing={2} style={{ width: '100%', marginBottom: '25px' }}>
           <Grid item xs={7}>
             <TextField
-              variant="filled"
+              variant="outlined"
               value={readerName}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 setReaderName(event.target.value);
@@ -58,7 +58,7 @@ export const App = () => {
             <FormControl fullWidth>
               <InputLabel id="pronouns-select-label">Zaimki</InputLabel>
               <Select
-                variant="filled"
+                variant="outlined"
                 labelId="pronouns-select-label"
                 value={readerPronouns as string}
                 label="Zaimki"

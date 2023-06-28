@@ -12,7 +12,7 @@ export const App = () => {
         <Stack spacing={1}>
           <TextField
             label="Kwota"
-            variant="filled"
+            variant="outlined"
             value={amount}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               setAmount(parseInt(event.target.value));

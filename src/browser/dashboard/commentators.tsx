@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Commentators } from '../../types/generated';
 import {
   Button,
+  Divider,
   FormControl,
   Grid,
   InputLabel,
@@ -69,7 +70,7 @@ export const App = () => {
             <Grid container spacing={2} style={{ width: '100%', marginBottom: '25px' }}>
               <Grid item xs={7}>
                 <TextField
-                  variant="filled"
+                  variant="outlined"
                   value={commentator.name}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     updateCommentatorName(index, event.target.value);
@@ -82,7 +83,7 @@ export const App = () => {
                 <FormControl fullWidth>
                   <InputLabel id={`pronouns-select-label-${index}`}>Zaimki</InputLabel>
                   <Select
-                    variant="filled"
+                    variant="outlined"
                     labelId={`pronouns-select-label-${index}`}
                     value={commentator.pronouns as string}
                     label="Zaimki"
@@ -100,6 +101,7 @@ export const App = () => {
             </Grid>
           </div>
         ))}
+        <Divider />
         <Button
           variant="contained"
           disabled={liveCommentatorList?.length == 0}
