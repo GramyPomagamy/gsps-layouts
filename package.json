@@ -235,6 +235,12 @@
         "file": "obs-cropper-settings.html",
         "width": 3,
         "workspace": "2. GSPS - OBS"
+      },
+      {
+        "name": "media-box-controls",
+        "title": "3. GSPS - Kontrola mediaboxa",
+        "file": "media-box-controls.html",
+        "fullbleed": true
       }
     ],
     "graphics": [

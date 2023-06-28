@@ -1,6 +1,6 @@
 import { klona } from 'klona/json';
 import { NodeCGServer } from './util/nodecg';
-import { Asset, MediaBoxItem } from '../types/custom';
+import { Asset, LogoCycle, MediaBoxItem } from '../types/custom';
 
 /** Code relating to the media box. */
 export const mediaBox = (nodecg: NodeCGServer) => {
@@ -8,6 +8,9 @@ export const mediaBox = (nodecg: NodeCGServer) => {
   const mediaBoxBreakAssets = nodecg.Replicant<Asset[]>('assets:media-box-break');
   const currentMediaBoxItem = nodecg.Replicant<MediaBoxItem>('mediaBoxItem');
   const currentMediaBoxBreakItem = nodecg.Replicant<MediaBoxItem>('mediaBoxItemBreak');
+  const logoCycles = nodecg.Replicant<LogoCycle[]>('logoCycles', { defaultValue: [] });
+  const logoCyclesBreak = nodecg.Replicant<LogoCycle[]>('logoCyclesBreak', { defaultValue: [] });
+  
   let currentItemIndex = 0;
   let currentBreakItemIndex = 0;
   let imageTimeout: NodeJS.Timeout;
