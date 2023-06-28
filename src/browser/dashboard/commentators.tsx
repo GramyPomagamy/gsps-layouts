@@ -109,7 +109,6 @@ export const App = () => {
                     onClick={() => {
                       const newVal = Array.from(localCommentatorList);
                       newVal.splice(index, 1);
-                      console.log(newVal);
                       setLocalCommentatorList(newVal);
                     }}>
                     <DeleteIcon />
