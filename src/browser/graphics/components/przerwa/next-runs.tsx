@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import {
   type RunDataArray,
   type RunDataActiveRun,
@@ -58,6 +58,22 @@ export const NextRuns = () => {
     }
   }, [currentRun]);
 
+  if (!currentRun || !runs) {
+    return null;
+  }
+
+  const isBehindSchedule = Date.now() > currentRun.scheduledS! * 1000;
+
+  const now = moment();
+  now.add(currentRun.setupTime);
+  now.add(currentRun.estimate);
+  const calcStartTime = (run: RunData) => {
+    const startTime = now.format('HH:mm');
+    now.add(run.setupTime);
+    now.add(run.estimate);
+    return startTime;
+  };
+
   return (
     <NextRunsContainer>
       {currentRun && (
@@ -81,7 +97,6 @@ export const NextRuns = () => {
           <Label>POTEM</Label>
           <UpcomingRuns>
             {upcomingRuns.map((run) => {
-              const formattedTime = moment(run.scheduled).format('HH:mm');
               return (
                 <div
                   key={run.id}
@@ -91,7 +106,9 @@ export const NextRuns = () => {
                     gap: '15px',
                     alignItems: 'center',
                   }}>
-                  <p>{formattedTime}</p>
+                  <p style={{ fontVariantNumeric: 'tabular-nums' }}>
+                    {isBehindSchedule ? calcStartTime(run) : moment(run.scheduled).format('HH:mm')}
+                  </p>
                   <div className="shadow" style={{ display: 'flex', flexDirection: 'column' }}>
                     <p style={{ fontSize: '1.1em' }}>{run.game}</p>{' '}
                     <p style={{ marginTop: '5px', fontWeight: 500, fontSize: '0.9em' }}>
