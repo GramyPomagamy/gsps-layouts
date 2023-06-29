@@ -64,9 +64,15 @@ export const obs = (nodecg: NodeCGServer) => {
   }
 
   function switchToIntermission() {
-    obs.call('SetCurrentProgramScene', {
-      sceneName: config.scenes!.intermission,
-    });
+    nodecg.sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
+    try {
+      obs.call('SetCurrentProgramScene', {
+        sceneName: config.scenes!.intermission,
+      });
+    } catch (error) {
+      log.error('Nie udało się zmienić sceny na przerwę: ', error);
+    }
+
     obsDataReplicant.value!.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
     if (foobarConfig.enabled) {
       foobar.unmute();
@@ -83,9 +89,6 @@ export const obs = (nodecg: NodeCGServer) => {
     hosterkaReplicant.value = { host1: '', host2: '' };
     showBidsPanel.value = false;
     showPrizePanel.value = false;
-    setTimeout(() => {
-      nodecg.sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
-    }, 1000);
     resetAllCrops();
   }
 

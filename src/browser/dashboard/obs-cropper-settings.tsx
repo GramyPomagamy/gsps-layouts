@@ -100,7 +100,7 @@ export const CropperSettings = ({ index, cropper }: CropperProps) => {
             cropperIndex: index,
             newCropper: {
               name: cropperName,
-              sceneName: cropperURL,
+              sceneName: cropperScene,
               url: cropperURL,
               sourceName: cropperSource,
             },

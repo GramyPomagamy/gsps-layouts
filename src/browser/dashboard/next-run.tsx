@@ -9,6 +9,7 @@ import {
 } from '../../../../nodecg-speedcontrol/src/types/schemas';
 import { ObsData } from 'src/types/generated';
 import { Timer } from '../../../../nodecg-speedcontrol/src/types/schemas/timer';
+import { useEffect, useState } from 'react';
 
 export const App = () => {
   const [obsData] = useReplicant<ObsData | undefined>('obsData', undefined);
@@ -19,12 +20,19 @@ export const App = () => {
     namespace: 'nodecg-speedcontrol',
   });
   const [runDataActiveRunSurrounding] = useReplicant<RunDataActiveRunSurrounding | undefined>(
-    'runDataActiverunSurrounding',
+    'runDataActiveRunSurrounding',
     undefined,
     {
       namespace: 'nodecg-speedcontrol',
     }
   );
+  const [nextRun, setNextRun] = useState<RunData | undefined>(undefined);
+  const [nextRunGameName, setNextRunGameName] = useState<string>('');
+
+  useEffect(() => {
+    setNextRun(getNextRun());
+    setNextRunGameName(getNextRunGameName());
+  }, [runData, runDataActiveRunSurrounding]);
 
   const getNextRun = (): RunData | undefined => {
     if (runData) {
@@ -43,9 +51,6 @@ export const App = () => {
   };
 
   const disableChange = timer && ['running', 'paused'].includes(timer.state);
-
-  const nextRun = getNextRun();
-  const nextRunGameName = getNextRunGameName();
 
   return (
     <DashboardThemeProvider>

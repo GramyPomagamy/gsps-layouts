@@ -51,12 +51,21 @@ type CropperProps = {
 };
 
 export const Cropper = ({ cropper }: CropperProps) => {
-  const [windowInfo, setWindowInfo] = useState<WindowInfo | undefined>(undefined);
+  const [windowInfo, setWindowInfo] = useState<WindowInfo | null>(null);
   const [cropperInstance, setCropperInstance] = useState<Cropper>(cropper);
 
   useEffect(() => {
     setCropperInstance(cropper);
   }, [cropper]);
+
+  useEffect(() => {
+    if (typeof windowInfo === 'undefined' || windowInfo == null) return;
+
+    nodecg.sendMessage('crop', {
+      cropperIndex: cropperInstance.index,
+      windowInfo: windowInfo,
+    });
+  }, [windowInfo]);
 
   return (
     <Container>
@@ -86,9 +95,6 @@ export const Cropper = ({ cropper }: CropperProps) => {
           onChange={(_event, value) => {
             if (value) {
               setWindowInfo(value);
-              if (windowInfo) {
-                nodecg.sendMessage('crop', { cropperIndex: cropperInstance.index, windowInfo });
-              }
             }
           }}
           disablePortal
@@ -98,8 +104,8 @@ export const Cropper = ({ cropper }: CropperProps) => {
             return `${option.windowTitle} - ${option.processName}`;
           }}
           noOptionsText="Ładowanie..."
-          onMouseDown={() => {
-            setWindowInfo(undefined);
+          onOpen={() => {
+            setWindowInfo(null);
             const cropper = cropperInstance;
             cropper.windows = [];
             setCropperInstance(cropper);
