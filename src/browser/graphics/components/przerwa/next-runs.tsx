@@ -97,26 +97,34 @@ export const NextRuns = () => {
           <Label>POTEM</Label>
           <UpcomingRuns>
             {upcomingRuns.map((run) => {
-              return (
-                <div
-                  key={run.id}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    gap: '15px',
-                    alignItems: 'center',
-                  }}>
-                  <p style={{ fontVariantNumeric: 'tabular-nums' }}>
-                    {isBehindSchedule ? calcStartTime(run) : moment(run.scheduled).format('HH:mm')}
-                  </p>
-                  <div className="shadow" style={{ display: 'flex', flexDirection: 'column' }}>
-                    <p style={{ fontSize: '1.1em' }}>{run.game}</p>{' '}
-                    <p style={{ marginTop: '5px', fontWeight: 500, fontSize: '0.9em' }}>
-                      {run.category}
+              if (!run.customData['hideOnStream']) {
+                return (
+                  <div
+                    key={run.id}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: '15px',
+                      alignItems: 'center',
+                    }}>
+                    <p style={{ fontVariantNumeric: 'tabular-nums' }}>
+                      {isBehindSchedule
+                        ? calcStartTime(run)
+                        : moment(run.scheduled).format('HH:mm')}
                     </p>
+                    <div className="shadow" style={{ display: 'flex', flexDirection: 'column' }}>
+                      <p style={{ fontSize: '1.1em' }}>{run.game}</p>{' '}
+                      <p style={{ marginTop: '5px', fontWeight: 500, fontSize: '0.9em' }}>
+                        {run.category}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              );
+                );
+              } else {
+                // needs to be done to have the time calculations be correct even with the run hidden
+                calcStartTime(run);
+                return <></>;
+              }
             })}
           </UpcomingRuns>
         </Fragment>

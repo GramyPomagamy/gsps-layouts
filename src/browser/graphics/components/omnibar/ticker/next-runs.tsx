@@ -60,23 +60,25 @@ const NextRuns = ({ onEnd }: { onEnd: () => void }) => {
   async function getNextRuns() {
     if (!runDataArray.value) return undefined;
 
-    const runIndex = findRunIndex();
+    const filteredRunArray = runDataArray.value.filter((run) => !run.customData['hideOnStream']);
+    const runIndex = findRunIndex(filteredRunArray);
+    console.log(filteredRunArray);
     if (obsData.value && obsData.value.scene) {
       if (obsData.value.scene === config.scenes!.video) {
-        return runDataArray.value.slice(runIndex).slice(0, 3);
+        return filteredRunArray.slice(runIndex, runIndex + 3);
       } else {
-        return runDataArray.value.slice(runIndex + 1).slice(0, 3);
+        return filteredRunArray.slice(runIndex + 1, runIndex + 4);
       }
     } else {
-      return runDataArray.value.slice(runIndex + 1).slice(0, 3);
+      return filteredRunArray.slice(runIndex + 1, runIndex + 4);
     }
   }
 
-  function findRunIndex() {
-    if (!runDataActiveRun.value || !runDataArray.value) {
+  function findRunIndex(runArray: RunData[]) {
+    if (!runDataActiveRun.value || !runDataArray.value || !runArray) {
       return -1;
     } else {
-      return runDataArray.value.findIndex((run) => run.id === runDataActiveRun.value!.id);
+      return runArray.findIndex((run) => run.id === runDataActiveRun.value!.id);
     }
   }
 
