@@ -27,7 +27,7 @@ const Ticker = () => {
 
   function charityPromo() {
     return genericMsg(
-      'Fundację GSPS możesz wesprzeć na &nbsp;<b class="highlight">gsps.pl/fundacja</b>!'
+      'Fundację GSPS możesz wesprzeć na&nbsp;<b class="highlight">gsps.pl/fundacja</b>!'
     );
   }
 
