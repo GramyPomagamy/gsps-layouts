@@ -1,7 +1,6 @@
 import { render } from '../render';
 import layoutBg from './img/layouts/16x9-2p.png';
 import styled from 'styled-components';
-import './css/style.css';
 import RunInfo from './components/run-info';
 import Timer from './components/timer';
 import MediaBox from './components/media-box';
@@ -11,6 +10,7 @@ import Commentators from './components/commentators';
 import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
 import { Fragment } from 'react';
+import { GlobalStyle } from '../global-theme';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -54,20 +54,75 @@ export const App = () => {
   });
 
   return (
-    <LayoutContainer>
-      <BottomLeft>
-        <Names>
-          {activeRun && (
-            <>
-              {activeRun.teams[0] && (
-                <>
-                  {activeRun.teams.length === 1 ? (
+    <>
+      <GlobalStyle />
+      <LayoutContainer>
+        <BottomLeft>
+          <Names>
+            {activeRun && (
+              <>
+                {activeRun.teams[0] && (
+                  <>
+                    {activeRun.teams.length === 1 ? (
+                      <>
+                        {activeRun.teams.map((team) => {
+                          return (
+                            <Fragment key={team.id}>
+                              {team.players.map((player, index) => {
+                                if (index % 2 == 0) {
+                                  return <Nameplate key={player.name} player={player} />;
+                                } else {
+                                  return <></>;
+                                }
+                              })}
+                            </Fragment>
+                          );
+                        })}
+                        {activeRun.teams[0].players.length < 5 && <Commentators />}
+                      </>
+                    ) : (
+                      <>
+                        {activeRun.teams[0].players.map((player) => {
+                          return (
+                            <Fragment key={player.id}>
+                              <Nameplate key={player.name} player={player} />
+                            </Fragment>
+                          );
+                        })}
+                        {activeRun.teams[0].players.length < 5 && <Commentators />}
+                      </>
+                    )}
+                  </>
+                )}
+              </>
+            )}
+          </Names>
+
+          <RunInfo fontSize={48} />
+          <Timer fontSize={80} />
+        </BottomLeft>
+        <BottomRight>
+          <Names>
+            {activeRun && (
+              <>
+                {activeRun.teams[1] ? (
+                  <>
+                    {activeRun.teams[1].players.map((player) => {
+                      return (
+                        <Fragment key={player.id}>
+                          <Nameplate key={player.name} player={player} />
+                        </Fragment>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <>
                     <>
                       {activeRun.teams.map((team) => {
                         return (
                           <Fragment key={team.id}>
                             {team.players.map((player, index) => {
-                              if (index % 2 == 0) {
+                              if (index % 2 != 0) {
                                 return <Nameplate key={player.name} player={player} />;
                               } else {
                                 return <></>;
@@ -76,69 +131,17 @@ export const App = () => {
                           </Fragment>
                         );
                       })}
-                      {activeRun.teams[0].players.length < 5 && <Commentators />}
                     </>
-                  ) : (
-                    <>
-                      {activeRun.teams[0].players.map((player) => {
-                        return (
-                          <Fragment key={player.id}>
-                            <Nameplate key={player.name} player={player} />
-                          </Fragment>
-                        );
-                      })}
-                      {activeRun.teams[0].players.length < 5 && <Commentators />}
-                    </>
-                  )}
-                </>
-              )}
-            </>
-          )}
-        </Names>
-
-        <RunInfo fontSize={48} />
-        <Timer fontSize={80} />
-      </BottomLeft>
-      <BottomRight>
-        <Names>
-          {activeRun && (
-            <>
-              {activeRun.teams[1] ? (
-                <>
-                  {activeRun.teams[1].players.map((player) => {
-                    return (
-                      <Fragment key={player.id}>
-                        <Nameplate key={player.name} player={player} />
-                      </Fragment>
-                    );
-                  })}
-                </>
-              ) : (
-                <>
-                  <>
-                    {activeRun.teams.map((team) => {
-                      return (
-                        <Fragment key={team.id}>
-                          {team.players.map((player, index) => {
-                            if (index % 2 != 0) {
-                              return <Nameplate key={player.name} player={player} />;
-                            } else {
-                              return <></>;
-                            }
-                          })}
-                        </Fragment>
-                      );
-                    })}
                   </>
-                </>
-              )}
-            </>
-          )}
-          <Reader />
-        </Names>
-        <MediaBox />
-      </BottomRight>
-    </LayoutContainer>
+                )}
+              </>
+            )}
+            <Reader />
+          </Names>
+          <MediaBox />
+        </BottomRight>
+      </LayoutContainer>
+    </>
   );
 };
 

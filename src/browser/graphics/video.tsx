@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import './css/style.css';
 import mainBg from './img/layouts/video.png';
 import { render } from '../render';
 import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
 import { formatPlayers } from '../format-players';
+import { GlobalStyle } from '../global-theme';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -16,9 +16,12 @@ const LayoutContainer = styled.div`
 
 const App = () => {
   return (
-    <LayoutContainer>
-      <NextRun />
-    </LayoutContainer>
+    <>
+      <GlobalStyle />
+      <LayoutContainer>
+        <NextRun />
+      </LayoutContainer>
+    </>
   );
 };
 

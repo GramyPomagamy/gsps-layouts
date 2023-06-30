@@ -15,6 +15,10 @@ export default defineConfig({
       bundleName: 'gsps-layouts',
       graphics: './src/browser/graphics/*.tsx',
       dashboard: './src/browser/dashboard/*.tsx',
+      template: {
+        graphics: './src/browser/graphics/template.html',
+        dashboard: './src/browser/dashboard/template.html',
+      },
       extension: {
         input: './src/extension/index.ts',
         plugins: [rollupEsbuild(), rollupExternals()],

@@ -1,7 +1,6 @@
 import { render } from '../render';
 import layoutBg from './img/layouts/4x3-1p.png';
 import styled from 'styled-components';
-import './css/style.css';
 import RunInfo from './components/run-info';
 import Timer from './components/timer';
 import MediaBox from './components/media-box';
@@ -10,7 +9,8 @@ import Reader from './components/reader';
 import Commentators from './components/commentators';
 import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
+import { GlobalStyle } from '../global-theme';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -46,31 +46,34 @@ export const App = () => {
   });
 
   return (
-    <LayoutContainer>
-      <Info>
-        <Names>
-          {activeRun && (
-            <>
-              {activeRun.teams.map((team) => {
-                return (
-                  <Fragment key={team.id}>
-                    {team.players.map((player) => {
-                      return <Nameplate key={player.name} player={player} />;
-                    })}
-                  </Fragment>
-                );
-              })}
-            </>
-          )}
-          <Commentators />
-          <Reader />
-        </Names>
+    <React.StrictMode>
+      <GlobalStyle />
+      <LayoutContainer>
+        <Info>
+          <Names>
+            {activeRun && (
+              <>
+                {activeRun.teams.map((team) => {
+                  return (
+                    <Fragment key={team.id}>
+                      {team.players.map((player) => {
+                        return <Nameplate key={player.name} player={player} />;
+                      })}
+                    </Fragment>
+                  );
+                })}
+              </>
+            )}
+            <Commentators />
+            <Reader />
+          </Names>
 
-        <RunInfo fontSize={44} />
-        <Timer fontSize={64} />
-        <MediaBox useTopBorder />
-      </Info>
-    </LayoutContainer>
+          <RunInfo fontSize={44} />
+          <Timer fontSize={64} />
+          <MediaBox useTopBorder />
+        </Info>
+      </LayoutContainer>
+    </React.StrictMode>
   );
 };
 

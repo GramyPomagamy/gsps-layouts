@@ -5,11 +5,11 @@ import styled from 'styled-components';
 import { IoIosMusicalNotes } from 'react-icons/io';
 import { IconContext } from 'react-icons';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
-import './css/style.css';
 import 'animate.css';
 import { useRef } from 'react';
 import { useReplicant } from 'use-nodecg';
 import { Countdown, CountdownRunning, Song } from 'src/types/generated';
+import { GlobalStyle } from '../global-theme';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -68,38 +68,41 @@ export const Odliczanie = () => {
   const countdownRef = useRef(null);
 
   return (
-    <LayoutContainer>
-      <LogoDiv>
-        <Logo src={gspsLogo} />
-      </LogoDiv>
-      <CountdownDiv ref={countdownRef}>
-        {countdown && countdownRunning && <span className="shadow">{countdown.formatted}</span>}
-      </CountdownDiv>
+    <>
+      <GlobalStyle />
+      <LayoutContainer>
+        <LogoDiv>
+          <Logo src={gspsLogo} />
+        </LogoDiv>
+        <CountdownDiv ref={countdownRef}>
+          {countdown && countdownRunning && <span className="shadow">{countdown.formatted}</span>}
+        </CountdownDiv>
 
-      <IconContext.Provider value={{ size: '1.5em' }}>
-        {' '}
-        <SongDiv>
-          <IoIosMusicalNotes />
-          <SwitchTransition mode="out-in">
-            <CSSTransition
-              key={song}
-              nodeRef={songRef}
-              appear
-              in={true}
-              timeout={1000}
-              classNames={{
-                appearActive: 'animate__animated animate__fadeIn',
-                enterActive: 'animate__animated animate__fadeIn',
-                exitActive: 'animate__animated animate__fadeOut',
-              }}>
-              <SongName ref={songRef} className="marquee">
-                <p>{song}</p>
-              </SongName>
-            </CSSTransition>
-          </SwitchTransition>
-        </SongDiv>
-      </IconContext.Provider>
-    </LayoutContainer>
+        <IconContext.Provider value={{ size: '1.5em' }}>
+          {' '}
+          <SongDiv>
+            <IoIosMusicalNotes />
+            <SwitchTransition mode="out-in">
+              <CSSTransition
+                key={song}
+                nodeRef={songRef}
+                appear
+                in={true}
+                timeout={1000}
+                classNames={{
+                  appearActive: 'animate__animated animate__fadeIn',
+                  enterActive: 'animate__animated animate__fadeIn',
+                  exitActive: 'animate__animated animate__fadeOut',
+                }}>
+                <SongName ref={songRef} className="marquee">
+                  <p>{song}</p>
+                </SongName>
+              </CSSTransition>
+            </SwitchTransition>
+          </SongDiv>
+        </IconContext.Provider>
+      </LayoutContainer>
+    </>
   );
 };
 

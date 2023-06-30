@@ -1,7 +1,6 @@
 import { render } from '../render';
 import layoutBg from './img/layouts/16x9-1p.png';
 import styled from 'styled-components';
-import './css/style.css';
 import RunInfo from './components/run-info';
 import { Timer as TimerEl } from './components/timer';
 import MediaBox from './components/media-box';
@@ -11,6 +10,7 @@ import Commentators from './components/commentators';
 import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
 import { Fragment } from 'react';
+import { GlobalStyle } from '../global-theme';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -61,30 +61,33 @@ export const App = () => {
   });
 
   return (
-    <LayoutContainer>
-      <LeftSide>
-        {activeRun && (
-          <>
-            {activeRun.teams.map((team) => {
-              return (
-                <Fragment key={team.id}>
-                  {team.players.map((player) => {
-                    return <Nameplate key={player.name} player={player} />;
-                  })}
-                </Fragment>
-              );
-            })}
-          </>
-        )}
-        <Commentators />
-        <Reader />
-        <MediaBox />
-      </LeftSide>
-      <BottomRight>
-        <Run fontSize={56} />
-        <Timer fontSize={72} />
-      </BottomRight>
-    </LayoutContainer>
+    <>
+      <GlobalStyle />
+      <LayoutContainer>
+        <LeftSide>
+          {activeRun && (
+            <>
+              {activeRun.teams.map((team) => {
+                return (
+                  <Fragment key={team.id}>
+                    {team.players.map((player) => {
+                      return <Nameplate key={player.name} player={player} />;
+                    })}
+                  </Fragment>
+                );
+              })}
+            </>
+          )}
+          <Commentators />
+          <Reader />
+          <MediaBox />
+        </LeftSide>
+        <BottomRight>
+          <Run fontSize={56} />
+          <Timer fontSize={72} />
+        </BottomRight>
+      </LayoutContainer>
+    </>
   );
 };
 

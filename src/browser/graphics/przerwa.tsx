@@ -1,5 +1,4 @@
 import 'animate.css';
-import './css/style.css';
 import styled from 'styled-components';
 import eventLogo from './img/GSPS_PNG.png';
 import mainBg from './img/main-background.png';
@@ -8,6 +7,7 @@ import MediaBox from './components/media-box';
 import Song from './components/przerwa/song';
 import { BreakOmnibar } from './components/przerwa/omnibar';
 import NextRuns from './components/przerwa/next-runs';
+import { GlobalStyle } from '../global-theme';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -39,6 +39,7 @@ const EventLogo = styled.img`
 export const App = () => {
   return (
     <>
+    <GlobalStyle />
       <LayoutContainer>
         <Song />
         <MediaBoxContainer>
