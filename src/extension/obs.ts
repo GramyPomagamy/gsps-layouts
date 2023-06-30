@@ -361,49 +361,51 @@ async function getRecordingPath(): Promise<string> {
 }
 
 obs.on('CurrentProgramSceneChanged', (data) => {
-  if (obsDataReplicant.value!.scene != data.sceneName) {
-    // host names showing
-    if (data.sceneName === config.scenes!.hosterka) {
-      nodecg.sendMessage('showNames');
-      setTimeout(() => {
-        nodecg.sendMessage('hideNames');
-      }, 10 * 1000);
-    }
-
-    // foobar control
-    if (foobarConfig.enabled) {
-      if (data.sceneName.includes(foobarConfig.unmuteKeyword!)) {
-        foobar.unmute();
-      } else {
-        foobar.mute();
+  if (obsDataReplicant.value) {
+    if (obsDataReplicant.value!.scene != data.sceneName) {
+      // host names showing
+      if (data.sceneName === config.scenes!.hosterka) {
+        nodecg.sendMessage('showNames');
+        setTimeout(() => {
+          nodecg.sendMessage('hideNames');
+        }, 10 * 1000);
       }
-    }
 
-    if (config.scenes) {
-      // timestamp when switching from intermission or countdown to game/hosterka
-      if (
-        (obsDataReplicant.value!.scene === config.scenes!.intermission ||
-          obsDataReplicant.value!.scene === config.scenes!.countdown) &&
-        data.sceneName != config.scenes!.intermission &&
-        data.sceneName != config.scenes!.video
-      ) {
-        if (!loggedTimestampForCurrentGame) {
-          obs.call('GetRecordStatus').then(async (data) => {
-            if (data.outputActive) {
-              obsDataReplicant.value!.recordingName = await getRecordingPath();
-              nodecg.sendMessage('createVoDTimeStamp', {
-                timestamp: data.outputDuration,
-                run: activeRunReplicant.value!,
-                recordingName: obsDataReplicant.value!.recordingName,
-              });
-            }
-          });
-          loggedTimestampForCurrentGame = true;
+      // foobar control
+      if (foobarConfig.enabled) {
+        if (data.sceneName.includes(foobarConfig.unmuteKeyword!)) {
+          foobar.unmute();
+        } else {
+          foobar.mute();
         }
       }
-    }
 
-    obsDataReplicant.value!.scene = data.sceneName;
+      if (config.scenes) {
+        // timestamp when switching from intermission or countdown to game/hosterka
+        if (
+          (obsDataReplicant.value!.scene === config.scenes!.intermission ||
+            obsDataReplicant.value!.scene === config.scenes!.countdown) &&
+          data.sceneName != config.scenes!.intermission &&
+          data.sceneName != config.scenes!.video
+        ) {
+          if (!loggedTimestampForCurrentGame) {
+            obs.call('GetRecordStatus').then(async (data) => {
+              if (data.outputActive) {
+                obsDataReplicant.value!.recordingName = await getRecordingPath();
+                nodecg.sendMessage('createVoDTimeStamp', {
+                  timestamp: data.outputDuration,
+                  run: activeRunReplicant.value!,
+                  recordingName: obsDataReplicant.value!.recordingName,
+                });
+              }
+            });
+            loggedTimestampForCurrentGame = true;
+          }
+        }
+      }
+
+      obsDataReplicant.value!.scene = data.sceneName;
+    }
   }
 });
 
