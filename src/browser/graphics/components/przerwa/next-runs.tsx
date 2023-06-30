@@ -34,6 +34,7 @@ const CurrentRun = styled.div`
 const UpcomingRuns = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 10px;
   line-height: 5px;
   gap: 5px;
   font-size: 24px;
