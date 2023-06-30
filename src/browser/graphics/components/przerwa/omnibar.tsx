@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useState, useLayoutEffect } from 'react';
-import Total from '../omnibar/total';
+/* import Total from '../omnibar/total'; */
 import GenericMessage from '../omnibar/ticker/generic-message';
 
 const OmnibarContainer = styled.div`
@@ -17,7 +17,7 @@ export const BreakOmnibar = () => {
   return (
     <OmnibarContainer>
       <Ticker />
-      <Total />
+{/*       <Total /> */}
     </OmnibarContainer>
   );
 };
