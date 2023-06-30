@@ -97,4 +97,8 @@ export interface Configschema {
 		enabled: boolean;
 		[k: string]: unknown;
 	};
+	/**
+	 * Update game twitch name and player pronouns after Oengus import is complete.
+	 */
+	autoUpdateGameAfterImport?: boolean;
 }

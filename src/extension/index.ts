@@ -15,6 +15,7 @@ import { total } from './total';
 import { timestamps } from './timestamps';
 import { mediaBox } from './media-box';
 import { Configschema } from '../types/generated';
+import { scheduling } from './scheduling';
 
 export default (nodecg: NodeCG.ServerAPI<Configschema>) => {
   countdown(nodecg);
@@ -28,6 +29,7 @@ export default (nodecg: NodeCG.ServerAPI<Configschema>) => {
   milestones(nodecg);
   nowPlaying(nodecg);
   obs(nodecg);
+  scheduling(nodecg);
   secondaryTimer(nodecg);
   streamDeck(nodecg);
   total(nodecg);
