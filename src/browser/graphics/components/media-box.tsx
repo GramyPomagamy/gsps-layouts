@@ -69,11 +69,7 @@ const MediaBox = ({
               nodeRef={mediaBoxRef}
               in={true}
               timeout={1000}
-              classNames={{
-                appearActive: 'animate__animated animate__fadeIn',
-                enterActive: 'animate__animated animate__fadeIn',
-                exitActive: 'animate__animated animate__fadeOut',
-              }}>
+              classNames="fade">
               <Image ref={mediaBoxRef} src={mediaBoxItem.asset.url} />
             </CSSTransition>
           </SwitchTransition>
