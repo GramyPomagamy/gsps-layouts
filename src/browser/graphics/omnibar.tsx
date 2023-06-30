@@ -21,7 +21,7 @@ export const Omnibar = () => {
       <GlobalStyle />
       <OmnibarContainer>
         <Ticker />
-        <Total />
+        {/* <Total /> */}
       </OmnibarContainer>
     </React.StrictMode>
   );
