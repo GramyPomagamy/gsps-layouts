@@ -1,7 +1,6 @@
 import { PlayerType } from '../../../types/custom';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
-import 'animate.css';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import { useRef } from 'react';
 import { FaTwitch } from 'react-icons/fa';
@@ -55,16 +54,7 @@ const Nameplate = ({ player }: { player: PlayerType }) => {
   return (
     <NameplateContainer>
       <SwitchTransition mode="out-in">
-        <CSSTransition
-          key={nameCycle}
-          nodeRef={nameRef}
-          in={true}
-          timeout={1000}
-          classNames={{
-            appearActive: 'animate__animated animate__fadeIn',
-            enterActive: 'animate__animated animate__fadeIn',
-            exitActive: 'animate__animated animate__fadeOut',
-          }}>
+        <CSSTransition key={nameCycle} nodeRef={nameRef} in appear timeout={1000} classNames="fade">
           <>
             {!nameCycle ? (
               <Name ref={nameRef}>

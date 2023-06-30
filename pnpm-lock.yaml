@@ -23,9 +23,6 @@ dependencies:
   '@vitejs/plugin-react':
     specifier: ^4.0.0
     version: 4.0.0(vite@4.3.9)
-  animate.css:
-    specifier: ^4.1.1
-    version: 4.1.1
   auto-text-size:
     specifier: github:hoXyy/auto-text-size
     version: github.com/hoXyy/auto-text-size/6672c048105e2407bad5c1af705142876ffcd401(react@18.2.0)
@@ -2869,10 +2866,6 @@ packages:
       require-from-string: 2.0.2
       uri-js: 4.4.1
     dev: true
-
-  /animate.css@4.1.1:
-    resolution: {integrity: sha512-+mRmCTv6SbCmtYJCN4faJMNFVNN5EuCTTprDTAo7YzIGji2KADmakjVA3+8mVDkZ2Bf09vayB35lSQIex2+QaQ==}
-    dev: false
 
   /ansi-escapes@4.3.2:
     resolution: {integrity: sha512-gKXj5ALrKWQLsYG9jlTRmR/xKluxHV+Z9QEwNIgCfM1/uwPMCuzVVnh5mwTd+OuBZcwSIMbqssNWRm1lE51QaQ==}

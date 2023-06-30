@@ -52,6 +52,25 @@ export const GlobalStyle = createGlobalStyle`
       transform: translateX(-100%);
     }
   }
+
+  .fade-enter, .fade-appear {
+    opacity: 0;
+  }
+
+  .fade-exit {
+    opacity: 1;
+  }
+
+  .fade-enter-active, .fade-appear-active {
+    opacity: 1;
+    transition: opacity 1s;
+  }
+
+  .fade-exit-active {
+    opacity: 0;
+    transition: opacity 1s;
+  }
+  
   
   .shadow {
     text-shadow: 2px 2px 12px black;

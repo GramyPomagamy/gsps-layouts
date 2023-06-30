@@ -38,7 +38,6 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.4",
     "@vitejs/plugin-react": "^4.0.0",
-    "animate.css": "^4.1.1",
     "auto-text-size": "github:hoXyy/auto-text-size",
     "bluebird": "^3.7.2",
     "csv-stringify": "^6.4.0",

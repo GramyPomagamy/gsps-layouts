@@ -1,4 +1,3 @@
-import 'animate.css';
 import styled from 'styled-components';
 import eventLogo from './img/GSPS_PNG.png';
 import mainBg from './img/main-background.png';

@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { IoIosMusicalNotes } from 'react-icons/io';
 import { IconContext } from 'react-icons';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
-import 'animate.css';
 import { useRef } from 'react';
 import { useReplicant } from 'use-nodecg';
 import { Countdown, CountdownRunning, Song } from 'src/types/generated';
@@ -90,11 +89,7 @@ export const Odliczanie = () => {
                 appear
                 in={true}
                 timeout={1000}
-                classNames={{
-                  appearActive: 'animate__animated animate__fadeIn',
-                  enterActive: 'animate__animated animate__fadeIn',
-                  exitActive: 'animate__animated animate__fadeOut',
-                }}>
+                classNames="fade">
                 <SongName ref={songRef} className="marquee">
                   <p>{song}</p>
                 </SongName>
