@@ -20,6 +20,13 @@ oengusImportStatus.on('change', (newVal, oldVal) => {
             typeof run.customData['gameTwitchName'] != 'undefined'
               ? run.customData['gameTwitchName']
               : defaultGame;
+
+          run.teams.forEach((team) => {
+            team.players.forEach((player) => {
+              // zero out pronouns for now, will add them properly later
+              player.pronouns = '';
+            });
+          });
         }
       });
     }
