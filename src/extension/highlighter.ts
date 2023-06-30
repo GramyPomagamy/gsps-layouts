@@ -1,97 +1,92 @@
-import { NodeCGServer } from './util/nodecg';
+import { get } from './util/nodecg';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { TaggedLogger } from './util/tagged-logger';
 import io from 'socket.io-client';
 import { ObsData } from 'src/types/generated';
 import { RunDataActiveRun, Timer } from '../../../nodecg-speedcontrol/src/types';
 
-/** Code related to the highlighter. */
-export const highligher = (nodecg: NodeCGServer) => {
-  const obsDataReplicant = nodecg.Replicant<ObsData>('obsData');
-  const timerReplicant = nodecg.Replicant<Timer>(
-    'timer',
-    'nodecg-speedcontrol'
-  );
-  const activeRunReplicant = nodecg.Replicant<RunDataActiveRun>(
-    'runDataActiveRun',
-    'nodecg-speedcontrol'
-  );
-  const config = nodecg.bundleConfig.highlighter;
-  let sheets: GoogleSpreadsheet;
+const nodecg = get();
+const obsDataReplicant = nodecg.Replicant<ObsData>('obsData');
+const timerReplicant = nodecg.Replicant<Timer>('timer', 'nodecg-speedcontrol');
+const activeRunReplicant = nodecg.Replicant<RunDataActiveRun>(
+  'runDataActiveRun',
+  'nodecg-speedcontrol'
+);
+const config = nodecg.bundleConfig.highlighter;
+let sheets: GoogleSpreadsheet;
 
+if (config.enabled) {
+  sheets = new GoogleSpreadsheet(config.spreadsheetId);
+  sheets.loadInfo();
+  sheets.useServiceAccountAuth({
+    client_email: config.service_email!,
+    private_key: config.private_key!,
+  });
+}
+
+const log = new TaggedLogger('highlighter');
+
+function makeHighlight() {
   if (config.enabled) {
-    sheets = new GoogleSpreadsheet(config.spreadsheetId);
-    sheets.loadInfo();
-    sheets.useServiceAccountAuth({
-      client_email: config.service_email!,
-      private_key: config.private_key!,
-    });
-  }
+    const sheet = sheets.sheetsByTitle['Raw'];
+    const timestamp = formatTime(Date.now());
+    const timer = timerReplicant.value!.time;
+    const run = getCurrentGame();
+    const scene = obsDataReplicant.value!.scene;
 
-  const log = new TaggedLogger('highlighter', nodecg);
-
-  function makeHighlight() {
-    if (config.enabled) {
-      const sheet = sheets.sheetsByTitle['Raw'];
-      const timestamp = formatTime(Date.now());
-      const timer = timerReplicant.value!.time;
-      const run = getCurrentGame();
-      const scene = obsDataReplicant.value!.scene;
-
-      try {
-        sheet!.addRow([timestamp, run, timer, scene || 'Brak sceny']).then(() => {
-          log.info('Highlight wykonany poprawnie');
-        });
-      } catch (err) {
-        log.error(`Błąd przy dodawaniu danych do arkusza: ${err}`);
-      }
-    } else {
-      log.error('Robienie highlightów jest obecnie wyłączone w konfiguracji');
+    try {
+      sheet!.addRow([timestamp, run, timer, scene || 'Brak sceny']).then(() => {
+        log.info('Highlight wykonany poprawnie');
+      });
+    } catch (err) {
+      log.error(`Błąd przy dodawaniu danych do arkusza: ${err}`);
     }
+  } else {
+    log.error('Robienie highlightów jest obecnie wyłączone w konfiguracji');
   }
+}
 
-  function getCurrentGame() {
-    let run = 'Brak ustawionej gry';
-    if (activeRunReplicant.value!.game) {
-      run = activeRunReplicant.value!.game;
-    }
-    if (activeRunReplicant.value!.category) {
-      run += ' ' + activeRunReplicant.value!.category;
-    }
-    return run;
+function getCurrentGame() {
+  let run = 'Brak ustawionej gry';
+  if (activeRunReplicant.value!.game) {
+    run = activeRunReplicant.value!.game;
   }
-
-  function formatTime(timestamp: number) {
-    const raw = new Date(timestamp);
-    const formatted = raw.toISOString();
-    return formatted;
+  if (activeRunReplicant.value!.category) {
+    run += ' ' + activeRunReplicant.value!.category;
   }
+  return run;
+}
 
-  nodecg.listenFor('makeHighlight', makeHighlight);
+function formatTime(timestamp: number) {
+  const raw = new Date(timestamp);
+  const formatted = raw.toISOString();
+  return formatted;
+}
 
-  if (config.remote && config.remote.enabled) {
-    const socket = io(config.remote.url!);
-    let loggedXhrPollError = false;
+nodecg.listenFor('makeHighlight', makeHighlight);
 
-    socket.on('connect', () => {
-      log.info(`Podłączono do socketa highlightera na ${config.remote!.url!}`);
-      loggedXhrPollError = false;
-    });
+if (config.remote && config.remote.enabled) {
+  const socket = io(config.remote.url!);
+  let loggedXhrPollError = false;
 
-    socket.on('connect_error', (err: { message: string }) => {
-      if (err.message === 'xhr poll error') {
-        if (loggedXhrPollError) {
-          return;
-        }
+  socket.on('connect', () => {
+    log.info(`Podłączono do socketa highlightera na ${config.remote!.url!}`);
+    loggedXhrPollError = false;
+  });
 
-        loggedXhrPollError = true;
+  socket.on('connect_error', (err: { message: string }) => {
+    if (err.message === 'xhr poll error') {
+      if (loggedXhrPollError) {
+        return;
       }
 
-      log.error('Highlighter socket connect_error:', err);
-    });
+      loggedXhrPollError = true;
+    }
 
-    socket.on('highlight', () => {
-      makeHighlight();
-    });
-  }
-};
+    log.error('Highlighter socket connect_error:', err);
+  });
+
+  socket.on('highlight', () => {
+    makeHighlight();
+  });
+}

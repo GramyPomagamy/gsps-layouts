@@ -1,15 +1,14 @@
 import needle from 'needle';
 import type { NeedleResponse } from 'needle';
 import { TaggedLogger } from './util/tagged-logger';
-import { NodeCGServer } from './util/nodecg';
 
 class FoobarControl {
   address: string;
   log: TaggedLogger;
 
-  constructor(address: string, nodecg: NodeCGServer) {
+  constructor(address: string) {
     this.address = address;
-    this.log = new TaggedLogger('foobar', nodecg);
+    this.log = new TaggedLogger('foobar');
   }
 
   togglePause() {

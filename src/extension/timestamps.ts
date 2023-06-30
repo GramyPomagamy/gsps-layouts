@@ -1,77 +1,75 @@
-import { NodeCGServer } from './util/nodecg';
+import { get } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
 import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 import fs from 'fs';
 import { stringify } from 'csv-stringify';
 import path from 'path';
 
-/** Code related to making timestamps for later VoD cutting. */
-export const timestamps = (nodecg: NodeCGServer) => {
-  const log = new TaggedLogger('VoD Timestamp', nodecg);
-  const config = nodecg.bundleConfig.obs;
+const nodecg = get();
+const log = new TaggedLogger('VoD Timestamp');
+const config = nodecg.bundleConfig.obs;
 
-  nodecg.listenFor('createVoDTimeStamp', ({ timestamp, run, recordingName }) => {
-    if (config.timestamps?.enabled) {
-      createVoDTimeStamp(timestamp, run, recordingName);
-    }
-  });
+nodecg.listenFor('createVoDTimeStamp', ({ timestamp, run, recordingName }) => {
+  if (config.timestamps?.enabled) {
+    createVoDTimeStamp(timestamp, run, recordingName);
+  }
+});
 
-  function createVoDTimeStamp(timestamp: number, run: RunDataActiveRun, recordingName: string) {
-    const fileName = getFileName(recordingName) + '.csv';
-    const path = getDirectory(recordingName) + '\\' + fileName;
+function createVoDTimeStamp(timestamp: number, run: RunDataActiveRun, recordingName: string) {
+  const fileName = getFileName(recordingName) + '.csv';
+  const path = getDirectory(recordingName) + '\\' + fileName;
 
-    if (run && run.game) {
-      stringify(
-        [
-          {
-            timestamp,
-            game: run.game,
-            category: run.category,
-            players: formatPlayers(run),
-            twitch: formatTwitch(run),
-          },
-        ],
+  if (run && run.game) {
+    stringify(
+      [
         {
-          header: false,
+          timestamp,
+          game: run.game,
+          category: run.category,
+          players: formatPlayers(run),
+          twitch: formatTwitch(run),
         },
-        (err, output) => {
-          if (err) {
-            log.error(`Błąd przy przygotowaniu danych do pliku CSV! ${err}`);
-            return;
-          } else {
-            try {
-              fs.appendFileSync(path, output);
-              log.info('Zapisano timestamp do pliku CSV');
-            } catch (err) {
-              log.error(`Błąd przy zapisywaniu pliku CSV! ${err}`);
-            }
+      ],
+      {
+        header: false,
+      },
+      (err, output) => {
+        if (err) {
+          log.error(`Błąd przy przygotowaniu danych do pliku CSV! ${err}`);
+          return;
+        } else {
+          try {
+            fs.appendFileSync(path, output);
+            log.info('Zapisano timestamp do pliku CSV');
+          } catch (err) {
+            log.error(`Błąd przy zapisywaniu pliku CSV! ${err}`);
           }
         }
-      );
-    } else {
-      log.info('Brak obecnej gry!');
-    }
-  }
-
-  function formatPlayers(run: RunDataActiveRun) {
-    return (
-      run.teams
-        .map((team) => team.name || team.players.map((player) => player.name).join(';'))
-        .join(';') || 'Bez gracza'
+      }
     );
+  } else {
+    log.info('Brak obecnej gry!');
   }
+}
 
-  function formatTwitch(run: RunDataActiveRun) {
-    return run.teams
-      .map((team) => team.name || team.players.map((player) => player.social.twitch).join(';'))
-      .join(';');
-  }
+function formatPlayers(run: RunDataActiveRun) {
+  return (
+    run.teams
+      .map((team) => team.name || team.players.map((player) => player.name).join(';'))
+      .join(';') || 'Bez gracza'
+  );
+}
 
-  function getFileName(filePath: string) {
-    return path.parse(filePath).name;
-  }
+function formatTwitch(run: RunDataActiveRun) {
+  return run.teams
+    .map((team) => team.name || team.players.map((player) => player.social.twitch).join(';'))
+    .join(';');
+}
 
-  function getDirectory(filePath: string) {
-    return path.parse(filePath).dir;
-  }
-};
+function getFileName(filePath: string) {
+  return path.parse(filePath).name;
+}
+
+function getDirectory(filePath: string) {
+  return path.parse(filePath).dir;
+}

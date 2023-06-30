@@ -1,12 +1,14 @@
 {
-    "extends": "./tsconfig.base.json",
-    "compilerOptions": {
-        "rootDir": "src/extension",
-        "outDir": "extension",
-        "noEmit": true
-    },
-    "include": [
-        "src/extension/**/*.ts",
-        "src/types/**/*.d.ts"
-    ]
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src/extension",
+    "outDir": "extension",
+    "target": "ES2016",
+    "moduleResolution": "Node",
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/extension/**/*.ts", "src/types/**/*.d.ts"]
 }
