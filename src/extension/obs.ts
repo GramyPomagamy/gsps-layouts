@@ -11,7 +11,7 @@ import { RunDataActiveRun } from '../../../nodecg-speedcontrol/src/types';
 type VideoTypes = 'charity' | 'sponsors';
 const nodecg = get();
 
-const obsDataReplicant = nodecg.Replicant<ObsData>('obsData');
+const obsDataReplicant = nodecg.Replicant<ObsData>('obsData', { persistent: false });
 const commentatorsReplicant = nodecg.Replicant<Commentators>('commentators');
 const activeRunReplicant = nodecg.Replicant<RunDataActiveRun>(
   'runDataActiveRun',
@@ -45,10 +45,22 @@ if (config.enabled) {
   }
 
   log.info('Próbuję się połączyć z OBSem...');
-  obs.connect(config.address, config.password).catch((err) => {
-    log.error(`Nie udało się połączyć z OBSem! Powód: ${err}`);
-    reconnectTimeout = setTimeout(reconnectToOBS, 5000);
-  });
+  obs
+    .connect(config.address, config.password)
+    .then(() => {
+      if (config.sources && config.sources.intermissionVideo) {
+        obs.call('SetInputSettings', {
+          inputName: config.sources!.intermissionVideo,
+          inputSettings: {
+            input: '',
+          },
+        });
+      }
+    })
+    .catch((err) => {
+      log.error(`Nie udało się połączyć z OBSem! Powód: ${err}`);
+      reconnectTimeout = setTimeout(reconnectToOBS, 5000);
+    });
 }
 
 function reconnectToOBS() {
