@@ -21,25 +21,25 @@ const Ticker = () => {
 
   function gspsPromo() {
     return genericMsg(
-      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie 2023</b>!'
+      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie na CD-Action EXPO 2023</b>!'
     );
   }
 
   function charityPromo() {
     return genericMsg(
-      '<b>GSPS Dzieciom 2023</b>&nbsp;wspiera&nbsp;<b class="highlight">Fundację Na Ratunek Dzieciom z Chorobą Nowotworową</b>!'
+      'Fundację GSPS możesz wesprzeć na &nbsp;<b class="highlight">gsps.pl/fundacja</b>!'
     );
   }
 
-  function donationURL() {
+/*   function donationURL() {
     return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
-  }
+  } */
 
   function nextRuns() {
     return <NextRuns onEnd={showNextElement} />;
   }
 
-  const messageTypes = [gspsPromo(), charityPromo(), donationURL(), nextRuns()];
+  const messageTypes = [gspsPromo(), charityPromo(), nextRuns()];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');

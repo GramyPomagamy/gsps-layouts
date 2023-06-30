@@ -17,7 +17,7 @@ export const BreakOmnibar = () => {
   return (
     <OmnibarContainer>
       <Ticker />
-{/*       <Total /> */}
+      {/*       <Total /> */}
     </OmnibarContainer>
   );
 };
@@ -40,21 +40,21 @@ const Ticker = () => {
 
   function gspsPromo() {
     return genericMsg(
-      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie 2023</b>!'
+      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie na CD-Action EXPO 2023</b>!'
     );
   }
 
   function charityPromo() {
     return genericMsg(
-      '<b>GSPS Dzieciom 2023</b>&nbsp;wspiera&nbsp;<b class="highlight">Fundację Na Ratunek Dzieciom z Chorobą Nowotworową</b>!'
+      'Fundację GSPS możesz wesprzeć na &nbsp;<b class="highlight">gsps.pl/fundacja</b>!'
     );
   }
 
-  function donationURL() {
+  /*   function donationURL() {
     return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
-  }
+  } */
 
-  const messageTypes = [gspsPromo(), charityPromo(), donationURL()];
+  const messageTypes = [gspsPromo(), charityPromo()];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');
