@@ -116,8 +116,7 @@ export const obs = (nodecg: NodeCGServer) => {
         },
       });
     } else {
-      console.error('Coś się popsuło i nie było mnie słychać, więc spróbuję jeszcze raz...');
-      playLongVideo();
+      log.error('Nie udało puścić się długiego filmu');
     }
   }
 
@@ -136,8 +135,7 @@ export const obs = (nodecg: NodeCGServer) => {
         },
       });
     } else {
-      console.error('Coś się popsuło i nie było mnie słychać, więc spróbuję jeszcze raz...');
-      playShortVideo(type);
+      log.error('Nie udało puścić się krótkiego filmu');
     }
   }
 
