@@ -35,7 +35,7 @@ function showNextMediaBoxItem() {
     }
   } else {
     // if no assets found, try again in one second
-    breakImageTimeout = setTimeout(showNextMediaBoxItem, 1000);
+    imageTimeout = setTimeout(showNextMediaBoxItem, 1000);
   }
 }
 
