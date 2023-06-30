@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { render } from '../render';
 import Ticker from './components/omnibar/ticker';
-import Total from './components/omnibar/total';
+/* import Total from './components/omnibar/total'; */
 import { GlobalStyle } from '../global-theme';
 import React from 'react';
 
