@@ -11,6 +11,7 @@ import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
 import { Fragment } from 'react';
 import { GlobalStyle } from '../global-theme';
+import React from 'react';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -54,7 +55,7 @@ export const App = () => {
   });
 
   return (
-    <>
+    <React.StrictMode>
       <GlobalStyle />
       <LayoutContainer>
         <BottomLeft>
@@ -141,7 +142,7 @@ export const App = () => {
           <MediaBox />
         </BottomRight>
       </LayoutContainer>
-    </>
+    </React.StrictMode>
   );
 };
 

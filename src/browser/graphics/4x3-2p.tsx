@@ -9,7 +9,7 @@ import Reader from './components/reader';
 import Commentators from './components/commentators';
 import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { GlobalStyle } from '../global-theme';
 
 const LayoutContainer = styled.div`
@@ -54,7 +54,7 @@ export const App = () => {
   });
 
   return (
-    <>
+    <React.StrictMode>
       <GlobalStyle />{' '}
       <LayoutContainer>
         <BottomLeft>
@@ -142,7 +142,7 @@ export const App = () => {
           <MediaBox />
         </BottomRight>
       </LayoutContainer>
-    </>
+    </React.StrictMode>
   );
 };
 
