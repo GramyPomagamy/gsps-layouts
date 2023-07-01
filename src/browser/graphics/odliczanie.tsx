@@ -33,6 +33,7 @@ const CountdownDiv = styled.div`
   text-align: center;
   position: fixed;
   top: 750px;
+  font-variant-numeric: tabular-nums;
 `;
 
 const Logo = styled.img`
