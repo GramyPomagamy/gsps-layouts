@@ -54,7 +54,13 @@ const Ticker = () => {
     return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
   } */
 
-  const messageTypes = [gspsPromo(), charityPromo()];
+  function gspsAbout() {
+    return genericMsg(
+      'Więcej o wydarzeniach z serii GSPS możecie się dowiedzieć na <b class="highlight">gsps.pl</b>!'
+    );
+  }
+
+  const messageTypes = [gspsPromo(), gspsAbout(), charityPromo()];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');

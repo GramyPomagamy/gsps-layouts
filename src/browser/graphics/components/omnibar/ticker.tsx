@@ -31,15 +31,21 @@ const Ticker = () => {
     );
   }
 
-/*   function donationURL() {
+  /*   function donationURL() {
     return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
   } */
+
+  function gspsAbout() {
+    return genericMsg(
+      'Więcej o wydarzeniach z serii GSPS możecie się dowiedzieć na <b class="highlight">gsps.pl</b>!'
+    );
+  }
 
   function nextRuns() {
     return <NextRuns onEnd={showNextElement} />;
   }
 
-  const messageTypes = [gspsPromo(), charityPromo(), nextRuns()];
+  const messageTypes = [gspsPromo(), gspsAbout(), charityPromo(), nextRuns()];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');

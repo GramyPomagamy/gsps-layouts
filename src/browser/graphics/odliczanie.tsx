@@ -1,6 +1,6 @@
 import { render } from '../render';
 import gspsLogo from './img/GSPS_PNG.png';
-import mainBg from './img/main-background.png';
+import mainBg from './img/gradient_transparent.png';
 import styled from 'styled-components';
 import { IoIosMusicalNotes } from 'react-icons/io';
 import { IconContext } from 'react-icons';
