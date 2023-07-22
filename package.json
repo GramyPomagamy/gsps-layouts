@@ -283,6 +283,11 @@
         "file": "video.html",
         "width": 1920,
         "height": 1030
+      },
+      {
+        "file": "runner-panel.html",
+        "width": 1920,
+        "height": 1080
       }
     ]
   }

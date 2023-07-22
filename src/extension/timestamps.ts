@@ -10,7 +10,7 @@ const log = new TaggedLogger('VoD Timestamp');
 const config = nodecg.bundleConfig.obs;
 
 nodecg.listenFor('createVoDTimeStamp', ({ timestamp, run, recordingName }) => {
-  if (config.timestamps?.enabled) {
+  if (config.timestamps && config.timestamps.enabled) {
     createVoDTimeStamp(timestamp, run, recordingName);
   }
 });
