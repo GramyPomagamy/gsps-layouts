@@ -6,8 +6,7 @@ import MediaBox from './components/media-box';
 import Song from './components/przerwa/song';
 import { BreakOmnibar } from './components/przerwa/omnibar';
 import NextRuns from './components/przerwa/next-runs';
-import { GlobalStyle } from '../global-theme';
-import React from 'react';
+import ThemeProvider from './components/theme-provider';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -38,8 +37,7 @@ const EventLogo = styled.img`
 
 export const App = () => {
   return (
-    <React.StrictMode>
-      <GlobalStyle />
+    <ThemeProvider>
       <LayoutContainer>
         <Song />
         <MediaBoxContainer>
@@ -49,7 +47,7 @@ export const App = () => {
         <NextRuns />
       </LayoutContainer>
       <BreakOmnibar />
-    </React.StrictMode>
+    </ThemeProvider>
   );
 };
 

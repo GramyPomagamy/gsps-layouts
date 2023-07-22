@@ -10,8 +10,7 @@ import Commentators from './components/commentators';
 import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
 import { Fragment } from 'react';
-import { GlobalStyle } from '../global-theme';
-import React from 'react';
+import ThemeProvider from './components/theme-provider';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -62,8 +61,7 @@ export const App = () => {
   });
 
   return (
-    <React.StrictMode>
-      <GlobalStyle />
+    <ThemeProvider>
       <LayoutContainer>
         <LeftSide>
           {activeRun && (
@@ -88,7 +86,7 @@ export const App = () => {
           <Timer fontSize={72} />
         </BottomRight>
       </LayoutContainer>
-    </React.StrictMode>
+    </ThemeProvider>
   );
 };
 

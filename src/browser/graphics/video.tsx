@@ -4,8 +4,7 @@ import { render } from '../render';
 import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
 import { formatPlayers } from '../format-players';
-import { GlobalStyle } from '../global-theme';
-import React from 'react';
+import ThemeProvider from './components/theme-provider';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -17,12 +16,11 @@ const LayoutContainer = styled.div`
 
 const App = () => {
   return (
-    <React.StrictMode>
-      <GlobalStyle />
+    <ThemeProvider>
       <LayoutContainer>
         <NextRun />
       </LayoutContainer>
-    </React.StrictMode>
+    </ThemeProvider>
   );
 };
 

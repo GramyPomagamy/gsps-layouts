@@ -8,8 +8,7 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import { useRef } from 'react';
 import { useReplicant } from 'use-nodecg';
 import { Countdown, CountdownRunning, Song } from 'src/types/generated';
-import { GlobalStyle } from '../global-theme';
-import React from 'react';
+import ThemeProvider from './components/theme-provider';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -69,8 +68,7 @@ export const Odliczanie = () => {
   const countdownRef = useRef(null);
 
   return (
-    <React.StrictMode>
-      <GlobalStyle />
+    <ThemeProvider>
       <LayoutContainer>
         <LogoDiv>
           <Logo src={gspsLogo} />
@@ -99,7 +97,7 @@ export const Odliczanie = () => {
           </SongDiv>
         </IconContext.Provider>
       </LayoutContainer>
-    </React.StrictMode>
+    </ThemeProvider>
   );
 };
 

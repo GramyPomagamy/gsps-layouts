@@ -48,14 +48,16 @@ if (config.enabled) {
   obs
     .connect(config.address, config.password)
     .then(() => {
-      if (config.sources && config.sources.intermissionVideo) {
-        obs.call('SetInputSettings', {
+      obs
+        .call('SetInputSettings', {
           inputName: config.sources!.intermissionVideo,
           inputSettings: {
             input: '',
           },
+        })
+        .catch((err) => {
+          log.error('Nie udało się wyzerować filmu na przerwie: ', err);
         });
-      }
     })
     .catch((err) => {
       log.error(`Nie udało się połączyć z OBSem! Powód: ${err}`);

@@ -2,8 +2,7 @@ import styled from 'styled-components';
 import { render } from '../render';
 import Ticker from './components/omnibar/ticker';
 /* import Total from './components/omnibar/total'; */
-import { GlobalStyle } from '../global-theme';
-import React from 'react';
+import ThemeProvider from './components/theme-provider';
 
 const OmnibarContainer = styled.div`
   width: 100%;
@@ -17,13 +16,12 @@ const OmnibarContainer = styled.div`
 
 export const Omnibar = () => {
   return (
-    <React.StrictMode>
-      <GlobalStyle />
+    <ThemeProvider>
       <OmnibarContainer>
         <Ticker />
         {/* <Total /> */}
       </OmnibarContainer>
-    </React.StrictMode>
+    </ThemeProvider>
   );
 };
 

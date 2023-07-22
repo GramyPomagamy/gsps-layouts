@@ -9,8 +9,8 @@ import Reader from './components/reader';
 import Commentators from './components/commentators';
 import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
-import React, { Fragment } from 'react';
-import { GlobalStyle } from '../global-theme';
+import { Fragment } from 'react';
+import ThemeProvider from './components/theme-provider';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -46,8 +46,7 @@ export const App = () => {
   });
 
   return (
-    <React.StrictMode>
-      <GlobalStyle />
+    <ThemeProvider>
       <LayoutContainer>
         <Info>
           <Names>
@@ -73,7 +72,7 @@ export const App = () => {
           <MediaBox useTopBorder />
         </Info>
       </LayoutContainer>
-    </React.StrictMode>
+    </ThemeProvider>
   );
 };
 
