@@ -62,7 +62,6 @@ const NextRuns = ({ onEnd }: { onEnd: () => void }) => {
 
     const filteredRunArray = runDataArray.value.filter((run) => !run.customData['hideOnStream']);
     const runIndex = findRunIndex(filteredRunArray);
-    console.log(filteredRunArray);
     if (obsData.value && obsData.value.scene) {
       if (obsData.value.scene === (config.scenes!.video || config.scenes!.countdown)) {
         return filteredRunArray.slice(runIndex, runIndex + 3);
