@@ -11,6 +11,7 @@ import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
 import { Fragment } from 'react';
 import ThemeProvider from './components/theme-provider';
+import { RunDataPlayer, RunDataTeam } from '../../../../nodecg-speedcontrol/src/types';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -60,34 +61,83 @@ export const App = () => {
     namespace: 'nodecg-speedcontrol',
   });
 
-  return (
-    <ThemeProvider>
-      <LayoutContainer>
-        <LeftSide>
-          {activeRun && (
-            <>
-              {activeRun.teams.map((team) => {
-                return (
-                  <Fragment key={team.id}>
-                    {team.players.map((player) => {
-                      return <Nameplate key={player.name} player={player} />;
-                    })}
-                  </Fragment>
-                );
-              })}
-            </>
-          )}
-          <Commentators />
-          <Reader />
-          <MediaBox />
-        </LeftSide>
-        <BottomRight>
-          <Run fontSize={56} />
-          <Timer fontSize={72} />
-        </BottomRight>
-      </LayoutContainer>
-    </ThemeProvider>
-  );
+  const getCurrentRelayRunner = (team: RunDataTeam) => {
+    let currentRelayRunner: RunDataPlayer | undefined;
+
+    team.players.forEach((player: RunDataPlayer) => {
+      if (player.id === team.relayPlayerID) {
+        currentRelayRunner = player;
+      }
+    });
+    return currentRelayRunner;
+  };
+
+  if (activeRun) {
+    if (activeRun.relay) {
+      return (
+        <ThemeProvider>
+          <LayoutContainer>
+            <LeftSide>
+              {(() => {
+                if (activeRun.teams[0]) {
+                  const currentRelayRunner = getCurrentRelayRunner(activeRun.teams[0]);
+                  if (currentRelayRunner != undefined) {
+                    return (
+                      <>
+                        <Nameplate player={currentRelayRunner} />
+                      </>
+                    );
+                  } else {
+                    return <></>;
+                  }
+                } else {
+                  return <></>;
+                }
+              })()}
+              <Commentators />
+              <Reader />
+              <MediaBox />
+            </LeftSide>
+            <BottomRight>
+              <Run fontSize={56} />
+              <Timer fontSize={72} />
+            </BottomRight>
+          </LayoutContainer>
+        </ThemeProvider>
+      );
+    } else {
+      return (
+        <ThemeProvider>
+          <LayoutContainer>
+            <LeftSide>
+              {activeRun && (
+                <>
+                  {activeRun.teams.map((team) => {
+                    return (
+                      <Fragment key={team.id}>
+                        {team.players.map((player) => {
+                          return <Nameplate key={player.name} player={player} />;
+                        })}
+                      </Fragment>
+                    );
+                  })}
+                </>
+              )}
+              <Commentators />
+              <Reader />
+              <MediaBox />
+            </LeftSide>
+            <BottomRight>
+              <Run fontSize={56} />
+              <Timer fontSize={72} />
+            </BottomRight>
+          </LayoutContainer>
+        </ThemeProvider>
+      );
+    }
+  } else {
+    return null;
+  }
 };
 
 render(<App />);

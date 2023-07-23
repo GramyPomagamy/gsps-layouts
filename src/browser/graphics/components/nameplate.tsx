@@ -1,4 +1,4 @@
-import { PlayerType } from '../../../types/custom';
+import { RunDataPlayer } from '../../../../../nodecg-speedcontrol/src/types';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
@@ -47,7 +47,7 @@ const TwitchIcon = styled(FaTwitch)`
   left: -10px;
 `;
 
-const Nameplate = ({ player }: { player: PlayerType }) => {
+const Nameplate = ({ player }: { player: RunDataPlayer }) => {
   const [nameCycle] = useReplicant<NameCycle>('nameCycle', 0);
   const nameRef = useRef(null);
 

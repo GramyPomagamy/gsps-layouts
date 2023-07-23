@@ -9,6 +9,7 @@ import Reader from './components/reader';
 import Commentators from './components/commentators';
 import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
+import { RunDataPlayer, RunDataTeam } from '../../../../nodecg-speedcontrol/src/types';
 import { Fragment } from 'react';
 import ThemeProvider from './components/theme-provider';
 
@@ -45,35 +46,86 @@ export const App = () => {
     namespace: 'nodecg-speedcontrol',
   });
 
-  return (
-    <ThemeProvider>
-      <LayoutContainer>
-        <Info>
-          <Names>
-            {activeRun && (
-              <>
-                {activeRun.teams.map((team) => {
-                  return (
-                    <Fragment key={team.id}>
-                      {team.players.map((player) => {
-                        return <Nameplate key={player.name} player={player} />;
-                      })}
-                    </Fragment>
-                  );
-                })}
-              </>
-            )}
-            <Commentators />
-            <Reader />
-          </Names>
+  const getCurrentRelayRunner = (team: RunDataTeam) => {
+    let currentRelayRunner: RunDataPlayer | undefined;
 
-          <RunInfo fontSize={44} />
-          <Timer fontSize={64} />
-          <MediaBox useTopBorder />
-        </Info>
-      </LayoutContainer>
-    </ThemeProvider>
-  );
+    team.players.forEach((player: RunDataPlayer) => {
+      if (player.id === team.relayPlayerID) {
+        currentRelayRunner = player;
+      }
+    });
+    return currentRelayRunner;
+  };
+
+  if (activeRun) {
+    if (activeRun.relay) {
+      return (
+        <ThemeProvider>
+          <LayoutContainer>
+            <Info>
+              <Names>
+                {(() => {
+                  if (activeRun.teams[0]) {
+                    const currentRelayRunner = getCurrentRelayRunner(activeRun.teams[0]);
+                    if (currentRelayRunner != undefined) {
+                      return (
+                        <>
+                          <Nameplate player={currentRelayRunner} />
+                        </>
+                      );
+                    } else {
+                      return <></>;
+                    }
+                  } else {
+                    return <></>;
+                  }
+                })()}
+
+                <Commentators />
+                <Reader />
+              </Names>
+
+              <RunInfo fontSize={44} />
+              <Timer fontSize={64} />
+              <MediaBox useTopBorder />
+            </Info>
+          </LayoutContainer>
+        </ThemeProvider>
+      );
+    } else {
+      return (
+        <ThemeProvider>
+          <LayoutContainer>
+            <Info>
+              <Names>
+                {activeRun && (
+                  <>
+                    {activeRun.teams.map((team) => {
+                      return (
+                        <Fragment key={team.id}>
+                          {team.players.map((player) => {
+                            return <Nameplate key={player.name} player={player} />;
+                          })}
+                        </Fragment>
+                      );
+                    })}
+                  </>
+                )}
+                <Commentators />
+                <Reader />
+              </Names>
+
+              <RunInfo fontSize={44} />
+              <Timer fontSize={64} />
+              <MediaBox useTopBorder />
+            </Info>
+          </LayoutContainer>
+        </ThemeProvider>
+      );
+    }
+  } else {
+    return null;
+  }
 };
 
 render(<App />);
