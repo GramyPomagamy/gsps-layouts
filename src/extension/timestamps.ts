@@ -9,11 +9,24 @@ const nodecg = get();
 const log = new TaggedLogger('VoD Timestamp');
 const config = nodecg.bundleConfig.obs;
 
-nodecg.listenFor('createVoDTimeStamp', ({ timestamp, run, recordingName }) => {
-  if (config.timestamps && config.timestamps.enabled) {
-    createVoDTimeStamp(timestamp, run, recordingName);
+nodecg.listenFor(
+  'createVoDTimeStamp',
+  ({
+    timestamp,
+    run,
+    recordingName,
+  }: {
+    timestamp: number;
+    run: RunDataActiveRun | undefined;
+    recordingName: string;
+  }) => {
+    if (config.timestamps && config.timestamps.enabled) {
+      if (run != undefined) {
+        createVoDTimeStamp(timestamp, run, recordingName);
+      }
+    }
   }
-});
+);
 
 function createVoDTimeStamp(timestamp: number, run: RunDataActiveRun, recordingName: string) {
   const fileName = getFileName(recordingName) + '.csv';
