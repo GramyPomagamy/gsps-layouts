@@ -22,6 +22,8 @@ export * from './obsData';
 // @ts-ignore
 export * from './prizes';
 // @ts-ignore
+export * from './readDonations';
+// @ts-ignore
 export * from './reader';
 // @ts-ignore
 export * from './secondaryTimer';

@@ -3,7 +3,7 @@ import type { NeedleResponse } from 'needle';
 import { get } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
 import type { Tracker } from '../types/custom';
-import { DonationsToRead, Prizes } from 'src/types/generated';
+import { DonationsToRead, Prizes, ReadDonations } from 'src/types/generated';
 
 let cookies: NeedleResponse['cookies'];
 let isFirstLogin = true;
@@ -15,6 +15,7 @@ const donationsToReadReplicant = nodecg.Replicant<DonationsToRead>('donationsToR
 const donationsToAcceptReplicant = nodecg.Replicant<number>('donationsToAccept');
 const bidsToAcceptReplicant = nodecg.Replicant<number>('bidsToAccept');
 const readerAlertReplicant = nodecg.Replicant<boolean>('readerAlert');
+const readDonationsReplicant = nodecg.Replicant<ReadDonations>('readDonations');
 
 const donationsLog = new TaggedLogger('donations');
 const config = nodecg.bundleConfig.tracker;
@@ -215,10 +216,40 @@ async function updatePrizes() {
   setTimeout(updatePrizes, prizeRefreshTime);
 }
 
+async function getRecentlyReadDonations() {
+  try {
+    const resp = await needle(
+      'get',
+      `${rootURL}/search?event=${config!.eventID}&type=donation&readstate=READ`,
+      { cookies: cookies }
+    );
+
+    const recentlyReadDonations: ReadDonations = (resp.body as Array<any>)
+      .slice(0, 25)
+      .map((rawDono) => {
+        return {
+          id: rawDono['pk'],
+          name:
+            rawDono.fields['donor__visibility'] === 'ALIAS'
+              ? rawDono.fields['donor__alias']
+              : 'Anonim',
+          amount: parseFloat(rawDono.fields['amount']).toFixed(0),
+        };
+      });
+
+    readDonationsReplicant.value = recentlyReadDonations;
+  } catch (err) {
+    donationsLog.warn('Błąd przy otrzymywaniu przeczytanych donacji: ', err);
+  }
+
+  setTimeout(getRecentlyReadDonations, refreshTime);
+}
+
 if (config.enabled) {
   loginToTracker().then(() => {
     updateToReadDonations();
     updatePrizes();
+    getRecentlyReadDonations();
   });
 
   nodecg.listenFor('updateDonations', updateToReadDonations);

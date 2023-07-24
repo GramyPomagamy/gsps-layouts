@@ -1,5 +1,6 @@
 import { render } from '../render';
 import layoutBg from './img/layouts/4x3-2p.png';
+import layoutBgWithDonationBar from './img/layouts/4x3-2p-donationbar.png';
 import styled from 'styled-components';
 import RunInfo from './components/run-info';
 import Timer from './components/timer';
@@ -11,35 +12,36 @@ import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
 import { Fragment } from 'react';
 import ThemeProvider from './components/theme-provider';
+import DonationBar from './components/donation-bar';
 
-const LayoutContainer = styled.div`
+const LayoutContainer = styled.div<{ showDonationBar: boolean }>`
   width: 1920px;
   height: 1030px;
-  background-image: url(${layoutBg});
+  background-image: url(${(props) => (props.showDonationBar ? layoutBgWithDonationBar : layoutBg)});
   margin: 0;
   padding: 0;
   text-align: center;
 `;
 
-const BottomLeft = styled.div`
+const BottomLeft = styled.div<{ showDonationBar: boolean }>`
   display: flex;
   flex-direction: column;
   position: fixed;
   left: 0px;
   top: 722px;
   width: 679px;
-  height: 294px;
+  height: ${(props) => (props.showDonationBar ? '256px' : '294px')};
   justify-content: space-between;
 `;
 
-const BottomRight = styled.div`
+const BottomRight = styled.div<{ showDonationBar: boolean }>`
   display: flex;
   flex-direction: column;
   position: fixed;
   left: 1242px;
   top: 722px;
   width: 678px;
-  height: 304px;
+  height: ${(props) => (props.showDonationBar ? '264px' : '304px')};
 `;
 
 const Names = styled.div`
@@ -48,15 +50,23 @@ const Names = styled.div`
   gap: 0px;
 `;
 
+const Donations = styled.div`
+  position: fixed;
+  width: 1920px;
+  height: 44px;
+  bottom: 0px;
+`;
+
 export const App = () => {
   const [activeRun] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
     namespace: 'nodecg-speedcontrol',
   });
+  const [showDonationBar] = useReplicant<boolean>('showDonationBar', true);
 
   return (
     <ThemeProvider>
-      <LayoutContainer>
-        <BottomLeft>
+      <LayoutContainer showDonationBar={showDonationBar}>
+        <BottomLeft showDonationBar={showDonationBar}>
           <Names>
             {activeRun && (
               <>
@@ -100,7 +110,7 @@ export const App = () => {
           <RunInfo fontSize={44} />
           <Timer fontSize={56} />
         </BottomLeft>
-        <BottomRight>
+        <BottomRight showDonationBar={showDonationBar}>
           <Names>
             {activeRun && (
               <>
@@ -140,6 +150,11 @@ export const App = () => {
 
           <MediaBox />
         </BottomRight>
+        {showDonationBar && (
+          <Donations>
+            <DonationBar />
+          </Donations>
+        )}
       </LayoutContainer>
     </ThemeProvider>
   );

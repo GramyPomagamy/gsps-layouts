@@ -223,6 +223,13 @@
         "workspace": "1. GSPS - Ogólne"
       },
       {
+        "name": "show-donation-bar",
+        "title": "Pokaż pasek donacji",
+        "file": "show-donation-bar.html",
+        "width": 3,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
         "name": "obs-cropper",
         "title": "Cropper",
         "file": "obs-cropper.html",

@@ -1,5 +1,6 @@
 import { render } from '../render';
 import layoutBg from './img/layouts/16x9-1p.png';
+import layoutBgWithDonationBar from './img/layouts/16x9-1p-donationbar.png';
 import styled from 'styled-components';
 import RunInfo from './components/run-info';
 import { Timer as TimerEl } from './components/timer';
@@ -12,19 +13,20 @@ import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/sche
 import { Fragment } from 'react';
 import ThemeProvider from './components/theme-provider';
 import { RunDataPlayer, RunDataTeam } from '../../../../nodecg-speedcontrol/src/types';
+import DonationBar from './components/donation-bar';
 
-const LayoutContainer = styled.div`
+const LayoutContainer = styled.div<{ showDonationBar: boolean }>`
   width: 1920px;
   height: 1030px;
-  background-image: url(${layoutBg});
+  background-image: url(${(props) => (props.showDonationBar ? layoutBgWithDonationBar : layoutBg)});
   margin: 0;
   padding: 0;
 `;
 
-const LeftSide = styled.div`
+const LeftSide = styled.div<{ showDonationBar: boolean }>`
   position: fixed;
-  width: 477px;
-  height: 587px;
+  width: ${(props) => (props.showDonationBar ? '557px' : '477px')};
+  height: ${(props) => (props.showDonationBar ? '547px' : '587px')};
   top: 439px;
   left: 0px;
   display: flex;
@@ -32,12 +34,12 @@ const LeftSide = styled.div`
   text-align: center;
 `;
 
-const BottomRight = styled.div`
+const BottomRight = styled.div<{ showDonationBar: boolean }>`
   position: fixed;
-  width: 1439px;
+  width: ${(props) => (props.showDonationBar ? '1359px' : '1439px')};
   height: 213px;
-  left: 481px;
-  top: 813px;
+  left: ${(props) => (props.showDonationBar ? '561px' : '481px')};
+  top: ${(props) => (props.showDonationBar ? '770px' : '813px')};
   text-align: center;
   display: grid;
   grid-template-columns: 1fr 0.5fr;
@@ -56,10 +58,18 @@ const Timer = styled(TimerEl)`
   grid-area: 1 / 2 / 2 / 3;
 `;
 
+const Donations = styled.div`
+  position: fixed;
+  width: 1920px;
+  height: 44px;
+  bottom: 0px;
+`;
+
 export const App = () => {
   const [activeRun] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
     namespace: 'nodecg-speedcontrol',
   });
+  const [showDonationBar] = useReplicant<boolean>('showDonationBar', true);
 
   const getCurrentRelayRunner = (team: RunDataTeam) => {
     let currentRelayRunner: RunDataPlayer | undefined;
@@ -74,8 +84,8 @@ export const App = () => {
 
   return (
     <ThemeProvider>
-      <LayoutContainer>
-        <LeftSide>
+      <LayoutContainer showDonationBar={showDonationBar}>
+        <LeftSide showDonationBar={showDonationBar}>
           {(() => {
             if (activeRun) {
               if (activeRun.relay) {
@@ -116,10 +126,15 @@ export const App = () => {
           <Reader />
           <MediaBox />
         </LeftSide>
-        <BottomRight>
+        <BottomRight showDonationBar={showDonationBar}>
           <Run fontSize={56} />
           <Timer fontSize={72} />
         </BottomRight>
+        {showDonationBar && (
+          <Donations>
+            <DonationBar />
+          </Donations>
+        )}
       </LayoutContainer>
     </ThemeProvider>
   );
