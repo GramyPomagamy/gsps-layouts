@@ -72,13 +72,13 @@ export const App = () => {
     return currentRelayRunner;
   };
 
-  if (activeRun) {
-    if (activeRun.relay) {
-      return (
-        <ThemeProvider>
-          <LayoutContainer>
-            <LeftSide>
-              {(() => {
+  return (
+    <ThemeProvider>
+      <LayoutContainer>
+        <LeftSide>
+          {(() => {
+            if (activeRun) {
+              if (activeRun.relay) {
                 if (activeRun.teams[0]) {
                   const currentRelayRunner = getCurrentRelayRunner(activeRun.teams[0]);
                   if (currentRelayRunner != undefined) {
@@ -93,51 +93,36 @@ export const App = () => {
                 } else {
                   return <></>;
                 }
-              })()}
-              <Commentators />
-              <Reader />
-              <MediaBox />
-            </LeftSide>
-            <BottomRight>
-              <Run fontSize={56} />
-              <Timer fontSize={72} />
-            </BottomRight>
-          </LayoutContainer>
-        </ThemeProvider>
-      );
-    } else {
-      return (
-        <ThemeProvider>
-          <LayoutContainer>
-            <LeftSide>
-              {activeRun && (
-                <>
-                  {activeRun.teams.map((team) => {
-                    return (
-                      <Fragment key={team.id}>
-                        {team.players.map((player) => {
-                          return <Nameplate key={player.name} player={player} />;
-                        })}
-                      </Fragment>
-                    );
-                  })}
-                </>
-              )}
-              <Commentators />
-              <Reader />
-              <MediaBox />
-            </LeftSide>
-            <BottomRight>
-              <Run fontSize={56} />
-              <Timer fontSize={72} />
-            </BottomRight>
-          </LayoutContainer>
-        </ThemeProvider>
-      );
-    }
-  } else {
-    return null;
-  }
+              } else {
+                return (
+                  <>
+                    {activeRun.teams.map((team) => {
+                      return (
+                        <Fragment key={team.id}>
+                          {team.players.map((player) => {
+                            return <Nameplate key={player.name} player={player} />;
+                          })}
+                        </Fragment>
+                      );
+                    })}
+                  </>
+                );
+              }
+            } else {
+              return <></>;
+            }
+          })()}
+          <Commentators />
+          <Reader />
+          <MediaBox />
+        </LeftSide>
+        <BottomRight>
+          <Run fontSize={56} />
+          <Timer fontSize={72} />
+        </BottomRight>
+      </LayoutContainer>
+    </ThemeProvider>
+  );
 };
 
 render(<App />);
