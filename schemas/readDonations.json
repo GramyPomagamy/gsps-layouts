@@ -12,7 +12,7 @@
         "type": "string"
       },
       "amount": {
-        "type": ["number", "string"]
+        "type": "number"
       }
     },
     "required": ["id", "name", "amount"]

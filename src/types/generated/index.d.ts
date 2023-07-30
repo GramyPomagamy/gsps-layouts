@@ -28,6 +28,8 @@ export * from './reader';
 // @ts-ignore
 export * from './secondaryTimer';
 // @ts-ignore
+export * from './showDonationBar';
+// @ts-ignore
 export * from './song';
 // @ts-ignore
 export * from './total';

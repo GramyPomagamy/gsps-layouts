@@ -5,8 +5,4 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export type ReadDonations = {
-	id: number;
-	name: string;
-	amount: number;
-}[];
+export type ShowDonationBar = boolean;

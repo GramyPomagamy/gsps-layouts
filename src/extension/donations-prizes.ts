@@ -233,7 +233,7 @@ async function getRecentlyReadDonations() {
             rawDono.fields['donor__visibility'] === 'ALIAS'
               ? rawDono.fields['donor__alias']
               : 'Anonim',
-          amount: parseFloat(rawDono.fields['amount']).toFixed(0),
+          amount: parseInt(parseFloat(rawDono.fields['amount']).toFixed(0)),
         };
       });
 
