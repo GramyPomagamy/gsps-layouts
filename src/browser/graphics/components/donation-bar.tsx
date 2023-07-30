@@ -1,3 +1,4 @@
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { ReadDonations } from 'src/types/generated';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
@@ -23,7 +24,7 @@ const DonationBarContainer = styled.div`
   padding: 10px;
 `;
 
-const Donation = styled.span<{ amount: number }>`
+const DonationEl = styled.span<{ amount: number }>`
   font-size: 24px;
   text-align: center;
   white-space: nowrap;
@@ -31,18 +32,30 @@ const Donation = styled.span<{ amount: number }>`
   color: ${(props) => getDonationColor(props.amount)};
 `;
 
+type Donation = { id: number; name: string; amount: number };
+
+const Donation = ({ donation }: { donation: Donation }) => {
+  return (
+    <DonationEl amount={donation.amount}>
+      {donation.name} - {donation.amount} PLN
+    </DonationEl>
+  );
+};
+
 const DonationBar = () => {
   const [readDonations] = useReplicant<ReadDonations>('readDonations', []);
 
   return (
     <DonationBarContainer>
-      {readDonations.map((donation) => {
-        return (
-          <Donation amount={donation.amount} key={donation.id}>
-            {donation.name} - {donation.amount} PLN
-          </Donation>
-        );
-      })}
+      <TransitionGroup component={null}>
+        {readDonations.map((donation) => {
+          return (
+            <CSSTransition key={donation.id} timeout={1000} classNames="fade" appear in>
+              <Donation donation={donation} />
+            </CSSTransition>
+          );
+        })}
+      </TransitionGroup>
     </DonationBarContainer>
   );
 };
