@@ -106,7 +106,6 @@ const NextRuns = ({ onEnd }: { onEnd: () => void }) => {
           // show label
           tl.addLabel('showLabel');
           tl.to(labelRef.current, { opacity: 1, duration: 1 }, 'showLabel');
-          tl.from(labelRef.current, { x: '-5px', duration: 1 }, 'showLabel');
 
           // show chevrons one by one
           for (let index = 0; index < runs.length; index++) {

@@ -109,9 +109,15 @@ export const NextRuns = () => {
                       alignItems: 'center',
                     }}>
                     <p style={{ fontVariantNumeric: 'tabular-nums' }}>
-                      {isBehindSchedule
-                        ? calcStartTime(run)
-                        : moment(run.scheduled).format('HH:mm')}
+                      {(() => {
+                        if (isBehindSchedule) {
+                          return <>{calcStartTime(run)}</>;
+                        } else {
+                          // need to do this for runs without a start time on oengus to show their time properly
+                          calcStartTime(run);
+                          return <>{moment(run.scheduled).format('HH:mm')}</>;
+                        }
+                      })()}
                     </p>
                     <div className="shadow" style={{ display: 'flex', flexDirection: 'column' }}>
                       <p style={{ fontSize: '1.1em' }}>{run.game}</p>{' '}
