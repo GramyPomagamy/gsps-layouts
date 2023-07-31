@@ -4,7 +4,7 @@ import { Bids as BidsType } from 'src/types/generated';
 import { Bid } from 'src/types/custom';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-const bidsRep = nodecg.Replicant<BidsType>('allBids');
+const bidsRep = nodecg.Replicant<BidsType>('currentBids');
 
 const BidsContainer = styled.div`
   display: flex;
