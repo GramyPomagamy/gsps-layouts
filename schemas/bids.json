@@ -36,7 +36,8 @@
         "type": "number"
       },
       "type": {
-        "type": "string"
+        "type": "string",
+        "enum": ["challenge", "choice"]
       },
       "public": {
         "type": "string"
@@ -69,30 +70,17 @@
               "type": "number"
             }
           },
-          "required": [
-            "id",
-            "parent",
-            "name",
-            "total",
-            "rawTotal",
-            "speedrun"
-          ]
+          "required": ["id", "parent", "name", "total", "rawTotal", "speedrun"]
         }
       },
       "goal": {
         "type": "number"
+      },
+      "rawGoal": {
+        "type": "number"
       }
     },
-    "required": [
-      "id",
-      "name",
-      "total",
-      "rawTotal",
-      "type",
-      "allowUserOptions",
-      "options",
-      "public"
-    ]
+    "required": ["id", "name", "total", "rawTotal", "type", "allowUserOptions", "options", "public"]
   },
   "default": []
 }

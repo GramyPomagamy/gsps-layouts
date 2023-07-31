@@ -16,7 +16,7 @@ export type Bids = {
 	category?: string;
 	runStartTime?: number;
 	runEndTime?: number;
-	type: string;
+	type: 'challenge' | 'choice';
 	public: string;
 	allowUserOptions: boolean;
 	options: {
@@ -28,4 +28,5 @@ export type Bids = {
 		speedrun: number;
 	}[];
 	goal?: number;
+	rawGoal?: number;
 }[];

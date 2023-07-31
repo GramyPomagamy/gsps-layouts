@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import GenericMessage from './ticker/generic-message';
 import NextRuns from './ticker/next-runs';
+import Bids from './ticker/bids';
 import { useLayoutEffect, useState } from 'react';
 
 const TickerContainer = styled.div`
@@ -45,7 +46,11 @@ const Ticker = () => {
     return <NextRuns onEnd={showNextElement} />;
   }
 
-  const messageTypes = [gspsPromo(), gspsAbout(), charityPromo(), nextRuns()];
+  function bids() {
+    return <Bids onEnd={showNextElement} />;
+  }
+
+  const messageTypes = [gspsPromo(), gspsAbout(), charityPromo(), nextRuns(), bids()];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');

@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { StrictMode, type ReactNode } from 'react';
+import { type ReactNode, Fragment } from 'react';
 
 export const GlobalStyle = createGlobalStyle`
    body {
@@ -112,10 +112,10 @@ export const GlobalStyle = createGlobalStyle`
 
 const ThemeProvider = ({ children }: { children: ReactNode }) => {
   return (
-    <StrictMode>
+    <Fragment>
       <GlobalStyle />
       {children}
-    </StrictMode>
+    </Fragment>
   );
 };
 

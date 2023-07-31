@@ -81,6 +81,11 @@ const NextRuns = ({ onEnd }: { onEnd: () => void }) => {
     }
   }
 
+  function end() {
+    console.log(`NextRuns: Finished`);
+    onEnd();
+  }
+
   useEffect(() => {
     chevronsRef.current = chevronsRef.current.slice(0, nextRuns?.length);
   }, [nextRuns]);
@@ -90,7 +95,7 @@ const NextRuns = ({ onEnd }: { onEnd: () => void }) => {
       setNextRuns(await getNextRuns());
       const runs = await getNextRuns();
       if (!runs) {
-        onEnd();
+        end();
         return;
       }
 
@@ -99,12 +104,18 @@ const NextRuns = ({ onEnd }: { onEnd: () => void }) => {
           // prepare anim
           const tl = gsap.timeline({
             onComplete: () => {
-              onEnd();
+              end();
             },
           });
 
           // show label
           tl.addLabel('showLabel');
+          tl.fromTo(
+            labelRef.current,
+            { x: '-5px', duration: 1 },
+            { x: '0px', duration: 1 },
+            'hideLabel'
+          );
           tl.to(labelRef.current, { opacity: 1, duration: 1 }, 'showLabel');
 
           // show chevrons one by one
@@ -148,8 +159,14 @@ const NextRuns = ({ onEnd }: { onEnd: () => void }) => {
           // hide label
           tl.addLabel('hideLabel');
           tl.to(labelRef.current, { opacity: 0, duration: 1 }, 'hideLabel');
-          tl.to(labelRef.current, { x: '-5px', duration: 1 }, 'hideLabel');
-          console.log(tl);
+          tl.to(
+            labelRef.current,
+            {
+              x: '-5px',
+              duration: 1,
+            },
+            'hideLabel'
+          );
         }, 200);
       }, parentRef);
 

@@ -9,7 +9,7 @@ export interface Bid {
   category?: string;
   runStartTime?: number;
   runEndTime?: number;
-  type: string;
+  type: 'challenge' | 'choice';
   allowUserOptions: boolean;
   options: {
     id: number;
@@ -20,5 +20,6 @@ export interface Bid {
     speedrun: number;
   }[];
   goal?: number;
+  rawGoal?: number;
   public: string;
 }

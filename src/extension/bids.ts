@@ -176,11 +176,7 @@ function processRawBids(bids: any[]) {
     const bid = parentBidsById[id];
     bid.type = (function () {
       if (bid.options) {
-        if (bid.options.length === 2) {
-          return 'choice-binary';
-        }
-
-        return 'choice-many';
+        return 'choice';
       }
 
       return 'challenge';
