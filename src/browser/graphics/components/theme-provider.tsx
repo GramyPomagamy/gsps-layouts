@@ -72,7 +72,24 @@ export const GlobalStyle = createGlobalStyle`
     transition: opacity 1s;
   }
   
-  
+  .slide-in-bottom-enter, .slide-in-bottom-appear {
+    transform: translateY(-100%);
+  }
+
+  .slide-in-bottom-enter-active, .slide-in-bottom-appear-active {
+    transform: translateY(0%);
+    transition: transform 1s;
+  }
+
+  .slide-in-bottom-exit {
+    transform: translateY(0%);
+  }
+
+  .slide-in-bottom-exit-active {
+    transform: translateY(-100%);
+    transition: transform 1s;
+  }
+
   .shadow {
     text-shadow: 2px 2px 12px black;
   }
