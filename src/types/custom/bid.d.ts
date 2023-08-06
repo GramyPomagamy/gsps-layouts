@@ -22,4 +22,5 @@ export interface Bid {
   goal?: number;
   rawGoal?: number;
   public: string;
+  state?: 'OPEN' | 'CLOSED';
 }

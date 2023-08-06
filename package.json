@@ -248,6 +248,12 @@
         "title": "3. GSPS - Kontrola mediaboxa",
         "file": "media-box-controls.html",
         "fullbleed": true
+      },
+      {
+        "name": "reader-panel",
+        "title": "4. GSPS - Panel czytającego",
+        "file": "reader-panel.html",
+        "fullbleed": true
       }
     ],
     "graphics": [
