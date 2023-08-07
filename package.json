@@ -254,6 +254,12 @@
         "title": "4. GSPS - Panel czytającego",
         "file": "reader-panel.html",
         "fullbleed": true
+      },
+      {
+        "name": "host-panel",
+        "title": "5. GSPS - Panel hosta",
+        "file": "host-panel.html",
+        "fullbleed": true
       }
     ],
     "graphics": [
