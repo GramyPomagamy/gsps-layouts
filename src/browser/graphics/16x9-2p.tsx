@@ -9,10 +9,14 @@ import Nameplate from './components/nameplate';
 import Reader from './components/reader';
 import Commentators from './components/commentators';
 import { useReplicant } from 'use-nodecg';
-import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
-import { Fragment } from 'react';
+import {
+  RunDataActiveRun,
+  Timer as TimerType,
+} from '../../../../nodecg-speedcontrol/src/types/schemas';
+import { Fragment, useEffect, useState } from 'react';
 import ThemeProvider from './components/theme-provider';
 import DonationBar from './components/donation-bar';
+import FinishTime from './components/finish-time';
 
 const LayoutContainer = styled.div<{ showDonationBar: boolean }>`
   width: 1920px;
@@ -57,11 +61,74 @@ const Donations = styled.div`
   bottom: 0px;
 `;
 
+const Team1FinishTime = styled.div`
+  position: fixed;
+  top: 543px;
+  left: 654px;
+`;
+
+const Team2FinishTime = styled.div`
+  position: fixed;
+  top: 543px;
+  right: 654px;
+`;
+
 export const App = () => {
   const [activeRun] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
     namespace: 'nodecg-speedcontrol',
   });
   const [showDonationBar] = useReplicant<boolean>('showDonationBar', true);
+  const [timer] = useReplicant<TimerType | undefined>('timer', undefined, {
+    namespace: 'nodecg-speedcontrol',
+  });
+  const [placements, setPlacements] = useState<
+    {
+      place: number;
+      placementData: [
+        string,
+        {
+          time: string;
+          state: 'forfeit' | 'completed';
+          milliseconds: number;
+          timestamp: number;
+        }
+      ];
+    }[]
+  >([]);
+
+  function team1Placement() {
+    let place = 1;
+    if (placements.length > 0) {
+      placements.forEach((placement) => {
+        if (placement.placementData[0] === activeRun!.teams[0]!.id) {
+          place = placement.place;
+        }
+      });
+    }
+    return place;
+  }
+
+  function team2Placement() {
+    let place = 1;
+    if (placements.length > 0) {
+      placements.forEach((placement) => {
+        if (placement.placementData[0] === activeRun!.teams[1]!.id) {
+          place = placement.place;
+        }
+      });
+    }
+    return place;
+  }
+
+  useEffect(() => {
+    if (typeof timer === 'undefined') return;
+
+    setPlacements(
+      Object.entries(timer.teamFinishTimes)
+        .sort(([, a], [, b]) => a.milliseconds - b.milliseconds)
+        .map((p, i) => ({ place: i + 1, placementData: p }))
+    );
+  }, [timer]);
 
   return (
     <ThemeProvider>
@@ -149,6 +216,33 @@ export const App = () => {
           </Names>
           <MediaBox />
         </BottomRight>
+        {activeRun &&
+          timer &&
+          activeRun.teams[0] &&
+          activeRun.teams.length > 1 &&
+          timer.teamFinishTimes[activeRun.teams[0].id] != undefined &&
+          timer.teamFinishTimes[activeRun.teams[0].id]!.state === 'completed' && (
+            <Team1FinishTime>
+              <FinishTime
+                side="left"
+                place={team1Placement()}
+                time={timer.teamFinishTimes[activeRun.teams[0].id]!.time}
+              />
+            </Team1FinishTime>
+          )}
+        {activeRun &&
+          timer &&
+          activeRun.teams[1] &&
+          timer.teamFinishTimes[activeRun.teams[1].id] != undefined &&
+          timer.teamFinishTimes[activeRun.teams[1].id]!.state === 'completed' && (
+            <Team2FinishTime>
+              <FinishTime
+                side="right"
+                place={team2Placement()}
+                time={timer.teamFinishTimes[activeRun.teams[1].id]!.time}
+              />
+            </Team2FinishTime>
+          )}
         {showDonationBar && (
           <Donations>
             <DonationBar />
