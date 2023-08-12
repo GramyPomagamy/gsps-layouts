@@ -67,7 +67,7 @@ const App = () => {
           <br />
           {reader && (
             <p>
-              Obecny czytający: {reader.name} ({reader.pronouns})
+              Obecny czytający: {reader.name} {reader.pronouns && <>({reader.pronouns})</>}
             </p>
           )}
         </DonationsContainer>
