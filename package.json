@@ -223,6 +223,13 @@
         "workspace": "1. GSPS - Ogólne"
       },
       {
+        "name": "hosterka",
+        "title": "Hosterka",
+        "file": "hosterka.html",
+        "width": 4,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
         "name": "show-donation-bar",
         "title": "Pokaż pasek donacji",
         "file": "show-donation-bar.html",
@@ -265,6 +272,11 @@
     "graphics": [
       {
         "file": "odliczanie.html",
+        "width": 1920,
+        "height": 1030
+      },
+      {
+        "file": "hosterka.html",
         "width": 1920,
         "height": 1030
       },

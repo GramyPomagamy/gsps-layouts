@@ -74,3 +74,16 @@ function toggleReaderAlert() {
 }
 
 nodecg.listenFor('toggleAlert', toggleReaderAlert);
+
+let hosterkaNameTimeout: NodeJS.Timeout;
+
+// hide hosterka names after 10s
+nodecg.listenFor('showNames', () => {
+  hosterkaNameTimeout = setTimeout(() => {
+    nodecg.sendMessage('hideNames');
+  }, 10 * 1000);
+});
+
+nodecg.listenFor('hideNames', () => {
+  clearTimeout(hosterkaNameTimeout);
+});

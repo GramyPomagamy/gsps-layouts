@@ -94,7 +94,7 @@ const NextRuns = ({ onEnd }: { onEnd: () => void }) => {
     NodeCG.waitForReplicants(runDataActiveRun, runDataArray, obsData).then(async () => {
       setNextRuns(await getNextRuns());
       const runs = await getNextRuns();
-      if (!runs) {
+      if (!runs || !runs.length) {
         end();
         return;
       }

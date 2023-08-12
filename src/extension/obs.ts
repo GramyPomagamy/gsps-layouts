@@ -101,7 +101,10 @@ function switchToIntermission() {
     });
   }
   nodecg.sendMessage('hideNames');
-  hosterkaReplicant.value = { host1: '', host2: '' };
+  hosterkaReplicant.value = {
+    hostL: { name: '', pronouns: '' },
+    hostR: { name: '', pronouns: '' },
+  };
   showBidsPanel.value = false;
   showPrizePanel.value = false;
   resetAllCrops();
@@ -115,7 +118,10 @@ function switchFromHostScreen() {
   if (foobarConfig.enabled) {
     foobar.unmute();
   }
-  hosterkaReplicant.value = { host1: '', host2: '' };
+  hosterkaReplicant.value = {
+    hostL: { name: '', pronouns: '' },
+    hostR: { name: '', pronouns: '' },
+  };
   showBidsPanel.value = false;
   showPrizePanel.value = false;
 }

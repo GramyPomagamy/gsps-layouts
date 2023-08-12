@@ -59,7 +59,7 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
     NodeCG.waitForReplicants(bidsRep).then(() => {
       setNextBids(getNextBids());
       const bids = getNextBids();
-      if (!bids) {
+      if (!bids || !bids.length) {
         end();
         return;
       }

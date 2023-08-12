@@ -6,6 +6,40 @@
  */
 
 export interface Hosterka {
-	host1: string;
-	host2: string;
+	hostL: {
+		name: string;
+		pronouns:
+			| 'ona/jej'
+			| 'on/jego'
+			| 'ono/jego'
+			| 'ono/jej'
+			| 'ono/jejgo'
+			| 'ono/jeno'
+			| 'ono/jenu'
+			| 'ono/ich'
+			| 'onu/jenu'
+			| 'onu/jejo'
+			| 'ne/nego'
+			| 'onu/jegu'
+			| '';
+		[k: string]: unknown;
+	};
+	hostR: {
+		name: string;
+		pronouns:
+			| 'ona/jej'
+			| 'on/jego'
+			| 'ono/jego'
+			| 'ono/jej'
+			| 'ono/jejgo'
+			| 'ono/jeno'
+			| 'ono/jenu'
+			| 'ono/ich'
+			| 'onu/jenu'
+			| 'onu/jejo'
+			| 'ne/nego'
+			| 'onu/jegu'
+			| '';
+		[k: string]: unknown;
+	};
 }
