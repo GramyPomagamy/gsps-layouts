@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import GenericMessage from './ticker/generic-message';
 import NextRuns from './ticker/next-runs';
 import Bids from './ticker/bids';
+import Prizes from './ticker/prizes';
 import { useLayoutEffect, useState } from 'react';
 
 const TickerContainer = styled.div`
@@ -22,25 +23,25 @@ const Ticker = () => {
 
   function gspsPromo() {
     return genericMsg(
-      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie na CD-Action EXPO 2023</b>!'
+      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie 2023</b>!'
     );
   }
 
   function charityPromo() {
     return genericMsg(
-      'Fundację GSPS możesz wesprzeć na&nbsp;<b class="highlight">gsps.pl/fundacja</b>!'
+      'GSPS 2023 wspiera&nbsp;<b class="highlight">Antydepresyjny Telefon Zaufania Fundacji ITAKA</b>!'
     );
   }
 
-  /*   function donationURL() {
+  function donationURL() {
     return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
-  } */
+  }
 
-  function gspsAbout() {
+  /*   function gspsAbout() {
     return genericMsg(
       'Więcej o wydarzeniach z serii GSPS możecie się dowiedzieć na <b class="highlight">gsps.pl</b>!'
     );
-  }
+  } */
 
   function nextRuns() {
     return <NextRuns onEnd={showNextElement} />;
@@ -50,7 +51,11 @@ const Ticker = () => {
     return <Bids onEnd={showNextElement} />;
   }
 
-  const messageTypes = [gspsPromo(), gspsAbout(), charityPromo(), nextRuns(), bids()];
+  function prizes() {
+    return <Prizes onEnd={showNextElement} />;
+  }
+
+  const messageTypes = [gspsPromo(), charityPromo(), donationURL(), nextRuns(), bids(), prizes()];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');

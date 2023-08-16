@@ -80,7 +80,7 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
             labelRef.current,
             { x: '-5px', duration: 1 },
             { x: '0px', duration: 1 },
-            'hideLabel'
+            'showLabel'
           );
           tl.to(labelRef.current, { opacity: 1, duration: 1 }, 'showLabel');
 
