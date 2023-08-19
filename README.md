@@ -43,7 +43,8 @@ Grafiki GSPSowe mogą sterować odtwarzaczem [foobar2000](https://www.foobar2000
 
 Lista wydarzeń, gdzie te grafiki zostały użyte. Sortowane od najnowszych:
 
-* GSPS 2022
+* [GSPS Dzieciom 2023](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p2LDj2IoU907heue-t72Y9U)
+* [GSPS 2022](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p3FaeZkwWjWhadn6F8J0aeW)
 * [GSPS Dzieciom 2022](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p3448rkWwvfWORn5gFD8S-2)
 
 ## EN
@@ -89,5 +90,6 @@ This bundle can interface with [foobar2000](https://www.foobar2000.org/) using t
 
 Here's a list of events this bundle has been used at so far, most recent first:
 
-* GSPS 2022
+* [GSPS Dzieciom 2023](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p2LDj2IoU907heue-t72Y9U)
+* [GSPS 2022](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p3FaeZkwWjWhadn6F8J0aeW)
 * [GSPS Dzieciom 2022](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p3448rkWwvfWORn5gFD8S-2)
