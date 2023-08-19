@@ -3,6 +3,7 @@ import GenericMessage from './ticker/generic-message';
 import NextRuns from './ticker/next-runs';
 import Bids from './ticker/bids';
 import Prizes from './ticker/prizes';
+import Milestones from './ticker/milestones';
 import { useLayoutEffect, useState } from 'react';
 
 const TickerContainer = styled.div`
@@ -55,7 +56,19 @@ const Ticker = () => {
     return <Prizes onEnd={showNextElement} />;
   }
 
-  const messageTypes = [gspsPromo(), charityPromo(), donationURL(), nextRuns(), bids(), prizes()];
+  function milestones() {
+    return <Milestones onEnd={showNextElement} />;
+  }
+
+  const messageTypes = [
+    gspsPromo(),
+    charityPromo(),
+    donationURL(),
+    nextRuns(),
+    bids(),
+    prizes(),
+    milestones(),
+  ];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');
