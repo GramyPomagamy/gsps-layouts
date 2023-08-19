@@ -12,7 +12,7 @@ Jest to zestaw grafik dla [NodeCG](https://nodecg.dev) v2.0.0. Dodatkowo musisz 
 
 ### Instalacja
 
-Będziesz potrzebować [Node.js](https://nodejs.org) (przetestowane z wersją 16.x LTS) i [git](https://git-scm.com/), aby zainstalować NodeCG. [Dokumentacja NodeCG](https://www.nodecg.dev/docs/installing) powie ci jak zainstalować NodeCG. Dodatkowo sugerujemy zainstalowanie `nodecg-cli`; informacje jak to zrobić są też w podanym właśnie linku (***komendy podane niżej zakładają że nodecg-cli jest zainstalowane!***).
+Będziesz potrzebować [Node.js](https://nodejs.org) (przetestowane z wersją 18.x LTS) i [git](https://git-scm.com/), aby zainstalować NodeCG. [Dokumentacja NodeCG](https://www.nodecg.dev/docs/installing) powie ci jak zainstalować NodeCG. Dodatkowo sugerujemy zainstalowanie `nodecg-cli`; informacje jak to zrobić są też w podanym właśnie linku (***komendy podane niżej zakładają że nodecg-cli jest zainstalowane!***).
 
 Potem, sklonuj gałąż `build` tego repozytorium do folderu `bundles` NodeCG i zainstaluj wymagane zależności:
 > ```
@@ -31,7 +31,7 @@ Na koniec, zainstaluj [nodecg-speedcontrol](https://github.com/speedcontrol/node
 > nodecg install speedcontrol/nodecg-speedcontrol
 > ```
 
-Grafiki GSPSowe polegają na wtyczce [obs-websocket](https://github.com/Palakis/obs-websocket) (zawartej w OBSie 28!), więc upewnij się że masz tą wtyczkę zainstalowaną (niestandarowy adres/port oraz hasło można podać w konfiguracji).
+Grafiki GSPSowe polegają na wtyczce [obs-websocket](https://github.com/Palakis/obs-websocket) (zawartej w OBSie 28 i wyżej!), więc upewnij się że masz tą wtyczkę zainstalowaną (niestandarowy adres/port oraz hasło można podać w konfiguracji).
 
 #### Odtwarzacz muzyki
 
@@ -58,7 +58,7 @@ This is a [NodeCG](https://nodecg.dev) v2.0.0 bundle. Additionally you need to i
 
 ### Installation
 
-You will need [Node.js](https://nodejs.org) (16.x LTS tested) and [git](https://git-scm.com/) installed to install NodeCG, then see the [NodeCG documentation](https://www.nodecg.dev/docs/installing) on how to install it. Installing `nodecg-cli` is also suggested; information on that is also on the documentation just linked (**the commands below will assume you have installed nodecg-cli!**).
+You will need [Node.js](https://nodejs.org) (18.x LTS tested) and [git](https://git-scm.com/) installed to install NodeCG, then see the [NodeCG documentation](https://www.nodecg.dev/docs/installing) on how to install it. Installing `nodecg-cli` is also suggested; information on that is also on the documentation just linked (**the commands below will assume you have installed nodecg-cli!**).
 
 Afterwards, clone the `build` branch of this repository into the NodeCG `bundles` folder and install the dependencies:
 > ```
@@ -77,7 +77,7 @@ Then, to get [nodecg-speedcontrol](https://github.com/speedcontrol/nodecg-speedc
 > nodecg install speedcontrol/nodecg-speedcontrol
 > ```
 
-This bundle relies on the [obs-websocket](https://github.com/Palakis/obs-websocket) plugin (included in OBS 28!), so make sure you have this installed (custom address/port and password can be specified in the bundle's config if needed).
+This bundle relies on the [obs-websocket](https://github.com/Palakis/obs-websocket) plugin (included in OBS 28 and higher!), so make sure you have this installed (custom address/port and password can be specified in the bundle's config if needed).
 
 #### Music Player
 
