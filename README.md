@@ -8,7 +8,7 @@
 
 ***Ta dokumentacja nie jest w pełni gotowa i może zawierać błędy, ale powinna być wystarczająco poprawna aby być użyta jako instrukcja instalacji i użytkowania.***
 
-Jest to zestaw grafik dla [NodeCG](https://nodecg.dev) v1.8.1. Dodatkowo musisz jeszcze zainstalować [nodecg-speedcontrol](https://github.com/speedcontrol/nodecg-speedcontrol).
+Jest to zestaw grafik dla [NodeCG](https://nodecg.dev) v2.0.0. Dodatkowo musisz jeszcze zainstalować [nodecg-speedcontrol](https://github.com/speedcontrol/nodecg-speedcontrol).
 
 ### Instalacja
 
@@ -54,7 +54,7 @@ Lista wydarzeń, gdzie te grafiki zostały użyte. Sortowane od najnowszych:
 
 ***This documentation isn't fully complete and may have errors, but should be correct enough for install and usage purposes.***
 
-This is a [NodeCG](https://nodecg.dev) v1.8.1 bundle. Additionally you need to install the [nodecg-speedcontrol](https://github.com/speedcontrol/nodecg-speedcontrol) bundle.
+This is a [NodeCG](https://nodecg.dev) v2.0.0 bundle. Additionally you need to install the [nodecg-speedcontrol](https://github.com/speedcontrol/nodecg-speedcontrol) bundle.
 
 ### Installation
 
