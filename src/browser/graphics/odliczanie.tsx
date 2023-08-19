@@ -1,5 +1,5 @@
 import { render } from '../render';
-import gspsLogo from './img/GSPS_PNG.png';
+import gspsLogo from './img/logo_gsps_2023.png';
 import mainBg from './img/gradient_transparent.png';
 import styled from 'styled-components';
 import { IoIosMusicalNotes } from 'react-icons/io';
@@ -20,7 +20,7 @@ const LayoutContainer = styled.div`
 
 const LogoDiv = styled.div`
   position: fixed;
-  top: 100px;
+  top: 250px;
   width: 1920px;
   height: 500px;
   text-align: center;
@@ -36,7 +36,7 @@ const CountdownDiv = styled.div`
 `;
 
 const Logo = styled.img`
-  height: 100%;
+  height: 45%;
 `;
 
 const SongDiv = styled.div`

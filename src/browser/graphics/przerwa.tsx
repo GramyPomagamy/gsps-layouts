@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import eventLogo from './img/GSPS_PNG.png';
+import eventLogo from './img/logo_gsps_2023.png';
 import mainBg from './img/gradient_transparent.png';
 import { render } from '../render';
 import MediaBox from './components/media-box';
@@ -30,10 +30,10 @@ const MediaBoxContainer = styled.div`
 `;
 
 const EventLogo = styled.img`
-  width: 350px;
+  width: 250px;
   position: fixed;
-  top: 0px;
-  left: 5px;
+  top: 40px;
+  left: 65px;
 `;
 
 export const App = () => {
