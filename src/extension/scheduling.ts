@@ -1,3 +1,4 @@
+import { RunCustomData, RunCustomPlayerData } from 'src/types/custom';
 import { RunDataArray } from '../../../nodecg-speedcontrol/src/types';
 import { OengusImportStatus } from '../../../nodecg-speedcontrol/src/types/schemas';
 import { get } from './util/nodecg';
@@ -16,15 +17,27 @@ oengusImportStatus.on('change', (newVal, oldVal) => {
     if (oldVal && oldVal.importing === true && newVal && newVal.importing === false) {
       runDataArray.value!.forEach((run) => {
         if (run.game) {
+          const customData = run.customData as RunCustomData;
           run.gameTwitch =
-            typeof run.customData['gameTwitchName'] != 'undefined'
-              ? run.customData['gameTwitchName']
+            typeof customData.gameTwitchName != 'undefined'
+              ? customData.gameTwitchName
               : defaultGame;
 
           run.teams.forEach((team) => {
             team.players.forEach((player) => {
-              // zero out pronouns for now, will add them properly later
-              player.pronouns = '';
+              if (customData.players) {
+                const playerData = JSON.parse(customData.players);
+                if (typeof (playerData[player.name] as RunCustomPlayerData) != 'undefined') {
+                  player.pronouns =
+                    typeof (playerData[player.name] as RunCustomPlayerData).pronouns != 'undefined'
+                      ? (playerData[player.name] as RunCustomPlayerData).pronouns
+                      : '';
+                } else {
+                  player.pronouns = '';
+                }
+              } else {
+                player.pronouns = '';
+              }
             });
           });
         }

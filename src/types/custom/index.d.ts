@@ -13,3 +13,4 @@ export * from './prize';
 export * from './pronouns';
 export * from './mediaBoxItem';
 export * from './host';
+export * from './runCustomData';
