@@ -40,27 +40,27 @@ const Ticker = () => {
 
   function gspsPromo() {
     return genericMsg(
-      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie na CD-Action EXPO 2023</b>!'
+      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie 2023</b>!'
     );
   }
 
   function charityPromo() {
     return genericMsg(
-      'Fundację GSPS możesz wesprzeć na&nbsp;<b class="highlight">gsps.pl/fundacja</b>!'
+      'GSPS 2023 wspiera&nbsp;<b class="highlight">Antydepresyjny Telefon Zaufania Fundacji ITAKA</b>!'
     );
   }
 
-  /*   function donationURL() {
+  function donationURL() {
     return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
-  } */
+  }
 
-  function gspsAbout() {
+  /*   function gspsAbout() {
     return genericMsg(
       'Więcej o wydarzeniach z serii GSPS możecie się dowiedzieć na <b class="highlight">gsps.pl</b>!'
     );
-  }
+  } */
 
-  const messageTypes = [gspsPromo(), gspsAbout(), charityPromo()];
+  const messageTypes = [gspsPromo(), charityPromo(), donationURL(),];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');

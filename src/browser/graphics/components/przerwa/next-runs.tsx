@@ -12,7 +12,7 @@ import moment from 'moment';
 const NextRunsContainer = styled.div`
   position: fixed;
   left: 65px;
-  top: 150px;
+  top: 120px;
   display: flex;
   flex-direction: column;
   gap: 0px;
@@ -27,7 +27,7 @@ const Label = styled.p`
 const CurrentRun = styled.div`
   display: flex;
   flex-direction: column;
-  line-height: 5px;
+  line-height: 3px;
   gap: 0px;
 `;
 
@@ -35,8 +35,8 @@ const UpcomingRuns = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 10px;
-  line-height: 5px;
-  gap: 5px;
+  line-height: 3px;
+  gap: 2px;
   font-size: 24px;
 `;
 
@@ -54,7 +54,7 @@ export const NextRuns = () => {
 
     const currentRunIndex = runs.findIndex((run) => run.id === currentRun.id);
     if (currentRunIndex > -1) {
-      const upcomingRuns = runs.slice(currentRunIndex + 1, currentRunIndex + 7);
+      const upcomingRuns = runs.slice(currentRunIndex + 1, currentRunIndex + 4);
       setUpcomingRuns(upcomingRuns);
     }
   }, [currentRun]);
