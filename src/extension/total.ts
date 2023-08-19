@@ -1,23 +1,26 @@
-import type { Donation } from '@gsps-layouts/types';
-import { get as nodecg } from './util/nodecg';
-import { totalReplicant, autoUpdateTotalReplicant } from './util/replicants';
+import type { Donation } from '../types/custom';
 import request from 'request';
 import { formatDollars } from './util/format-dollars';
-import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
+import type { Configschema } from '../types/generated/configschema';
 import io from 'socket.io-client';
 import { TaggedLogger } from './util/tagged-logger';
+import { get } from './util/nodecg';
+import { AutoUpdateTotal, Total } from 'src/types/generated';
 
+const nodecg = get();
 const totalLog = new TaggedLogger('total');
-const config = (nodecg().bundleConfig as Configschema).tracker;
+const config = nodecg.bundleConfig.tracker;
 const rootURL = config!.rootURL;
 const eventID = config!.eventID;
-const socketConfig = (nodecg().bundleConfig as Configschema).donationSocket;
+const socketConfig = (nodecg.bundleConfig as Configschema).donationSocket;
 const TOTAL_URL = `${rootURL}/${eventID}?json`;
+const totalReplicant = nodecg.Replicant<Total>('total');
+const autoUpdateTotalReplicant = nodecg.Replicant<AutoUpdateTotal>('autoUpdateTotal');
 
 autoUpdateTotalReplicant.on('change', (newVal) => {
   if (newVal) {
     totalLog.info('Automatic updating of donation total enabled');
-    manuallyUpdateTotal(true);
+    manuallyUpdateTotal();
   } else {
     totalLog.warn('Automatic updating of donation total DISABLED');
   }
@@ -52,7 +55,6 @@ if (socketConfig.enabled) {
       }
 
       const donation = formatDonation(data.rawAmount, data.newTotal);
-      nodecg().sendMessage('donation', donation);
 
       if (autoUpdateTotalReplicant.value) {
         totalReplicant.value = {
@@ -64,30 +66,28 @@ if (socketConfig.enabled) {
   });
 
   socket.on('disconnect', () => {
-    totalLog.error(
-      'Disconnected from donation socket, can not receive donations!'
-    );
+    totalLog.error('Disconnected from donation socket, can not receive donations!');
   });
 
-  socket.on('error', (err: any) => {
+  socket.on('error', (err: unknown) => {
     totalLog.error('Donation socket error:', err);
   });
 } else {
   totalLog.warn(
-    `cfg/${nodecg().bundleName}.json has the donation socket disabled.` +
+    `cfg/${nodecg.bundleName}.json has the donation socket disabled.` +
       '\n\tThis means that we cannot receive new incoming PayPal donations from the tracker,' +
       '\n\tand that donation notifications will not be displayed as a result. The total also will not update.'
   );
 }
 
 // Dashboard can invoke manual updates
-nodecg().listenFor('updateTotal', () => manuallyUpdateTotal());
+nodecg.listenFor('updateTotal', () => manuallyUpdateTotal());
 
-nodecg().listenFor('setTotal', ({ type, newValue }) => {
+nodecg.listenFor('setTotal', ({ type, newValue }) => {
   if (type === 'cash') {
     totalReplicant.value = {
-      raw: parseFloat(newValue),
-      formatted: formatDollars(newValue, { cents: false }),
+      raw: parseFloat(newValue.toString()),
+      formatted: formatDollars(newValue),
     };
   } else {
     totalLog.error('Unexpected "type" sent to setTotal: "%s"', type);
@@ -96,27 +96,17 @@ nodecg().listenFor('setTotal', ({ type, newValue }) => {
 
 /**
  * Handles manual "updateTotal" requests.
- * @param {Boolean} [silent = false] - Whether to print info to logs or not.
- * @param {Function} [cb] - The callback to invoke after the total has been updated.
  * @returns {undefined}
  */
-function manuallyUpdateTotal(
-  silent: boolean = false,
-  cb = function (error?: any, updated?: any) {}
-) {
+function manuallyUpdateTotal() {
   totalLog.info('Aktualizuje kwote');
 
   updateTotal()
-    .then((updated) => {
-      if (updated) {
-        nodecg().sendMessage('total:manuallyUpdated', totalReplicant.value);
-      } else {
-      }
-
-      cb(null, updated);
+    .then(() => {
+      nodecg.sendMessage('total:manuallyUpdated', totalReplicant.value!);
     })
     .catch((error) => {
-      cb(error);
+      totalLog.error('Błąd w ręczej aktualizacji zebranej kwoty: ', error);
     });
 }
 
@@ -132,21 +122,18 @@ function updateTotal() {
         try {
           stats = JSON.parse(body);
         } catch (e) {
-          totalLog.error(
-            'Could not parse total, response not valid JSON:\n\t',
-            body
-          );
+          totalLog.error('Could not parse total, response not valid JSON:\n\t', body);
           return;
         }
 
         const freshTotal = parseFloat(stats.agg.amount || 0);
 
-        if (freshTotal === totalReplicant.value.raw) {
+        if (freshTotal === totalReplicant.value!.raw) {
           resolve(false);
         } else {
           totalReplicant.value = {
             raw: freshTotal,
-            formatted: formatDollars(freshTotal, { cents: false }),
+            formatted: formatDollars(freshTotal),
           };
           resolve(true);
         }
@@ -186,7 +173,7 @@ function formatDonation(rawAmount: number, newTotal: number) {
   return {
     amount,
     rawAmount,
-    newTotal: formatDollars(rawNewTotal, { cents: false }),
+    newTotal: formatDollars(rawNewTotal),
     rawNewTotal,
   };
 }

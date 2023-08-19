@@ -1,12 +1,13 @@
 'use strict';
 
-import { get as nodecg } from './util/nodecg';
-import { songReplicant } from './util/replicants';
-import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
+import { get } from './util/nodecg';
 import FoobarControl from './foobar';
+import { Song } from 'src/types/generated';
 
-const config = (nodecg().bundleConfig as Configschema).foobar;
+const nodecg = get();
+const config = nodecg.bundleConfig.foobar;
 const foobar = new FoobarControl(config.address!);
+const songReplicant = nodecg.Replicant<Song>('song');
 
 async function GetSong() {
   if (config.enabled) {

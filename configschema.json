@@ -235,6 +235,11 @@
         }
       },
       "required": ["enabled"]
+    },
+    "autoUpdateGameAfterImport": {
+      "type": "boolean",
+      "description": "Update game twitch name and player pronouns after Oengus import is complete.",
+      "default": false
     }
   },
   "required": [

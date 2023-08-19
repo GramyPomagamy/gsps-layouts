@@ -1,15 +1,18 @@
-import {
-  timerReplicant,
-  activeRunReplicant,
-  obsDataReplicant,
-} from './util/replicants';
-import { get as nodecg } from './util/nodecg';
-import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
+import { get } from './util/nodecg';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { TaggedLogger } from './util/tagged-logger';
 import io from 'socket.io-client';
+import { ObsData } from 'src/types/generated';
+import { RunDataActiveRun, Timer } from '../../../nodecg-speedcontrol/src/types';
 
-const config = (nodecg().bundleConfig as Configschema).highlighter;
+const nodecg = get();
+const obsDataReplicant = nodecg.Replicant<ObsData>('obsData');
+const timerReplicant = nodecg.Replicant<Timer>('timer', 'nodecg-speedcontrol');
+const activeRunReplicant = nodecg.Replicant<RunDataActiveRun>(
+  'runDataActiveRun',
+  'nodecg-speedcontrol'
+);
+const config = nodecg.bundleConfig.highlighter;
 let sheets: GoogleSpreadsheet;
 
 if (config.enabled) {
@@ -27,12 +30,12 @@ function makeHighlight() {
   if (config.enabled) {
     const sheet = sheets.sheetsByTitle['Raw'];
     const timestamp = formatTime(Date.now());
-    const timer = timerReplicant.value.time;
+    const timer = timerReplicant.value!.time;
     const run = getCurrentGame();
-    const scene = obsDataReplicant.value.scene;
+    const scene = obsDataReplicant.value!.scene;
 
     try {
-      sheet.addRow([timestamp, run, timer, scene || 'Brak sceny']).then(() => {
+      sheet!.addRow([timestamp, run, timer, scene || 'Brak sceny']).then(() => {
         log.info('Highlight wykonany poprawnie');
       });
     } catch (err) {
@@ -44,12 +47,12 @@ function makeHighlight() {
 }
 
 function getCurrentGame() {
-  let run: string = 'Brak ustawionej gry';
-  if (activeRunReplicant.value.game) {
-    run = activeRunReplicant.value.game;
+  let run = 'Brak ustawionej gry';
+  if (activeRunReplicant.value!.game) {
+    run = activeRunReplicant.value!.game;
   }
-  if (activeRunReplicant.value.category) {
-    run += ' ' + activeRunReplicant.value.category;
+  if (activeRunReplicant.value!.category) {
+    run += ' ' + activeRunReplicant.value!.category;
   }
   return run;
 }
@@ -60,7 +63,7 @@ function formatTime(timestamp: number) {
   return formatted;
 }
 
-nodecg().listenFor('makeHighlight', makeHighlight);
+nodecg.listenFor('makeHighlight', makeHighlight);
 
 if (config.remote && config.remote.enabled) {
   const socket = io(config.remote.url!);

@@ -1,19 +1,17 @@
 import needle from 'needle';
-import { get as nodecg } from './util/nodecg';
+import { get } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
-import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
 
+const nodecg = get();
 const featuredLog = new TaggedLogger('featured');
-const config = (nodecg().bundleConfig as Configschema).twitchExt;
+const config = nodecg.bundleConfig.twitchExt;
 
 async function updateFeatured(players: Array<string>) {
   const channels = players.join(',');
   try {
     const resp = await needle(
       'get',
-      `https://api.furious.pro/featuredchannels/bot/${
-        config.token
-      }/${encodeURIComponent(channels)}`
+      `https://api.furious.pro/featuredchannels/bot/${config.token}/${encodeURIComponent(channels)}`
     );
 
     if (resp.statusCode === 200) {
@@ -24,19 +22,12 @@ async function updateFeatured(players: Array<string>) {
       throw new Error(`Status Code ${resp.statusCode}`);
     }
   } catch (err) {
-    featuredLog.warn(
-      'Błąd przy aktualizowaniu panelu z runnerami pod streamem: ',
-      err
-    );
+    featuredLog.warn('Błąd przy aktualizowaniu panelu z runnerami pod streamem: ', err);
   }
 }
 
-nodecg().listenFor(
-  'repeaterFeaturedChannels',
-  'nodecg-speedcontrol',
-  (names) => {
-    if (config.enabled) {
-      updateFeatured(names);
-    }
+nodecg.listenFor('repeaterFeaturedChannels', 'nodecg-speedcontrol', (names) => {
+  if (config.enabled) {
+    updateFeatured(names);
   }
-);
+});

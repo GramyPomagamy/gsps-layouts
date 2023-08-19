@@ -1,28 +1,34 @@
-import { get as nodecg } from './util/nodecg';
-import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
+import { get } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
 import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 import fs from 'fs';
 import { stringify } from 'csv-stringify';
 import path from 'path';
 
+const nodecg = get();
 const log = new TaggedLogger('VoD Timestamp');
-const config = (nodecg().bundleConfig as Configschema).obs;
+const config = nodecg.bundleConfig.obs;
 
-nodecg().listenFor(
+nodecg.listenFor(
   'createVoDTimeStamp',
-  ({ timestamp, run, recordingName }) => {
-    if (config.timestamps?.enabled) {
-      createVoDTimeStamp(timestamp, run, recordingName);
+  ({
+    timestamp,
+    run,
+    recordingName,
+  }: {
+    timestamp: number;
+    run: RunDataActiveRun | undefined;
+    recordingName: string;
+  }) => {
+    if (config.timestamps && config.timestamps.enabled) {
+      if (run != undefined) {
+        createVoDTimeStamp(timestamp, run, recordingName);
+      }
     }
   }
 );
 
-function createVoDTimeStamp(
-  timestamp: number,
-  run: RunDataActiveRun,
-  recordingName: string
-) {
+function createVoDTimeStamp(timestamp: number, run: RunDataActiveRun, recordingName: string) {
   const fileName = getFileName(recordingName) + '.csv';
   const path = getDirectory(recordingName) + '\\' + fileName;
 
@@ -62,21 +68,14 @@ function createVoDTimeStamp(
 function formatPlayers(run: RunDataActiveRun) {
   return (
     run.teams
-      .map(
-        (team) =>
-          team.name || team.players.map((player) => player.name).join(';')
-      )
+      .map((team) => team.name || team.players.map((player) => player.name).join(';'))
       .join(';') || 'Bez gracza'
   );
 }
 
 function formatTwitch(run: RunDataActiveRun) {
   return run.teams
-    .map(
-      (team) =>
-        team.name ||
-        team.players.map((player) => player.social.twitch).join(';')
-    )
+    .map((team) => team.name || team.players.map((player) => player.social.twitch).join(';'))
     .join(';');
 }
 

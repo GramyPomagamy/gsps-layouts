@@ -1,22 +1,22 @@
-import { get as nodecg } from './util/nodecg';
-import type { Configschema } from '@gsps-layouts/types/schemas/configschema';
+import { get } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
-import {
-  prizesReplicant,
-  currentBidsRep,
-  currentlyShownBidIndex,
-  currentlyShownPrizeIndex,
-  showBidsPanel,
-  showPrizePanel,
-  currentlyShownBid,
-  currentlyShownPrize,
-} from './util/replicants';
-import { Bid, Prize } from '@gsps-layouts/types';
-import clone from 'clone';
+import { Bid, Prize } from '../types/custom';
+import { klona } from 'klona/json';
+import { Bids } from 'src/types/generated';
+
+const nodecg = get();
+const prizesReplicant = nodecg.Replicant<Prize[]>('prizes');
+const currentBidsRep = nodecg.Replicant<Bids>('currentBids');
+const currentlyShownBidIndex = nodecg.Replicant<number>('currentlyShownBidIndex');
+const currentlyShownPrizeIndex = nodecg.Replicant<number>('currentlyShownPrizeIndex');
+const showBidsPanel = nodecg.Replicant<boolean>('showBidsPanel');
+const showPrizePanel = nodecg.Replicant<boolean>('showPrizePanel');
+const currentlyShownBid = nodecg.Replicant<Bid>('currentlyShownBid');
+const currentlyShownPrize = nodecg.Replicant<Prize>('currentlyShownPrize');
 
 const logger = new TaggedLogger('Stream Deck');
-const config = (nodecg().bundleConfig as Configschema).sd;
-const router = nodecg().Router();
+const config = nodecg.bundleConfig.sd;
+const router = nodecg.Router();
 let currentPrizeTier = 10;
 
 if (config.enabled) {
@@ -24,7 +24,7 @@ if (config.enabled) {
   router.get('/sd/showNextPrize/:tier', (req, res) => {
     res.send('OK!');
     showBidsPanel.value = false;
-    if (prizesReplicant.value.length > 0) {
+    if (prizesReplicant.value!.length > 0) {
       // If prize panel is disabled, enable it and start from the beginning of current tier
       if (!showPrizePanel.value) {
         currentlyShownPrizeIndex.value = 0;
@@ -38,7 +38,7 @@ if (config.enabled) {
           currentPrizeTier = parseInt(req.params['tier']);
           currentlyShownPrizeIndex.value = 0;
         } else {
-          currentlyShownPrizeIndex.value++;
+          currentlyShownPrizeIndex.value!++;
           currentPrizeTier = parseInt(req.params['tier']);
         }
         showPrizePanel.value = true;
@@ -49,63 +49,63 @@ if (config.enabled) {
     logger.debug(`Pokazuję następną nagrodę z tieru ${req.params['tier']}`);
   });
 
-  router.get('/sd/hidePrizes', (req, res) => {
+  router.get('/sd/hidePrizes', (_req, res) => {
     res.send('OK!');
-    currentlyShownPrize.value = null;
+    currentlyShownPrize.value = undefined;
     showPrizePanel.value = false;
     logger.debug('Ukrywam nagrody');
   });
 
-  router.get('/sd/showNextBid', (req, res) => {
+  router.get('/sd/showNextBid', (_req, res) => {
     res.send('OK!');
     showPrizePanel.value = false;
     currentlyShownBid.value = getBid();
     logger.debug('Pokazuję następną licytację');
   });
 
-  router.get('/sd/hideBids', (req, res) => {
+  router.get('/sd/hideBids', (_req, res) => {
     res.send('OK!');
-    currentlyShownBid.value = null;
+    currentlyShownBid.value = undefined;
     showBidsPanel.value = false;
     logger.debug('Ukrywam licytacje');
   });
 
-  router.get('/sd/switchFromHostScreen', (req, res) => {
+  router.get('/sd/switchFromHostScreen', (_req, res) => {
     res.send('OK!');
-    nodecg().sendMessage('switchFromHostScreen');
+    nodecg.sendMessage('switchFromHostScreen');
     logger.debug('Zmieniam scenę na przerwę');
   });
 }
 
-function getPrize(tier: number): Prize | null {
-  const cloned = clone(prizesReplicant.value);
+function getPrize(tier: number): Prize | undefined {
+  const cloned = klona(prizesReplicant.value!);
   const prizesInTier = cloned.filter((prize) => prize.minimumBid == tier);
-  if (currentlyShownPrizeIndex.value + 1 > prizesInTier.length) {
+  if (currentlyShownPrizeIndex.value! + 1 > prizesInTier.length) {
     currentlyShownPrizeIndex.value = 0;
   }
-  let selectedPrize = prizesInTier[currentlyShownPrizeIndex.value];
-  return selectedPrize;
+  const selectedPrize = prizesInTier[currentlyShownPrizeIndex.value!];
+  return selectedPrize || undefined;
 }
 
-function getBid(): Bid | null {
-  if (currentBidsRep.value.length > 0) {
-    const currentBids = clone(currentBidsRep.value);
+function getBid(): Bid | undefined {
+  if (currentBidsRep.value!.length > 0) {
+    const currentBids = klona(currentBidsRep.value!);
     // If bid panel is disabled, enable it and set it to show first bid in the list
     if (!showBidsPanel.value) {
       showBidsPanel.value = true;
       currentlyShownBidIndex.value = 0;
-      return currentBids[0];
+      return currentBids[0]!;
     } else {
-      currentlyShownBidIndex.value++;
-      if (currentlyShownBidIndex.value + 1 > currentBidsRep.value.length) {
+      currentlyShownBidIndex.value!++;
+      if (currentlyShownBidIndex.value! + 1 > currentBidsRep.value!.length) {
         currentlyShownBidIndex.value = 0;
       }
-      return currentBids[currentlyShownBidIndex.value];
+      return currentBids[currentlyShownBidIndex.value!]!;
     }
   } else {
     showBidsPanel.value = false;
-    return null;
+    return undefined;
   }
 }
 
-nodecg().mount(router);
+nodecg.mount(router);

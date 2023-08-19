@@ -1,6 +1,6 @@
 {
   "name": "gsps-layouts",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Layouts used for the GSPS (Gramy Szybko, Pomagamy Skutecznie) events, based on a template for NodeCG bundles that use Vue.js and TypeScript by zoton2.",
   "homepage": "https://github.com/GramyPomagamy/gsps-layouts",
   "bugs": {
@@ -13,249 +13,312 @@
   "license": "MIT",
   "author": "GramyPomagamy",
   "contributors": [
-    "hoxi"
+    "hoxi",
+    "florczakraf"
   ],
   "scripts": {
     "autofix": "run-s autofix:*",
-    "autofix:browser": "eslint --fix --ext .ts,.vue src/dashboard && eslint --fix --ext .ts,.vue src/graphics && eslint --fix --ext .ts src/browser_shared",
-    "autofix:extension": "eslint --fix --ext .ts src/extension && eslint --fix --ext .d.ts src/types",
-    "build": "run-s build:*",
-    "build:browser": "cross-env NODE_ENV=production webpack",
+    "autofix:browser": "eslint --fix --ext .ts,.tsx src/browser",
+    "autofix:extension": "eslint --fix --ext .ts src/extension && eslint --fix --ext .d.ts src/nodecg",
+    "build": "run-s clean build:*",
+    "build:browser": "vite build",
     "build:extension": "tsc -b tsconfig.extension.json",
-    "clean": "trash node_modules/.cache && trash dashboard && trash graphics && trash extension",
-    "prettier": "prettier --write ./src",
-    "schema-types": "nodecg schema-types",
+    "clean": "trash node_modules/.cache && trash shared/dist && trash dashboard && trash graphics && trash extension",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "prettify": "prettier --write src/browser src/extension",
+    "prebuild": "npm run clean",
+    "schema-types": "nodecg schema-types -o src/types/generated",
     "start": "node ../..",
     "watch": "run-p watch:*",
-    "watch:browser": "webpack -w",
-    "watch:extension": "tsc -b tsconfig.extension.json -w"
+    "watch:browser": "vite",
+    "watch:extension": "tsc -b tsconfig.extension.json -w --preserveWatchOutput"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.4",
-    "@types/bluebird": "^3.5.36",
-    "@types/deep-equal": "^1.0.1",
-    "@types/events": "^3.0.0",
-    "@types/google-spreadsheet": "^3.1.5",
-    "@types/milliseconds": "^0.0.30",
-    "@types/needle": "^2.5.3",
-    "@types/numeral": "^2.0.1",
-    "@types/request": "^2.48.6",
-    "@types/request-promise": "^4.1.48",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/roboto": "^5.0.3",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.13.4",
+    "@vitejs/plugin-react": "^4.0.0",
+    "auto-text-size": "github:hoXyy/auto-text-size",
     "bluebird": "^3.7.2",
-    "csv-stringify": "^6.2.3",
-    "dayjs": "^1.10.7",
-    "deep-equal": "^2.0.5",
+    "csv-stringify": "^6.4.0",
+    "dayjs": "^1.11.8",
+    "deep-equal": "^2.2.1",
     "events": "^3.3.0",
-    "fitty": "^2.3.5",
-    "google-spreadsheet": "^3.2.0",
-    "gsap": "^3.7.1",
+    "google-spreadsheet": "^3.3.0",
+    "gsap": "^3.12.1",
+    "humanize-duration": "^3.28.0",
+    "klona": "^2.0.6",
     "livesplit-core": "^0.10.2",
     "milliseconds": "^1.0.3",
-    "module-alias": "^2.2.2",
-    "needle": "^3.0.0",
+    "moment": "^2.29.4",
+    "needle": "^3.2.0",
     "numeral": "^2.0.6",
-    "obs-websocket-js": "^5.0.2",
+    "obs-websocket-js": "^5.0.3",
     "parse-ms": "^2.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.9.0",
+    "react-transition-group": "^4.4.5",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
-    "socket.io-client": "^4.4.0",
-    "svg.js": "^2.7.1"
+    "socket.io-client": "^4.6.2",
+    "styled-components": "6.0.0-rc.3",
+    "svg.js": "^2.7.1",
+    "use-nodecg": "0.4.1-2"
   },
   "devDependencies": {
-    "@mdi/font": "^6.5.95",
-    "@types/clone": "^2.1.0",
-    "@types/module-alias": "^2.0.0",
-    "@types/node": "^16.11.11",
-    "@types/webpack-env": "^1.16.3",
-    "@typescript-eslint/eslint-plugin": "^5.6.0",
-    "@typescript-eslint/parser": "^5.6.0",
-    "@vue/component-compiler-utils": "^3.3.0",
-    "clone": "^2.1.2",
-    "cross-env": "^7.0.3",
-    "css-loader": "^6.5.1",
-    "deepmerge": "^4.2.2",
-    "eslint": "^8.4.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-airbnb-typescript": "^16.1.0",
-    "eslint-import-resolver-typescript": "^2.5.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-vue": "^8.2.0",
-    "file-loader": "^6.2.0",
-    "fork-ts-checker-webpack-plugin": "^6.5.0",
-    "globby": "^11.0.4",
-    "html-webpack-plugin": "^5.5.0",
-    "mini-css-extract-plugin": "^2.4.5",
-    "nodecg-cli": "^8.0.0",
-    "nodecg-types": "^1.9.0",
+    "@nodecg/types": "^2.1.8",
+    "@types/bluebird": "^3.5.38",
+    "@types/deep-equal": "^1.0.1",
+    "@types/google-spreadsheet": "^3.3.2",
+    "@types/humanize-duration": "^3.27.1",
+    "@types/milliseconds": "^0.0.30",
+    "@types/needle": "^3.2.0",
+    "@types/numeral": "^2.0.2",
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
+    "@types/react-textfit": "^1.1.0",
+    "@types/react-transition-group": "^4.4.6",
+    "@types/request": "^2.48.8",
+    "@types/request-promise": "^4.1.48",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "cheerio": "1.0.0-rc.12",
+    "del": "^7.0.0",
+    "del-cli": "^5.0.0",
+    "eslint": "^8.38.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.3.4",
+    "get-port": "^7.0.0",
+    "globby": "^13.1.4",
+    "nodecg-cli": "^8.6.6",
     "npm-run-all": "^4.1.5",
-    "prettier": "2.5.1",
-    "sass": "~1.32",
-    "sass-loader": "^12.3.0",
+    "prettier": "^2.8.8",
+    "rollup": "^3.25.1",
     "trash-cli": "^5.0.0",
-    "ts-loader": "^9.2.3",
-    "tsconfig-paths-webpack-plugin": "^3.5.2",
-    "typescript": "^4.5.2",
-    "vue": "^2.6.14",
-    "vue-class-component": "^7.2.6",
-    "vue-eslint-parser": "^8.0.1",
-    "vue-hot-reload-api": "^2.3.4",
-    "vue-loader": "^15.9.7",
-    "vue-property-decorator": "^9.1.2",
-    "vue-style-loader": "^4.1.3",
-    "vue-template-compiler": "^2.6.14",
-    "vuetify": "^2.6.1",
-    "vuetify-loader": "^1.7.3",
-    "vuex": "^3.6.2",
-    "vuex-class": "^0.3.2",
-    "vuex-module-decorators": "^1.2.0",
-    "webpack": "^5.65.0",
-    "webpack-cli": "^4.9.1",
-    "webpack-livereload-plugin": "^3.0.1"
+    "typescript": "^5.0.2",
+    "vite": "^4.3.9",
+    "vite-plugin-checker": "^0.6.0"
   },
   "nodecg": {
-    "compatibleRange": "^1.8.1",
+    "compatibleRange": "^1.8.1 || ^2.0.0",
     "bundleDependencies": {
-      "nodecg-speedcontrol": "^2.4.0"
+      "nodecg-speedcontrol": "^2.5.0"
     },
+    "assetCategories": [
+      {
+        "name": "media-box",
+        "title": "Obrazy dla media boxa",
+        "allowedTypes": [
+          "png"
+        ]
+      },
+      {
+        "name": "media-box-break",
+        "title": "Obrazy dla media boxa (przerwa)",
+        "allowedTypes": [
+          "png"
+        ]
+      },
+      {
+        "name": "videos-charity",
+        "title": "Filmy na przerwę (fundacja)",
+        "allowedTypes": [
+          "mp4"
+        ]
+      },
+      {
+        "name": "videos-sponsors",
+        "title": "Filmy na przerwę (sponsorzy)",
+        "allowedTypes": [
+          "mp4"
+        ]
+      },
+      {
+        "name": "videos-long",
+        "title": "Długie filmy na przerwę",
+        "allowedTypes": [
+          "mp4"
+        ]
+      }
+    ],
     "dashboardPanels": [
       {
+        "file": "total.html",
         "name": "total",
         "title": "Zebrana kwota",
-        "file": "total.html",
-        "width": 3
-      },
-      {
-        "name": "commentators",
-        "title": "Komentatorzy",
-        "file": "commentators.html",
-        "width": 3
-      },
-      {
-        "name": "reader",
-        "title": "Czytający",
-        "file": "reader.html",
-        "width": 2
-      },
-      {
-        "name": "hosterka",
-        "title": "Hosterka",
-        "file": "hosterka.html",
-        "width": 4
+        "width": 3,
+        "workspace": "1. GSPS - Ogólne"
       },
       {
         "name": "countdown",
         "title": "Odliczanie",
         "file": "countdown.html",
-        "width": 3
-      },
-      {
-        "name": "host-countdown",
-        "title": "Odliczanie hostów",
-        "file": "host-countdown.html",
-        "width": 3
-      },
-      {
-        "name": "secondary-timer",
-        "title": "Dodatkowy timer",
-        "file": "secondary-timer.html",
-        "width": 3
-      },
-      {
-        "name": "edit-total",
-        "title": "Edytuj kwotę",
-        "file": "edit-total.html",
         "width": 3,
-        "dialog": true,
-        "dialogButtons": [
-          {
-            "name": "zapisz",
-            "type": "confirm"
-          },
-          {
-            "name": "anuluj",
-            "type": "dismiss"
-          }
-        ]
-      },
-      {
-        "name": "obs-status",
-        "title": "Status",
-        "file": "obs-status.html",
-        "width": 3,
-        "workspace": "OBS"
+        "workspace": "1. GSPS - Ogólne"
       },
       {
         "name": "highlight",
         "title": "Highlighter",
         "file": "highlight.html",
         "width": 3,
-        "workspace": "OBS"
+        "workspace": "2. GSPS - OBS"
       },
       {
-        "name": "obs-panel",
+        "name": "next-run",
         "title": "Zmiana na przerwę",
-        "file": "obs-panel.html",
+        "file": "next-run.html",
         "width": 3,
-        "workspace": "OBS"
+        "workspace": "2. GSPS - OBS"
       },
       {
-        "name": "obs-cropper",
-        "title": "Cropper",
-        "file": "obs-cropper.html",
+        "name": "edit-total",
+        "title": "Edytuj kwotę",
+        "file": "edit-total.html",
         "width": 3,
-        "workspace": "OBS"
+        "dialog": true
       },
       {
-        "name": "obs-cropper-settings",
-        "title": "Cropper Settings",
-        "file": "obs-cropper-settings.html",
+        "name": "reader",
+        "title": "Czytający",
+        "file": "reader.html",
+        "width": 4,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
+        "name": "commentators",
+        "title": "Komentatorzy",
+        "file": "commentators.html",
+        "width": 4,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
+        "name": "host-countdown",
+        "title": "Odliczanie hostów",
+        "file": "host-countdown.html",
         "width": 3,
-        "workspace": "OBS"
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
+        "name": "obs-status",
+        "title": "Status",
+        "file": "obs-status.html",
+        "width": 3,
+        "workspace": "2. GSPS - OBS"
       },
       {
         "name": "play-video",
         "title": "Film na przerwie",
         "file": "play-video.html",
         "width": 3,
-        "workspace": "OBS"
+        "workspace": "2. GSPS - OBS"
       },
       {
-        "name": "Panel czytającego",
-        "title": "Panel czytającego",
+        "name": "secondary-timer",
+        "title": "Dodatkowy timer",
+        "file": "secondary-timer.html",
+        "width": 3,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
+        "name": "hosterka",
+        "title": "Hosterka",
+        "file": "hosterka.html",
+        "width": 4,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
+        "name": "show-donation-bar",
+        "title": "Pokaż pasek donacji",
+        "file": "show-donation-bar.html",
+        "width": 3,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
+        "name": "obs-cropper",
+        "title": "Cropper",
+        "file": "obs-cropper.html",
+        "width": 3,
+        "workspace": "2. GSPS - OBS"
+      },
+      {
+        "name": "obs-cropper-settings",
+        "title": "Cropper Settings",
+        "file": "obs-cropper-settings.html",
+        "width": 3,
+        "workspace": "2. GSPS - OBS"
+      },
+      {
+        "name": "media-box-controls",
+        "title": "3. GSPS - Kontrola mediaboxa",
+        "file": "media-box-controls.html",
+        "fullbleed": true
+      },
+      {
+        "name": "reader-panel",
+        "title": "4. GSPS - Panel czytającego",
         "file": "reader-panel.html",
         "fullbleed": true
       },
       {
-        "name": "Panel hosta",
-        "title": "Panel host",
+        "name": "host-panel",
+        "title": "5. GSPS - Panel hosta",
         "file": "host-panel.html",
         "fullbleed": true
-      },
-      {
-        "name": "sponsors",
-        "title": "Loga sponsorów (główny layout)",
-        "file": "sponsors.html",
-        "width": 6,
-        "workspace": "Loga sponsorów"
-      },
-      {
-        "name": "sponsors-break",
-        "title": "Loga sponsorów (przerwa)",
-        "file": "sponsors-break.html",
-        "width": 6,
-        "workspace": "Loga sponsorów"
       }
     ],
     "graphics": [
       {
         "file": "odliczanie.html",
         "width": 1920,
-        "height": 1080
+        "height": 1030
       },
       {
-        "file": "farewell.html",
+        "file": "hosterka.html",
         "width": 1920,
-        "height": 1080
+        "height": 1030
+      },
+      {
+        "file": "4x3-1p.html",
+        "width": 1920,
+        "height": 1030
+      },
+      {
+        "file": "4x3-2p.html",
+        "width": 1920,
+        "height": 1030
+      },
+      {
+        "file": "16x9-1p.html",
+        "width": 1920,
+        "height": 1030
+      },
+      {
+        "file": "16x9-2p.html",
+        "width": 1920,
+        "height": 1030
+      },
+      {
+        "file": "3x2-1p.html",
+        "width": 1920,
+        "height": 1030
+      },
+      {
+        "file": "10x9-1p.html",
+        "width": 1920,
+        "height": 1030
+      },
+      {
+        "file": "8x7-1p.html",
+        "width": 1920,
+        "height": 1030
+      },
+      {
+        "file": "omnibar.html",
+        "width": 1920,
+        "height": 50
       },
       {
         "file": "przerwa.html",
@@ -265,119 +328,12 @@
       {
         "file": "video.html",
         "width": 1920,
-        "height": 1014
-      },
-      {
-        "file": "hosterka.html",
-        "width": 1920,
-        "height": 1014
-      },
-      {
-        "file": "omnibar.html",
-        "width": 1920,
-        "height": 66
-      },
-      {
-        "file": "3x2-1p.html",
-        "width": 1920,
-        "height": 1014
-      },
-      {
-        "file": "4x3-1p.html",
-        "width": 1920,
-        "height": 1014
-      },
-      {
-        "file": "4x3-1p-relay.html",
-        "width": 1920,
-        "height": 1014
-      },
-      {
-        "file": "4x3-2p.html",
-        "width": 1920,
-        "height": 1014
-      },
-      {
-        "file": "4x3-2p-relay.html",
-        "width": 1920,
-        "height": 1014
-      },
-      {
-        "file": "4x3-3p.html",
-        "width": 1920,
-        "height": 1014
-      },
-      {
-        "file": "16x9-1p.html",
-        "width": 1920,
-        "height": 1014
-      },
-      {
-        "file": "16x9-1p-relay.html",
-        "width": 1920,
-        "height": 1014
-      },
-      {
-        "file": "16x9-2p.html",
-        "width": 1920,
-        "height": 1014
-      },
-      {
-        "file": "9x16-1p.html",
-        "width": 1920,
-        "height": 1014
-      },
-      {
-        "file": "ds-1p.html",
-        "width": 1920,
-        "height": 1014
+        "height": 1030
       },
       {
         "file": "runner-panel.html",
         "width": 1920,
         "height": 1080
-      }
-    ],
-    "assetCategories": [
-      {
-        "name": "sponsors",
-        "title": "Loga sponsorów",
-        "allowedTypes": [
-          "png",
-          "PNG"
-        ]
-      },
-      {
-        "name": "sponsors-break",
-        "title": "Loga sponsorów (przerwa)",
-        "allowedTypes": [
-          "png",
-          "PNG"
-        ]
-      },
-      {
-        "name": "videos-charity",
-        "title": "Filmy na przerwę (fundacja)",
-        "allowedTypes": [
-          "mp4",
-          "MP4"
-        ]
-      },
-      {
-        "name": "videos-sponsors",
-        "title": "Filmy na przerwę (sponsorzy)",
-        "allowedTypes": [
-          "mp4",
-          "MP4"
-        ]
-      },
-      {
-        "name": "videos-long",
-        "title": "Długie filmy na przerwę",
-        "allowedTypes": [
-          "mp4",
-          "MP4"
-        ]
       }
     ]
   }

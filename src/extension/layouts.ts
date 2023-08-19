@@ -1,20 +1,24 @@
-import {
-  nameCycleReplicant,
-  activeRunReplicant,
-  readerAlertReplicant,
-} from './util/replicants';
+import { NameCycle } from 'src/types/generated';
 import { RunDataActiveRun } from '../../../nodecg-speedcontrol/src/types/schemas';
-import { get as nodecg } from './util/nodecg';
+import { get } from './util/nodecg';
 
+const nodecg = get();
 let cycleTimeout: NodeJS.Timeout;
+
+const nameCycleReplicant = nodecg.Replicant<NameCycle>('nameCycle');
+const activeRunReplicant = nodecg.Replicant<RunDataActiveRun>(
+  'runDataActiveRun',
+  'nodecg-speedcontrol'
+);
+const readerAlertReplicant = nodecg.Replicant('readerAlert');
 
 // Controls the name cycling ticks for players/hosts
 function cycleNames(reset = false): void {
   clearTimeout(cycleTimeout);
   let cycle = 0;
-  if (doAllPlayersInRunHaveTwitch(activeRunReplicant.value)) {
+  if (doAllPlayersInRunHaveTwitch(activeRunReplicant.value!)) {
     if (!reset) {
-      cycle = nameCycleReplicant.value + 1;
+      cycle = nameCycleReplicant.value! + 1;
     }
     if (cycle === 0) {
       // Name
@@ -34,15 +38,17 @@ function cycleNames(reset = false): void {
 }
 
 function doAllPlayersInRunHaveTwitch(run: RunDataActiveRun): boolean {
-  let players = [];
-  let playersWithTwitch = [];
+  const players = [];
+  const playersWithTwitch = [];
   if (run && run.teams) {
     for (let i = 0; i < run.teams.length; i++) {
-      let team = run.teams[i];
-      for (let i = 0; i < team.players.length; i++) {
-        players.push(team.players[i].name);
-        if (team.players[i].social.twitch) {
-          playersWithTwitch.push(team.players[i].name);
+      const team = run.teams[i];
+      if (team) {
+        for (let i = 0; i < team.players.length; i++) {
+          players.push(team.players[i]!.name);
+          if (team.players[i]!.social.twitch) {
+            playersWithTwitch.push(team.players[i]!.name);
+          }
         }
       }
     }
@@ -67,4 +73,17 @@ function toggleReaderAlert() {
   readerAlertReplicant.value = !readerAlertReplicant.value;
 }
 
-nodecg().listenFor('toggleAlert', toggleReaderAlert);
+nodecg.listenFor('toggleAlert', toggleReaderAlert);
+
+let hosterkaNameTimeout: NodeJS.Timeout;
+
+// hide hosterka names after 10s
+nodecg.listenFor('showNames', () => {
+  hosterkaNameTimeout = setTimeout(() => {
+    nodecg.sendMessage('hideNames');
+  }, 10 * 1000);
+});
+
+nodecg.listenFor('hideNames', () => {
+  clearTimeout(hosterkaNameTimeout);
+});

@@ -1,14 +1,15 @@
-/* eslint import/prefer-default-export: off */
-
+/* eslint-disable @typescript-eslint/no-empty-function */
 import livesplitCore from 'livesplit-core';
-import { msToTimeStr, processAck } from './util/helpers';
+import { msToTimeStr } from './util/helpers';
 import { get } from './util/nodecg';
-import { secondaryTimerReplicant as timerRep } from './util/replicants';
 import { TaggedLogger } from './util/tagged-logger';
+import { SecondaryTimer } from 'src/types/generated';
 
 const nodecg = get();
+const timerRep = nodecg.Replicant<SecondaryTimer>('secondaryTimer');
+// eslint-disable-next-line prefer-const
 let timer: livesplitCore.Timer;
-const logger = new TaggedLogger('SecondaryTimer');
+const logger = new TaggedLogger('Secondary Timer');
 
 // Cross references for LiveSplit's TimerPhases.
 const LS_TIMER_PHASE = {
@@ -22,10 +23,10 @@ const LS_TIMER_PHASE = {
  * Resets timer replicant to default settings.
  */
 function resetTimerRepToDefault(): void {
-  timerRep.value.time = '00:00';
-  timerRep.value.milliseconds = 0;
-  timerRep.value.timestamp = 0;
-  timerRep.value.phase = 'stopped';
+  timerRep.value!.time = '00:00';
+  timerRep.value!.milliseconds = 0;
+  timerRep.value!.timestamp = 0;
+  timerRep.value!.phase = 'stopped';
 
   logger.debug('Replicant przywrócony do stanu pierwotnego');
 }
@@ -35,8 +36,8 @@ function resetTimerRepToDefault(): void {
  * @param ms Milliseconds you want to set the timer replicant at.
  */
 function setTime(ms: number): void {
-  timerRep.value.time = msToTimeStr(ms);
-  timerRep.value.milliseconds = ms;
+  timerRep.value!.time = msToTimeStr(ms);
+  timerRep.value!.milliseconds = ms;
   // nodecg.log.debug(`[Timer] Set to ${msToTimeStr(ms)}/${ms}`);
 }
 
@@ -46,13 +47,11 @@ function setTime(ms: number): void {
  * @param ms Milliseconds you want to set the game time at.
  */
 function setGameTime(ms: number): void {
-  if (timerRep.value.phase === 'stopped') {
+  if (timerRep.value!.phase === 'stopped') {
     livesplitCore.TimeSpan.fromSeconds(0).with((t) => timer.setLoadingTimes(t));
     timer.initializeGameTime();
   }
-  livesplitCore.TimeSpan.fromSeconds(ms / 1000).with((t) =>
-    timer.setGameTime(t)
-  );
+  livesplitCore.TimeSpan.fromSeconds(ms / 1000).with((t) => timer.setGameTime(t));
   logger.debug(`Game Time ustawiony na ${ms}ms`);
 }
 
@@ -67,11 +66,11 @@ async function startTimer(force?: boolean): Promise<void> {
       throw new Error('Zmiany timera są wyłączone');
     }
     // Error if the timer is finished.
-    if (timerRep.value.state === 'finished') {
+    if (timerRep.value!.phase === 'finished') {
       throw new Error('Timer jest w stanie ukończonym');
     }
     // Error if the timer isn't stopped or paused (and we're not forcing it).
-    if (!force && !['stopped', 'paused'].includes(timerRep.value.phase)) {
+    if (!force && !['stopped', 'paused'].includes(timerRep.value!.phase)) {
       throw new Error('Timer nie jest zapauzowany/zatrzymany');
     }
 
@@ -82,8 +81,8 @@ async function startTimer(force?: boolean): Promise<void> {
       timer.resume();
       logger.debug('Kontynuuje timer');
     }
-    setGameTime(timerRep.value.milliseconds);
-    timerRep.value.phase = 'running';
+    setGameTime(timerRep.value!.milliseconds);
+    timerRep.value!.phase = 'running';
   } catch (err) {
     logger.debug('Nie można zacząć/kontynuować timera:', err);
     throw err;
@@ -96,12 +95,12 @@ async function startTimer(force?: boolean): Promise<void> {
 async function pauseTimer(): Promise<void> {
   try {
     // Error if the timer isn't running.
-    if (timerRep.value.phase !== 'running') {
+    if (timerRep.value!.phase !== 'running') {
       throw new Error('Timer obecnie nie chodzi');
     }
 
     timer.pause();
-    timerRep.value.phase = 'paused';
+    timerRep.value!.phase = 'paused';
     logger.debug('Zapauzowano');
   } catch (err) {
     logger.debug('Nie zapauzować timera:', err);
@@ -113,14 +112,14 @@ async function pauseTimer(): Promise<void> {
  * Reset the timer.
  * @param force Forces a reset even if changes are disabled.
  */
-export async function resetTimer(force?: boolean): Promise<void> {
+async function resetTimer(force?: boolean): Promise<void> {
   try {
     // Error if the timer is disabled.
     if (!force) {
       throw new Error('Zmiany timera są wyłączone');
     }
     // Error if the timer is stopped.
-    if (timerRep.value.phase === 'stopped') {
+    if (timerRep.value!.phase === 'stopped') {
       throw new Error('Timer jest zatrzymany');
     }
 
@@ -141,16 +140,16 @@ export async function resetTimer(force?: boolean): Promise<void> {
 async function stopTimer(): Promise<void> {
   try {
     // Error if timer is not running.
-    if (!['running', 'paused'].includes(timerRep.value.phase)) {
+    if (!['running', 'paused'].includes(timerRep.value!.phase)) {
       throw new Error('Timer nie jest w ruchu/nie jest zapauzowany');
     }
 
     // Stop the timer if all the teams have finished (or no teams exist).
-    if (timerRep.value.state === 'paused') {
+    if (timerRep.value!.phase === 'paused') {
       timer.resume();
     }
     timer.split();
-    timerRep.value.phase = 'finished';
+    timerRep.value!.phase = 'finished';
     logger.debug('Ukończono');
   } catch (err) {
     logger.debug('Nie można zatrzymać timera:', err);
@@ -162,12 +161,12 @@ async function stopTimer(): Promise<void> {
  * This stuff runs every 1/10th a second to keep the time updated.
  */
 function tick(): void {
-  if (timerRep.value.phase === 'running') {
+  if (timerRep.value!.phase === 'running') {
     // Calculates the milliseconds the timer has been running for and updates the replicant.
     const time = timer.currentTime().gameTime() as livesplitCore.TimeSpanRef;
     const ms = Math.floor(time.totalSeconds() * 1000);
     setTime(ms);
-    timerRep.value.timestamp = Date.now();
+    timerRep.value!.timestamp = Date.now();
   }
 }
 
@@ -177,39 +176,28 @@ liveSplitRun.pushSegment(livesplitCore.Segment.new('finish'));
 timer = livesplitCore.Timer.new(liveSplitRun) as livesplitCore.Timer;
 
 // If the timer was running when last closed, tries to resume it at the correct time.
-if (timerRep.value.phase === 'running') {
-  const missedTime = Date.now() - timerRep.value.timestamp;
-  const previousTime = timerRep.value.milliseconds;
+if (timerRep.value!.phase === 'running') {
+  const missedTime = Date.now() - timerRep.value!.timestamp;
+  const previousTime = timerRep.value!.milliseconds;
   const timeOffset = previousTime + missedTime;
   setTime(timeOffset);
-  logger.info(
-    `Odzyskano ${(missedTime / 1000).toFixed(2)} sekund straconego czasu`
-  );
+  logger.info(`Odzyskano ${(missedTime / 1000).toFixed(2)} sekund straconego czasu`);
   startTimer(true).catch(() => {
     /* catch error if needed, for safety */
   });
 }
 
-// NodeCG messaging system.
-nodecg.listenFor('secondaryTimerStart', (data, ack) => {
-  startTimer(true)
-    .then(() => processAck(ack, null))
-    .catch((err) => processAck(ack, err));
+nodecg.listenFor('secondaryTimerStart', () => {
+  startTimer(true).catch(() => {});
 });
-nodecg.listenFor('secondaryTimerPause', (data, ack) => {
-  pauseTimer()
-    .then(() => processAck(ack, null))
-    .catch((err) => processAck(ack, err));
+nodecg.listenFor('secondaryTimerPause', () => {
+  pauseTimer().catch(() => {});
 });
-nodecg.listenFor('secondaryTimerReset', (force, ack) => {
-  resetTimer(force)
-    .then(() => processAck(ack, null))
-    .catch((err) => processAck(ack, err));
+nodecg.listenFor('secondaryTimerReset', (force) => {
+  resetTimer(force).catch(() => {});
 });
-nodecg.listenFor('secondaryTimerFinish', (data, ack) => {
-  stopTimer()
-    .then(() => processAck(ack, null))
-    .catch((err) => processAck(ack, err));
+nodecg.listenFor('secondaryTimerFinish', () => {
+  stopTimer().catch(() => {});
 });
 
 setInterval(tick, 100);

@@ -1,5 +1,3 @@
-import type { ListenForCb } from 'nodecg-types/types/lib/nodecg-instance';
-
 /**
  * Checks if number needs a 0 adding to the start and does so if needed.
  * @param num Number which you want to turn into a padded string.
@@ -44,20 +42,4 @@ export function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
-}
-
-/**
- * Simple helper function to handle NodeCG/our message acknowledgements.
- * @param ack The acknoledgement function itself.
- * @param err Error to supply if any.
- * @param data Anything else you want to send alongside.
- */
-export function processAck<T>(
-  ack: ListenForCb | undefined,
-  err: Error | null,
-  data?: T
-): void {
-  if (ack && !ack.handled) {
-    ack(err, data);
-  }
 }

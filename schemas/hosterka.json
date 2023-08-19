@@ -3,14 +3,66 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "host1": {
-      "type": "string",
-      "default": ""
+    "hostL": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "default": ""
+        },
+        "pronouns": {
+          "type": "string",
+          "enum": [
+            "ona/jej",
+            "on/jego",
+            "ono/jego",
+            "ono/jej",
+            "ono/jejgo",
+            "ono/jeno",
+            "ono/jenu",
+            "ono/ich",
+            "onu/jenu",
+            "onu/jejo",
+            "ne/nego",
+            "onu/jegu",
+            ""
+          ],
+          "default": ""
+        }
+      },
+      "required": ["name", "pronouns"]
     },
-    "host2": {
-      "type": "string",
-      "default": ""
+    "hostR": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "default": ""
+        },
+        "pronouns": {
+          "type": "string",
+          "enum": [
+            "ona/jej",
+            "on/jego",
+            "ono/jego",
+            "ono/jej",
+            "ono/jejgo",
+            "ono/jeno",
+            "ono/jenu",
+            "ono/ich",
+            "onu/jenu",
+            "onu/jejo",
+            "ne/nego",
+            "onu/jegu",
+            ""
+          ],
+          "default": ""
+        }
+      },
+      "required": ["name", "pronouns"]
     }
   },
-  "required": ["host1", "host2"]
+  "required": ["hostL", "hostR"]
 }

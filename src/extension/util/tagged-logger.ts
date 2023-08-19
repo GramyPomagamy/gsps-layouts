@@ -1,5 +1,7 @@
 import { get as nodecg } from './nodecg';
 
+type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'replicants';
+
 export class TaggedLogger {
   tag: string;
 
@@ -7,8 +9,8 @@ export class TaggedLogger {
     this.tag = tag;
   }
 
-  log(level: string, ...msg: Array<any>) {
-    (nodecg().log as any)[level](`[${this.tag}]`, ...msg);
+  log(level: LogLevel, ...msg: Array<any>) {
+    nodecg().log[level](`[${this.tag}]`, ...msg);
   }
 
   trace(...msg: Array<any>) {

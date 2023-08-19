@@ -1,46 +1,39 @@
 import needle from 'needle';
 import type { NeedleResponse } from 'needle';
 import { TaggedLogger } from './util/tagged-logger';
-const log = new TaggedLogger('foobar');
 
 class FoobarControl {
   address: string;
+  log: TaggedLogger;
 
   constructor(address: string) {
     this.address = address;
+    this.log = new TaggedLogger('foobar');
   }
 
   togglePause() {
-    needle('post', `${this.address}/api/player/pause/toggle`, {}).catch(
-      (error) => {
-        log.error('Błąd przy (od)pauzowaniu foobara: ' + error.message);
-      }
-    );
+    needle('post', `${this.address}/api/player/pause/toggle`, {}).catch((error) => {
+      this.log.error('Błąd przy (od)pauzowaniu foobara: ' + error.message);
+    });
   }
 
   mute() {
-    needle('post', `${this.address}/api/player?isMuted=true`, {}).catch(
-      (error) => {
-        log.error('Błąd przy wyciszaniu foobara: ' + error.message);
-      }
-    );
+    needle('post', `${this.address}/api/player?isMuted=true`, {}).catch((error) => {
+      this.log.error('Błąd przy wyciszaniu foobara: ' + error.message);
+    });
   }
 
   unmute() {
-    needle('post', `${this.address}/api/player?isMuted=false`, {}).catch(
-      (error) => {
-        log.error('Błąd przy odciszaniu foobara: ' + error.message);
-      }
-    );
+    needle('post', `${this.address}/api/player?isMuted=false`, {}).catch((error) => {
+      this.log.error('Błąd przy odciszaniu foobara: ' + error.message);
+    });
   }
 
   async getSong(): Promise<string> {
     try {
       const playerInfo: NeedleResponse = await needle(
         'get',
-        `${this.address}/api/player?columns=${encodeURIComponent(
-          '%artist%,%title%'
-        )}`
+        `${this.address}/api/player?columns=${encodeURIComponent('%artist%,%title%')}`
       );
       if (
         playerInfo.body.player.activeItem.columns[0] &&
@@ -51,7 +44,7 @@ class FoobarControl {
         return 'Brak piosenki';
       }
     } catch (error: any) {
-      log.error('Błąd otrzymywania piosenki: ' + error.message);
+      this.log.error('Błąd otrzymywania piosenki: ' + error.message);
       return 'Brak piosenki';
     }
   }
