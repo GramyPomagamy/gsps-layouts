@@ -40,6 +40,7 @@ let videoType: VideoTypes = 'charity';
 
 // Connect to OBS
 if (config.enabled) {
+  obsDataReplicant.value!.croppers = [];
   for (const cropper of config.croppers!) {
     obsDataReplicant.value!.croppers.push(cropper);
   }
