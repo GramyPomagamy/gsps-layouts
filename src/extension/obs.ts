@@ -24,9 +24,6 @@ const videosLong = nodecg.Replicant<Asset[]>('assets:videos-long');
 const hosterkaReplicant = nodecg.Replicant<Hosterka>('hosterka');
 const showBidsPanel = nodecg.Replicant<boolean>('showBidsPanel');
 const showPrizePanel = nodecg.Replicant<boolean>('showPrizePanel');
-const currentIntermissionVideoType = nodecg.Replicant<VideoTypes>('videoType', {
-  defaultValue: 'charity',
-});
 
 const obs = new OBSWebSocket();
 const config = nodecg.bundleConfig.obs;
@@ -145,9 +142,9 @@ function playLongVideo() {
   }
 }
 
-function playShortVideo() {
+function playShortVideo(type: VideoTypes) {
   log.debug('Puszczam krótki film');
-  if (currentIntermissionVideoType.value == 'charity') {
+  if (type == 'charity') {
     videoToPlay = videosCharity.value![Math.floor(Math.random() * videosCharity.value!.length)];
   } else {
     videoToPlay = videosSponsors.value![Math.floor(Math.random() * videosSponsors.value!.length)];
@@ -164,12 +161,13 @@ function playShortVideo() {
   }
 }
 
-async function playIntermissionVideo() {
-  if (playLongVideoReplicant.value) {
+async function playIntermissionVideo(longVideo: boolean) {
+  playLongVideoReplicant.value = longVideo;
+  if (longVideo) {
     playLongVideo();
   } else {
-    currentIntermissionVideoType.value = 'charity';
-    playShortVideo();
+    videoType = 'charity';
+    playShortVideo('charity');
   }
   obs.call('SetCurrentProgramScene', { sceneName: config.scenes!.video });
 }
@@ -457,9 +455,9 @@ obs.on('StudioModeStateChanged', (data) => {
 
 obs.on('MediaInputPlaybackEnded', (data) => {
   if (data.inputName === config.sources!.intermissionVideo) {
-    if (currentIntermissionVideoType.value === 'charity' && !playLongVideoReplicant.value) {
-      currentIntermissionVideoType.value = 'sponsors';
-      playShortVideo();
+    if (videoType === 'charity' && !playLongVideoReplicant.value) {
+      playShortVideo('sponsors');
+      videoType = 'sponsors';
     } else {
       switchFromHostScreen();
     }
@@ -487,9 +485,7 @@ nodecg.listenFor('switchToIntermission', switchToIntermission);
 nodecg.listenFor('switchFromHostScreen', switchFromHostScreen);
 nodecg.listenFor('videoPlayerFinished', switchFromHostScreen);
 nodecg.listenFor('playIntermissionVideo', (playLongVideo) => {
-  currentIntermissionVideoType.value = 'charity';
-  playLongVideoReplicant.value = playLongVideo;
-  playIntermissionVideo();
+  playIntermissionVideo(playLongVideo);
 });
 nodecg.listenFor('refreshWindows', refreshWindows);
 nodecg.listenFor('crop', crop);
