@@ -4,6 +4,7 @@ import ThemeProvider from './components/theme-provider';
 import Timer from './components/timer';
 import { useReplicant } from 'use-nodecg';
 import { DonationsToRead, Reader } from 'src/types/generated';
+import { klona as clone } from 'klona/json';
 
 const Container = styled.div`
   text-align: center;
@@ -31,7 +32,7 @@ const App = () => {
 
   const topDonationAmount = () => {
     if (donationsToRead.length) {
-      const sorted = donationsToRead.sort((a, b) => {
+      const sorted = clone(donationsToRead).sort((a, b) => {
         return b.amount - a.amount;
       });
       return `${sorted[0]!.amount.toFixed(2)} zł`;
