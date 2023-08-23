@@ -25,6 +25,9 @@ const hosterkaReplicant = nodecg.Replicant<Hosterka>('hosterka');
 const showBidsPanel = nodecg.Replicant<boolean>('showBidsPanel');
 const showPrizePanel = nodecg.Replicant<boolean>('showPrizePanel');
 
+let playedCharityIntermissionVid = false;
+let playerSponsorIntermissionVid = false;
+
 const obs = new OBSWebSocket();
 const config = nodecg.bundleConfig.obs;
 const foobarConfig = nodecg.bundleConfig.foobar;
@@ -142,9 +145,9 @@ function playLongVideo() {
   }
 }
 
-function playShortVideo(type: VideoTypes) {
+function playShortVideo() {
   log.debug('Puszczam krótki film');
-  if (type == 'charity') {
+  if (videoType == 'charity') {
     videoToPlay = videosCharity.value![Math.floor(Math.random() * videosCharity.value!.length)];
   } else {
     videoToPlay = videosSponsors.value![Math.floor(Math.random() * videosSponsors.value!.length)];
@@ -156,18 +159,22 @@ function playShortVideo(type: VideoTypes) {
         input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
       },
     });
+    if (videoType == 'charity') {
+      playedCharityIntermissionVid = true;
+    } else if (videoType == 'sponsors') {
+      playerSponsorIntermissionVid = true;
+    }
   } else {
     log.error('Nie udało puścić się krótkiego filmu');
   }
 }
 
-async function playIntermissionVideo(longVideo: boolean) {
-  playLongVideoReplicant.value = longVideo;
-  if (longVideo) {
+async function playIntermissionVideo() {
+  if (playLongVideoReplicant.value) {
     playLongVideo();
   } else {
     videoType = 'charity';
-    playShortVideo('charity');
+    playShortVideo();
   }
   obs.call('SetCurrentProgramScene', { sceneName: config.scenes!.video });
 }
@@ -455,9 +462,14 @@ obs.on('StudioModeStateChanged', (data) => {
 
 obs.on('MediaInputPlaybackEnded', (data) => {
   if (data.inputName === config.sources!.intermissionVideo) {
-    if (videoType === 'charity' && !playLongVideoReplicant.value) {
-      playShortVideo('sponsors');
-      videoType = 'sponsors';
+    log.debug('Koniec odtwarzania filmu na przerwie');
+    if (!playLongVideoReplicant.value) {
+      if (!playedCharityIntermissionVid && !playerSponsorIntermissionVid) {
+        videoType = 'sponsors';
+        playShortVideo();
+      } else if (playedCharityIntermissionVid && playerSponsorIntermissionVid) {
+        switchFromHostScreen();
+      }
     } else {
       switchFromHostScreen();
     }
@@ -485,7 +497,10 @@ nodecg.listenFor('switchToIntermission', switchToIntermission);
 nodecg.listenFor('switchFromHostScreen', switchFromHostScreen);
 nodecg.listenFor('videoPlayerFinished', switchFromHostScreen);
 nodecg.listenFor('playIntermissionVideo', (playLongVideo) => {
-  playIntermissionVideo(playLongVideo);
+  playLongVideoReplicant.value = playLongVideo;
+  playedCharityIntermissionVid = false;
+  playerSponsorIntermissionVid = false;
+  playIntermissionVideo();
 });
 nodecg.listenFor('refreshWindows', refreshWindows);
 nodecg.listenFor('crop', crop);
