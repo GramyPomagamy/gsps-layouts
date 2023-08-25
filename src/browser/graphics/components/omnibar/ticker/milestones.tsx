@@ -41,7 +41,7 @@ const MilestoneDiv = styled.div`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  width: 85%;
+  width: 80%;
 `;
 
 const milestones = nodecg.Replicant<MilestonesType>('milestones');
