@@ -290,7 +290,13 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
               </p>
               <p
                 className="shadow"
-                style={{ fontWeight: 500, fontSize: '26px', lineHeight: '0px' }}>
+                style={{
+                  fontWeight: 500,
+                  fontSize: '26px',
+                  lineHeight: '0px',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}>
                 {bid.description}
               </p>
               {bid.type === 'choice' ? (
@@ -304,7 +310,14 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
                     <>
                       {bid.options.slice(0, 4).map((option, index) => {
                         return (
-                          <p className="shadow" style={{ fontSize: '24px', fontWeight: 500 }}>
+                          <p
+                            className="shadow"
+                            style={{
+                              fontSize: '24px',
+                              fontWeight: 500,
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis',
+                            }}>
                             <b>{index + 1}.</b> {option.name} - <b>{option.total}</b>
                           </p>
                         );
