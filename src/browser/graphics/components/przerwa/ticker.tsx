@@ -317,7 +317,8 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
                               fontWeight: 500,
                               whiteSpace: 'nowrap',
                               textOverflow: 'ellipsis',
-                            }}>
+                            }}
+                            key={option.id}>
                             <b>{index + 1}.</b> {option.name} - <b>{option.total}</b>
                           </p>
                         );

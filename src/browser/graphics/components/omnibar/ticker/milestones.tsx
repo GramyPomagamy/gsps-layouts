@@ -147,7 +147,7 @@ const Milestones = ({ onEnd }: { onEnd: () => void }) => {
           <div style={{ display: 'flex', alignContent: 'space-between' }}>
             <div>{currentMilestone.name} - </div>
             <div>
-              &nbsp;{totalAmount!.raw ? totalAmount!.raw?.toString(0) : 0}/{currentMilestone.amount}{' '}
+              &nbsp;{totalAmount!.raw ? totalAmount!.raw?.toString() : 0}/{currentMilestone.amount}{' '}
               zł
             </div>
           </div>
