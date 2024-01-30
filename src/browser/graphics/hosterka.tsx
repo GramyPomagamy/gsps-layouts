@@ -263,8 +263,8 @@ const Hosterka = () => {
             mountOnEnter
             unmountOnExit>
             <NamesContainer ref={namesRef}>
-              {hosterka.hostL.name && <Host host={hosterka.hostL} />}
-              {hosterka.hostR.name && <Host host={hosterka.hostR} />}
+              <div>{hosterka.hostL.name && <Host host={hosterka.hostL} />}</div>
+              <div>{hosterka.hostR.name && <Host host={hosterka.hostR} />}</div>
             </NamesContainer>
           </CSSTransition>
         )}

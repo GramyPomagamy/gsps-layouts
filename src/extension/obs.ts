@@ -36,10 +36,11 @@ const log = new TaggedLogger('OBS');
 let reconnectTimeout: NodeJS.Timeout;
 let loggedTimestampForCurrentGame = false;
 let videoToPlay: Asset | undefined;
-let videoType: VideoTypes = 'charity';
+let videoType: VideoTypes = 'sponsors';
 
 // Connect to OBS
 if (config.enabled) {
+  obsDataReplicant.value!.croppers = [];
   for (const cropper of config.croppers!) {
     obsDataReplicant.value!.croppers.push(cropper);
   }
@@ -165,8 +166,8 @@ async function playIntermissionVideo(longVideo: boolean) {
   if (longVideo) {
     playLongVideo();
   } else {
-    videoType = 'charity';
-    playShortVideo('charity');
+    videoType = 'sponsors';
+    playShortVideo('sponsors');
   }
   obs.call('SetCurrentProgramScene', { sceneName: config.scenes!.video });
 }
@@ -454,9 +455,9 @@ obs.on('StudioModeStateChanged', (data) => {
 
 obs.on('MediaInputPlaybackEnded', (data) => {
   if (data.inputName === config.sources!.intermissionVideo) {
-    if (videoType === 'charity' && !playLongVideoReplicant.value) {
-      playShortVideo('sponsors');
-      videoType = 'sponsors';
+    if (videoType === 'sponsors' && !playLongVideoReplicant.value) {
+      playShortVideo('charity');
+      videoType = 'charity';
     } else {
       switchFromHostScreen();
     }

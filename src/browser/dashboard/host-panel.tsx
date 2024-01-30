@@ -113,7 +113,7 @@ const Countdown = () => {
   return (
     <>
       {hostCountdown && hostCountdownRunning && (
-        <Paper sx={{minWidth: '450px', textAlign: 'center'}}>
+        <Paper sx={{ minWidth: '450px', textAlign: 'center' }}>
           <Stack spacing={0}>
             <h3
               style={{

@@ -41,7 +41,7 @@ const MilestoneDiv = styled.div`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  width: 85%;
+  width: 80%;
 `;
 
 const milestones = nodecg.Replicant<MilestonesType>('milestones');
@@ -147,7 +147,8 @@ const Milestones = ({ onEnd }: { onEnd: () => void }) => {
           <div style={{ display: 'flex', alignContent: 'space-between' }}>
             <div>{currentMilestone.name} - </div>
             <div>
-              &nbsp;{totalAmount!.formatted}/{currentMilestone.amount} zł
+              &nbsp;{totalAmount!.raw ? totalAmount!.raw?.toString() : 0}/{currentMilestone.amount}{' '}
+              zł
             </div>
           </div>
           <div id="progress" style={{ width: '100%' }}>

@@ -224,10 +224,10 @@ const BidWar = ({ bid }: { bid: Bid }) => {
             {bid.options.map((option, index) => {
               return (
                 <BidOption
-                  progress={(option.rawTotal / bid.rawTotal) * 100}
+                  progress={option.rawTotal == 0 ? 0 : (option.rawTotal / bid.rawTotal) * 100}
                   option={option}
                   index={index + 1}
-                  winning={index === 0}
+                  winning={index === 0 && option.rawTotal != 0}
                   key={option.id}
                 />
               );
