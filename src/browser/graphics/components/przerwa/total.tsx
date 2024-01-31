@@ -4,7 +4,7 @@ import { Total as TotalType } from 'src/types/generated';
 import gsap from 'gsap';
 
 const AmountDiv = styled.div`
-  font-size: 96px;
+  font-size: 106px;
   align-self: flex-end;
   padding-left: 10px;
   padding-right: 10px;
@@ -15,10 +15,10 @@ const AmountDiv = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
   position: fixed;
   top: 150px;
-  right: 120px; 
+  right: 80px; 
 `;
 
 const Currency = styled.div`
