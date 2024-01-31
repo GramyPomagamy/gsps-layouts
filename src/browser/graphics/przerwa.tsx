@@ -8,6 +8,7 @@ import { BreakOmnibar } from './components/przerwa/omnibar';
 import NextRuns from './components/przerwa/next-runs';
 import ThemeProvider from './components/theme-provider';
 import BreakTicker from './components/przerwa/ticker';
+import Total from './components/przerwa/total';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -22,7 +23,7 @@ const MediaBoxContainer = styled.div`
   width: 650px;
   height: 650px;
   position: fixed;
-  top: 250px;
+  bottom: 100px;
   right: 35px;
   border: 4px #5f3ac2 solid;
   border-radius: 8px;
@@ -49,6 +50,7 @@ export const App = () => {
       </LayoutContainer>
       <BreakOmnibar />
       <BreakTicker />
+      <Total />
     </ThemeProvider>
   );
 };

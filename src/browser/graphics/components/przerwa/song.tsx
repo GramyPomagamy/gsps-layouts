@@ -9,7 +9,7 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group';
 const SongDiv = styled.div`
   display: flex;
   position: fixed;
-  top: 80px;
+  top: 50px;
   right: 0px;
   background: #e6e6e6;
   height: 32px;
