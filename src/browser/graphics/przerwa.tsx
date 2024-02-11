@@ -21,9 +21,9 @@ const LayoutContainer = styled.div`
 
 const MediaBoxContainer = styled.div`
   width: 650px;
-  height: 650px;
+  height: 680px;
   position: fixed;
-  bottom: 100px;
+  bottom: 200px;
   right: 35px;
   border: 4px #5f3ac2 solid;
   border-radius: 8px;

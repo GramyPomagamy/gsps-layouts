@@ -17,7 +17,7 @@ const AmountDiv = styled.div`
   align-items: center;
   gap: 20px;
   position: fixed;
-  top: 150px;
+  top: 30px;
   right: 80px; 
 `;
 
