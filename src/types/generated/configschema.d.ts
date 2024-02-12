@@ -82,6 +82,10 @@ export interface Configschema {
 		enabled: boolean;
 		[k: string]: unknown;
 	};
+	genericReplicant: {
+		enabled: boolean;
+		[k: string]: unknown;
+	};
 	twitchExt: {
 		enabled: boolean;
 		token?: string;
