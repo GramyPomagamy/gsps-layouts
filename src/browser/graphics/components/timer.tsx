@@ -17,14 +17,14 @@ const TimerContainer = styled.div<{ size: number }>`
   width: 100%;
   display: flex;
   flex-direction: column;
-  font-family: 'Oswald';
+  font-family: 'Bebas Neue';
   gap: 0px;
 `;
 
 const TimerEl = styled.span<{ phase: string }>`
   margin-bottom: -15px;
   transition: color 0.5s;
-  font-weight: 700;
+  font-weight: 600;
   color: ${(props) => timerColors[props.phase as TimerPhases]};
 `;
 
