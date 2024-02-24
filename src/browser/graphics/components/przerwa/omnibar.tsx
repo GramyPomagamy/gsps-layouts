@@ -40,13 +40,13 @@ const Ticker = () => {
 
   function gspsPromo() {
     return genericMsg(
-      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie 2023</b>!'
+      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie Dzieciom 2024</b>!'
     );
   }
 
   function charityPromo() {
     return genericMsg(
-      'GSPS 2023 wspiera&nbsp;<b class="highlight">Antydepresyjny Telefon Zaufania Fundacji ITAKA</b>!'
+      'GSPS Dzieciom 2024 wspiera&nbsp;<b class="highlight">Fundację Na Ratunek Dzieciom z Chorobą Nowotworową</b>!'
     );
   }
 
@@ -115,7 +115,7 @@ const Clock = () => {
     }, 500);
   }, []);
 
-  return <ClockDiv dangerouslySetInnerHTML={{ __html: clock }} />
-}
+  return <ClockDiv dangerouslySetInnerHTML={{ __html: clock }} />;
+};
 
 export default BreakOmnibar;
