@@ -5,4 +5,5 @@ export interface RunCustomData {
 
 export interface RunCustomPlayerData {
   pronouns?: string;
+  flagToShow?: string;
 }

@@ -28,9 +28,17 @@ oengusImportStatus.on('change', (newVal, oldVal) => {
               if (customData.players) {
                 const playerData = JSON.parse(customData.players);
                 if (typeof (playerData[player.name] as RunCustomPlayerData) != 'undefined') {
+                  // player pronouns
                   player.pronouns =
                     typeof (playerData[player.name] as RunCustomPlayerData).pronouns != 'undefined'
                       ? (playerData[player.name] as RunCustomPlayerData).pronouns
+                      : '';
+
+                  // player flag
+                  player.country =
+                    typeof (playerData[player.name] as RunCustomPlayerData).flagToShow !=
+                    'undefined'
+                      ? (playerData[player.name] as RunCustomPlayerData).flagToShow
                       : '';
                 } else {
                   player.pronouns = '';

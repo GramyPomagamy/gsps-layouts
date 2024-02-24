@@ -47,6 +47,20 @@ const TwitchIcon = styled(FaTwitch)`
   left: -10px;
 `;
 
+const FlagContainer = styled.div`
+  position: absolute;
+  top: 0px;
+  right: 5px;
+  height: 40px;
+`;
+
+const Flag = styled.img<{ country: string }>`
+  height: calc(100% - 10px);
+  opacity: ${(props) => (props.country ? 1 : 0)};
+  border-size: 2px;
+  border-style: solid;
+`;
+
 const Nameplate = ({ player }: { player: RunDataPlayer }) => {
   const [nameCycle] = useReplicant<NameCycle>('nameCycle', 0);
   const nameRef = useRef(null);
@@ -74,6 +88,16 @@ const Nameplate = ({ player }: { player: RunDataPlayer }) => {
           </>
         </CSSTransition>
       </SwitchTransition>
+      <FlagContainer>
+        {player.country && (
+          <>
+            <Flag
+              country={player.country}
+              src={player.country ? `/bundles/gsps-layouts/shared/flags/${player.country}.png` : ''}
+            />
+          </>
+        )}
+      </FlagContainer>
     </NameplateContainer>
   );
 };
