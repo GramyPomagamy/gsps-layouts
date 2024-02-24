@@ -25,6 +25,9 @@ oengusImportStatus.on('change', (newVal, oldVal) => {
 
           run.teams.forEach((team) => {
             team.players.forEach((player) => {
+              // zero out oengus data if we get any
+              player.pronouns = '';
+              player.country = '';
               if (customData.players) {
                 const playerData = JSON.parse(customData.players);
                 if (typeof (playerData[player.name] as RunCustomPlayerData) != 'undefined') {
