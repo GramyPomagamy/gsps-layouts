@@ -22,4 +22,5 @@ export default (nodecg: NodeCG.ServerAPI<Configschema>) => {
   require('./secondary-timer');
   require('./timestamps');
   require('./total');
+  require('./generic-replicant');
 };

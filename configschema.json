@@ -210,6 +210,16 @@
       },
       "required": ["enabled"]
     },
+    "genericReplicant": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": ["enabled"]
+    },
     "twitchExt": {
       "type": "object",
       "properties": {
@@ -251,6 +261,7 @@
     "milestones",
     "donationSocket",
     "twitchExt",
-    "sd"
+    "sd",
+    "genericReplicant"
   ]
 }

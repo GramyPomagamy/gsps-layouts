@@ -14,3 +14,4 @@ export * from './pronouns';
 export * from './mediaBoxItem';
 export * from './host';
 export * from './runCustomData';
+export * from './genericReplicant';

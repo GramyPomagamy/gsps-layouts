@@ -22,7 +22,6 @@ export interface Hosterka {
 			| 'ne/nego'
 			| 'onu/jegu'
 			| '';
-		[k: string]: unknown;
 	};
 	hostR: {
 		name: string;
@@ -40,6 +39,5 @@ export interface Hosterka {
 			| 'ne/nego'
 			| 'onu/jegu'
 			| '';
-		[k: string]: unknown;
 	};
 }

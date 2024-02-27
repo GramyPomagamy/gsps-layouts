@@ -18,7 +18,7 @@ const AmountDiv = styled.div`
   gap: 20px;
   position: fixed;
   top: 30px;
-  right: 80px; 
+  right: 80px;
 `;
 
 const Currency = styled.div`
@@ -57,7 +57,7 @@ export const Total = () => {
   }, []);
 
   return (
-    <AmountDiv className='shadow'>
+    <AmountDiv className="shadow">
       {amount.formatted}
       <Currency>PLN</Currency>
     </AmountDiv>
