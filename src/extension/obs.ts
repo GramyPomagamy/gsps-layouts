@@ -151,16 +151,16 @@ function playShortVideo(type: VideoTypes) {
     videoToPlay = videosSponsors.value![Math.floor(Math.random() * videosSponsors.value!.length)];
   }
   if (videoToPlay) {
-    try {
-      obs.call('SetInputSettings', {
+    obs
+      .call('SetInputSettings', {
         inputName: config.sources!.intermissionVideo,
         inputSettings: {
           input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
         },
+      })
+      .catch((err) => {
+        log.error('Nie udało puścić się krótkiego filmu', err);
       });
-    } catch (err) {
-      log.error('Nie udało puścić się krótkiego filmu', err);
-    }
   } else {
     log.error('Nie udało puścić się krótkiego filmu');
   }
