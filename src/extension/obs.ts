@@ -37,6 +37,7 @@ let reconnectTimeout: NodeJS.Timeout;
 let loggedTimestampForCurrentGame = false;
 let videoToPlay: Asset | undefined;
 let videoType: VideoTypes = 'sponsors';
+let videosPlayed = 0;
 
 // Connect to OBS
 if (config.enabled) {
@@ -150,24 +151,29 @@ function playShortVideo(type: VideoTypes) {
     videoToPlay = videosSponsors.value![Math.floor(Math.random() * videosSponsors.value!.length)];
   }
   if (videoToPlay) {
-    obs.call('SetInputSettings', {
-      inputName: config.sources!.intermissionVideo,
-      inputSettings: {
-        input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
-      },
-    });
+    try {
+      obs.call('SetInputSettings', {
+        inputName: config.sources!.intermissionVideo,
+        inputSettings: {
+          input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
+        },
+      });
+    } catch (err) {
+      log.error('Nie udało puścić się krótkiego filmu', err);
+    }
   } else {
     log.error('Nie udało puścić się krótkiego filmu');
   }
 }
 
 async function playIntermissionVideo(longVideo: boolean) {
+  videosPlayed = 0;
   playLongVideoReplicant.value = longVideo;
   if (longVideo) {
     playLongVideo();
   } else {
     videoType = 'sponsors';
-    playShortVideo('sponsors');
+    playShortVideo(videoType);
   }
   obs.call('SetCurrentProgramScene', { sceneName: config.scenes!.video });
 }
@@ -455,12 +461,22 @@ obs.on('StudioModeStateChanged', (data) => {
 
 obs.on('MediaInputPlaybackEnded', (data) => {
   if (data.inputName === config.sources!.intermissionVideo) {
-    if (videoType === 'sponsors' && !playLongVideoReplicant.value) {
-      playShortVideo('charity');
-      videoType = 'charity';
+    if (!playLongVideoReplicant.value) {
+      if (videosPlayed < 2) {
+        videoType = 'charity';
+        playShortVideo(videoType);
+      } else {
+        switchFromHostScreen();
+      }
     } else {
       switchFromHostScreen();
     }
+  }
+});
+
+obs.on('MediaInputPlaybackEnded', (data) => {
+  if (data.inputName === config.sources!.intermissionVideo) {
+    videosPlayed++;
   }
 });
 
