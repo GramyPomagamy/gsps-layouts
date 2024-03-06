@@ -20,7 +20,7 @@ const CURRENT_BIDS_URL = `${rootURL}/search?type=allbids&event=${eventID}&state=
 let updateTimeout: NodeJS.Timeout;
 
 // Get latest bid data every POLL_INTERVAL milliseconds
-update();
+if (config.enabled) update();
 
 /**
  * Grabs the latest bids from the Tracker.
