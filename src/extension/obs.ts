@@ -402,10 +402,17 @@ obs.on('CurrentProgramSceneChanged', (data) => {
 
       // foobar control
       if (foobarConfig.enabled) {
-        if (data.sceneName.includes(foobarConfig.unmuteKeyword!)) {
-          foobar.unmute();
+        const regex = new RegExp("\\[" + foobarConfig.musicKeyword + "(.*?)\\]");
+        const match = data.sceneName.match(regex);
+        if (match && match[1]) {
+          const volume = parseInt(match[1], 10);
+          if (!Number.isNaN(volume)) {
+            foobar.setVolume(volume);
+          } else {
+            foobar.setVolume(0)
+          }
         } else {
-          foobar.mute();
+          foobar.setVolume(0);
         }
       }
 

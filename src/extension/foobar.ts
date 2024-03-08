@@ -29,6 +29,15 @@ class FoobarControl {
     });
   }
 
+  /** Sets the foobar volume in dB. Use the foobar2000 UI for reference on what values to use.
+   * @param volume - The volume in dB. 0 is full volume.
+   */
+  setVolume(volume: number) {
+    needle('post', `${this.address}/api/player?volume=${volume}`, {}).catch((error) => {
+      this.log.error('Błąd przy ustawianiu głośności: ' + error.message)
+    })
+  }
+
   async getSong(): Promise<string> {
     try {
       const playerInfo: NeedleResponse = await needle(

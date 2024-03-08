@@ -192,7 +192,7 @@
           "type": "string",
           "default": "http://localhost:8880"
         },
-        "unmuteKeyword": {
+        "musicKeyword": {
           "type": "string",
           "default": "[M]"
         }
