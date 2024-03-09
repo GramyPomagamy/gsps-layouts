@@ -463,7 +463,8 @@ obs.on('SceneTransitionStarted', () => {
             foobar.setVolume(0);
           }
         } else {
-          foobar.setVolume(0);
+          // mute foobar if no music found
+          foobar.setVolume(-100);
         }
       }, 1250);
     }
