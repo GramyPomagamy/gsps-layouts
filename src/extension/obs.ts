@@ -436,16 +436,19 @@ obs.on('SceneTransitionStarted', () => {
     if (foobarConfig.enabled) {
       const regex = new RegExp('\\[' + foobarConfig.musicKeyword + '(.*?)\\]');
       const match = data.currentPreviewSceneName.match(regex);
-      if (match && match[1]) {
-        const volume = parseInt(match[1], 10);
-        if (!Number.isNaN(volume)) {
-          foobar.setVolume(volume);
+      setTimeout(() => {
+        if (match && match[1]) {
+          const volume = parseInt(match[1], 10);
+
+          if (!Number.isNaN(volume)) {
+            foobar.setVolume(volume);
+          } else {
+            foobar.setVolume(0);
+          }
         } else {
           foobar.setVolume(0);
         }
-      } else {
-        foobar.setVolume(0);
-      }
+      }, 1250);
     }
   });
 });
