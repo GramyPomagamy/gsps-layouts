@@ -127,6 +127,20 @@ function switchFromHostScreen() {
   };
   showBidsPanel.value = false;
   showPrizePanel.value = false;
+  
+  // clear intermission video source
+  if (config.sources && config.sources.intermissionVideo) {
+    obs
+      .call('SetInputSettings', {
+        inputName: config.sources.intermissionVideo,
+        inputSettings: {
+          input: '',
+        },
+      })
+      .catch((err) => {
+        log.error('Nie udało się wyzerować filmu na przerwie: ', err);
+      });
+  }
 }
 
 function playLongVideo() {
