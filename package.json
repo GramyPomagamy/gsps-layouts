@@ -126,24 +126,21 @@
         "name": "videos-charity",
         "title": "Filmy na przerwę (fundacja)",
         "allowedTypes": [
-          "mp4",
-          "mkv"
+          "mp4"
         ]
       },
       {
         "name": "videos-sponsors",
         "title": "Filmy na przerwę (sponsorzy)",
         "allowedTypes": [
-          "mp4",
-          "mkv"
+          "mp4"
         ]
       },
       {
         "name": "videos-long",
         "title": "Długie filmy na przerwę",
         "allowedTypes": [
-          "mp4",
-          "mkv"
+          "mp4"
         ]
       }
     ],
