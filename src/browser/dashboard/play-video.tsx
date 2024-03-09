@@ -14,7 +14,7 @@ export const App = () => {
         <Stack spacing={1} useFlexGap>
           <Button
             variant="contained"
-            disabled={!obsData.scene?.includes(intermissionSceneName!) || true}
+            disabled={!obsData.scene?.includes(intermissionSceneName!)}
             onClick={() => {
               nodecg.sendMessage('playIntermissionVideo', false);
             }}>
@@ -22,7 +22,7 @@ export const App = () => {
           </Button>
           <Button
             variant="contained"
-            disabled={!obsData.scene?.includes(intermissionSceneName!) || true}
+            disabled={!obsData.scene?.includes(intermissionSceneName!)}
             onClick={() => {
               nodecg.sendMessage('playIntermissionVideo', true);
             }}>
