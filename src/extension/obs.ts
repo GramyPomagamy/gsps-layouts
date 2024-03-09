@@ -139,7 +139,7 @@ function playLongVideo() {
           input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
         },
       });
-    }, 2000);
+    }, 1500);
   } else {
     log.error('Nie udało puścić się długiego filmu');
   }
@@ -160,7 +160,7 @@ function playShortVideo(type: VideoTypes) {
           input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
         },
       });
-    }, 2000);
+    }, 1500);
   } else {
     log.error('Nie udało puścić się krótkiego filmu');
   }
