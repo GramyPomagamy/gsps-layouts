@@ -38,6 +38,9 @@ let loggedTimestampForCurrentGame = false;
 let videoToPlay: Asset | undefined;
 let videoType: VideoTypes = 'sponsors';
 let videosPlayed = 0;
+let charityVideosPlayed: string[] = [];
+let sponsorVideosPlayed: string[] = [];
+let longVideosPlayed: string[] = [];
 
 // Connect to OBS
 if (config.enabled) {
@@ -129,8 +132,21 @@ function switchFromHostScreen() {
 }
 
 function playLongVideo() {
+  // empty played videos pool if all videos played
+  if (longVideosPlayed.length == videosLong.value!.length) longVideosPlayed = [];
+
   log.debug('Puszczam długi film');
-  videoToPlay = videosLong.value![Math.floor(Math.random() * videosLong.value!.length)];
+  videoToPlay = undefined;
+  for (let index = 0; index < videosLong.value!.length; index++) {
+    let video = videosLong.value![Math.floor(Math.random() * videosLong.value!.length)]
+    if (video && !longVideosPlayed.includes(video.name)) {
+      videoToPlay = video;
+      longVideosPlayed.push(video.name)
+      break;
+    } else {
+      continue;
+    }
+  }
   if (videoToPlay) {
     obs.call('SetInputSettings', {
       inputName: config.sources!.intermissionVideo,
@@ -144,11 +160,34 @@ function playLongVideo() {
 }
 
 function playShortVideo(type: VideoTypes) {
+  // empty played videos pool if all videos played
+  if (charityVideosPlayed.length == videosCharity.value!.length) charityVideosPlayed = [];
+  if (sponsorVideosPlayed.length == videosSponsors.value!.length) sponsorVideosPlayed = [];
+
   log.debug('Puszczam krótki film');
+  videoToPlay = undefined;
   if (type == 'charity') {
-    videoToPlay = videosCharity.value![Math.floor(Math.random() * videosCharity.value!.length)];
+    for (let index = 0; index < videosCharity.value!.length; index++) {
+      let video = videosCharity.value![Math.floor(Math.random() * videosCharity.value!.length)]
+      if (video && !charityVideosPlayed.includes(video.name)) {
+        videoToPlay = video;
+        charityVideosPlayed.push(video.name);
+        break;
+      } else {
+        continue;
+      }
+    }
   } else {
-    videoToPlay = videosSponsors.value![Math.floor(Math.random() * videosSponsors.value!.length)];
+    for (let index = 0; index < videosSponsors.value!.length; index++) {
+      let video = videosSponsors.value![Math.floor(Math.random() * videosSponsors.value!.length)]
+      if (video && !sponsorVideosPlayed.includes(video.name)) {
+        videoToPlay = video;
+        sponsorVideosPlayed.push(video.name);
+        break;
+      } else {
+        continue;
+      }
+    }
   }
   if (videoToPlay) {
     obs
