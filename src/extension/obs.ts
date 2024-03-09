@@ -132,12 +132,14 @@ function playLongVideo() {
   log.debug('Puszczam długi film');
   videoToPlay = videosLong.value![Math.floor(Math.random() * videosLong.value!.length)];
   if (videoToPlay) {
-    obs.call('SetInputSettings', {
-      inputName: config.sources!.intermissionVideo,
-      inputSettings: {
-        input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
-      },
-    });
+    setTimeout(() => {
+      obs.call('SetInputSettings', {
+        inputName: config.sources!.intermissionVideo,
+        inputSettings: {
+          input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
+        },
+      });
+    }, 2000);
   } else {
     log.error('Nie udało puścić się długiego filmu');
   }
@@ -151,16 +153,14 @@ function playShortVideo(type: VideoTypes) {
     videoToPlay = videosSponsors.value![Math.floor(Math.random() * videosSponsors.value!.length)];
   }
   if (videoToPlay) {
-    obs
-      .call('SetInputSettings', {
+    setTimeout(() => {
+      obs.call('SetInputSettings', {
         inputName: config.sources!.intermissionVideo,
         inputSettings: {
           input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
         },
-      })
-      .catch((err) => {
-        log.error('Nie udało puścić się krótkiego filmu', err);
       });
+    }, 2000);
   } else {
     log.error('Nie udało puścić się krótkiego filmu');
   }
@@ -169,13 +169,13 @@ function playShortVideo(type: VideoTypes) {
 async function playIntermissionVideo(longVideo: boolean) {
   videosPlayed = 0;
   playLongVideoReplicant.value = longVideo;
+  obs.call('SetCurrentProgramScene', { sceneName: config.scenes!.video });
   if (longVideo) {
     playLongVideo();
   } else {
     videoType = 'sponsors';
     playShortVideo(videoType);
   }
-  obs.call('SetCurrentProgramScene', { sceneName: config.scenes!.video });
 }
 
 function crop(cropInfo: { cropperIndex: number; windowInfo: WindowInfo }) {
@@ -402,14 +402,14 @@ obs.on('CurrentProgramSceneChanged', (data) => {
 
       // foobar control
       if (foobarConfig.enabled) {
-        const regex = new RegExp("\\[" + foobarConfig.musicKeyword + "(.*?)\\]");
+        const regex = new RegExp('\\[' + foobarConfig.musicKeyword + '(.*?)\\]');
         const match = data.sceneName.match(regex);
         if (match && match[1]) {
           const volume = parseInt(match[1], 10);
           if (!Number.isNaN(volume)) {
             foobar.setVolume(volume);
           } else {
-            foobar.setVolume(0)
+            foobar.setVolume(0);
           }
         } else {
           foobar.setVolume(0);
