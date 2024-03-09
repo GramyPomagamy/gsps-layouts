@@ -127,7 +127,7 @@ function switchFromHostScreen() {
   };
   showBidsPanel.value = false;
   showPrizePanel.value = false;
-  
+
   // clear intermission video source
   if (config.sources && config.sources.intermissionVideo) {
     obs
@@ -141,6 +141,8 @@ function switchFromHostScreen() {
         log.error('Nie udało się wyzerować filmu na przerwie: ', err);
       });
   }
+
+  videosPlayed = 0;
 }
 
 function playLongVideo() {
