@@ -469,7 +469,7 @@ obs.on('StudioModeStateChanged', (data) => {
 obs.on('MediaInputPlaybackEnded', (data) => {
   if (data.inputName === config.sources!.intermissionVideo) {
     if (!playLongVideoReplicant.value) {
-      if (videosPlayed < 2) {
+      if (videosPlayed == 2) {
         videoType = 'charity';
         playShortVideo(videoType);
       } else {
