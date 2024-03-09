@@ -156,7 +156,7 @@ function playLongVideo() {
           input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
         },
       });
-    }, 1500);
+    }, 1250);
   } else {
     log.error('Nie udało puścić się długiego filmu');
   }
@@ -170,6 +170,7 @@ function playShortVideo(type: VideoTypes) {
     videoToPlay = videosSponsors.value![Math.floor(Math.random() * videosSponsors.value!.length)];
   }
   if (videoToPlay) {
+    videosPlayed++;
     setTimeout(() => {
       obs.call('SetInputSettings', {
         inputName: config.sources!.intermissionVideo,
@@ -177,7 +178,7 @@ function playShortVideo(type: VideoTypes) {
           input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
         },
       });
-    }, 1500);
+    }, 1250);
   } else {
     log.error('Nie udało puścić się krótkiego filmu');
   }
@@ -493,7 +494,7 @@ obs.on('StudioModeStateChanged', (data) => {
 obs.on('MediaInputPlaybackEnded', (data) => {
   if (data.inputName === config.sources!.intermissionVideo) {
     if (!playLongVideoReplicant.value) {
-      if (videosPlayed == 2) {
+      if (videosPlayed < 2) {
         videoType = 'charity';
         playShortVideo(videoType);
       } else {
@@ -502,12 +503,6 @@ obs.on('MediaInputPlaybackEnded', (data) => {
     } else {
       switchFromHostScreen();
     }
-  }
-});
-
-obs.on('MediaInputPlaybackEnded', (data) => {
-  if (data.inputName === config.sources!.intermissionVideo) {
-    videosPlayed++;
   }
 });
 
