@@ -82,7 +82,16 @@ function reconnectToOBS() {
 
 function switchToIntermission() {
   nodecg.sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
+  if (!obsDataReplicant.value!.studioMode) {
+    obs.call('SetStudioModeEnabled', { studioModeEnabled: true }).catch((err) => {
+      log.error(`Wystąpił błąd przy włączaniu Studio Mode: ${err};
+        }`);
+    });
+  }
   try {
+    obs.call('SetCurrentPreviewScene', {
+      sceneName: config.scenes!.intermission,
+    });
     obs.call('SetCurrentProgramScene', {
       sceneName: config.scenes!.intermission,
     });
@@ -91,17 +100,9 @@ function switchToIntermission() {
   }
 
   obsDataReplicant.value!.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
-  if (foobarConfig.enabled) {
-    foobar.unmute();
-  }
 
   commentatorsReplicant.value = [];
-  if (!obsDataReplicant.value!.studioMode) {
-    obs.call('SetStudioModeEnabled', { studioModeEnabled: true }).catch((err) => {
-      log.error(`Wystąpił błąd przy włączaniu Studio Mode: ${err};
-        }`);
-    });
-  }
+
   nodecg.sendMessage('hideNames');
   hosterkaReplicant.value = {
     hostL: { name: '', pronouns: '' },
@@ -113,13 +114,13 @@ function switchToIntermission() {
 }
 
 function switchFromHostScreen() {
+  obs.call('SetCurrentPreviewScene', {
+    sceneName: config.scenes!.intermission,
+  });
   obs.call('SetCurrentProgramScene', {
     sceneName: config.scenes!.intermission,
   });
   obsDataReplicant.value!.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
-  if (foobarConfig.enabled) {
-    foobar.unmute();
-  }
   hosterkaReplicant.value = {
     hostL: { name: '', pronouns: '' },
     hostR: { name: '', pronouns: '' },
@@ -400,22 +401,6 @@ obs.on('CurrentProgramSceneChanged', (data) => {
         }, 10 * 1000);
       }
 
-      // foobar control
-      if (foobarConfig.enabled) {
-        const regex = new RegExp('\\[' + foobarConfig.musicKeyword + '(.*?)\\]');
-        const match = data.sceneName.match(regex);
-        if (match && match[1]) {
-          const volume = parseInt(match[1], 10);
-          if (!Number.isNaN(volume)) {
-            foobar.setVolume(volume);
-          } else {
-            foobar.setVolume(0);
-          }
-        } else {
-          foobar.setVolume(0);
-        }
-      }
-
       if (config.scenes) {
         // timestamp when switching from intermission or countdown to game/hosterka
         if (
@@ -443,6 +428,26 @@ obs.on('CurrentProgramSceneChanged', (data) => {
       obsDataReplicant.value!.scene = data.sceneName;
     }
   }
+});
+
+obs.on('SceneTransitionStarted', () => {
+  obs.call('GetCurrentPreviewScene').then((data) => {
+    // foobar control
+    if (foobarConfig.enabled) {
+      const regex = new RegExp('\\[' + foobarConfig.musicKeyword + '(.*?)\\]');
+      const match = data.currentPreviewSceneName.match(regex);
+      if (match && match[1]) {
+        const volume = parseInt(match[1], 10);
+        if (!Number.isNaN(volume)) {
+          foobar.setVolume(volume);
+        } else {
+          foobar.setVolume(0);
+        }
+      } else {
+        foobar.setVolume(0);
+      }
+    }
+  });
 });
 
 obs.on('RecordStateChanged', (data) => {
