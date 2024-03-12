@@ -25,9 +25,8 @@ if (config.enabled) {
     res.send('OK!');
     showBidsPanel.value = false;
     if (prizesReplicant.value!.length > 0) {
-      // If prize panel is disabled, enable it and start from the beginning of current tier
+      // If prize panel is disabled, enable it
       if (!showPrizePanel.value) {
-        currentlyShownPrizeIndex.value = 0;
         currentPrizeTier = parseInt(req.params['tier']);
         const prizeToShow = getPrize(parseInt(req.params['tier']));
         currentlyShownPrize.value = prizeToShow;
@@ -90,7 +89,7 @@ function getPrize(tier: number): Prize | undefined {
 function getBid(): Bid | undefined {
   if (currentBidsRep.value!.length > 0) {
     const currentBids = klona(currentBidsRep.value!);
-    // If bid panel is disabled, enable it and set it to show first bid in the list
+    // If bid panel is disabled, enable it
     if (!showBidsPanel.value) {
       showBidsPanel.value = true;
       currentlyShownBidIndex.value = 0;
