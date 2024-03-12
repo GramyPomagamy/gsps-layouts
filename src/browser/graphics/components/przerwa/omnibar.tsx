@@ -103,7 +103,7 @@ const Clock = () => {
     const date_ob = new Date();
     const hours = ('0' + date_ob.getHours()).slice(-2);
     const minutes = ('0' + date_ob.getMinutes()).slice(-2);
-    return `${hours}<span class="blink">:</span>${minutes}`;
+    return `${hours}:${minutes}`;
   };
 
   const [clock, setClock] = useState(getClockHTML());
