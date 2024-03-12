@@ -89,9 +89,12 @@ function switchToIntermission() {
     });
   }
   try {
-    obs.call('SetCurrentPreviewScene', {
-      sceneName: config.scenes!.intermission,
-    });
+    if (obsDataReplicant.value?.studioMode) {
+      obs.call('SetCurrentPreviewScene', {
+        sceneName: config.scenes!.intermission,
+      });
+    }
+
     obs.call('SetCurrentProgramScene', {
       sceneName: config.scenes!.intermission,
     });
@@ -448,27 +451,29 @@ obs.on('CurrentProgramSceneChanged', (data) => {
 });
 
 obs.on('SceneTransitionStarted', () => {
-  obs.call('GetCurrentPreviewScene').then((data) => {
-    // foobar control
-    if (foobarConfig.enabled) {
-      const regex = new RegExp('\\[' + foobarConfig.musicKeyword + '(.*?)\\]');
-      const match = data.currentPreviewSceneName.match(regex);
-      setTimeout(() => {
-        if (match && match[1]) {
-          const volume = parseInt(match[1], 10);
+  if (obsDataReplicant.value?.studioMode) {
+    obs.call('GetCurrentPreviewScene').then((data) => {
+      // foobar control
+      if (foobarConfig.enabled) {
+        const regex = new RegExp('\\[' + foobarConfig.musicKeyword + '(.*?)\\]');
+        const match = data.currentPreviewSceneName.match(regex);
+        setTimeout(() => {
+          if (match && match[1]) {
+            const volume = parseInt(match[1], 10);
 
-          if (!Number.isNaN(volume)) {
-            foobar.setVolume(volume);
+            if (!Number.isNaN(volume)) {
+              foobar.setVolume(volume);
+            } else {
+              foobar.setVolume(0);
+            }
           } else {
-            foobar.setVolume(0);
+            // mute foobar if no music found
+            foobar.setVolume(-100);
           }
-        } else {
-          // mute foobar if no music found
-          foobar.setVolume(-100);
-        }
-      }, 1250);
-    }
-  });
+        }, 1250);
+      }
+    });
+  }
 });
 
 obs.on('RecordStateChanged', (data) => {
