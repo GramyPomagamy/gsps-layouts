@@ -253,6 +253,7 @@ const BidOption = ({
     id: number;
     parent: number;
     name: string;
+    description: string;
     total: string;
     rawTotal: number;
     speedrun: number;
@@ -264,7 +265,7 @@ const BidOption = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ fontSize: '24px' }}>
-        {index}. {option.name} - {option.rawTotal} PLN
+        {index}. {option.description} - {option.rawTotal} PLN
       </div>
       <div>
         <div
