@@ -60,6 +60,9 @@
             "name": {
               "type": "string"
             },
+            "description": {
+              "type": "string"
+            },
             "total": {
               "type": "string"
             },
@@ -70,7 +73,7 @@
               "type": "number"
             }
           },
-          "required": ["id", "parent", "name", "total", "rawTotal", "speedrun"]
+          "required": ["id", "parent", "name", "description", "total", "rawTotal", "speedrun"]
         }
       },
       "goal": {

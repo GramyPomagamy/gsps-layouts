@@ -15,6 +15,7 @@ export interface Bid {
     id: number;
     parent: number;
     name: string;
+    description: string;
     total: string;
     rawTotal: number;
     speedrun: number;
