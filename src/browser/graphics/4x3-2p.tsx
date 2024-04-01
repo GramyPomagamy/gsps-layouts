@@ -1,6 +1,5 @@
 import { render } from '../render';
 import layoutBg from './img/layouts/4x3-2p.png';
-import layoutBgWithDonationBar from './img/layouts/4x3-2p-donationbar.png';
 import styled from 'styled-components';
 import RunInfo from './components/run-info';
 import Timer from './components/timer';
@@ -15,50 +14,42 @@ import {
 } from '../../../../nodecg-speedcontrol/src/types/schemas';
 import { Fragment, useEffect, useState } from 'react';
 import ThemeProvider from './components/theme-provider';
-import DonationBar from './components/donation-bar';
 import FinishTime from './components/finish-time';
 
-const LayoutContainer = styled.div<{ showDonationBar: boolean }>`
+const LayoutContainer = styled.div`
   width: 1920px;
   height: 1030px;
-  background-image: url(${(props) => (props.showDonationBar ? layoutBgWithDonationBar : layoutBg)});
+  background-image: url(${layoutBg});
   margin: 0;
   padding: 0;
   text-align: center;
 `;
 
-const BottomLeft = styled.div<{ showDonationBar: boolean }>`
+const BottomLeft = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
   left: 0px;
   top: 722px;
   width: 679px;
-  height: ${(props) => (props.showDonationBar ? '256px' : '294px')};
+  height: 294px;
   justify-content: space-between;
 `;
 
-const BottomRight = styled.div<{ showDonationBar: boolean }>`
+const BottomRight = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
   left: 1242px;
   top: 722px;
   width: 678px;
-  height: ${(props) => (props.showDonationBar ? '264px' : '304px')};
+  height: 304px;
 `;
 
 const Names = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0px;
-`;
-
-const Donations = styled.div`
-  position: fixed;
-  width: 1920px;
-  height: 44px;
-  bottom: 0px;
 `;
 
 const Team1FinishTime = styled.div`
@@ -77,7 +68,6 @@ export const App = () => {
   const [activeRun] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
     namespace: 'nodecg-speedcontrol',
   });
-  const [showDonationBar] = useReplicant<boolean>('showDonationBar', true);
   const [timer] = useReplicant<TimerType | undefined>('timer', undefined, {
     namespace: 'nodecg-speedcontrol',
   });
@@ -132,8 +122,8 @@ export const App = () => {
 
   return (
     <ThemeProvider>
-      <LayoutContainer showDonationBar={showDonationBar}>
-        <BottomLeft showDonationBar={showDonationBar}>
+      <LayoutContainer>
+        <BottomLeft>
           <Names>
             {activeRun && (
               <>
@@ -177,7 +167,7 @@ export const App = () => {
           <RunInfo fontSize={44} />
           <Timer fontSize={56} />
         </BottomLeft>
-        <BottomRight showDonationBar={showDonationBar}>
+        <BottomRight>
           <Names>
             {activeRun && (
               <>
@@ -244,11 +234,6 @@ export const App = () => {
               />
             </Team2FinishTime>
           )}
-        {showDonationBar && (
-          <Donations>
-            <DonationBar />
-          </Donations>
-        )}
       </LayoutContainer>
     </ThemeProvider>
   );

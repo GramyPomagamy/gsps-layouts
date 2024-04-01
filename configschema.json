@@ -3,97 +3,6 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "donationSocket": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false
-        },
-        "url": {
-          "type": "string",
-          "default": ""
-        }
-      },
-      "required": ["enabled"]
-    },
-    "milestones": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false
-        },
-        "url": {
-          "type": "string",
-          "default": ""
-        }
-      },
-      "required": ["enabled"]
-    },
-    "tracker": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false
-        },
-        "username": {
-          "type": "string",
-          "default": ""
-        },
-        "password": {
-          "type": "string",
-          "default": ""
-        },
-        "eventID": {
-          "type": "number",
-          "default": 18
-        },
-        "rootURL": {
-          "type": "string",
-          "default": "https://gsps.pl/donacje"
-        }
-      },
-      "description": "Login information for the private areas of the tracker API.",
-      "required": ["enabled", "rootURL"]
-    },
-    "highlighter": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false
-        },
-        "spreadsheetId": {
-          "type": "string",
-          "default": ""
-        },
-        "service_email": {
-          "type": "string",
-          "default": ""
-        },
-        "private_key": {
-          "type": "string",
-          "default": ""
-        },
-        "remote": {
-          "type": "object",
-          "properties": {
-            "enabled": {
-              "type": "boolean",
-              "default": false
-            },
-            "url": {
-              "type": "string",
-              "default": ""
-            }
-          },
-          "required": ["enabled"]
-        }
-      },
-      "required": ["enabled"]
-    },
     "obs": {
       "type": "object",
       "properties": {
@@ -166,16 +75,6 @@
             "additionalProperties": false,
             "required": ["url", "name", "sceneName", "sourceName"]
           }
-        },
-        "timestamps": {
-          "type": "object",
-          "properties": {
-            "enabled": {
-              "type": "boolean",
-              "default": false
-            }
-          },
-          "required": ["enabled"]
         }
       },
       "description": "Info needed to use OBS websockets.",
@@ -199,69 +98,10 @@
       },
       "description": "Info needed to control foobar2000.",
       "required": ["enabled"]
-    },
-    "footpedal": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false
-        }
-      },
-      "required": ["enabled"]
-    },
-    "genericReplicant": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false
-        }
-      },
-      "required": ["enabled"]
-    },
-    "twitchExt": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false
-        },
-        "token": {
-          "type": "string",
-          "default": ""
-        }
-      },
-      "required": ["enabled"]
-    },
-    "sd": {
-      "type": "object",
-      "description": "Stream Deck related settings",
-      "properties": {
-        "enabled": {
-          "description": "Enable the Stream Deck HTTP endpoints",
-          "type": "boolean",
-          "default": false
-        }
-      },
-      "required": ["enabled"]
-    },
-    "autoUpdateGameAfterImport": {
-      "type": "boolean",
-      "description": "Update game twitch name and player pronouns after Oengus import is complete.",
-      "default": false
     }
   },
   "required": [
     "obs",
-    "foobar",
-    "tracker",
-    "highlighter",
-    "footpedal",
-    "milestones",
-    "donationSocket",
-    "twitchExt",
-    "sd",
-    "genericReplicant"
+    "foobar"
   ]
 }

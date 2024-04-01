@@ -1,9 +1,5 @@
 import styled from 'styled-components';
 import GenericMessage from './ticker/generic-message';
-import NextRuns from './ticker/next-runs';
-import Bids from './ticker/bids';
-import Prizes from './ticker/prizes';
-import Milestones from './ticker/milestones';
 import { useLayoutEffect, useState } from 'react';
 
 const TickerContainer = styled.div`
@@ -38,36 +34,17 @@ const Ticker = () => {
     return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
   }
 
-  /*   function gspsAbout() {
+    function gspsAbout() {
     return genericMsg(
       'Więcej o wydarzeniach z serii GSPS możecie się dowiedzieć na <b class="highlight">gsps.pl</b>!'
     );
-  } */
-
-  function nextRuns() {
-    return <NextRuns onEnd={showNextElement} />;
-  }
-
-  function bids() {
-    return <Bids onEnd={showNextElement} />;
-  }
-
-  function prizes() {
-    return <Prizes onEnd={showNextElement} />;
-  }
-
-  function milestones() {
-    return <Milestones onEnd={showNextElement} />;
   }
 
   const messageTypes = [
     gspsPromo(),
     charityPromo(),
     donationURL(),
-    nextRuns(),
-    bids(),
-    prizes(),
-    milestones(),
+    gspsAbout()
   ];
 
   function showNextElement() {

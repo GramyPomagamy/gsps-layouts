@@ -54,7 +54,7 @@ export const NextRuns = () => {
 
     const currentRunIndex = runs.findIndex((run) => run.id === currentRun.id);
     if (currentRunIndex > -1) {
-      const upcomingRuns = runs.slice(currentRunIndex + 1, currentRunIndex + 4);
+      const upcomingRuns = runs.slice(currentRunIndex + 1, currentRunIndex + 7);
       setUpcomingRuns(upcomingRuns);
     }
   }, [currentRun]);

@@ -7,8 +7,6 @@ import Song from './components/przerwa/song';
 import { BreakOmnibar } from './components/przerwa/omnibar';
 import NextRuns from './components/przerwa/next-runs';
 import ThemeProvider from './components/theme-provider';
-import BreakTicker from './components/przerwa/ticker';
-import Total from './components/przerwa/total';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -49,8 +47,6 @@ export const App = () => {
         <NextRuns />
       </LayoutContainer>
       <BreakOmnibar />
-      <BreakTicker />
-      <Total />
     </ThemeProvider>
   );
 };

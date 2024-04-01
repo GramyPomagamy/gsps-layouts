@@ -149,25 +149,11 @@
     ],
     "dashboardPanels": [
       {
-        "file": "total.html",
-        "name": "total",
-        "title": "Zebrana kwota",
-        "width": 3,
-        "workspace": "1. GSPS - Ogólne"
-      },
-      {
         "name": "countdown",
         "title": "Odliczanie",
         "file": "countdown.html",
         "width": 3,
         "workspace": "1. GSPS - Ogólne"
-      },
-      {
-        "name": "highlight",
-        "title": "Highlighter",
-        "file": "highlight.html",
-        "width": 3,
-        "workspace": "2. GSPS - OBS"
       },
       {
         "name": "next-run",
@@ -177,31 +163,10 @@
         "workspace": "2. GSPS - OBS"
       },
       {
-        "name": "edit-total",
-        "title": "Edytuj kwotę",
-        "file": "edit-total.html",
-        "width": 3,
-        "dialog": true
-      },
-      {
-        "name": "reader",
-        "title": "Czytający",
-        "file": "reader.html",
-        "width": 4,
-        "workspace": "1. GSPS - Ogólne"
-      },
-      {
         "name": "commentators",
         "title": "Komentatorzy",
         "file": "commentators.html",
         "width": 4,
-        "workspace": "1. GSPS - Ogólne"
-      },
-      {
-        "name": "host-countdown",
-        "title": "Odliczanie hostów",
-        "file": "host-countdown.html",
-        "width": 3,
         "workspace": "1. GSPS - Ogólne"
       },
       {
@@ -217,27 +182,6 @@
         "file": "play-video.html",
         "width": 3,
         "workspace": "2. GSPS - OBS"
-      },
-      {
-        "name": "secondary-timer",
-        "title": "Dodatkowy timer",
-        "file": "secondary-timer.html",
-        "width": 3,
-        "workspace": "1. GSPS - Ogólne"
-      },
-      {
-        "name": "hosterka",
-        "title": "Hosterka",
-        "file": "hosterka.html",
-        "width": 4,
-        "workspace": "1. GSPS - Ogólne"
-      },
-      {
-        "name": "show-donation-bar",
-        "title": "Pokaż pasek donacji",
-        "file": "show-donation-bar.html",
-        "width": 3,
-        "workspace": "1. GSPS - Ogólne"
       },
       {
         "name": "obs-cropper",
@@ -305,11 +249,6 @@
       },
       {
         "file": "16x9-2p-bingo.html",
-        "width": 1920,
-        "height": 1030
-      },
-      {
-        "file": "16x9-2p-chase.html",
         "width": 1920,
         "height": 1030
       },

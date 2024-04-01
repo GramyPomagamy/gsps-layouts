@@ -6,39 +6,6 @@
  */
 
 export interface Configschema {
-	donationSocket: {
-		enabled: boolean;
-		url?: string;
-		[k: string]: unknown;
-	};
-	milestones: {
-		enabled: boolean;
-		url?: string;
-		[k: string]: unknown;
-	};
-	/**
-	 * Login information for the private areas of the tracker API.
-	 */
-	tracker: {
-		enabled: boolean;
-		username?: string;
-		password?: string;
-		eventID?: number;
-		rootURL: string;
-		[k: string]: unknown;
-	};
-	highlighter: {
-		enabled: boolean;
-		spreadsheetId?: string;
-		service_email?: string;
-		private_key?: string;
-		remote?: {
-			enabled: boolean;
-			url?: string;
-			[k: string]: unknown;
-		};
-		[k: string]: unknown;
-	};
 	/**
 	 * Info needed to use OBS websockets.
 	 */
@@ -63,10 +30,6 @@ export interface Configschema {
 			sceneName: string;
 			sourceName: string;
 		}[];
-		timestamps?: {
-			enabled: boolean;
-			[k: string]: unknown;
-		};
 		[k: string]: unknown;
 	};
 	/**
@@ -78,31 +41,4 @@ export interface Configschema {
 		musicKeyword?: string;
 		[k: string]: unknown;
 	};
-	footpedal: {
-		enabled: boolean;
-		[k: string]: unknown;
-	};
-	genericReplicant: {
-		enabled: boolean;
-		[k: string]: unknown;
-	};
-	twitchExt: {
-		enabled: boolean;
-		token?: string;
-		[k: string]: unknown;
-	};
-	/**
-	 * Stream Deck related settings
-	 */
-	sd: {
-		/**
-		 * Enable the Stream Deck HTTP endpoints
-		 */
-		enabled: boolean;
-		[k: string]: unknown;
-	};
-	/**
-	 * Update game twitch name and player pronouns after Oengus import is complete.
-	 */
-	autoUpdateGameAfterImport?: boolean;
 }

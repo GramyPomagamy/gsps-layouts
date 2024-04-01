@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useState, useLayoutEffect, useEffect } from 'react';
 import GenericMessage from '../omnibar/ticker/generic-message';
-import Milestones from '../omnibar/ticker/milestones';
 
 const OmnibarContainer = styled.div`
   width: 100%;
@@ -44,27 +43,29 @@ const Ticker = () => {
     );
   }
 
-  function charityPromo() {
+/*   function charityPromo() {
     return genericMsg(
       'GSPS Dzieciom 2024 wspiera&nbsp;<b class="highlight">Fundację Na Ratunek Dzieciom z Chorobą Nowotworową</b>!'
     );
-  }
+  } */
 
   function donationURL() {
-    return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
+    return genericMsg(
+      'Możecie wesprzeć fundację GSPS bezpośrednio na &nbsp;<b class="highlight">gsps.pl/fundacja</b>!'
+    );
   }
 
-  /*   function gspsAbout() {
+  function gspsAbout() {
     return genericMsg(
       'Więcej o wydarzeniach z serii GSPS możecie się dowiedzieć na <b class="highlight">gsps.pl</b>!'
     );
-  } */
-
-  function milestones() {
-    return <Milestones onEnd={showNextElement} />;
   }
 
-  const messageTypes = [gspsPromo(), charityPromo(), donationURL(), milestones()];
+  /*   function milestones() {
+    return <Milestones onEnd={showNextElement} />;
+  } */
+
+  const messageTypes = [gspsPromo(), /* charityPromo(), */ donationURL(), gspsAbout() /* milestones() */];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');
