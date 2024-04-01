@@ -31,7 +31,7 @@ const BottomLeft = styled.div`
   position: fixed;
   left: 0px;
   top: 543px;
-  width: 654px;
+  width: 958px;
   height: 453px;
   justify-content: space-between;
 `;
@@ -40,9 +40,9 @@ const BottomRight = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
-  left: 1266px;
+  left: 962px;
   top: 543px;
-  width: 654px;
+  width: 958px;
   height: 483px;
 `;
 

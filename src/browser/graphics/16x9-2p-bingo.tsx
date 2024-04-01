@@ -32,7 +32,7 @@ const BottomLeft = styled.div`
   left: 0px;
   top: 543px;
   width: 654px;
-  height: 240px;
+  height: 453px;
   justify-content: space-between;
 `;
 
@@ -51,7 +51,6 @@ const Names = styled.div`
   flex-direction: column;
   gap: 0px;
 `;
-
 
 const Team1FinishTime = styled.div`
   position: fixed;
@@ -165,8 +164,8 @@ export const App = () => {
             )}
           </Names>
 
-          <RunInfo fontSize={34} />
-          <Timer fontSize={56} />
+          <RunInfo fontSize={48} />
+          <Timer fontSize={80} />
         </BottomLeft>
         <BottomRight>
           <Names>
