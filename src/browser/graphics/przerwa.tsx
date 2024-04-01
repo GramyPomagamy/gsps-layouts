@@ -29,10 +29,10 @@ const MediaBoxContainer = styled.div`
 `;
 
 const EventLogo = styled.img`
-  width: 250px;
+  width: 450px;
   position: fixed;
-  top: 40px;
-  left: 65px;
+  top: -30px;
+  left: 0px;
 `;
 
 export const App = () => {

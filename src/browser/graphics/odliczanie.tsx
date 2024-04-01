@@ -36,7 +36,7 @@ const CountdownDiv = styled.div`
 `;
 
 const Logo = styled.img`
-  height: 45%;
+  height: 80%;
 `;
 
 const SongDiv = styled.div`
