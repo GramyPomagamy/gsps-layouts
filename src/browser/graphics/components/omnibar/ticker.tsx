@@ -34,18 +34,13 @@ const Ticker = () => {
     return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
   }
 
-    function gspsAbout() {
+  function gspsAbout() {
     return genericMsg(
       'Więcej o wydarzeniach z serii GSPS możecie się dowiedzieć na <b class="highlight">gsps.pl</b>!'
     );
   }
 
-  const messageTypes = [
-    gspsPromo(),
-    charityPromo(),
-    donationURL(),
-    gspsAbout()
-  ];
+  const messageTypes = [gspsPromo(), charityPromo(), donationURL(), gspsAbout()];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');
