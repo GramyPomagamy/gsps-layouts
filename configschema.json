@@ -12,7 +12,7 @@
         },
         "address": {
           "type": "string",
-          "default": "localhost:4444"
+          "default": "ws://localhost:4444"
         },
         "password": {
           "type": "string",
@@ -46,6 +46,22 @@
             "intermissionVideo": {
               "type": "string",
               "default": "Film na przerwie - źródło"
+            },
+            "feed1": {
+              "type": "string",
+              "default": "Stream 1"
+            },
+            "feed2": {
+              "type": "string",
+              "default": "Stream 2"
+            },
+            "feed3": {
+              "type": "string",
+              "default": "Stream 3"
+            },
+            "feed4": {
+              "type": "string",
+              "default": "Stream 4"
             }
           },
           "required": ["intermissionVideo"]
@@ -75,6 +91,22 @@
             "additionalProperties": false,
             "required": ["url", "name", "sceneName", "sourceName"]
           }
+        },
+        "streams": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "playerUrl": {
+              "type": "string",
+              "default": "https://player.twitch.tv/?channel={{twitchAccount}}&enableExtensions=false&muted=false&player=popout&volume=1&parent=twitch.tv"
+            },
+            "accounts": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": []
+            }
+          },
+          "required": ["playerUrl", "accounts"]
         }
       },
       "description": "Info needed to use OBS websockets.",
@@ -100,8 +132,5 @@
       "required": ["enabled"]
     }
   },
-  "required": [
-    "obs",
-    "foobar"
-  ]
+  "required": ["obs", "foobar"]
 }

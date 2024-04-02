@@ -156,6 +156,13 @@
         "workspace": "1. GSPS - Ogólne"
       },
       {
+        "name": "stream-assign",
+        "title": "Przypisywanie streamów",
+        "file": "stream-assign.html",
+        "width": 3,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
         "name": "next-run",
         "title": "Zmiana na przerwę",
         "file": "next-run.html",
