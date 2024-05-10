@@ -20,18 +20,20 @@ const Ticker = () => {
 
   function gspsPromo() {
     return genericMsg(
-      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie Dzieciom 2024</b>!'
+      'Witajcie na kanale &nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie</b>!'
     );
   }
 
   function charityPromo() {
     return genericMsg(
-      'GSPS Dzieciom 2024 wspiera&nbsp;<b class="highlight">Fundację Na Ratunek Dzieciom z Chorobą Nowotworową</b>!'
+      'Fundację GSPS możecie wesprzeć na&nbsp;<b class="highlight">gsps.pl/fundacja</b>!'
     );
   }
 
-  function donationURL() {
-    return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
+  function discordURL() {
+    return genericMsg(
+      'Dołącz do naszej społeczności na Discordzie na <b class="highlight">gsps.pl/discord</b>!'
+    );
   }
 
   function gspsAbout() {
@@ -40,7 +42,7 @@ const Ticker = () => {
     );
   }
 
-  const messageTypes = [gspsPromo(), charityPromo(), donationURL(), gspsAbout()];
+  const messageTypes = [gspsPromo(), discordURL(), gspsAbout(), charityPromo()];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');
