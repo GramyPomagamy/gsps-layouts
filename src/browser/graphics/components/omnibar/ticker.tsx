@@ -20,7 +20,7 @@ const Ticker = () => {
 
   function gspsPromo() {
     return genericMsg(
-      'Witajcie na kanale &nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie</b>!'
+      'Witajcie na kanale&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie</b>!'
     );
   }
 
