@@ -109,6 +109,10 @@
           "type": "string",
           "default": ""
         },
+        "stingerActionDelay": {
+          "type": "number",
+          "default": 1250
+        },
         "scenes": {
           "type": "object",
           "properties": {
