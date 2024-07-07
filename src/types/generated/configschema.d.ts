@@ -13,6 +13,7 @@ export interface Configschema {
 		enabled: boolean;
 		address?: string;
 		password?: string;
+		stingerActionDelay?: number;
 		scenes?: {
 			intermission: string;
 			video: string;

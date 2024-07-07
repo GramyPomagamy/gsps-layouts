@@ -159,7 +159,7 @@ function playLongVideo() {
           input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
         },
       });
-    }, 1250);
+    }, config.stingerActionDelay);
   } else {
     log.error('Nie udało puścić się długiego filmu');
   }
@@ -181,7 +181,7 @@ function playShortVideo(type: VideoTypes) {
           input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
         },
       });
-    }, 1250);
+    }, config.stingerActionDelay);
   } else {
     log.error('Nie udało puścić się krótkiego filmu');
   }
@@ -502,7 +502,7 @@ obs.on('SceneTransitionStarted', () => {
             // mute foobar if no music found
             foobar.setVolume(-100);
           }
-        }, 1250);
+        }, config.stingerActionDelay);
       }
     });
   }
