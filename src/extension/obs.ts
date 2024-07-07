@@ -81,6 +81,8 @@ function reconnectToOBS() {
 }
 
 function switchToIntermission() {
+  if (obsDataReplicant.value?.scene === config.scenes!.intermission) return; // if we're already on intermission, don't do anything
+
   nodecg.sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
   if (!obsDataReplicant.value!.studioMode) {
     obs.call('SetStudioModeEnabled', { studioModeEnabled: true }).catch((err) => {

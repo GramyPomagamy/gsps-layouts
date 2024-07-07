@@ -11,6 +11,8 @@ import { ObsData } from 'src/types/generated';
 import { Timer } from '../../../../nodecg-speedcontrol/src/types/schemas/timer';
 import { useEffect, useState } from 'react';
 
+const intermissionSceneName = nodecg.bundleConfig.obs.scenes?.intermission;
+
 export const App = () => {
   const [obsData] = useReplicant<ObsData | undefined>('obsData', undefined);
   const [timer] = useReplicant<Timer | undefined>('timer', undefined, {
@@ -50,7 +52,9 @@ export const App = () => {
     return '(Run bez nazwy)';
   };
 
-  const disableChange = timer && ['running', 'paused'].includes(timer.state);
+  const disableChange =
+    (timer && ['running', 'paused'].includes(timer.state)) ||
+    obsData?.scene === intermissionSceneName;
 
   return (
     <DashboardThemeProvider>
