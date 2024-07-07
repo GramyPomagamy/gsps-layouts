@@ -104,7 +104,9 @@ function switchToIntermission() {
 
   obsDataReplicant.value!.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
 
-  commentatorsReplicant.value = [];
+  setTimeout(() => {
+    commentatorsReplicant.value = [];
+  }, config.stingerActionDelay);
 
   nodecg.sendMessage('hideNames');
   hosterkaReplicant.value = {
@@ -113,7 +115,10 @@ function switchToIntermission() {
   };
   showBidsPanel.value = false;
   showPrizePanel.value = false;
-  resetAllCrops();
+
+  setTimeout(() => {
+    resetAllCrops();
+  }, config.stingerActionDelay);
 }
 
 function switchFromHostScreen() {
