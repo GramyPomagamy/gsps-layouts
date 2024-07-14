@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import eventLogo from './img/gsps_dzieciom_2024_logo.png';
+import eventLogo from './img/gsps_2024_logo.png';
 import mainBg from './img/gradient_transparent.png';
 import { render } from '../render';
 import MediaBox from './components/media-box';

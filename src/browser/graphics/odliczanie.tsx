@@ -1,5 +1,5 @@
 import { render } from '../render';
-import gspsLogo from './img/gsps_dzieciom_2024_logo.png';
+import gspsLogo from './img/gsps_2024_logo.png';
 import mainBg from './img/gradient_transparent.png';
 import styled from 'styled-components';
 import { IoIosMusicalNotes } from 'react-icons/io';
