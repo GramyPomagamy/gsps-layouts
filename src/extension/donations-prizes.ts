@@ -16,6 +16,9 @@ const donationsToAcceptReplicant = nodecg.Replicant<number>('donationsToAccept')
 const bidsToAcceptReplicant = nodecg.Replicant<number>('bidsToAccept');
 const readerAlertReplicant = nodecg.Replicant<boolean>('readerAlert');
 const readDonationsReplicant = nodecg.Replicant<ReadDonations>('readDonations');
+const currentEventTrackerId = nodecg.Replicant<number>('currentEventTrackerId', {
+  defaultValue: 0,
+});
 
 const donationsLog = new TaggedLogger('donations');
 const config = nodecg.bundleConfig.tracker;
@@ -77,7 +80,10 @@ function processToReadDonations(donations: Tracker.Donation[]): Tracker.Formatte
   return donations
     .map((donation) => ({
       id: donation.pk,
-      name: donation.fields.donor__public,
+      name:
+        donation.fields['requestedvisibility'] === 'ALIAS'
+          ? donation.fields['requestedalias']
+          : 'Anonim',
       amount: parseFloat(donation.fields.amount),
       comment: donation.fields.commentstate === 'APPROVED' ? donation.fields.comment : undefined,
       timestamp: Date.parse(donation.fields.timereceived),
@@ -161,7 +167,15 @@ async function getDonationBids(): Promise<Tracker.DonationBid[]> {
   }
 }
 
-async function setDonationAsRead(id: number): Promise<void> {
+async function setDonationAsRead(id: number, name: string, amount: number): Promise<void> {
+  if (
+    readDonationsReplicant.value &&
+    !readDonationsReplicant.value.filter((donation) => donation.id === id)
+  ) {
+    donationsLog.debug(`Dodaję donację o ID ${id} do listy przeczytanych donacji.`);
+    readDonationsReplicant.value.unshift({ id, name, amount });
+  }
+
   try {
     const resp = await needle(
       'get',
@@ -241,20 +255,22 @@ async function getRecentlyReadDonations() {
   } catch (err) {
     donationsLog.warn('Błąd przy otrzymywaniu przeczytanych donacji: ', err);
   }
-
-  setTimeout(getRecentlyReadDonations, refreshTime);
 }
 
 if (config.enabled) {
   loginToTracker().then(() => {
     updateToReadDonations();
     updatePrizes();
-    getRecentlyReadDonations();
+    // If we have a new event in the config, freshly get read donations
+    if (config.eventID != currentEventTrackerId.value) {
+      currentEventTrackerId.value = config.eventID!;
+      getRecentlyReadDonations();
+    }
   });
 
   nodecg.listenFor('updateDonations', updateToReadDonations);
-  nodecg.listenFor('setDonationAsRead', (id) => {
+  nodecg.listenFor('setDonationAsRead', ({ id, name, amount }) => {
     readerAlertReplicant.value = false;
-    setDonationAsRead(id);
+    setDonationAsRead(id, name, amount);
   });
 }

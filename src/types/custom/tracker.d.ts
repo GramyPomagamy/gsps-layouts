@@ -41,6 +41,8 @@ export namespace Tracker {
     pk: number;
     model: string;
     fields: {
+      requestedvisibility: string;
+      requestedalias: string;
       donor__public: string;
       amount: string;
       comment: string; // Can be empty

@@ -744,6 +744,8 @@ const Donation = ({
 }) => {
   const [bids] = useReplicant<BidsType>('allBids', []);
 
+  const donationDataToSend = { id: donation.id, name: donation.name, amount: donation.amount };
+
   function formatAmount(amount: number) {
     return amount.toFixed(2);
   }
@@ -824,7 +826,7 @@ const Donation = ({
             sx={{ width: '100%' }}
             variant="contained"
             onClick={() => {
-              nodecg.sendMessage('setDonationAsRead', donation.id);
+              nodecg.sendMessage('setDonationAsRead', donationDataToSend);
             }}>
             Zaznacz donację jako przeczytaną
           </Button>
