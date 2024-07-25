@@ -63,7 +63,18 @@ export const NextRuns = () => {
     return null;
   }
 
-  const isBehindSchedule = Date.now() > currentRun.scheduledS! * 1000;
+  // if difference between current run start time and next run start time is over 6 hours, don't do dynamic time calculation
+  const isBehindSchedule = () => {
+    if (
+      upcomingRuns[0] &&
+      upcomingRuns[0].scheduledS &&
+      upcomingRuns[0].scheduledS - currentRun.scheduledS! > 21600
+    ) {
+      return false;
+    } else {
+      return Date.now() > currentRun.scheduledS! * 1000;
+    }
+  };
 
   const now = moment();
   now.add(currentRun.setupTime);
@@ -110,7 +121,7 @@ export const NextRuns = () => {
                     }}>
                     <p style={{ fontVariantNumeric: 'tabular-nums' }}>
                       {(() => {
-                        if (isBehindSchedule) {
+                        if (isBehindSchedule()) {
                           return <>{calcStartTime(run)}</>;
                         } else {
                           // need to do this for runs without a start time on oengus to show their time properly
