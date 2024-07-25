@@ -117,7 +117,7 @@ const BidOptions = styled.div<{ wrap: boolean }>`
 
 const BidWar = ({ bid }: { bid: Bid }) => {
   return (
-    <div style={{ lineHeight: '8px' }} className="shadow">
+    <div style={{ lineHeight: '8px', marginLeft: '10px', marginRight: '10px' }} className="shadow">
       <h2>{bid.game}</h2>
       <h3>{bid.description}</h3>
       <BidOptions wrap={bid.options.length > 6}>
@@ -143,7 +143,7 @@ const BidWar = ({ bid }: { bid: Bid }) => {
 
 const BidGoal = ({ bid }: { bid: Bid }) => {
   return (
-    <div style={{ lineHeight: '8px' }} className="shadow">
+    <div style={{ lineHeight: '8px', marginLeft: '10px', marginRight: '10px' }} className="shadow">
       <h2>{bid.game}</h2>
       <h3>{bid.description}</h3>
       <div>
@@ -191,7 +191,9 @@ const PrizePanel = () => {
               appear
               classNames="fade"
               timeout={1000}>
-              <span ref={prizeRef} style={{ lineHeight: '15px' }}>
+              <span
+                ref={prizeRef}
+                style={{ lineHeight: '15px', marginLeft: '10px', marginRight: '10px' }}>
                 <h2>{currentPrize.name}</h2>
                 <div style={{ fontSize: '20px' }}>
                   {currentPrize.provided && (
