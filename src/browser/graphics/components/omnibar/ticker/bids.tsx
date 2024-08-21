@@ -265,7 +265,7 @@ const BidOption = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ fontSize: '24px' }}>
-        {index}. {option.description} - {option.rawTotal} PLN
+        {index}. {option.name} - {option.rawTotal} PLN
       </div>
       <div>
         <div

@@ -319,7 +319,7 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
                               textOverflow: 'ellipsis',
                             }}
                             key={option.id}>
-                            <b>{index + 1}.</b> {option.description} - <b>{option.total}</b>
+                            <b>{index + 1}.</b> {option.name} - <b>{option.total}</b>
                           </p>
                         );
                       })}
