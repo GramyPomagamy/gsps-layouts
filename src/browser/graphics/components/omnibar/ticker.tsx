@@ -30,7 +30,7 @@ const Ticker = () => {
 
   function charityPromo() {
     return genericMsg(
-      'GSPS Dzieciom 2024 wspiera&nbsp;<b class="highlight">Fundację ITAKA</b>!'
+      'GSPS 2024 wspiera&nbsp;<b class="highlight">Fundację ITAKA</b>!'
     );
   }
 
