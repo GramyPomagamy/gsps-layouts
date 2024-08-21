@@ -170,7 +170,7 @@ async function getDonationBids(): Promise<Tracker.DonationBid[]> {
 async function setDonationAsRead(id: number, name: string, amount: number): Promise<void> {
   if (
     readDonationsReplicant.value &&
-    !readDonationsReplicant.value.filter((donation) => donation.id === id)
+    !readDonationsReplicant.value.filter((donation) => donation.id === id).length
   ) {
     donationsLog.debug(`Dodaję donację o ID ${id} do listy przeczytanych donacji.`);
     readDonationsReplicant.value.unshift({ id, name, amount });
