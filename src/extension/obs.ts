@@ -7,6 +7,7 @@ import { Cropper, Asset, TransformProperties } from '../types/custom';
 import { get } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
 import { RunDataActiveRun } from '../../../nodecg-speedcontrol/src/types';
+import random from 'random';
 
 type VideoTypes = 'charity' | 'sponsors';
 const nodecg = get();
@@ -157,7 +158,7 @@ function switchFromHostScreen() {
 
 function playLongVideo() {
   log.debug('Puszczam długi film');
-  videoToPlay = videosLong.value![Math.floor(Math.random() * videosLong.value!.length)];
+  videoToPlay = videosLong.value![random.int(0, videosLong.value!.length)];
   if (videoToPlay) {
     setTimeout(() => {
       obs.call('SetInputSettings', {
@@ -175,9 +176,9 @@ function playLongVideo() {
 function playShortVideo(type: VideoTypes) {
   log.debug('Puszczam krótki film');
   if (type == 'charity') {
-    videoToPlay = videosCharity.value![Math.floor(Math.random() * videosCharity.value!.length)];
+    videoToPlay = videosCharity.value![random.int(0, videosCharity.value!.length)];
   } else {
-    videoToPlay = videosSponsors.value![Math.floor(Math.random() * videosSponsors.value!.length)];
+    videoToPlay = videosSponsors.value![random.int(0, videosSponsors.value!.length)];
   }
   if (videoToPlay) {
     videosPlayed++;
