@@ -41,7 +41,7 @@ type DonationType = { id: number; name: string; amount: number };
 const Donation = ({ donation }: { donation: DonationType }) => {
   return (
     <DonationEl amount={donation.amount}>
-      {donation.name} - {donation.amount} PLN
+      {donation.name} - {donation.amount.toFixed(0)} PLN
     </DonationEl>
   );
 };
