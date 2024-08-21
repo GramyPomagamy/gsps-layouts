@@ -264,6 +264,7 @@ if (config.enabled) {
     // If we have a new event in the config, freshly get read donations
     if (config.eventID != currentEventTrackerId.value) {
       currentEventTrackerId.value = config.eventID!;
+      readDonationsReplicant.value = [];
       getRecentlyReadDonations();
     }
   });
