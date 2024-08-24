@@ -10,11 +10,7 @@ import Commentators from './components/commentators';
 import DonationBar from './components/donation-bar';
 import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
-import {
-  RunDataPlayer,
-  RunDataTeam,
-  Timer as TimerType,
-} from '../../../../nodecg-speedcontrol/src/types';
+import { Timer as TimerType } from '../../../../nodecg-speedcontrol/src/types';
 import { Fragment, useEffect, useState } from 'react';
 import ThemeProvider from './components/theme-provider';
 import FinishTime from './components/finish-time';
@@ -76,17 +72,6 @@ export const App = () => {
   const [timer] = useReplicant<TimerType | undefined>('timer', undefined, {
     namespace: 'nodecg-speedcontrol',
   });
-
-  const getCurrentRelayRunner = (team: RunDataTeam) => {
-    let currentRelayRunner: RunDataPlayer | undefined;
-
-    team.players.forEach((player: RunDataPlayer) => {
-      if (player.id === team.relayPlayerID) {
-        currentRelayRunner = player;
-      }
-    });
-    return currentRelayRunner;
-  };
 
   const [placements, setPlacements] = useState<
     {
