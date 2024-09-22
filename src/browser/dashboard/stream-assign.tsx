@@ -9,7 +9,7 @@ const StreamAssign = () => {
   const [streams, setStreams] = useState<string[]>([]);
 
   useEffect(() => {
-    setStreams((nodecg.bundleConfig.obs.streams!.accounts as string[]) || []);
+    setStreams((nodecg.bundleConfig.streams!.accounts as string[]) || []);
   }, []);
 
   return (

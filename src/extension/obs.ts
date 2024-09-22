@@ -410,38 +410,6 @@ async function getRecordingPath(): Promise<string> {
   return outputPath;
 }
 
-async function setFeedStream(source: number, twitchStream: string) {
-  const url = config.streams!.playerUrl.replace(new RegExp('{{twitchAccount}}', 'g'), twitchStream);
-  let sourceToChange = '';
-
-  switch (source) {
-    case 0:
-      sourceToChange = config.sources!.feed1!;
-      break;
-    case 1:
-      sourceToChange = config.sources!.feed2!;
-      break;
-    case 2:
-      sourceToChange = config.sources!.feed3!;
-      break;
-    case 3:
-      sourceToChange = config.sources!.feed4!;
-      break;
-    default:
-      break;
-  }
-
-  console.log(sourceToChange);
-  await obs
-    .call('SetInputSettings', {
-      inputName: sourceToChange,
-      inputSettings: { url: url },
-    })
-    .catch((err) => {
-      nodecg.log.warn('url not set to source', err);
-    });
-}
-
 obs.on('CurrentProgramSceneChanged', (data) => {
   if (obsDataReplicant.value) {
     if (obsDataReplicant.value!.scene != data.sceneName) {
@@ -576,6 +544,3 @@ nodecg.listenFor('modifyCropper', ({ cropperIndex, newCropper }) =>
   modifyCropper(cropperIndex, newCropper)
 );
 nodecg.listenFor('removeCropper', removeCropper);
-nodecg.listenFor('setFeedStream', ({ feed, twitchStream }) => {
-  setFeedStream(feed, twitchStream);
-});

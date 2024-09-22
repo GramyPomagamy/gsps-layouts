@@ -20,6 +20,8 @@ export * from './nameCycle';
 // @ts-ignore
 export * from './obsData';
 // @ts-ignore
+export * from './playerStreams';
+// @ts-ignore
 export * from './prizes';
 // @ts-ignore
 export * from './readDonations';

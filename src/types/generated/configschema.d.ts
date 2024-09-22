@@ -23,10 +23,6 @@ export interface Configschema {
 		};
 		sources?: {
 			intermissionVideo: string;
-			feed1?: string;
-			feed2?: string;
-			feed3?: string;
-			feed4?: string;
 			[k: string]: unknown;
 		};
 		croppers?: {
@@ -35,10 +31,6 @@ export interface Configschema {
 			sceneName: string;
 			sourceName: string;
 		}[];
-		streams?: {
-			playerUrl: string;
-			accounts: string[];
-		};
 		[k: string]: unknown;
 	};
 	/**
@@ -49,5 +41,9 @@ export interface Configschema {
 		address?: string;
 		musicKeyword?: string;
 		[k: string]: unknown;
+	};
+	streams?: {
+		playerUrl?: string;
+		accounts?: string[];
 	};
 }
