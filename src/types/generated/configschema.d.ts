@@ -33,17 +33,7 @@ export interface Configschema {
 		}[];
 		[k: string]: unknown;
 	};
-	/**
-	 * Info needed to control foobar2000.
-	 */
-	foobar: {
-		enabled: boolean;
-		address?: string;
-		musicKeyword?: string;
-		[k: string]: unknown;
-	};
-	streams?: {
-		playerUrl?: string;
+	streams: {
 		accounts?: string[];
 	};
 }

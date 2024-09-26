@@ -84,25 +84,6 @@
       "description": "Info needed to use OBS websockets.",
       "required": ["enabled"]
     },
-    "foobar": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false
-        },
-        "address": {
-          "type": "string",
-          "default": "http://localhost:8880"
-        },
-        "musicKeyword": {
-          "type": "string",
-          "default": "[M]"
-        }
-      },
-      "description": "Info needed to control foobar2000.",
-      "required": ["enabled"]
-    },
     "streams": {
       "type": "object",
       "additionalProperties": false,
@@ -115,5 +96,5 @@
       }
     }
   },
-  "required": ["obs", "foobar"]
+  "required": ["obs", "streams"]
 }

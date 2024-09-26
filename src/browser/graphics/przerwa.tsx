@@ -3,7 +3,6 @@ import eventLogo from './img/GSPS_PNG.png';
 import mainBg from './img/main-background.png';
 import { render } from '../render';
 import MediaBox from './components/media-box';
-import Song from './components/przerwa/song';
 import { BreakOmnibar } from './components/przerwa/omnibar';
 import NextRuns from './components/przerwa/next-runs';
 import ThemeProvider from './components/theme-provider';
@@ -39,7 +38,6 @@ export const App = () => {
   return (
     <ThemeProvider>
       <LayoutContainer>
-        <Song />
         <MediaBoxContainer>
           <MediaBox useBreakItem />
         </MediaBoxContainer>
