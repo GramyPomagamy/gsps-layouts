@@ -94,7 +94,21 @@
           "default": []
         }
       }
+    },
+    "tipply": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "goalID": {
+          "type": "string"
+        }
+      },
+      "required": ["enabled"]
     }
   },
-  "required": ["obs", "streams"]
+  "required": ["obs", "streams", "tipply"]
 }

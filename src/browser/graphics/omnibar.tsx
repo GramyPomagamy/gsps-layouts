@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { render } from '../render';
 import Ticker from './components/omnibar/ticker';
 import ThemeProvider from './components/theme-provider';
-import { useEffect, useState } from 'react';
+/* import { useEffect, useState } from 'react'; */
+import Total from './components/omnibar/total';
 
 const OmnibarContainer = styled.div`
   width: 100%;
@@ -19,13 +20,13 @@ export const Omnibar = () => {
     <ThemeProvider>
       <OmnibarContainer>
         <Ticker />
-        <Clock />
+        <Total />
       </OmnibarContainer>
     </ThemeProvider>
   );
 };
 
-const ClockDiv = styled.div`
+/* const ClockDiv = styled.div`
   font-size: 34px;
   align-self: flex-end;
   padding-left: 10px;
@@ -54,5 +55,5 @@ const Clock = () => {
 
   return <ClockDiv dangerouslySetInnerHTML={{ __html: clock }} />;
 };
-
+ */
 render(<Omnibar />);

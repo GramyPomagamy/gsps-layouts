@@ -36,4 +36,8 @@ export interface Configschema {
 	streams: {
 		accounts?: string[];
 	};
+	tipply: {
+		enabled: boolean;
+		goalID?: string;
+	};
 }

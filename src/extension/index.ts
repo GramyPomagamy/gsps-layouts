@@ -8,4 +8,5 @@ export default (nodecg: NodeCG.ServerAPI<Configschema>) => {
   require('./layouts');
   require('./media-box');
   require('./obs');
+  require('./tipply');
 };
