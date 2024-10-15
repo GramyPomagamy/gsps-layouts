@@ -18,11 +18,18 @@ type TipplyApi = {
 };
 
 async function getAmount() {
-  const data: TipplyApi = (
-    await needle('get', `https://tipply.pl/api/widget/goal/${config.goalID}`)
-  ).body;
+  const response = await needle('get', `https://tipply.pl/api/widget/goal/${config.goalID}`);
 
-  const amount = data.config.initial_value / 100 + data.stats.amount / 100;
+  if (response.statusCode != 200) {
+    const amount = 0;
+    totalReplicant.value = { raw: amount, formatted: formatDollars(amount) };
+    nodecg.log.warn('[Tipply] No data received, writing empty numbers');
+    return;
+  }
+
+  const data: TipplyApi = response.body;
+
+  const amount = data.config?.initial_value ?? 0 / 100 + data.stats?.amount ?? 0 / 100;
 
   totalReplicant.value = { raw: amount, formatted: formatDollars(amount) };
 }
