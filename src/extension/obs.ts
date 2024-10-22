@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import OBSWebSocket from 'obs-websocket-js';
+import FoobarControl from './foobar';
 import request from 'request';
 import { Commentators, Hosterka, ObsData, WindowInfo } from '../types/generated';
 import { Cropper, Asset, TransformProperties } from '../types/custom';
@@ -26,6 +27,11 @@ const showPrizePanel = nodecg.Replicant<boolean>('showPrizePanel');
 
 const obs = new OBSWebSocket();
 const config = nodecg.bundleConfig.obs;
+const foobarConfig = nodecg.bundleConfig.foobar;
+let foobar: FoobarControl;
+if (foobarConfig.enabled) {
+  foobar = new FoobarControl(foobarConfig.address!);
+}
 const log = new TaggedLogger('OBS');
 let reconnectTimeout: NodeJS.Timeout;
 let loggedTimestampForCurrentGame = false;
@@ -441,6 +447,32 @@ obs.on('CurrentProgramSceneChanged', (data) => {
 
       obsDataReplicant.value!.scene = data.sceneName;
     }
+  }
+});
+
+obs.on('SceneTransitionStarted', () => {
+  if (obsDataReplicant.value?.studioMode) {
+    obs.call('GetCurrentPreviewScene').then((data) => {
+      // foobar control
+      if (foobarConfig.enabled) {
+        const regex = new RegExp('\\[' + foobarConfig.musicKeyword + '(.*?)\\]');
+        const match = data.currentPreviewSceneName.match(regex);
+        setTimeout(() => {
+          if (match && match[1]) {
+            const volume = parseInt(match[1], 10);
+
+            if (!Number.isNaN(volume)) {
+              foobar.setVolume(volume);
+            } else {
+              foobar.setVolume(0);
+            }
+          } else {
+            // mute foobar if no music found
+            foobar.setVolume(-100);
+          }
+        }, config.stingerActionDelay);
+      }
+    });
   }
 });
 
