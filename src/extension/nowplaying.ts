@@ -12,6 +12,8 @@ const songReplicant = nodecg.Replicant<Song>('song');
 async function GetSong() {
   if (config.enabled) {
     songReplicant.value = await foobar.getSong();
+  } else {
+    songReplicant.value = '';
   }
 }
 

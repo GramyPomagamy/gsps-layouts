@@ -33,24 +33,28 @@ const Song = () => {
   const songRef = useRef(null);
 
   return (
-    <IconContext.Provider value={{ size: '1.5em' }}>
-      <SongDiv>
-        <IoIosMusicalNotes />
-        <SwitchTransition mode="out-in">
-          <CSSTransition
-            key={song}
-            nodeRef={songRef}
-            appear
-            in={true}
-            timeout={1000}
-            classNames="fade">
-            <SongName ref={songRef} className="marquee">
-              <p>{song}</p>
-            </SongName>
-          </CSSTransition>
-        </SwitchTransition>
-      </SongDiv>
-    </IconContext.Provider>
+    <div>
+      {song && (
+        <IconContext.Provider value={{ size: '1.5em' }}>
+          <SongDiv>
+            <IoIosMusicalNotes />
+            <SwitchTransition mode="out-in">
+              <CSSTransition
+                key={song}
+                nodeRef={songRef}
+                appear
+                in={true}
+                timeout={1000}
+                classNames="fade">
+                <SongName ref={songRef} className="marquee">
+                  <p>{song}</p>
+                </SongName>
+              </CSSTransition>
+            </SwitchTransition>
+          </SongDiv>
+        </IconContext.Provider>
+      )}
+    </div>
   );
 };
 

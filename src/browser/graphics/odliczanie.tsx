@@ -77,25 +77,27 @@ export const Odliczanie = () => {
           {countdown && countdownRunning && <span className="shadow">{countdown.formatted}</span>}
         </CountdownDiv>
 
-        <IconContext.Provider value={{ size: '1.5em' }}>
-          {' '}
-          <SongDiv>
-            <IoIosMusicalNotes />
-            <SwitchTransition mode="out-in">
-              <CSSTransition
-                key={song}
-                nodeRef={songRef}
-                appear
-                in={true}
-                timeout={1000}
-                classNames="fade">
-                <SongName ref={songRef} className="marquee">
-                  <p>{song}</p>
-                </SongName>
-              </CSSTransition>
-            </SwitchTransition>
-          </SongDiv>
-        </IconContext.Provider>
+        {song && (
+          <IconContext.Provider value={{ size: '1.5em' }}>
+            {' '}
+            <SongDiv>
+              <IoIosMusicalNotes />
+              <SwitchTransition mode="out-in">
+                <CSSTransition
+                  key={song}
+                  nodeRef={songRef}
+                  appear
+                  in={true}
+                  timeout={1000}
+                  classNames="fade">
+                  <SongName ref={songRef} className="marquee">
+                    <p>{song}</p>
+                  </SongName>
+                </CSSTransition>
+              </SwitchTransition>
+            </SongDiv>
+          </IconContext.Provider>
+        )}
       </LayoutContainer>
     </ThemeProvider>
   );
