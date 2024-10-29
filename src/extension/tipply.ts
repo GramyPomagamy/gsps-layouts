@@ -8,17 +8,12 @@ const nodecg = get();
 const config = nodecg.bundleConfig.tipply;
 const totalReplicant = nodecg.Replicant<Total>('total');
 
-type TipplyApi = {
-  config: {
-    initial_value: number;
-  };
-  stats: {
-    amount: number;
-  };
-};
+const needleOptions = {
+  headers: {"Accept": "application/json"},
+}
 
 async function getAmount() {
-  const response = await needle('get', `https://tipply.pl/api/widget/goal/${config.goalID}`);
+  const response = await needle('get', `https://tipply.pl/api/configuration/GOAL_VOTING/${config.goalID}`, needleOptions);
 
   if (response.statusCode != 200) {
     const amount = 0;
@@ -27,9 +22,15 @@ async function getAmount() {
     return;
   }
 
-  const data: TipplyApi = response.body;
+  let initial_values = 0;
+  let amounts = 0;
+  const goals = response.body.goals;
+  goals.forEach((goal: any) => {
+    initial_values += goal.goal.initial_value;
+    amounts += goal.stats.amount;
+  });
 
-  const amount = data.config?.initial_value ?? 0 / 100 + data.stats?.amount ?? 0 / 100;
+  const amount = initial_values / 100 + amounts / 100;
 
   totalReplicant.value = { raw: amount, formatted: formatDollars(amount) };
 }
