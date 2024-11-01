@@ -6,7 +6,6 @@ import type { Tracker } from '../types/custom';
 import { DonationsToRead, Prizes, ReadDonations } from 'src/types/generated';
 
 let cookies: NeedleResponse['cookies'];
-let isFirstLogin = true;
 const refreshTime = 10 * 1000; // Odśwież donacje co 10 sekund.
 let updateTimeout: NodeJS.Timeout;
 const nodecg = get();
@@ -16,65 +15,11 @@ const donationsToAcceptReplicant = nodecg.Replicant<number>('donationsToAccept')
 const bidsToAcceptReplicant = nodecg.Replicant<number>('bidsToAccept');
 const readerAlertReplicant = nodecg.Replicant<boolean>('readerAlert');
 const readDonationsReplicant = nodecg.Replicant<ReadDonations>('readDonations');
-const currentEventTrackerId = nodecg.Replicant<number>('currentEventTrackerId', {
-  defaultValue: 0,
-});
 
 const donationsLog = new TaggedLogger('donations');
 const config = nodecg.bundleConfig.tracker;
 const rootURL = config!.rootURL;
 const eventID = config!.eventID;
-const LOGIN_URL = `${rootURL}/admin/login/`;
-
-async function loginToTracker(): Promise<void> {
-  if (isFirstLogin) donationsLog.info(`Loguję się jako ${config!.username}`);
-  else donationsLog.info(`Odświeżam sesję jako ${config!.username}`);
-
-  try {
-    const resp1 = await needle('get', LOGIN_URL);
-    if (resp1.statusCode !== 200) {
-      throw new Error('Brak dostępu do strony logowania trackera');
-    }
-
-    const resp2 = await needle(
-      'post',
-      LOGIN_URL,
-      {
-        username: config!.username,
-        password: config!.password,
-        csrfmiddlewaretoken: resp1.cookies ? resp1.cookies['csrftoken'] : undefined,
-      },
-      {
-        cookies: resp1.cookies,
-        headers: {
-          referer: LOGIN_URL,
-        },
-      }
-    );
-
-    if (resp2.statusCode !== 302 || (resp2.cookies && !resp2.cookies['tracker_session'])) {
-      throw new Error('Zalogowanie się nie powiodło, czy użytkownik/hasło są poprawne?');
-    }
-
-    cookies = resp2.cookies;
-
-    if (isFirstLogin) {
-      isFirstLogin = false;
-      donationsLog.info(`Zalogowano pomyślnie jako ${config!.username}`);
-    } else {
-      donationsLog.info(`Odświeżono sesję jako ${config!.username}`);
-    }
-
-    setTimeout(loginToTracker, 90 * 60 * 1000);
-  } catch (err) {
-    donationsLog.warn('Błąd przy logowaniu! ', err);
-    if (!isFirstLogin) {
-      setTimeout(loginToTracker, 60 * 1000);
-    } else {
-      throw new Error('Nie udało się zalogować do trackera.');
-    }
-  }
-}
 
 function processToReadDonations(donations: Tracker.Donation[]): Tracker.FormattedDonation[] {
   return donations
@@ -167,15 +112,7 @@ async function getDonationBids(): Promise<Tracker.DonationBid[]> {
   }
 }
 
-async function setDonationAsRead(id: number, name: string, amount: number): Promise<void> {
-  if (
-    readDonationsReplicant.value &&
-    !readDonationsReplicant.value.filter((donation) => donation.id === id).length
-  ) {
-    donationsLog.debug(`Dodaję donację o ID ${id} do listy przeczytanych donacji.`);
-    readDonationsReplicant.value.unshift({ id, name, amount });
-  }
-
+async function setDonationAsRead(id: number): Promise<void> {
   try {
     const resp = await needle(
       'get',
@@ -218,9 +155,7 @@ function processRawPrizes(rawPrizes: Tracker.Prize[]): Tracker.FormattedPrize[] 
 
 async function updatePrizes() {
   try {
-    const resp = await needle('get', `${rootURL}/search?event=${config!.eventID}&type=prize`, {
-      cookies: cookies,
-    });
+    const resp = await needle('get', `${rootURL}/search?event=${config!.eventID}&type=prize`);
     const currentPrizes = processRawPrizes(resp.body);
     prizesReplicant.value = currentPrizes;
   } catch (err) {
@@ -234,8 +169,7 @@ async function getRecentlyReadDonations() {
   try {
     const resp = await needle(
       'get',
-      `${rootURL}/search?event=${config!.eventID}&type=donation&readstate=READ`,
-      { cookies: cookies }
+      `${rootURL}/search/?event=${config!.eventID}&type=donation&readstate=READ`
     );
 
     const recentlyReadDonations: ReadDonations = (resp.body as Array<any>)
@@ -254,24 +188,20 @@ async function getRecentlyReadDonations() {
     readDonationsReplicant.value = recentlyReadDonations;
   } catch (err) {
     donationsLog.warn('Błąd przy otrzymywaniu przeczytanych donacji: ', err);
+    readDonationsReplicant.value = [];
   }
+
+  setTimeout(getRecentlyReadDonations, refreshTime);
 }
 
 if (config.enabled) {
-  loginToTracker().then(() => {
-    updateToReadDonations();
-    updatePrizes();
-    // If we have a new event in the config, freshly get read donations
-    if (config.eventID != currentEventTrackerId.value) {
-      currentEventTrackerId.value = config.eventID!;
-      readDonationsReplicant.value = [];
-      getRecentlyReadDonations();
-    }
-  });
+  //updateToReadDonations();
+  updatePrizes();
+  getRecentlyReadDonations();
 
   nodecg.listenFor('updateDonations', updateToReadDonations);
-  nodecg.listenFor('setDonationAsRead', ({ id, name, amount }) => {
+  nodecg.listenFor('setDonationAsRead', (id) => {
     readerAlertReplicant.value = false;
-    setDonationAsRead(id, name, amount);
+    setDonationAsRead(id);
   });
 }

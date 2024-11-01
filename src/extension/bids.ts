@@ -102,7 +102,7 @@ function processRawBids(bids: any[]) {
         name: bid.fields.name,
         description: bid.fields.shortdescription || `No shortdescription for bid #${bid.pk}`,
         longDescription: bid.fields.description || `No description for bid #${bid.pk}`,
-        total: parseFloat(bid.fields.total.toString()) + ' zł',
+        total: parseFloat(bid.fields.total.toString()) + ' EUR',
         rawTotal: parseFloat(bid.fields.total.toString()),
         state: bid.fields.state,
         game: bid.fields.speedrun__display_name,
@@ -130,7 +130,7 @@ function processRawBids(bids: any[]) {
           formattedParentBid.goalMet = formattedParentBid.rawTotal >= formattedParentBid.rawGoal;
           formattedParentBid.state = formattedParentBid.goalMet ? 'CLOSED' : 'OPENED';
         } else {
-          formattedParentBid.goal = parseFloat(bid.fields.goal.toString()) + ' zł';
+          formattedParentBid.goal = parseFloat(bid.fields.goal.toString()) + ' EUR';
           formattedParentBid.rawGoal = goal;
         }
       }
@@ -148,7 +148,7 @@ function processRawBids(bids: any[]) {
       name: bid.fields.name,
       description: bid.fields.shortdescription,
       speedrun: bid.fields.speedrun,
-      total: parseFloat(bid.fields.total) + ' zł',
+      total: parseFloat(bid.fields.total) + ' EUR',
       rawTotal: parseFloat(bid.fields.total),
     };
 

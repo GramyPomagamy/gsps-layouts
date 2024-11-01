@@ -13,7 +13,7 @@ const config = nodecg.bundleConfig.tracker;
 const rootURL = config!.rootURL;
 const eventID = config!.eventID;
 const socketConfig = (nodecg.bundleConfig as Configschema).donationSocket;
-const TOTAL_URL = `${rootURL}/${eventID}?json`;
+const TOTAL_URL = `${rootURL}/event/${eventID}?json`;
 const totalReplicant = nodecg.Replicant<Total>('total');
 const autoUpdateTotalReplicant = nodecg.Replicant<AutoUpdateTotal>('autoUpdateTotal');
 
@@ -99,7 +99,7 @@ nodecg.listenFor('setTotal', ({ type, newValue }) => {
  * @returns {undefined}
  */
 function manuallyUpdateTotal() {
-  totalLog.info('Aktualizuje kwote');
+  totalLog.debug('Aktualizuje kwote');
 
   updateTotal()
     .then(() => {
@@ -177,3 +177,6 @@ function formatDonation(rawAmount: number, newTotal: number) {
     rawNewTotal,
   };
 }
+
+// Lazy way to get around lack of donation socket
+setInterval(manuallyUpdateTotal, 2000);
