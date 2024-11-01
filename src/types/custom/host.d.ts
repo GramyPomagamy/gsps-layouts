@@ -1,18 +1,10 @@
 export interface Host {
   name: string;
   pronouns:
-    | 'ona/jej'
-    | 'on/jego'
-    | 'ono/jego'
-    | 'ono/jej'
-    | 'ono/jejgo'
-    | 'ono/jeno'
-    | 'ono/jenu'
-    | 'ono/ich'
-    | 'onu/jenu'
-    | 'onu/jejo'
-    | 'ne/nego'
-    | 'onu/jegu'
+    | 'she/her'
+    | 'he/him'
+    | 'they/she'
+    | 'they/them'
     | '';
   [k: string]: unknown;
 }
