@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import GenericMessage from './ticker/generic-message';
 import NextRuns from './ticker/next-runs';
 import Bids from './ticker/bids';
-import Prizes from './ticker/prizes';
+//import Prizes from './ticker/prizes';
 //import Milestones from './ticker/milestones';
 import { useLayoutEffect, useState } from 'react';
 
@@ -52,9 +52,9 @@ const Ticker = () => {
     return <Bids onEnd={showNextElement} />;
   }
 
-  function prizes() {
+  /* function prizes() {
     return <Prizes onEnd={showNextElement} />;
-  }
+  } */
 
   /* function milestones() {
     return <Milestones onEnd={showNextElement} />;
