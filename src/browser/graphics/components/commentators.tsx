@@ -49,7 +49,7 @@ const Commentators = () => {
         <CommentatorsContainer>
           <CommentatorsLabel>
             <p style={{ marginTop: '4px' }}>
-              {commentators.length > 1 ? <>Komentatorzy</> : <>Komentator</>}
+              {commentators.length > 1 ? <>Commentators</> : <>Commentator</>}
             </p>
           </CommentatorsLabel>
           <CommentatorsNameContainer isOneCommentator={commentators.length === 1}>

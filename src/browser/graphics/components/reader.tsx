@@ -40,7 +40,7 @@ const Reader = () => {
       {reader && reader.name.length > 0 && (
         <ReaderContainer>
           <ReaderLabel>
-            <p style={{ marginTop: '4px' }}>Czytający</p>
+            <p style={{ marginTop: '4px' }}>Host</p>
           </ReaderLabel>
           <ReaderName>
             <p style={{ marginTop: '3px' }}>
