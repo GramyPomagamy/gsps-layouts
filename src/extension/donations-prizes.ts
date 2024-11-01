@@ -25,7 +25,10 @@ function processToReadDonations(donations: Tracker.Donation[]): Tracker.Formatte
   return donations
     .map((donation) => ({
       id: donation.pk,
-      name: donation.fields.donor__public,
+      name:
+        donation.fields['requestedvisibility'] === 'ALIAS'
+          ? donation.fields['requestedalias']
+          : 'Anonim',
       amount: parseFloat(donation.fields.amount),
       comment: donation.fields.commentstate === 'APPROVED' ? donation.fields.comment : undefined,
       timestamp: Date.parse(donation.fields.timereceived),
