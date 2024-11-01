@@ -7,18 +7,5 @@
 
 export interface Reader {
 	name: string;
-	pronouns:
-		| 'ona/jej'
-		| 'on/jego'
-		| 'ono/jego'
-		| 'ono/jej'
-		| 'ono/jejgo'
-		| 'ono/jeno'
-		| 'ono/jenu'
-		| 'ono/ich'
-		| 'onu/jenu'
-		| 'onu/jejo'
-		| 'ne/nego'
-		| 'onu/jegu'
-		| '';
+	pronouns: 'she/her' | 'he/him' | 'they/she' | 'they/them' | '';
 }
