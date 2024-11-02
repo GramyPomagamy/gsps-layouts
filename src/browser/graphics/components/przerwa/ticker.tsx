@@ -14,6 +14,9 @@ dayjs.extend(relativeTime);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+const prizesRep = nodecg.Replicant<PrizesType>('prizes');
+const bidsRep = nodecg.Replicant<BidsType>('currentBids');
+
 const TickerContainer = styled.div`
   position: fixed;
   width: 800px;
@@ -27,28 +30,35 @@ const BreakTicker = () => {
   const [timestamp, setTimestamp] = useState(Date.now());
   let currentComponentIndex = 0;
 
-  function prizes() {
+  const prizes = () => {
     return <Prizes onEnd={showNextElement} />;
-  }
+  };
 
-  function bids() {
+  const bids = () => {
     return <Bids onEnd={showNextElement} />;
-  }
-
-  const messageTypes = [bids(), prizes()];
+  };
 
   function showNextElement() {
-    console.log('SHOWING NEXT MESSAGE');
-    currentComponentIndex += 1;
-    if (currentComponentIndex >= messageTypes.length) {
-      currentComponentIndex = 0;
-    }
-    setTimestamp(Date.now());
-    setCurrentElement(messageTypes[currentComponentIndex]);
+    NodeCG.waitForReplicants(prizesRep, bidsRep).then(() => {
+      console.log('SHOWING NEXT MESSAGE');
+      if (!bidsRep.value!.length && !prizesRep.value!.length) {
+        setTimeout(() => {
+          showNextElement();
+        }, 2000);
+        return;
+      }
+      const messageTypes = [prizes(), bids()];
+      currentComponentIndex = (currentComponentIndex + 1) % messageTypes.length;
+      const currentComponent = messageTypes[currentComponentIndex];
+      setCurrentElement(currentComponent);
+      setTimestamp(Date.now());
+    });
   }
 
   useLayoutEffect(() => {
-    setCurrentElement(messageTypes[0]);
+    setTimeout(() => {
+      showNextElement();
+    }, 500);
   }, []);
 
   return (
@@ -92,8 +102,6 @@ const Label = styled.p`
   font-size: 24px;
 `;
 
-const prizes = nodecg.Replicant<PrizesType>('prizes');
-
 const Prizes = ({ onEnd }: { onEnd: () => void }) => {
   const [selectedPrize, setSelectedPrize] = useState<Prize | undefined>(undefined);
   const prizeRef = useRef(null);
@@ -104,7 +112,7 @@ const Prizes = ({ onEnd }: { onEnd: () => void }) => {
   }
 
   function getPrize() {
-    const activePrizes = prizes.value!.filter(
+    const activePrizes = prizesRep.value!.filter(
       (prize) =>
         !!prize.startTime &&
         !!prize.endTime &&
@@ -138,33 +146,31 @@ const Prizes = ({ onEnd }: { onEnd: () => void }) => {
   };
 
   useLayoutEffect(() => {
-    NodeCG.waitForReplicants(prizes).then(() => {
-      setSelectedPrize(getPrize());
+    setSelectedPrize(getPrize());
 
-      const prize = getPrize();
-      if (!prize) {
-        end();
-        return;
-      }
+    const prize = getPrize();
+    if (!prize) {
+      end();
+      return;
+    }
 
-      const ctx = gsap.context(() => {
-        setTimeout(() => {
-          const tl = gsap.timeline({
-            onComplete: () => {
-              end();
-            },
-          });
+    const ctx = gsap.context(() => {
+      setTimeout(() => {
+        const tl = gsap.timeline({
+          onComplete: () => {
+            end();
+          },
+        });
 
-          // show
-          tl.to(prizeRef.current, { opacity: 1, duration: 0.6 });
+        // show
+        tl.to(prizeRef.current, { opacity: 1, duration: 0.6 });
 
-          // hide
-          tl.to(prizeRef.current, { opacity: 0, duration: 0.6 }, '+=5');
-        }, 300);
-      });
-
-      return () => ctx.revert();
+        // hide
+        tl.to(prizeRef.current, { opacity: 0, duration: 0.6 }, '+=5');
+      }, 300);
     });
+
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -226,44 +232,40 @@ const BidContainer = styled.div`
   opacity: 0;
 `;
 
-const bidsRep = nodecg.Replicant<BidsType>('currentBids');
-
 const Bids = ({ onEnd }: { onEnd: () => void }) => {
   const [bids, setBids] = useState<BidsType>([]);
   const parentRef = useRef(null);
   const bidsRef = useRef<HTMLDivElement[]>([]);
 
   useLayoutEffect(() => {
-    NodeCG.waitForReplicants(bidsRep).then(() => {
-      setBids(bidsRep.value || []);
-      if (!bidsRep.value || !bidsRep.value.length) {
-        end();
-        return;
-      }
+    setBids(bidsRep.value || []);
+    if (!bidsRep.value || !bidsRep.value.length) {
+      end();
+      return;
+    }
 
-      const ctx = gsap.context(() => {
-        setTimeout(() => {
-          const tl = gsap.timeline({
-            onComplete: () => {
-              end();
-            },
-          });
+    const ctx = gsap.context(() => {
+      setTimeout(() => {
+        const tl = gsap.timeline({
+          onComplete: () => {
+            end();
+          },
+        });
 
-          // show main container with label
-          tl.to(parentRef.current, { opacity: 1, duration: 0.6 });
+        // show main container with label
+        tl.to(parentRef.current, { opacity: 1, duration: 0.6 });
 
-          for (let index = 0; index < bidsRep.value!.length; index++) {
-            tl.to(bidsRef.current[index]!, { opacity: 1, duration: 0.8 });
-            tl.to(bidsRef.current[index]!, { opacity: 0, duration: 0.8 }, '=+8');
-          }
+        for (let index = 0; index < bidsRep.value!.length; index++) {
+          tl.to(bidsRef.current[index]!, { opacity: 1, duration: 0.8 });
+          tl.to(bidsRef.current[index]!, { opacity: 0, duration: 0.8 }, '=+8');
+        }
 
-          // hide main container with label
-          tl.to(parentRef.current, { opacity: 0, duration: 0.6 });
-        }, 200);
-      });
-
-      return () => ctx.revert();
+        // hide main container with label
+        tl.to(parentRef.current, { opacity: 0, duration: 0.6 });
+      }, 200);
     });
+
+    return () => ctx.revert();
   }, []);
 
   function end() {
