@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import eventLogo from './img/gsps_2024_logo.png';
-import mainBg from './img/gradient_transparent.png';
+import eventLogo from './img/ma_x_gsps.png';
+import mainBg from './img/main-background.png';
 import { render } from '../render';
 import MediaBox from './components/media-box';
 import Song from './components/przerwa/song';
@@ -31,7 +31,7 @@ const MediaBoxContainer = styled.div`
 `;
 
 const EventLogo = styled.img`
-  width: 250px;
+  height: 100px;
   position: fixed;
   top: 40px;
   left: 65px;
