@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Prizes as PrizesType, Bids as BidsType } from 'src/types/generated';
 import { Prize } from 'src/types/custom';
