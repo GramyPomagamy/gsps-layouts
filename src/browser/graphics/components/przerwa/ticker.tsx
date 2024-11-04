@@ -126,9 +126,10 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
 
   return (
     <BidsContainer ref={parentRef}>
-      <Label>LICYTACJE</Label>
+      <Label>BID WARS</Label>
       <div>
         {bids.map((bid, index) => {
+          const description = (bid.description || "").includes("No shortdescription") ? bid.longDescription : bid.description;
           return (
             <BidContainer
               key={bid.id}
@@ -150,14 +151,14 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                 }}>
-                {bid.description}
+                {description}
               </p>
               {bid.type === 'choice' ? (
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   {bid.options.length == 0 && bid.allowUserOptions ? (
                     <p className="shadow" style={{ fontSize: '28px' }}>
-                      Zasugeruj opcję jako pierwszy na
-                      <span style={{ color: '#9877f2' }}>&nbsp;gsps.pl/wesprzyj</span>!
+                      Suggest your option at
+                      <span style={{ color: '#9877f2' }}>&nbsp;gsps.pl/ma</span>!
                     </p>
                   ) : (
                     <>
@@ -178,7 +179,7 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
                       })}
                       {bid.options.length > 4 && (
                         <p className="shadow" style={{ fontSize: '28px' }}>
-                          ...i inne!
+                          ...and more!
                         </p>
                       )}
                     </>
