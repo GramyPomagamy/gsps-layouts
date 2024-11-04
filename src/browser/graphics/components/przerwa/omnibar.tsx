@@ -39,18 +39,18 @@ const Ticker = () => {
 
   function gspsPromo() {
     return genericMsg(
-      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie 2024</b>!'
+      "You're watching <b class='highlight'>GSPS</b> at <b class='highlight'>Marathon Alliance</b>!"
     );
   }
 
   function charityPromo() {
     return genericMsg(
-      'GSPS 2024 wspiera&nbsp;<b class="highlight">Fundację ITAKA</b>!'
+      "<b class='highlight'>Marathon Alliance</b> supports <b class='highlight'>Project HOPE</b>!"
     );
   }
 
   function donationURL() {
-    return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
+    return genericMsg("Donate for Project HOPE: <b class='highlight'>gsps.pl/ma</b>!");
   }
 
   /*   function gspsAbout() {
