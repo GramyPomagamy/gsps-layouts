@@ -139,7 +139,7 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
 
   return (
     <BidsContainer ref={parentRef}>
-      <BidsLabel ref={labelRef}>LICYTACJE</BidsLabel>
+      <BidsLabel ref={labelRef}>BID WARS</BidsLabel>
       <ChevronContainer ref={chevronContainerRef}>
         {nextBids && (
           <>
@@ -234,7 +234,7 @@ const BidWar = ({ bid }: { bid: Bid }) => {
             })}
           </>
         ) : bid.allowUserOptions ? (
-          <>Wpłać jako pierwszy na tą licytację!</>
+          <>Add your own option!</>
         ) : (
           <></>
         )}

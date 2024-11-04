@@ -176,7 +176,7 @@ const NextRuns = ({ onEnd }: { onEnd: () => void }) => {
 
   return (
     <NextRunsContainer ref={parentRef}>
-      <NextRunsLabel ref={labelRef}>NASTĘPNIE</NextRunsLabel>
+      <NextRunsLabel ref={labelRef}>NEXT RUN</NextRunsLabel>
       <ChevronContainer ref={chevronContainerRef}>
         {nextRuns && (
           <>
