@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useState, useLayoutEffect, useEffect } from 'react';
 import GenericMessage from '../omnibar/ticker/generic-message';
-import Milestones from '../omnibar/ticker/milestones';
 
 const OmnibarContainer = styled.div`
   width: 100%;
@@ -60,11 +59,7 @@ const Ticker = () => {
     );
   } */
 
-  function milestones() {
-    return <Milestones onEnd={showNextElement} />;
-  }
-
-  const messageTypes = [gspsPromo(), charityPromo(), donationURL(), milestones()];
+  const messageTypes = [gspsPromo(), charityPromo(), donationURL()];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');
