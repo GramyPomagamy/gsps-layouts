@@ -30,10 +30,10 @@ export function timeToRun(run: RunData): string {
     if (timerS > 30) {
       const roundedS = customizedRounding(timerS);
       value =
-        ' za ok. ' +
+        ' in ' +
         humanizeDuration(roundedS * 1000, {
-          language: 'pl',
-          conjunction: ' i ',
+          language: 'en',
+          conjunction: ' and ',
           serialComma: false,
           units: ['d', 'h', 'm'],
         });
