@@ -56,7 +56,7 @@ export const Total = () => {
   return (
     <AmountDiv>
       {amount.formatted}
-      <Currency>PLN</Currency>
+      <Currency>EUR</Currency>
     </AmountDiv>
   );
 };

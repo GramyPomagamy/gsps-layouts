@@ -90,7 +90,7 @@ export const NextRuns = () => {
     <NextRunsContainer>
       {currentRun && (
         <>
-          <Label>ZA CHWILĘ</Label>
+          <Label>COMING UP</Label>
           <CurrentRun>
             <p className="shadow" style={{ fontSize: '40px', fontWeight: 700 }}>
               {currentRun.game}
@@ -106,7 +106,7 @@ export const NextRuns = () => {
       )}
       {upcomingRuns && upcomingRuns.length > 0 && (
         <Fragment>
-          <Label>NASTĘPNIE</Label>
+          <Label>NEXT</Label>
           <UpcomingRuns>
             {upcomingRuns.map((run) => {
               if (!run.customData['hideOnStream']) {

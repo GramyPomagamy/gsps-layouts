@@ -1,20 +1,16 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Prizes as PrizesType, Bids as BidsType } from 'src/types/generated';
-import { Prize } from 'src/types/custom';
+import { Bids as BidsType } from 'src/types/generated';
 import gsap from 'gsap';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import pl from 'dayjs/locale/pl';
-import { AutoTextSize } from 'auto-text-size';
 
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const prizesRep = nodecg.Replicant<PrizesType>('prizes');
 const bidsRep = nodecg.Replicant<BidsType>('currentBids');
 
 const TickerContainer = styled.div`
@@ -30,24 +26,21 @@ const BreakTicker = () => {
   const [timestamp, setTimestamp] = useState(Date.now());
   let currentComponentIndex = 0;
 
-  const prizes = () => {
-    return <Prizes onEnd={showNextElement} />;
-  };
 
   const bids = () => {
     return <Bids onEnd={showNextElement} />;
   };
 
   function showNextElement() {
-    NodeCG.waitForReplicants(prizesRep, bidsRep).then(() => {
+    NodeCG.waitForReplicants(bidsRep).then(() => {
       console.log('SHOWING NEXT MESSAGE');
-      if (!bidsRep.value!.length && !prizesRep.value!.length) {
+      if (!bidsRep.value!.length) {
         setTimeout(() => {
           showNextElement();
         }, 2000);
         return;
       }
-      const messageTypes = [prizes(), bids()];
+      const messageTypes = [bids()];
       currentComponentIndex = (currentComponentIndex + 1) % messageTypes.length;
       const currentComponent = messageTypes[currentComponentIndex];
       setCurrentElement(currentComponent);
@@ -70,151 +63,9 @@ const BreakTicker = () => {
 
 export default BreakTicker;
 
-const PrizesContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-`;
-
-const PrizeContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-`;
-
-const PrizeImage = styled.div`
-  max-width: 50%;
-  min-width: 30%;
-  height: 320px;
-  margin-right: 20px;
-  display: flex;
-  justify-content: center;
-`;
-
-const PrizeInfo = styled.div`
-  text-align: left;
-  padding: 6px 0px;
-  font-size: 24px;
-  position: relative;
-`;
-
 const Label = styled.p`
   font-size: 24px;
 `;
-
-const Prizes = ({ onEnd }: { onEnd: () => void }) => {
-  const [selectedPrize, setSelectedPrize] = useState<Prize | undefined>(undefined);
-  const prizeRef = useRef(null);
-
-  function end() {
-    console.log('Prizes: Finished');
-    onEnd();
-  }
-
-  function getPrize() {
-    const activePrizes = prizesRep.value!.filter(
-      (prize) =>
-        !!prize.startTime &&
-        !!prize.endTime &&
-        Date.now() > prize.startTime &&
-        Date.now() < prize.endTime
-    );
-    if (activePrizes.length === 1) {
-      return activePrizes[0];
-    } else if (activePrizes.length > 1) {
-      const rand = Math.floor(Math.random() * activePrizes.length);
-      return activePrizes[rand];
-    } else {
-      console.log('Prizes: unmounted');
-      end();
-      return;
-    }
-  }
-
-  function formatAmount(amount: number) {
-    return `${amount.toFixed(2)}`;
-  }
-
-  const etaUntil = () => {
-    return selectedPrize!.endTime
-      ? dayjs
-          .unix(selectedPrize!.endTime / 1000)
-          .tz('Europe/Warsaw')
-          .locale(pl)
-          .fromNow(true)
-      : undefined;
-  };
-
-  useLayoutEffect(() => {
-    setSelectedPrize(getPrize());
-
-    const prize = getPrize();
-    if (!prize) {
-      end();
-      return;
-    }
-
-    const ctx = gsap.context(() => {
-      setTimeout(() => {
-        const tl = gsap.timeline({
-          onComplete: () => {
-            end();
-          },
-        });
-
-        // show
-        tl.to(prizeRef.current, { opacity: 1, duration: 0.6 });
-
-        // hide
-        tl.to(prizeRef.current, { opacity: 0, duration: 0.6 }, '+=5');
-      }, 300);
-    });
-
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <>
-      {selectedPrize && (
-        <PrizesContainer ref={prizeRef}>
-          <Label>NAGRODY</Label>
-          <PrizeContainer>
-            <PrizeImage>
-              {selectedPrize.image && (
-                <img
-                  src={selectedPrize.image}
-                  style={{ maxWidth: '100%', maxHeight: '100%', margin: 'auto' }}
-                />
-              )}
-            </PrizeImage>
-            <PrizeInfo className="shadow">
-              <p style={{ marginTop: '20px', fontSize: '28px' }}>
-                <AutoTextSize mode="multiline" maxFontSizePx={48}>
-                  {selectedPrize.name}
-                </AutoTextSize>
-              </p>
-              {selectedPrize.provided && (
-                <p style={{ marginTop: '15px', fontWeight: 500 }}>
-                  Nagroda dostarczona przez: <b>{selectedPrize.provided}</b>
-                </p>
-              )}
-              {selectedPrize.minimumBid && (
-                <p style={{ marginTop: '15px', fontWeight: 500 }}>
-                  Minimalna suma donacji: <b>{formatAmount(selectedPrize.minimumBid)}zł</b>
-                </p>
-              )}
-              {etaUntil() && (
-                <p style={{ marginTop: '15px', fontWeight: 500 }}>
-                  Wpłać w ciągu <b>{etaUntil()}</b>, aby mieć szansę wygrać!
-                </p>
-              )}
-            </PrizeInfo>
-          </PrizeContainer>
-        </PrizesContainer>
-      )}
-    </>
-  );
-};
 
 const BidsContainer = styled.div`
   display: flex;
@@ -275,9 +126,10 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
 
   return (
     <BidsContainer ref={parentRef}>
-      <Label>LICYTACJE</Label>
+      <Label>BID WARS</Label>
       <div>
         {bids.map((bid, index) => {
+          const description = (bid.description || "").includes("No shortdescription") ? bid.longDescription : bid.description;
           return (
             <BidContainer
               key={bid.id}
@@ -299,14 +151,14 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                 }}>
-                {bid.description}
+                {description}
               </p>
               {bid.type === 'choice' ? (
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   {bid.options.length == 0 && bid.allowUserOptions ? (
                     <p className="shadow" style={{ fontSize: '28px' }}>
-                      Zasugeruj opcję jako pierwszy na
-                      <span style={{ color: '#9877f2' }}>&nbsp;gsps.pl/wesprzyj</span>!
+                      Suggest your option at
+                      <span style={{ color: '#9877f2' }}>&nbsp;gsps.pl/ma</span>!
                     </p>
                   ) : (
                     <>
@@ -327,7 +179,7 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
                       })}
                       {bid.options.length > 4 && (
                         <p className="shadow" style={{ fontSize: '28px' }}>
-                          ...i inne!
+                          ...and more!
                         </p>
                       )}
                     </>

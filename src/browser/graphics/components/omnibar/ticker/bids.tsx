@@ -139,7 +139,7 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
 
   return (
     <BidsContainer ref={parentRef}>
-      <BidsLabel ref={labelRef}>LICYTACJE</BidsLabel>
+      <BidsLabel ref={labelRef}>BID WARS</BidsLabel>
       <ChevronContainer ref={chevronContainerRef}>
         {nextBids && (
           <>
@@ -234,7 +234,7 @@ const BidWar = ({ bid }: { bid: Bid }) => {
             })}
           </>
         ) : bid.allowUserOptions ? (
-          <>Wpłać jako pierwszy na tą licytację!</>
+          <>Add your own option!</>
         ) : (
           <></>
         )}
@@ -265,7 +265,7 @@ const BidOption = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ fontSize: '24px' }}>
-        {index}. {option.name} - {option.rawTotal} PLN
+        {index}. {option.name} - {option.rawTotal} EUR
       </div>
       <div>
         <div
@@ -304,7 +304,7 @@ const BidGoal = ({ bid }: { bid: Bid }) => {
           width: '100%',
         }}>
         <div style={{ fontSize: '24px', textAlign: 'right' }}>
-          {bid.rawTotal} / {bid.rawGoal} PLN
+          {bid.rawTotal} / {bid.rawGoal} EUR
         </div>
         <div
           style={{

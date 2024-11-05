@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useState, useLayoutEffect, useEffect } from 'react';
 import GenericMessage from '../omnibar/ticker/generic-message';
-import Milestones from '../omnibar/ticker/milestones';
 
 const OmnibarContainer = styled.div`
   width: 100%;
@@ -40,18 +39,18 @@ const Ticker = () => {
 
   function gspsPromo() {
     return genericMsg(
-      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie 2024</b>!'
+      "You're watching <b class='highlight'>GSPS</b> at <b class='highlight'>Marathon Alliance</b>!"
     );
   }
 
   function charityPromo() {
     return genericMsg(
-      'GSPS 2024 wspiera&nbsp;<b class="highlight">Fundację ITAKA</b>!'
+      "<b class='highlight'>Marathon Alliance</b> supports <b class='highlight'>Project HOPE</b>!"
     );
   }
 
   function donationURL() {
-    return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
+    return genericMsg("Donate for Project HOPE: <b class='highlight'>gsps.pl/ma</b>!");
   }
 
   /*   function gspsAbout() {
@@ -60,11 +59,7 @@ const Ticker = () => {
     );
   } */
 
-  function milestones() {
-    return <Milestones onEnd={showNextElement} />;
-  }
-
-  const messageTypes = [gspsPromo(), charityPromo(), donationURL(), milestones()];
+  const messageTypes = [gspsPromo(), charityPromo(), donationURL()];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');
