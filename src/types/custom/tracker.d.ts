@@ -44,6 +44,7 @@ export namespace Tracker {
       requestedvisibility: string;
       requestedalias: string;
       donor__public: string;
+      donor__visibility: string;
       amount: string;
       comment: string; // Can be empty
       commentstate: string;
