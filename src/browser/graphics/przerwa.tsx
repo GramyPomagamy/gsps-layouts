@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import eventLogo from './img/ma_x_gsps.png';
-import mainBg from './img/main-background.png';
+import mainBg from './img/gradient_transparent.png';
 import { render } from '../render';
 import MediaBox from './components/media-box';
 import Song from './components/przerwa/song';
