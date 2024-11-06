@@ -26,8 +26,8 @@ function processToReadDonations(donations: Tracker.Donation[]): Tracker.Formatte
     .map((donation) => ({
       id: donation.pk,
       name:
-        donation.fields['requestedvisibility'] === 'ALIAS'
-          ? donation.fields['requestedalias']
+        donation.fields['donor__visibility'] === 'ALIAS'
+          ? donation.fields['donor__public']
           : 'Anonim',
       amount: parseFloat(donation.fields.amount),
       comment: donation.fields.commentstate === 'APPROVED' ? donation.fields.comment : undefined,
@@ -178,8 +178,8 @@ async function getRecentlyReadDonations() {
         return {
           id: rawDono['pk'],
           name:
-            rawDono.fields['requestedvisibility'] === 'ALIAS'
-              ? rawDono.fields['requestedalias']
+            rawDono.fields['donor__visibility'] === 'ALIAS'
+              ? rawDono.fields['donor__public']
               : 'Anonim',
           amount: parseInt(parseFloat(rawDono.fields['amount']).toFixed(0)),
         };
