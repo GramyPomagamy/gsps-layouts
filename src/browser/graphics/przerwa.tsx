@@ -1,17 +1,19 @@
 import styled from 'styled-components';
 import eventLogo from './img/GSPS_PNG.png';
 import mainBg from './img/main-background.png';
+import transparentBg from './img/gradient_transparent.png'
 import { render } from '../render';
 import MediaBox from './components/media-box';
 import Song from './components/przerwa/song';
 import { BreakOmnibar } from './components/przerwa/omnibar';
 import NextRuns from './components/przerwa/next-runs';
 import ThemeProvider from './components/theme-provider';
+import { useReplicant } from 'use-nodecg';
 
-const LayoutContainer = styled.div`
+const LayoutContainer = styled.div<{ useTransparentBackgrounds: boolean}>`
   width: 1920px;
   height: 1026px;
-  background-image: url(${mainBg});
+  background-image: url(${(props) => (props.useTransparentBackgrounds ? transparentBg : mainBg)});
   margin: 0;
   padding: 0;
   border-bottom: #5f3ac2 4px solid;
@@ -36,9 +38,11 @@ const EventLogo = styled.img`
 `;
 
 export const App = () => {
+  const [useTransparentBackgrounds] = useReplicant<boolean>('useTransparentBackgrounds', true);
+
   return (
     <ThemeProvider>
-      <LayoutContainer>
+      <LayoutContainer useTransparentBackgrounds={useTransparentBackgrounds}>
         <Song />
         <MediaBoxContainer>
           <MediaBox useBreakItem />
