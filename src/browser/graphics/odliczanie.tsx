@@ -1,6 +1,7 @@
 import { render } from '../render';
 import gspsLogo from './img/GSPS_PNG.png';
 import mainBg from './img/main-background.png';
+import transparentBg from './img/gradient_transparent.png'
 import styled from 'styled-components';
 import { IoIosMusicalNotes } from 'react-icons/io';
 import { IconContext } from 'react-icons';
@@ -10,10 +11,10 @@ import { useReplicant } from 'use-nodecg';
 import { Countdown, CountdownRunning, Song } from 'src/types/generated';
 import ThemeProvider from './components/theme-provider';
 
-const LayoutContainer = styled.div`
+const LayoutContainer = styled.div<{ useTransparentBackgrounds: boolean}>`
   width: 1920px;
   height: 1030px;
-  background-image: url(${mainBg});
+  background-image: url(${(props) => (props.useTransparentBackgrounds ? transparentBg : mainBg)});
   margin: 0;
   padding: 0;
 `;
@@ -64,12 +65,13 @@ export const Odliczanie = () => {
   const [countdown] = useReplicant<Countdown | undefined>('countdown', undefined);
   const [countdownRunning] = useReplicant<CountdownRunning>('countdownRunning', false);
   const [song] = useReplicant<Song>('song', '');
+  const [useTransparentBackgrounds] = useReplicant<boolean>('useTransparentBackgrounds', true);
   const songRef = useRef(null);
   const countdownRef = useRef(null);
 
   return (
     <ThemeProvider>
-      <LayoutContainer>
+      <LayoutContainer useTransparentBackgrounds={useTransparentBackgrounds}>
         <LogoDiv>
           <Logo src={gspsLogo} />
         </LogoDiv>
