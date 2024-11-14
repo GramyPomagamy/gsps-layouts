@@ -13,26 +13,36 @@ const needleOptions = {
 }
 
 async function getAmount() {
-  const response = await needle('get', `https://tipply.pl/api/configuration/GOAL_VOTING/${config.goalID}`, needleOptions);
+  let response;
+  try {
+    response = await needle('get', `https://tipply.pl/api/configuration/GOAL_VOTING/${config.goalID}`, needleOptions);
+  } catch (error: any) {
+    nodecg.log.warn('[Tipply] No data received: ' + error.message);
+    return;
+  }
 
   if (response.statusCode != 200) {
-    const amount = 0;
-    totalReplicant.value = { raw: amount, formatted: formatDollars(amount) };
-    nodecg.log.warn('[Tipply] No data received, writing empty numbers');
+    nodecg.log.warn('[Tipply] HTTP status != 200: ' + JSON.stringify(response.headers) + ' ' + response.body);
     return;
   }
 
   let initial_values = 0;
   let amounts = 0;
-  const goals = response.body.goals;
-  goals.forEach((goal: any) => {
-    initial_values += goal.goal.initial_value;
-    amounts += goal.stats.amount;
-  });
+  try {
+    const goals = response.body.goals;
+    goals.forEach((goal: any) => {
+      initial_values += goal.goal.initial_value;
+      amounts += goal.stats.amount;
+    });
 
-  const amount = initial_values / 100 + amounts / 100;
+    const amount = initial_values / 100 + amounts / 100;
 
-  totalReplicant.value = { raw: amount, formatted: formatDollars(amount) };
+    totalReplicant.value = { raw: amount, formatted: formatDollars(amount) };
+  }  catch (error: any) {
+    nodecg.log.warn('[Tipply] Failed to process response: ' + error.message + ' ' + JSON.stringify(response.headers) + ' ' + response.body);
+    return;
+  }
+
 }
 
 if (config.enabled && config.goalID) {
