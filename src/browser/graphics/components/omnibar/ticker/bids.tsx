@@ -234,7 +234,7 @@ const BidWar = ({ bid }: { bid: Bid }) => {
             })}
           </>
         ) : bid.allowUserOptions ? (
-          <>Wpłać jako pierwszy na tą licytację!</>
+          <>Wpłać jako pierwszy na tę licytację!</>
         ) : (
           <></>
         )}
