@@ -141,9 +141,13 @@
             "intermissionVideo": {
               "type": "string",
               "default": "Film na przerwie - źródło"
+            },
+            "hostAudio": {
+              "type": "string",
+              "default": "mixer-host-input"
             }
           },
-          "required": ["intermissionVideo"]
+          "required": ["intermissionVideo", "hostAudio"]
         },
         "croppers": {
           "type": "array",
