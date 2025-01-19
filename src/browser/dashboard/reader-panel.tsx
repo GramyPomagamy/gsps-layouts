@@ -260,6 +260,7 @@ const Reader = () => {
   const [readerName, setReaderName] = useState('');
   const [readerPronouns, setReaderPronouns] = useState<Pronouns>('');
   const [readerAlert] = useReplicant<boolean>('readerAlert', false);
+  const [hostMuteStatus] = useReplicant<boolean>('hostMuteStatus', false);
 
   useEffect(() => {
     if (typeof reader === 'undefined') return;
@@ -330,6 +331,14 @@ const Reader = () => {
           ) : (
             <>Daj runnerowi znać, że chcesz coś powiedzieć</>
           )}
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            nodecg.sendMessage('toggleHostMute');
+          }}
+          color={hostMuteStatus ? 'error' : 'success'}>
+          Mikrofon na przerwie
         </Button>
       </Stack>
     </Paper>
@@ -773,7 +782,6 @@ const Donation = ({
       bidWars.forEach((bid) => {
         bid.options.forEach((option) => {
           if (option.id === id) {
-            console.log(`found id ${id}`);
             bidName = `${bid.game} - ${bid.name} - ${option.name}`;
           }
         });

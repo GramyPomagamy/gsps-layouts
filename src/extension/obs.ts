@@ -22,6 +22,7 @@ const videosCharity = nodecg.Replicant<Asset[]>('assets:videos-charity');
 const videosSponsors = nodecg.Replicant<Asset[]>('assets:videos-sponsors');
 const videosLong = nodecg.Replicant<Asset[]>('assets:videos-long');
 const hosterkaReplicant = nodecg.Replicant<Hosterka>('hosterka');
+const hostMuteStatusReplicant = nodecg.Replicant<boolean>('hostMuteStatus');
 const showBidsPanel = nodecg.Replicant<boolean>('showBidsPanel');
 const showPrizePanel = nodecg.Replicant<boolean>('showPrizePanel');
 
@@ -62,11 +63,36 @@ if (config.enabled) {
             log.error('Nie udało się wyzerować filmu na przerwie: ', err);
           });
       }
+      initializeHostMute();
     })
     .catch((err) => {
       log.error(`Nie udało się połączyć z OBSem! Powód: ${err}`);
       reconnectTimeout = setTimeout(reconnectToOBS, 5000);
     });
+}
+
+function initializeHostMute() {
+  let channel = config.sources!.hostAudio;
+
+  obs.
+  call("GetInputMute", {inputName: channel})
+  .then((data) => {
+    hostMuteStatusReplicant.value = data.inputMuted;
+  })
+  .catch((err) => {
+    log.error(`Nie udało się pobrać wartości mute dla: ${channel}! Powód: ${err}`);
+  });
+
+}
+
+function toggleHostMute() {
+  const channel = config.sources!.hostAudio;
+  obs
+  .call("SetInputMute", {inputName: channel, inputMuted: !hostMuteStatusReplicant.value})
+  .catch((err) => {
+    log.error(`Nie udało się zmienić wartości mute dla: ${channel}! Powód: ${err}`);
+  });
+  // we don't have to update the replicant here, because we listen to obs events anyway
 }
 
 function reconnectToOBS() {
@@ -519,6 +545,13 @@ obs.on('MediaInputPlaybackEnded', (data) => {
   }
 });
 
+obs.on('InputMuteStateChanged', (data) => {
+  let channel = config.sources!.hostAudio;
+  if (data.inputName == channel) {
+    hostMuteStatusReplicant.value = data.inputMuted;
+  }
+})
+
 obs.on('ConnectionOpened', () => {
   log.info('Połączono z OBSem!');
   obsDataReplicant.value!.connected = true;
@@ -551,3 +584,4 @@ nodecg.listenFor('modifyCropper', ({ cropperIndex, newCropper }) =>
   modifyCropper(cropperIndex, newCropper)
 );
 nodecg.listenFor('removeCropper', removeCropper);
+nodecg.listenFor('toggleHostMute', toggleHostMute);

@@ -56,6 +56,7 @@ export interface Configschema {
 		};
 		sources?: {
 			intermissionVideo: string;
+			hostAudio: string;
 			[k: string]: unknown;
 		};
 		croppers?: {
