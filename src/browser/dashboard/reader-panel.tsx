@@ -41,6 +41,7 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import pl from 'dayjs/locale/pl';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { TwitchCommercialTimer } from 'speedcontrol/src/types/schemas';
 
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
@@ -261,6 +262,7 @@ const Reader = () => {
   const [readerPronouns, setReaderPronouns] = useState<Pronouns>('');
   const [readerAlert] = useReplicant<boolean>('readerAlert', false);
   const [hostMuteStatus] = useReplicant<boolean>('hostMuteStatus', false);
+  const [twitchCommercialTimer] = useReplicant<TwitchCommercialTimer | undefined>('twitchCommercialTimer', undefined, {namespace: 'nodecg-speedcontrol'});
 
   useEffect(() => {
     if (typeof reader === 'undefined') return;
@@ -339,6 +341,9 @@ const Reader = () => {
           }}
           color={hostMuteStatus ? 'error' : 'success'}>
           Mikrofon na przerwie
+          {(twitchCommercialTimer && twitchCommercialTimer.secondsRemaining > 0) ? (
+            <> (Reklamy: {twitchCommercialTimer.secondsRemaining} s)</>) : (
+            <></>)}
         </Button>
       </Stack>
     </Paper>

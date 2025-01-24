@@ -4,11 +4,14 @@ import mainBg from './img/gradient_transparent.png';
 import { render } from '../render';
 import MediaBox from './components/media-box';
 import Song from './components/przerwa/song';
+import Host from './components/przerwa/host';
 import { BreakOmnibar } from './components/przerwa/omnibar';
 import NextRuns from './components/przerwa/next-runs';
 import ThemeProvider from './components/theme-provider';
 import BreakTicker from './components/przerwa/ticker';
 import Total from './components/przerwa/total';
+import DonationBar from './components/donation-bar';
+import { useReplicant } from 'use-nodecg';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -37,17 +40,31 @@ const EventLogo = styled.img`
   left: 65px;
 `;
 
+const Donations = styled.div`
+  position: fixed;
+  width: 1920px;
+  height: 44px;
+  bottom: 50px;
+`;
+
 export const App = () => {
+  const [showDonationBar] = useReplicant<boolean>('showDonationBar', true);
+
   return (
     <ThemeProvider>
       <LayoutContainer>
         <Song />
+        <Host />
         <MediaBoxContainer>
           <MediaBox useBreakItem />
         </MediaBoxContainer>
         <EventLogo src={eventLogo} />
         <NextRuns />
       </LayoutContainer>
+      {showDonationBar && (
+        <Donations>
+          <DonationBar />
+        </Donations>)}
       <BreakOmnibar />
       <BreakTicker />
       <Total />

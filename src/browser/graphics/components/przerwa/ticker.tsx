@@ -75,7 +75,7 @@ const PrizeContainer = styled.div`
 const PrizeImage = styled.div`
   max-width: 50%;
   min-width: 30%;
-  height: 320px;
+  height: 280px;
   margin-right: 20px;
   display: flex;
   justify-content: center;
@@ -271,6 +271,8 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
     onEnd();
   }
 
+  const maxDisplayedOptions = 3;
+
   return (
     <BidsContainer ref={parentRef}>
       <Label>LICYTACJE</Label>
@@ -308,7 +310,7 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
                     </p>
                   ) : (
                     <>
-                      {bid.options.slice(0, 4).map((option, index) => {
+                      {bid.options.slice(0, maxDisplayedOptions).map((option, index) => {
                         return (
                           <p
                             className="shadow"
@@ -323,9 +325,13 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
                           </p>
                         );
                       })}
-                      {bid.options.length > 4 && (
+                      { (bid.options.length > maxDisplayedOptions) ? (
                         <p className="shadow" style={{ fontSize: '28px' }}>
-                          ...i inne!
+                          ...i inne! Zobacz wszystkie na gsps.pl/wesprzyj!
+                        </p>
+                      ) : (
+                        <p className="shadow" style={{ fontSize: '28px' }}>
+                          Przyłącz się na gsps.pl/wesprzyj!
                         </p>
                       )}
                     </>
