@@ -17,8 +17,9 @@ import {
   TextField,
   Tooltip,
 } from '@mui/material';
-import { Pronouns } from 'src/types/custom';
+import { Pronouns, Channel } from 'src/types/custom';
 import { pronouns as pronounsMap } from '../pronouns';
+import { channels as channelsMap } from '../channels';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export const App = () => {
@@ -58,20 +59,32 @@ export const App = () => {
     setLocalCommentatorList(newState);
   }
 
+  function updateCommentatorChannel(commentatorIndex: number, channel: Channel) {
+    const newState = localCommentatorList.map((obj, index) => {
+      if (index === commentatorIndex) {
+        return { ...obj, channel: channel };
+      }
+
+      return obj;
+    });
+
+    setLocalCommentatorList(newState);
+  }
+
   return (
     <DashboardThemeProvider>
       <Stack spacing={2}>
         <Button
           variant="contained"
           onClick={() => {
-            setLocalCommentatorList([...localCommentatorList, { name: '', pronouns: '' }]);
+            setLocalCommentatorList([...localCommentatorList, { name: '', pronouns: '', channel: '' }]);
           }}>
           Dodaj komentatora
         </Button>
         {localCommentatorList.map((commentator, index) => (
           <div key={index}>
             <Grid container spacing={2} style={{ width: '100%', marginBottom: '25px' }}>
-              <Grid item xs={6.7}>
+              <Grid item xs={4.7}>
                 <TextField
                   variant="outlined"
                   value={commentator.name}
@@ -82,7 +95,7 @@ export const App = () => {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <FormControl fullWidth>
                   <InputLabel id={`pronouns-select-label-${index}`}>Zaimki</InputLabel>
                   <Select
@@ -96,6 +109,25 @@ export const App = () => {
                     {Object.entries(pronounsMap).map((pronoun) => (
                       <MenuItem key={pronoun[0]} value={pronoun[1]}>
                         {pronoun[0]}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={3}>
+                <FormControl fullWidth>
+                  <InputLabel id={`channel-select-label-${index}`}>Kanał</InputLabel>
+                  <Select
+                    variant="outlined"
+                    labelId={`channel-select-label-${index}`}
+                    value={commentator.channel as string}
+                    label="Kanał"
+                    onChange={(event: SelectChangeEvent) => {
+                      updateCommentatorChannel(index, event.target.value as Channel);
+                    }}>
+                    {Object.entries(channelsMap).map((channel) => (
+                      <MenuItem key={channel[0]} value={channel[1]}>
+                        {channel[0]}
                       </MenuItem>
                     ))}
                   </Select>
