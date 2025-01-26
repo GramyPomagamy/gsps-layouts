@@ -23,4 +23,5 @@ export default (nodecg: NodeCG.ServerAPI<Configschema>) => {
   require('./timestamps');
   require('./total');
   require('./generic-replicant');
+  require('./mixer');
 };

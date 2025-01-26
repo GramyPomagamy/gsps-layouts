@@ -80,6 +80,15 @@ export interface Configschema {
 		musicKeyword?: string;
 		[k: string]: unknown;
 	};
+	/**
+	 * Info needed to control mixer
+	 */
+	mixer: {
+		enabled: boolean;
+		address?: string;
+		port?: number;
+		[k: string]: unknown;
+	};
 	footpedal: {
 		enabled: boolean;
 		[k: string]: unknown;
