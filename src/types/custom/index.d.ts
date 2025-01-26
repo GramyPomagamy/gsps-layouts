@@ -15,3 +15,4 @@ export * from './mediaBoxItem';
 export * from './host';
 export * from './runCustomData';
 export * from './genericReplicant';
+export * from './channel';
