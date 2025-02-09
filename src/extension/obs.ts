@@ -109,6 +109,7 @@ function reconnectToOBS() {
 function switchToIntermission() {
   if (obsDataReplicant.value?.scene === config.scenes!.intermission) return; // if we're already on intermission, don't do anything
 
+
   nodecg.sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
   if (!obsDataReplicant.value!.studioMode) {
     obs.call('SetStudioModeEnabled', { studioModeEnabled: true }).catch((err) => {
@@ -131,21 +132,17 @@ function switchToIntermission() {
   }
 
   obsDataReplicant.value!.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
-
   setTimeout(() => {
-    commentatorsReplicant.value = [];
-  }, config.stingerActionDelay);
-
-  nodecg.sendMessage('hideNames');
-  hosterkaReplicant.value = {
-    hostL: { name: '', pronouns: '' },
-    hostR: { name: '', pronouns: '' },
-  };
-  showBidsPanel.value = false;
-  showPrizePanel.value = false;
-
-  setTimeout(() => {
+    nodecg.sendMessage('hideNames');
+    hosterkaReplicant.value = {
+      hostL: { name: '', pronouns: '' },
+      hostR: { name: '', pronouns: '' },
+    };
+    showBidsPanel.value = false;
+    showPrizePanel.value = false;
     resetAllCrops();
+    commentatorsReplicant.value = [];
+    nodecg.sendMessage('intermissionStarted');
   }, config.stingerActionDelay);
 }
 

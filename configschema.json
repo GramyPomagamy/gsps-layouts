@@ -208,6 +208,24 @@
       "description": "Info needed to control foobar2000.",
       "required": ["enabled"]
     },
+    "mixer": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "address": {
+          "type": "string"
+        },
+        "port": {
+          "type": "integer",
+          "default": 10024
+        }
+      },
+      "description": "Info needed to control mixer",
+      "required": ["enabled"]
+    },
     "footpedal": {
       "type": "object",
       "properties": {
@@ -270,6 +288,7 @@
     "donationSocket",
     "twitchExt",
     "sd",
-    "genericReplicant"
+    "genericReplicant",
+    "mixer"
   ]
 }
