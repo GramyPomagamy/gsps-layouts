@@ -38,7 +38,7 @@ class FoobarControl {
     })
   }
 
-  async getSong(): Promise<string> {
+  async getSongInfo(): Promise<[string, number, number]> {
     try {
       const playerInfo: NeedleResponse = await needle(
         'get',
@@ -48,13 +48,16 @@ class FoobarControl {
         playerInfo.body.player.activeItem.columns[0] &&
         playerInfo.body.player.activeItem.columns[1]
       ) {
-        return `${playerInfo.body.player.activeItem.columns[0]} - ${playerInfo.body.player.activeItem.columns[1]}`;
+        const displayName = `${playerInfo.body.player.activeItem.columns[0]} - ${playerInfo.body.player.activeItem.columns[1]}`;
+        const position = playerInfo.body.player.activeItem.position;
+        const duration = playerInfo.body.player.activeItem.duration;
+        return [displayName, position, duration];
       } else {
-        return 'Brak piosenki';
+        return ['Brak piosenki', 0, 0];
       }
     } catch (error: any) {
       this.log.error('Błąd otrzymywania piosenki: ' + error.message);
-      return 'Brak piosenki';
+      return ['Brak piosenki', 0, 0];
     }
   }
 }

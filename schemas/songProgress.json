@@ -1,0 +1,15 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"position": {
+			"type": "number",
+			"default": 0
+		},
+		"duration": {
+			"type": "number",
+			"default": 0
+		}
+	},
+	"required": ["position", "duration"]
+}

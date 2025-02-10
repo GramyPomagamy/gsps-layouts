@@ -32,6 +32,8 @@ export * from './showDonationBar';
 // @ts-ignore
 export * from './song';
 // @ts-ignore
+export * from './songProgress';
+// @ts-ignore
 export * from './total';
 // @ts-ignore
 export * from './windowInfo';
