@@ -206,6 +206,13 @@
         "workspace": "1. GSPS - Ogólne"
       },
       {
+        "name": "use-transparent-backgrounds",
+        "title": "Przezroczyste tła",
+        "file": "use-transparent-backgrounds.html",
+        "width": 3,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
         "name": "obs-status",
         "title": "Status",
         "file": "obs-status.html",

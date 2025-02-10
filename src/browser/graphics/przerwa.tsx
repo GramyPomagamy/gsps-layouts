@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import eventLogo from './img/gsps_2024_logo.png';
-import mainBg from './img/gradient_transparent.png';
+import mainBg from './img/main-background.png';
+import transparentBg from './img/gradient_transparent.png'
 import { render } from '../render';
 import MediaBox from './components/media-box';
 import Song from './components/przerwa/song';
@@ -13,10 +14,10 @@ import Total from './components/przerwa/total';
 import DonationBar from './components/donation-bar';
 import { useReplicant } from 'use-nodecg';
 
-const LayoutContainer = styled.div`
+const LayoutContainer = styled.div<{ useTransparentBackgrounds: boolean}>`
   width: 1920px;
   height: 1026px;
-  background-image: url(${mainBg});
+  background-image: url(${(props) => (props.useTransparentBackgrounds ? transparentBg : mainBg)});
   margin: 0;
   padding: 0;
   border-bottom: #5f3ac2 4px solid;
@@ -49,10 +50,11 @@ const Donations = styled.div`
 
 export const App = () => {
   const [showDonationBar] = useReplicant<boolean>('showDonationBar', true);
+  const [useTransparentBackgrounds] = useReplicant<boolean>('useTransparentBackgrounds', true);
 
   return (
     <ThemeProvider>
-      <LayoutContainer>
+      <LayoutContainer useTransparentBackgrounds={useTransparentBackgrounds}>
         <Song />
         <Host />
         <MediaBoxContainer>
