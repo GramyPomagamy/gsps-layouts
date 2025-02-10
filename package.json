@@ -248,6 +248,13 @@
         "workspace": "1. GSPS - Ogólne"
       },
       {
+        "name": "song-progress",
+        "title": "Progres piosenki",
+        "file": "song-progress.html",
+        "width": 3,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
         "name": "obs-cropper",
         "title": "Cropper",
         "file": "obs-cropper.html",
