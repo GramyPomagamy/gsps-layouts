@@ -55,7 +55,7 @@ export const App = () => {
   return (
     <ThemeProvider>
       <LayoutContainer useTransparentBackgrounds={useTransparentBackgrounds}>
-        <Song />
+        <Song top={936} left={1344} />
         <Host />
         <MediaBoxContainer>
           <MediaBox useBreakItem />
