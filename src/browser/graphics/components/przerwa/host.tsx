@@ -18,7 +18,7 @@ const HostDiv = styled.div`
   flex-direction: row;
   gap: 8px;
   font-size: 20px;
-  border-radius: 7px 0px 0px 7px;
+  border-radius: 7px 7px 7px 7px;
   align-content: space-between;
   justify-content: space-between;
 `;

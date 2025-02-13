@@ -7,6 +7,8 @@ import { Bid, Host as HostType, Prize } from 'src/types/custom';
 import { useRef, useState } from 'react';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { AutoTextSize } from 'auto-text-size';
+import Song from './components/przerwa/song';
+
 
 export const Pronouns = styled.span`
   font-weight: 400;
@@ -277,6 +279,7 @@ const Hosterka = () => {
           </div>
         </PanelContainer>
       </HosterkaContainer>
+      <Song top={80} left={0} />
     </ThemeProvider>
   );
 };
