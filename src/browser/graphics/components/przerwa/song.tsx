@@ -1,10 +1,12 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 import { useRef } from 'react';
 import type { Song } from 'src/types/generated';
 import { IconContext } from 'react-icons';
 import { IoIosMusicalNotes } from 'react-icons/io';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
+
+const songBackgroundSize = '576px';
 
 const SongDiv = styled.div<{top: number, left: number}>`
   display: flex;
@@ -14,7 +16,7 @@ const SongDiv = styled.div<{top: number, left: number}>`
   background: #e6e6e6;
   height: 32px;
   color: rgb(60, 60, 60);
-  width: 576px;
+  width: ${songBackgroundSize};
   flex-direction: row;
   gap: 8px;
   font-size: 20px;
@@ -23,6 +25,27 @@ const SongDiv = styled.div<{top: number, left: number}>`
   justify-content: space-between;
 `;
 
+const scrollLeftAnimation = keyframes`
+    0% {
+      -moz-transform: translateX(100%);
+      -webkit-transform: translateX(100%);
+      transform: translateX(${songBackgroundSize});
+    }
+    100% {
+      -moz-transform: translateX(-100%);
+      -webkit-transform: translateX(-100%);
+      transform: translateX(-100%);
+    }
+`;
+const SongScroller = styled.div`
+  position: absolute;
+  height: 100%;
+  width: max-content;
+  line-height: 50px;
+  text-align: center;
+  transform: translateX(100%);
+  animation: ${scrollLeftAnimation} 18s linear infinite
+`;
 const SongName = styled.div`
   width: 100%;
   margin-top: -10px;
@@ -45,7 +68,7 @@ const Song = ({ top = 50, left = 0 }) => {
             timeout={1000}
             classNames="fade">
             <SongName ref={songRef} className="marquee">
-              <p>{song}</p>
+              <SongScroller>{song}</SongScroller>
             </SongName>
           </CSSTransition>
         </SwitchTransition>
