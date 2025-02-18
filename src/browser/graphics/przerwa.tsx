@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import eventLogo from './img/gsps_2024_logo.png';
+import eventLogo from './img/d2025.png';
 import mainBg from './img/main-background.png';
 import transparentBg from './img/gradient_transparent.png'
 import { render } from '../render';
