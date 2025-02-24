@@ -1,5 +1,5 @@
 import { render } from '../render';
-import gspsLogo from './img/gsps_2024_logo.png';
+import gspsLogo from './img/d2025.png';
 import mainBg from './img/main-background.png';
 import transparentBg from './img/gradient_transparent.png'
 import styled from 'styled-components';
