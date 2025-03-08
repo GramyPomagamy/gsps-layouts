@@ -122,7 +122,7 @@ export const App = () => {
             <Reader />
           </Names>
 
-          <RunInfo fontSize={44} />
+          <RunInfo fontSize={40} />
           <Timer fontSize={56} />
         </BottomLeft>
         <BottomRight showDonationBar={showDonationBar}>
