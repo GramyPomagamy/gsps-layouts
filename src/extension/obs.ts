@@ -39,6 +39,9 @@ let loggedTimestampForCurrentGame = false;
 let videoToPlay: Asset | undefined;
 let videoType: VideoTypes = 'sponsors';
 let videosPlayed = 0;
+let previousSponsorVideoIndex : number | undefined = undefined;
+let previousCharityVideoIndex : number | undefined = undefined;
+let previousLongVideoIndex : number | undefined = undefined;
 
 // Connect to OBS
 if (config.enabled) {
@@ -180,7 +183,14 @@ function switchFromHostScreen() {
 
 function playLongVideo() {
   log.debug('Puszczam długi film');
-  videoToPlay = videosLong.value![Math.floor(Math.random() * videosLong.value!.length)];
+  let videoIndex;
+  do {
+    videoIndex = Math.floor(Math.random() * videosLong.value!.length);
+    videoToPlay = videosLong.value![videoIndex];
+  }
+  while (videosLong.value!.length > 1 && videoIndex == previousLongVideoIndex)
+  previousLongVideoIndex = videoIndex;
+
   if (videoToPlay) {
     setTimeout(() => {
       obs.call('SetInputSettings', {
@@ -197,11 +207,24 @@ function playLongVideo() {
 
 function playShortVideo(type: VideoTypes) {
   log.debug('Puszczam krótki film');
+  let videoIndex;
+
   if (type == 'charity') {
-    videoToPlay = videosCharity.value![Math.floor(Math.random() * videosCharity.value!.length)];
+    do {
+      videoIndex = Math.floor(Math.random() * videosCharity.value!.length)
+      videoToPlay = videosCharity.value![videoIndex];
+    }
+    while (videosCharity.value!.length > 1 && videoIndex == previousCharityVideoIndex)
+    previousCharityVideoIndex = videoIndex;
   } else {
-    videoToPlay = videosSponsors.value![Math.floor(Math.random() * videosSponsors.value!.length)];
+    do {
+      videoIndex = Math.floor(Math.random() * videosSponsors.value!.length)
+      videoToPlay = videosSponsors.value![videoIndex];
+    }
+    while (videosSponsors.value!.length > 1 && videoIndex == previousSponsorVideoIndex)
+    previousSponsorVideoIndex = videoIndex;
   }
+
   if (videoToPlay) {
     videosPlayed++;
     setTimeout(() => {
