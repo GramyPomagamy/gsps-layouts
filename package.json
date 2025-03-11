@@ -241,6 +241,13 @@
         "workspace": "1. GSPS - Ogólne"
       },
       {
+        "name": "mic-threshold",
+        "title": "Mic Threshold",
+        "file": "mic-threshold.html",
+        "width": 3,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
         "name": "show-donation-bar",
         "title": "Pokaż pasek donacji",
         "file": "show-donation-bar.html",

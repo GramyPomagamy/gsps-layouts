@@ -30,7 +30,7 @@ const mixerSignalLevels = nodecg.Replicant<{ [key in keyof typeof channelNameToI
   }, {"": -Infinity} as Record<string, number>)
 });
 
-// TODO add some panel to control them in case we need to tweak them live
+
 nodecg.Replicant<{ [key in keyof typeof channelNameToId]: number }>('mixerThresholdLevels', {
   defaultValue: Object.keys(channelNameToId).reduce((acc, name) => {
     acc[name] = -30
