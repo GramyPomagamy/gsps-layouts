@@ -287,7 +287,7 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
               id={`bid-${bid.id}`}>
               <p
                 className="shadow"
-                style={{ fontSize: '32px', lineHeight: '0px', marginBottom: '15px' }}>
+                style={{ fontSize: '32px', lineHeight: '1.2em', marginBottom: '0px', marginTop: '15px' }}>
                 {bid.game}
               </p>
               <p
