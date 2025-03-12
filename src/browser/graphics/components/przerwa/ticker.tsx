@@ -287,7 +287,7 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
               id={`bid-${bid.id}`}>
               <p
                 className="shadow"
-                style={{ fontSize: '32px', lineHeight: '0px', marginBottom: '15px' }}>
+                style={{ fontSize: '32px', lineHeight: '1.2em', marginBottom: '0px', marginTop: '15px' }}>
                 {bid.game}
               </p>
               <p
@@ -296,8 +296,13 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
                   fontWeight: 500,
                   fontSize: '26px',
                   lineHeight: '0px',
+				  overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
+				  marginBottom: '0px',
+				  paddingTop: '13px',
+				  height: '0.9em',
+				  width: '1120px',
                 }}>
                 {bid.description}
               </p>
@@ -321,7 +326,7 @@ const Bids = ({ onEnd }: { onEnd: () => void }) => {
                               textOverflow: 'ellipsis',
                             }}
                             key={option.id}>
-                            <b>{index + 1}.</b> {option.name} - <b>{option.total}</b>
+                            <b>{index + 1}.</b> {option.name.substring(0, 80)} - <b>{option.total}</b>
                           </p>
                         );
                       })}
