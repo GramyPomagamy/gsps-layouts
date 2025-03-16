@@ -40,6 +40,7 @@ nodecg.Replicant<{ [key in keyof typeof channelNameToId]: number }>('mixerThresh
 
 
 let osc : OSC | undefined = undefined;
+let lastMetersUpdate : number = 0;
 
 if (config.enabled) {
   const settings = {
@@ -90,6 +91,7 @@ if (config.enabled) {
         mixerSignalLevels.value![inputName as Channel] = v;
       }
     }
+    lastMetersUpdate = Date.now();
   })
 
   osc.on("*", function (message: any) {
@@ -141,10 +143,15 @@ function scheduleMeters() {
   osc!.send(meters);
 
   setInterval(() => {
-      const renewMeters = new OSC.Message("/renew", "/meters/2")
-      log.debug("renewing meters")
-      osc!.send(renewMeters);
+      if (Date.now() - lastMetersUpdate > 10000) {
+        osc!.send(meters);
+        log.debug("re-requesting meters");
+      }
+      else {
+        const renewMeters = new OSC.Message("/renew", "/meters/2");
+        log.debug("renewing meters");
+        osc!.send(renewMeters);
+      }
+
   }, 2000)
 }
-
-// TODO add a way to manually retrigger /meters/ in case udp drops the packet? button in panel? would we have to cancel the /renew?
