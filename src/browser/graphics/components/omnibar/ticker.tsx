@@ -38,11 +38,11 @@ const Ticker = () => {
     return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
   }
 
-  /*   function gspsAbout() {
+  function sponsor() {
     return genericMsg(
-      'Więcej o wydarzeniach z serii GSPS możecie się dowiedzieć na <b class="highlight">gsps.pl</b>!'
+      'Zgarnij kod na&nbsp;<b class="highlight">20 zł do InPost Pay</b> — wpisz na czacie&nbsp;<b class="highlight">!kody</b>'
     );
-  } */
+  }
 
   function nextRuns() {
     return <NextRuns onEnd={showNextElement} />;
@@ -68,6 +68,7 @@ const Ticker = () => {
     bids(),
     prizes(),
     milestones(),
+    sponsor(),
   ];
 
   function showNextElement() {
