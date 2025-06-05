@@ -8,28 +8,19 @@
 
 ***Ta dokumentacja nie jest w pełni gotowa i może zawierać błędy, ale powinna być wystarczająco poprawna aby być użyta jako instrukcja instalacji i użytkowania.***
 
-Jest to zestaw grafik dla [NodeCG](https://nodecg.dev) v2.0.0. Dodatkowo musisz jeszcze zainstalować [nodecg-speedcontrol](https://github.com/speedcontrol/nodecg-speedcontrol).
-
 ### Instalacja
 
-Będziesz potrzebować [Node.js](https://nodejs.org) (przetestowane z wersją 18.x LTS) i [git](https://git-scm.com/), aby zainstalować NodeCG. [Dokumentacja NodeCG](https://www.nodecg.dev/docs/installing) powie ci jak zainstalować NodeCG. Dodatkowo sugerujemy zainstalowanie `nodecg-cli`; informacje jak to zrobić są też w podanym właśnie linku (***komendy podane niżej zakładają że nodecg-cli jest zainstalowane!***).
+Będziesz potrzebować [Node.js](https://nodejs.org) (przetestowane z wersją 18.x LTS i 22.x LTS) i [git](https://git-scm.com/), aby zainstalować ten zestaw grafik.
 
-Potem, sklonuj gałąż `build` tego repozytorium do folderu `bundles` NodeCG i zainstaluj wymagane zależności:
+Sklonuj główną gałąź z submodułami, zainstaluj zależności i zbuduj kod:
 > ```
-> cd bundles
-> git clone https://github.com/gramypomagamy/gsps-layouts.git --branch build
-> cd gsps-layouts
-> npm install --production
+> git clone https://github.com/GramyPomagamy/gsps-layouts.git --recurse-submodules
+> npm install
+> npm run build
 > ```
+_Node.js 20+ obecnie wymaga [instalacji zależności dla budowania natywnego kodu dla node-gyp](https://github.com/nodejs/node-gyp#installation)!_
 
-Będziesz też potrzebować domyślnego pliku konfiguracyjnego, który możesz stworzyć używając:
-> `nodecg defaultconfig`
-
-Na koniec, zainstaluj [nodecg-speedcontrol](https://github.com/speedcontrol/nodecg-speedcontrol) przy użyciu `nodecg-cli`:
-> ```
-> cd ..
-> nodecg install speedcontrol/nodecg-speedcontrol
-> ```
+Plik `configschema.json` pomoże ci w utworzeniu pliku konfiguracyjnego. Ten plik możesz potem dodać do folderu `cfg`.
 
 Grafiki GSPSowe polegają na wtyczce [obs-websocket](https://github.com/Palakis/obs-websocket) (zawartej w OBSie 28 i wyżej!), więc upewnij się że masz tą wtyczkę zainstalowaną (niestandarowy adres/port oraz hasło można podać w konfiguracji).
 
@@ -43,6 +34,9 @@ Grafiki GSPSowe mogą sterować odtwarzaczem [foobar2000](https://www.foobar2000
 
 Lista wydarzeń, gdzie te grafiki zostały użyte. Sortowane od najnowszych:
 
+* [GSPS 2024](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p2NPsAsGtnJfOcb5bY8aXBn)
+* [GSPS Dzieciom 2024](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p1Y-QZsbsfIcFZ3llvJXugW)
+* [GSPS 2023](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p0lkfN3_onIoWp6CfBWh4LU)
 * [GSPS Dzieciom 2023](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p2LDj2IoU907heue-t72Y9U)
 * [GSPS 2022](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p3FaeZkwWjWhadn6F8J0aeW)
 * [GSPS Dzieciom 2022](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p3448rkWwvfWORn5gFD8S-2)
@@ -55,28 +49,20 @@ Lista wydarzeń, gdzie te grafiki zostały użyte. Sortowane od najnowszych:
 
 ***This documentation isn't fully complete and may have errors, but should be correct enough for install and usage purposes.***
 
-This is a [NodeCG](https://nodecg.dev) v2.0.0 bundle. Additionally you need to install the [nodecg-speedcontrol](https://github.com/speedcontrol/nodecg-speedcontrol) bundle.
-
 ### Installation
 
-You will need [Node.js](https://nodejs.org) (18.x LTS tested) and [git](https://git-scm.com/) installed to install NodeCG, then see the [NodeCG documentation](https://www.nodecg.dev/docs/installing) on how to install it. Installing `nodecg-cli` is also suggested; information on that is also on the documentation just linked (**the commands below will assume you have installed nodecg-cli!**).
+You will need [Node.js](https://nodejs.org) (18.x LTS and 22.x LTS tested) and [git](https://git-scm.com/) installed to install these graphics.
 
-Afterwards, clone the `build` branch of this repository into the NodeCG `bundles` folder and install the dependencies:
+Clone the main branch of this repository with it's submodules, install the dependencies and build the code:
 > ```
-> cd bundles
-> git clone https://github.com/gramypomagamy/gsps-layouts.git --branch build
-> cd gsps-layouts
-> npm install --production
+> git clone https://github.com/GramyPomagamy/gsps-layouts.git --recurse-submodules
+> npm install
+> npm run build
 > ```
 
-You will probably also want a default configuration you can fill in, which can be created using:
-> `nodecg defaultconfig`
+_Node.js 20+ currently requires [extra dependencies to install native code for node-gyp](https://github.com/nodejs/node-gyp#installation)!_
 
-Then, to get [nodecg-speedcontrol](https://github.com/speedcontrol/nodecg-speedcontrol), install it using `nodecg-cli`:
-> ```
-> cd ..
-> nodecg install speedcontrol/nodecg-speedcontrol
-> ```
+Refer to the `configschema.json` file for how the configuration file is supposed to look like, and add it to the `cfg` directory.
 
 This bundle relies on the [obs-websocket](https://github.com/Palakis/obs-websocket) plugin (included in OBS 28 and higher!), so make sure you have this installed (custom address/port and password can be specified in the bundle's config if needed).
 
@@ -90,6 +76,10 @@ This bundle can interface with [foobar2000](https://www.foobar2000.org/) using t
 
 Here's a list of events this bundle has been used at so far, most recent first:
 
+* [GSPS 2024](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p2NPsAsGtnJfOcb5bY8aXBn)
+* [GSPS Dzieciom 2024](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p1Y-QZsbsfIcFZ3llvJXugW)
+* [GSPS 2023](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p0lkfN3_onIoWp6CfBWh4LU)
 * [GSPS Dzieciom 2023](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p2LDj2IoU907heue-t72Y9U)
 * [GSPS 2022](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p3FaeZkwWjWhadn6F8J0aeW)
 * [GSPS Dzieciom 2022](https://www.youtube.com/playlist?list=PLGZ-4E5LK_p3448rkWwvfWORn5gFD8S-2)
+
