@@ -27,8 +27,9 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "prettify": "prettier --write src/browser src/extension",
     "prebuild": "npm run clean",
+    "postinstall": "node install-speedcontrol.js",
     "schema-types": "nodecg schema-types -o src/types/generated",
-    "start": "node ../..",
+    "start": "nodecg start",
     "watch": "run-p watch:*",
     "watch:browser": "vite",
     "watch:extension": "tsc -b tsconfig.extension.json -w --preserveWatchOutput"
@@ -54,6 +55,7 @@
     "milliseconds": "^1.0.3",
     "moment": "^2.29.4",
     "needle": "^3.2.0",
+    "nodecg": "^2.5.3",
     "numeral": "^2.0.6",
     "obs-websocket-js": "^5.0.3",
     "osc-js": "^2.4.1",
