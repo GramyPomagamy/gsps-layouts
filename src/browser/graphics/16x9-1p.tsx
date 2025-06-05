@@ -9,10 +9,10 @@ import Nameplate from './components/nameplate';
 import Reader from './components/reader';
 import Commentators from './components/commentators';
 import { useReplicant } from 'use-nodecg';
-import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
+import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 import { Fragment } from 'react';
 import ThemeProvider from './components/theme-provider';
-import { RunDataPlayer, RunDataTeam } from '../../../../nodecg-speedcontrol/src/types';
+import { RunDataPlayer, RunDataTeam } from 'speedcontrol/src/types';
 import DonationBar from './components/donation-bar';
 
 const LayoutContainer = styled.div<{ showDonationBar: boolean }>`

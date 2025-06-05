@@ -1,6 +1,6 @@
 import { RunCustomData, RunCustomPlayerData } from 'src/types/custom';
-import { RunDataArray } from '../../../nodecg-speedcontrol/src/types';
-import { OengusImportStatus } from '../../../nodecg-speedcontrol/src/types/schemas';
+import { RunDataArray } from 'speedcontrol/src/types';
+import { OengusImportStatus } from 'speedcontrol/src/types/schemas';
 import { get } from './util/nodecg';
 
 const nodecg = get();

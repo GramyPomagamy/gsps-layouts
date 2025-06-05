@@ -11,7 +11,7 @@ import Commentators from './components/commentators';
 import { useReplicant } from 'use-nodecg';
 import {
   RunDataActiveRun,
-} from '../../../../nodecg-speedcontrol/src/types/schemas';
+} from 'speedcontrol/src/types/schemas';
 import { Fragment } from 'react';
 import ThemeProvider from './components/theme-provider';
 import DonationBar from './components/donation-bar';

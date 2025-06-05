@@ -5,7 +5,7 @@ import {
   type RunDataArray,
   type RunDataActiveRun,
   type RunData,
-} from '../../../../../../nodecg-speedcontrol/src/types/schemas';
+} from 'speedcontrol/src/types/schemas';
 import { formatPlayers } from '../../../format-players';
 import moment from 'moment';
 

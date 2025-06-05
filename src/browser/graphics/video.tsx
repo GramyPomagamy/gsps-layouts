@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import mainBg from './img/layouts/video.png';
 import { render } from '../render';
 import { useReplicant } from 'use-nodecg';
-import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
+import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 import { formatPlayers } from '../format-players';
 import ThemeProvider from './components/theme-provider';
 

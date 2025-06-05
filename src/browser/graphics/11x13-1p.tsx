@@ -10,8 +10,8 @@ import Reader from './components/reader';
 import Commentators from './components/commentators';
 import DonationBar from './components/donation-bar';
 import { useReplicant } from 'use-nodecg';
-import { RunDataActiveRun } from '../../../../nodecg-speedcontrol/src/types/schemas';
-import { RunDataPlayer, RunDataTeam } from '../../../../nodecg-speedcontrol/src/types';
+import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
+import { RunDataPlayer, RunDataTeam } from 'speedcontrol/src/types';
 import { Fragment } from 'react';
 import ThemeProvider from './components/theme-provider';
 

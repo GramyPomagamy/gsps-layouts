@@ -3,7 +3,7 @@ import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { TaggedLogger } from './util/tagged-logger';
 import io from 'socket.io-client';
 import { ObsData } from 'src/types/generated';
-import { RunDataActiveRun, Timer } from '../../../nodecg-speedcontrol/src/types';
+import { RunDataActiveRun, Timer } from 'speedcontrol/src/types';
 
 const nodecg = get();
 const obsDataReplicant = nodecg.Replicant<ObsData>('obsData');

@@ -1,5 +1,5 @@
 import humanizeDuration from 'humanize-duration';
-import { RunData } from '../../../nodecg-speedcontrol/src/types/schemas';
+import { RunData } from 'speedcontrol/src/types';
 
 function customizedRounding(time: number): number {
   let rounded: number;

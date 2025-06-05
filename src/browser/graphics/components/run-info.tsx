@@ -1,7 +1,7 @@
 import { useReplicant } from 'use-nodecg';
 import styled from 'styled-components';
 import { AutoTextSize } from 'auto-text-size';
-import { RunDataActiveRun } from '../../../../../nodecg-speedcontrol/src/types/schemas';
+import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 
 const GameInfoContainer = styled.div`
   display: flex;

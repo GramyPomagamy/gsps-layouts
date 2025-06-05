@@ -1,7 +1,7 @@
 import { useReplicant } from 'use-nodecg';
 import styled from 'styled-components';
-import { Timer as TimerType } from '../../../../../nodecg-speedcontrol/src/types/schemas/timer';
-import { RunDataActiveRun } from '../../../../../nodecg-speedcontrol/src/types/schemas';
+import { Timer as TimerType } from 'speedcontrol/src/types/schemas/timer';
+import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 
 type TimerPhases = 'running' | 'finished' | 'stopped' | 'running';
 

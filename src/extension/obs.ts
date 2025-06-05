@@ -6,7 +6,7 @@ import { Commentators, Hosterka, ObsData, WindowInfo } from '../types/generated'
 import { Cropper, Asset, TransformProperties } from '../types/custom';
 import { get } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
-import { RunDataActiveRun } from '../../../nodecg-speedcontrol/src/types';
+import { RunDataActiveRun } from 'speedcontrol/src/types';
 
 type VideoTypes = 'charity' | 'sponsors';
 const nodecg = get();

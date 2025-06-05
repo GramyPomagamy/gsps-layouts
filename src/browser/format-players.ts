@@ -1,4 +1,4 @@
-import { RunData } from '../../../nodecg-speedcontrol/src/types/schemas';
+import { RunData } from 'speedcontrol/src/types';
 
 export function formatPlayers(run: RunData) {
   return (
