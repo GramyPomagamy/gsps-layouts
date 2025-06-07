@@ -28,8 +28,8 @@ import {
   Reader as ReaderType,
   Total as TotalType,
 } from 'src/types/generated';
-import { RunDataActiveRun, RunDataTeam } from '../../../../nodecg-speedcontrol/src/types';
-import { Timer } from '../../../../nodecg-speedcontrol/src/types/schemas/timer';
+import { RunDataActiveRun, RunDataTeam } from 'speedcontrol/src/types';
+import { Timer } from 'speedcontrol/src/types/schemas/timer';
 import { useEffect, useRef, useState } from 'react';
 import { Bid, Milestones as MilestonesType, Pronouns } from 'src/types/custom';
 import RefreshIcon from '@mui/icons-material/Refresh';

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import gsap from 'gsap';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { RunData } from '../../../../../../../nodecg-speedcontrol/src/types/schemas';
+import { RunData } from 'speedcontrol/src/types/schemas';
 import { ObsData } from 'src/types/generated';
 import { timeToRun } from '../../../../time-to-run';
 import { formatPlayers } from '../../../../format-players';

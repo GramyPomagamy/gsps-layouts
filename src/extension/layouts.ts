@@ -1,5 +1,5 @@
 import { NameCycle } from 'src/types/generated';
-import { RunDataActiveRun } from '../../../nodecg-speedcontrol/src/types/schemas';
+import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 import { get } from './util/nodecg';
 
 const nodecg = get();

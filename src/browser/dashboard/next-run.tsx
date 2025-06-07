@@ -6,9 +6,9 @@ import {
   RunData,
   RunDataActiveRunSurrounding,
   RunDataArray,
-} from '../../../../nodecg-speedcontrol/src/types/schemas';
+} from 'speedcontrol/src/types/schemas';
 import { ObsData } from 'src/types/generated';
-import { Timer } from '../../../../nodecg-speedcontrol/src/types/schemas/timer';
+import { Timer } from 'speedcontrol/src/types/schemas/timer';
 import { useEffect, useState } from 'react';
 
 const intermissionSceneName = nodecg.bundleConfig.obs.scenes?.intermission;

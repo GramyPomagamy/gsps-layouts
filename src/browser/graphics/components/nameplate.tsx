@@ -1,4 +1,4 @@
-import { RunDataPlayer } from '../../../../../nodecg-speedcontrol/src/types';
+import { RunDataPlayer } from 'speedcontrol/src/types';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
