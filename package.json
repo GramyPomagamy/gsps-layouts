@@ -55,7 +55,7 @@
     "milliseconds": "^1.0.3",
     "moment": "^2.29.4",
     "needle": "^3.2.0",
-    "nodecg": "^2.5.3",
+    "nodecg": "^2.6.0",
     "numeral": "^2.0.6",
     "obs-websocket-js": "^5.0.3",
     "osc-js": "^2.4.1",
