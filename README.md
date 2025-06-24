@@ -18,7 +18,7 @@ Sklonuj główną gałąź z submodułami, zainstaluj zależności i zbuduj kod:
 > npm install
 > npm run build
 > ```
-_Node.js 20+ obecnie wymaga [instalacji zależności dla budowania natywnego kodu dla node-gyp](https://github.com/nodejs/node-gyp#installation)!_
+
 
 Plik `configschema.json` pomoże ci w utworzeniu pliku konfiguracyjnego. Ten plik możesz potem dodać do folderu `cfg`.
 
@@ -60,7 +60,7 @@ Clone the main branch of this repository with it's submodules, install the depen
 > npm run build
 > ```
 
-_Node.js 20+ currently requires [extra dependencies to install native code for node-gyp](https://github.com/nodejs/node-gyp#installation)!_
+
 
 Refer to the `configschema.json` file for how the configuration file is supposed to look like, and add it to the `cfg` directory.
 
