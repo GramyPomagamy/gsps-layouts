@@ -166,6 +166,13 @@
         "workspace": "1. GSPS - Ogólne"
       },
       {
+        "name": "stream-assign",
+        "title": "Przypisywanie streamów",
+        "file": "stream-assign.html",
+        "width": 3,
+        "workspace": "6. Restream"
+      },
+      {
         "name": "highlight",
         "title": "Highlighter",
         "file": "highlight.html",
@@ -399,6 +406,11 @@
       },
       {
         "file": "runner-panel.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "twitch-player.html",
         "width": 1920,
         "height": 1080
       }

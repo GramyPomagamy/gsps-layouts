@@ -1,4 +1,4 @@
-import { NameCycle } from 'src/types/generated';
+import { NameCycle, PlayerStreams } from 'src/types/generated';
 import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 import { get } from './util/nodecg';
 
@@ -11,6 +11,14 @@ const activeRunReplicant = nodecg.Replicant<RunDataActiveRun>(
   'nodecg-speedcontrol'
 );
 const readerAlertReplicant = nodecg.Replicant('readerAlert');
+const playerStreamsReplicant = nodecg.Replicant<PlayerStreams>('playerStreams', {
+  defaultValue: {
+    player1: '',
+    player2: '',
+    player3: '',
+    player4: '',
+  },
+});
 
 // Controls the name cycling ticks for players/hosts
 function cycleNames(reset = false): void {
@@ -86,4 +94,21 @@ nodecg.listenFor('showNames', () => {
 
 nodecg.listenFor('hideNames', () => {
   clearTimeout(hosterkaNameTimeout);
+});
+
+nodecg.listenFor('setFeedStream', ({ feed, twitchStream }) => {
+  switch (feed) {
+    case 0:
+      playerStreamsReplicant.value!.player1 = twitchStream;
+      break;
+    case 1:
+      playerStreamsReplicant.value!.player2 = twitchStream;
+      break;
+    case 2:
+      playerStreamsReplicant.value!.player3 = twitchStream;
+      break;
+    case 3:
+      playerStreamsReplicant.value!.player4 = twitchStream;
+      break;
+  }
 });

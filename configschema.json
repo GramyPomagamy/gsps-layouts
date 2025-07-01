@@ -276,6 +276,17 @@
       "type": "boolean",
       "description": "Update game twitch name and player pronouns after Oengus import is complete.",
       "default": false
+    },
+    "streams": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "accounts": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        }
+      }
     }
   },
   "required": [
@@ -289,6 +300,7 @@
     "twitchExt",
     "sd",
     "genericReplicant",
-    "mixer"
+    "mixer",
+    "streams"
   ]
 }

@@ -37,3 +37,5 @@ export * from './songProgress';
 export * from './total';
 // @ts-ignore
 export * from './windowInfo';
+// @ts-ignore
+export * from './playerStreams';
