@@ -6,20 +6,9 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface Reader {
-	name: string;
-	pronouns:
-		| 'ona/jej'
-		| 'on/jego'
-		| 'ono/jego'
-		| 'ono/jej'
-		| 'ono/jejgo'
-		| 'ono/jeno'
-		| 'ono/jenu'
-		| 'ono/ich'
-		| 'onu/jenu'
-		| 'onu/jejo'
-		| 'ne/nego'
-		| 'onu/jegu'
-		| '';
+export interface PlayerStreams {
+	player1: string;
+	player2: string;
+	player3: string;
+	player4: string;
 }
