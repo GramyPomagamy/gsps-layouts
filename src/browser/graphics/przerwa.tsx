@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import eventLogo from './img/d2025.png';
+import defaultLogo from './img/GSPS_PNG.png';
 import mainBg from './img/main-background.png';
 import transparentBg from './img/gradient_transparent.png'
 import { render } from '../render';
@@ -13,6 +13,7 @@ import BreakTicker from './components/przerwa/ticker';
 import Total from './components/przerwa/total';
 import DonationBar from './components/donation-bar';
 import { useReplicant } from 'use-nodecg';
+import { Asset } from 'src/types/custom';
 
 const LayoutContainer = styled.div<{ useTransparentBackgrounds: boolean}>`
   width: 1920px;
@@ -51,6 +52,13 @@ const Donations = styled.div`
 export const App = () => {
   const [showDonationBar] = useReplicant<boolean>('showDonationBar', true);
   const [useTransparentBackgrounds] = useReplicant<boolean>('useTransparentBackgrounds', true);
+  const [logoAssets] = useReplicant<Asset[]>('assets:logo', []);
+
+  let logo = defaultLogo;
+
+  if (logoAssets.length > 0) {
+    logo = logoAssets[0]!.url;
+  }
 
   return (
     <ThemeProvider>
@@ -60,7 +68,7 @@ export const App = () => {
         <MediaBoxContainer>
           <MediaBox useBreakItem />
         </MediaBoxContainer>
-        <EventLogo src={eventLogo} />
+        <EventLogo src={logo} />
         <NextRuns />
       </LayoutContainer>
       {showDonationBar && (
