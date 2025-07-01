@@ -126,7 +126,7 @@ function updateTotal() {
           return;
         }
 
-        const freshTotal = parseFloat(stats.agg.amount || 0);
+        const freshTotal = parseFloat(stats.agg.total_amount || 0);
 
         if (freshTotal === totalReplicant.value!.raw) {
           resolve(false);
