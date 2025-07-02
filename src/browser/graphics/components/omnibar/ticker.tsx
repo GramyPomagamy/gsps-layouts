@@ -17,59 +17,44 @@ const Ticker = () => {
   const [currentElement, setCurrentElement] = useState<React.JSX.Element | undefined>(undefined);
   const [timestamp, setTimestamp] = useState(Date.now());
   let currentComponentIndex = 0;
+  let messageTypes: JSX.Element[] = [];
+
 
   function genericMsg(message: string) {
     return <GenericMessage message={message} onEnd={showNextElement} />;
   }
 
-  function gspsPromo() {
-    return genericMsg(
-      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie Dzieciom 2025</b>!'
-    );
-  }
+  messageTypes.push(
+    genericMsg(
+      'Witajcie na kanale&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie</b>!'
+    )
+  );
 
-  function charityPromo() {
-    return genericMsg(
-      'GSPS Dzieciom 2025 wspiera&nbsp;<b class="highlight">Fundację Na Ratunek Dzieciom z Chorobą Nowotworową</b>!'
-    );
-  }
+  messageTypes.push(
+    genericMsg(
+      'Dołącz do naszej społeczności na Discordzie na <b class="highlight">gsps.pl/discord</b>!'
+    )
+  );
 
-  function donationURL() {
-    return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
-  }
+  messageTypes.push(
+    genericMsg(
+      'Więcej o wydarzeniach z serii GSPS możecie się dowiedzieć na <b class="highlight">gsps.pl</b>!'
+    )
+  );
 
-  function sponsor() {
-    return genericMsg(
-      'Zgarnij kod na&nbsp;<b class="highlight">20 zł do InPost Pay</b> — wpisz na czacie&nbsp;<b class="highlight">!kody</b>'
-    );
-  }
+  messageTypes.push(
+    genericMsg(
+      'Fundację GSPS możecie wesprzeć na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!'
+    )
+  )
 
-  function nextRuns() {
-    return <NextRuns onEnd={showNextElement} />;
+  // TODO make configurable
+  if (false) {
+    messageTypes.push(<NextRuns onEnd={showNextElement} />);
+    messageTypes.push(<Bids onEnd={showNextElement} />);
+    messageTypes.push(<Prizes onEnd={showNextElement} />);
+    messageTypes.push(<Milestones onEnd={showNextElement} />);
   }
-
-  function bids() {
-    return <Bids onEnd={showNextElement} />;
-  }
-
-  function prizes() {
-    return <Prizes onEnd={showNextElement} />;
-  }
-
-  function milestones() {
-    return <Milestones onEnd={showNextElement} />;
-  }
-
-  const messageTypes = [
-    gspsPromo(),
-    charityPromo(),
-    donationURL(),
-    nextRuns(),
-    bids(),
-    prizes(),
-    milestones(),
-    sponsor(),
-  ];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');
