@@ -267,6 +267,9 @@ if (config.enabled) {
       readDonationsReplicant.value = [];
       getRecentlyReadDonations();
     }
+    if (config.updateRecentlyReadDonationsFromTracker) {
+      setInterval(getRecentlyReadDonations, 10 * 1000);
+    }
   });
 
   nodecg.listenFor('updateDonations', updateToReadDonations);

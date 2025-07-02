@@ -26,6 +26,10 @@ export interface Configschema {
 		password?: string;
 		eventID?: number;
 		rootURL: string;
+		/**
+		 * Normally read donations bar updates when donation is marked as read in the reader panel. Use this option when reading is done via GDQ Tracker's panel to refresh the bar periodically.
+		 */
+		updateRecentlyReadDonationsFromTracker?: boolean;
 		[k: string]: unknown;
 	};
 	highlighter: {
