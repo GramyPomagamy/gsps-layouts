@@ -148,6 +148,13 @@
           "mp4",
           "mkv"
         ]
+      },
+      {
+        "name": "logo",
+        "title": "Logo na przerwie i odliczaniu",
+        "allowedTypes": [
+          "png"
+        ]
       }
     ],
     "dashboardPanels": [
