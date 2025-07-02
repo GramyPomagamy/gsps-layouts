@@ -26,6 +26,7 @@ const BreakTicker = () => {
   const [currentElement, setCurrentElement] = useState<JSX.Element | undefined>(undefined);
   const [timestamp, setTimestamp] = useState(Date.now());
   let currentComponentIndex = 0;
+  let enableTicker = false; // TODO: make configurable or figure out a way to not busy loop when empty
 
   function prizes() {
     return <Prizes onEnd={showNextElement} />;
@@ -35,7 +36,13 @@ const BreakTicker = () => {
     return <Bids onEnd={showNextElement} />;
   }
 
-  const messageTypes = [bids(), prizes()];
+  let messageTypes: JSX.Element[] = [];
+  if (enableTicker) {
+    messageTypes = [bids(), prizes()];
+  } else {
+    messageTypes = [];
+  }
+
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');

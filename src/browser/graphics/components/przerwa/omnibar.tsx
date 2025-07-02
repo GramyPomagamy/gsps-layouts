@@ -33,38 +33,38 @@ const Ticker = () => {
   const [currentElement, setCurrentElement] = useState<React.JSX.Element | undefined>(undefined);
   const [timestamp, setTimestamp] = useState(Date.now());
   let currentComponentIndex = 0;
+  let enableMilestones = false; // TODO: make configurable
+  let enableCharity = false; // TODO: make configurable
+  let messageTypes: JSX.Element[] = [];
 
   function genericMsg(message: string) {
     return <GenericMessage message={message} onEnd={showNextElement} />;
   }
 
-  function gspsPromo() {
-    return genericMsg(
-      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie Dzieciom 2025</b>!'
+  messageTypes.push(
+    genericMsg(
+      'Witajcie na kanale&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie</b>!'
+    )
+  );
+
+  if (enableCharity) {
+    // TODO make the text configurable
+    messageTypes.push(
+      genericMsg(
+        'GSPS Dzieciom 2025 wspiera&nbsp;<b class="highlight">Fundację Na Ratunek Dzieciom z Chorobą Nowotworową</b>!'
+      )
     );
   }
 
-  function charityPromo() {
-    return genericMsg(
-      'GSPS Dzieciom 2025 wspiera&nbsp;<b class="highlight">Fundację Na Ratunek Dzieciom z Chorobą Nowotworową</b>!'
-    );
+  // TODO: make configurable
+  messageTypes.push(
+    genericMsg('Możecie wesprzeć fundację GSPS bezpośrednio na &nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!')
+  );
+
+  if (enableMilestones) {
+    messageTypes.push(<Milestones onEnd={showNextElement} />);
   }
 
-  function donationURL() {
-    return genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!');
-  }
-
-  function sponsor() {
-    return genericMsg(
-      'Zgarnij kod na&nbsp;<b class="highlight">20 zł do InPost Pay</b> — wpisz na czacie&nbsp;<b class="highlight">!kody</b>'
-    );
-  }
-
-  function milestones() {
-    return <Milestones onEnd={showNextElement} />;
-  }
-
-  const messageTypes = [gspsPromo(), charityPromo(), donationURL(), milestones(), sponsor()];
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');
