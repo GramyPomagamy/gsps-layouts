@@ -62,7 +62,7 @@ const Commentators = () => {
                 key={commentator.name}
                 isLast={commentators.length - 1 == index}
                 signalLevel={mixerSignalLevels && mixerSignalLevels[commentator.channel] || -Infinity}
-                thresholdLevel={mixerThresholdLevels && mixerThresholdLevels[commentator.channel] || -Infinity}>
+                thresholdLevel={mixerThresholdLevels && mixerThresholdLevels[commentator.channel] || Infinity}>
                 <p style={{ marginTop: commentators.length === 1 ? '3px' : '6px' }}>
                   {commentator.name}
                   {commentator.pronouns && <Pronouns>{commentator.pronouns}</Pronouns>}

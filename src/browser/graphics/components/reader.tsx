@@ -47,8 +47,8 @@ const Reader = () => {
             <p style={{ marginTop: '4px' }}>Host</p>
           </ReaderLabel>
           <ReaderName
-            signalLevel={mixerSignalLevels ? mixerSignalLevels["Donacje"] : -Infinity}
-            thresholdLevel={mixerThresholdLevels ? mixerThresholdLevels["Donacje"] : -Infinity}>
+            signalLevel={mixerSignalLevels && mixerSignalLevels.Donacje || -Infinity}
+            thresholdLevel={mixerThresholdLevels && mixerThresholdLevels.Donacje || Infinity}>
             <p style={{ marginTop: '3px' }}>
               {reader.name} {reader.pronouns && <Pronouns>{reader.pronouns}</Pronouns>}
             </p>
