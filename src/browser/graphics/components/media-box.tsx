@@ -29,9 +29,11 @@ const Image = styled.img`
 const MediaBox = ({
   useTopBorder = false,
   useBreakItem = false,
+  useFullHeight = false,
 }: {
   useTopBorder?: boolean;
   useBreakItem?: boolean;
+  useFullHeight?: boolean;
 }) => {
   const [mediaBoxItem] = useReplicant<MediaBoxItem | undefined>('mediaBoxItem', undefined);
   const [breakMediaBoxItem] = useReplicant<MediaBoxItem | undefined>(
@@ -42,7 +44,11 @@ const MediaBox = ({
 
   if (useBreakItem) {
     return (
-      <MediaBoxContainer style={{ borderTop: useTopBorder ? '5px solid #5f3ac2' : '' }}>
+      <MediaBoxContainer
+        style={{
+          borderTop: useTopBorder ? '5px solid #5f3ac2' : '',
+          height: useFullHeight ? '100%' : '',
+        }}>
         {breakMediaBoxItem && (
           <SwitchTransition mode="out-in">
             <CSSTransition
@@ -60,7 +66,11 @@ const MediaBox = ({
     );
   } else {
     return (
-      <MediaBoxContainer style={{ borderTop: useTopBorder ? '5px solid #5f3ac2' : '' }}>
+      <MediaBoxContainer
+        style={{
+          borderTop: useTopBorder ? '5px solid #5f3ac2' : '',
+          height: useFullHeight ? '100%' : '',
+        }}>
         {mediaBoxItem && (
           <SwitchTransition mode="out-in">
             <CSSTransition
