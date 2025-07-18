@@ -21,7 +21,13 @@ const Category = styled.span`
   font-weight: 500;
 `;
 
-const RunInfo = ({ fontSize }: { fontSize: number }) => {
+const RunInfo = ({
+  fontSize,
+  hideSecondaryGameInfo = false,
+}: {
+  fontSize: number;
+  hideSecondaryGameInfo?: boolean;
+}) => {
   const [activeRun] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
     namespace: 'nodecg-speedcontrol',
   });
@@ -38,14 +44,16 @@ const RunInfo = ({ fontSize }: { fontSize: number }) => {
               {activeRun.game}
             </AutoTextSize>
           </Game>
-          <Category>
-            <AutoTextSize
-              style={{ marginLeft: 'auto', marginRight: 'auto' }}
-              maxFontSizePx={fontSize * 0.7}
-              mode="box">
-              {activeRun.category || '?'} - {activeRun.system || '?'}
-            </AutoTextSize>
-          </Category>
+          {!hideSecondaryGameInfo && (
+            <Category>
+              <AutoTextSize
+                style={{ marginLeft: 'auto', marginRight: 'auto' }}
+                maxFontSizePx={fontSize * 0.7}
+                mode="box">
+                {activeRun.category || '?'} - {activeRun.system || '?'}
+              </AutoTextSize>
+            </Category>
+          )}
         </>
       )}
     </GameInfoContainer>
