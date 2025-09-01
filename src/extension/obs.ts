@@ -8,6 +8,59 @@ import { get } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
 import { RunDataActiveRun } from 'speedcontrol/src/types';
 
+class Videos {
+  private _assets : Asset[];
+  private _currentVideoIndex : number;
+  private _lastVideo : Asset | undefined;
+  constructor(videoAssets : Asset[] | undefined, currentIndex : number, lastVideo : Asset | undefined) {
+    if(videoAssets === undefined){
+      videoAssets = [];
+    }
+    this._assets = videoAssets.slice(0);
+    this._lastVideo = lastVideo;
+    this._currentVideoIndex = currentIndex;
+    this.shuffleVideos();
+  }
+  public getCurrentIndex() : number{
+    return this._currentVideoIndex;
+  }
+  public getLastPlayedVideo() : Asset | undefined{
+    return this._lastVideo;
+  }
+  public getNextVideo() : Asset | undefined{
+    const nextVideo = this._assets[this._currentVideoIndex];
+    ++this._currentVideoIndex;
+    this._lastVideo = nextVideo;
+    if(this._currentVideoIndex >= this._assets.length){
+      this.shuffleVideos();
+    }
+    return nextVideo;
+  }
+  public addNewVideo(video : Asset | undefined) : void{
+    if(video !== undefined)
+      this._assets.push(video);
+  }
+  private shuffleVideos() : void{
+    let currentIndex = this._assets.length;
+    //shuffle
+    while (currentIndex != 0) {
+      let randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      let tmp = this._assets[currentIndex];
+      this._assets[currentIndex] = this._assets[randomIndex] as Asset;
+      this._assets[randomIndex] = tmp as Asset;
+    }
+    //make sure video will not be played 2 times in a row
+    if(this._lastVideo !== undefined && this._assets[0] === this._lastVideo){
+      let tmp = this._assets[0];
+      this._assets[0] = this._assets[this._assets.length - 1] as Asset;
+      this._assets[this._assets.length - 1] = tmp;
+    }
+    this._currentVideoIndex = 0;
+  }
+}
+
 type VideoTypes = 'charity' | 'sponsors';
 const nodecg = get();
 
@@ -34,14 +87,14 @@ if (foobarConfig.enabled) {
   foobar = new FoobarControl(foobarConfig.address!);
 }
 const log = new TaggedLogger('OBS');
+let shuffledVideosCharity = new Videos(videosCharity.value, 0, undefined);
+let shuffledVideosLong = new Videos(videosLong.value, 0, undefined);
+let shuffledVideosSponsors = new Videos(videosLong.value, 0, undefined);
 let reconnectTimeout: NodeJS.Timeout;
 let loggedTimestampForCurrentGame = false;
 let videoToPlay: Asset | undefined;
 let videoType: VideoTypes = 'sponsors';
 let videosPlayed = 0;
-let previousSponsorVideoIndex : number | undefined = undefined;
-let previousCharityVideoIndex : number | undefined = undefined;
-let previousLongVideoIndex : number | undefined = undefined;
 
 // Connect to OBS
 if (config.enabled) {
@@ -73,6 +126,33 @@ if (config.enabled) {
       reconnectTimeout = setTimeout(reconnectToOBS, 5000);
     });
 }
+
+//handles videos shuffling
+videosCharity.on('change', (newValue, oldValue) => {
+  shuffledVideosCharity = handleChangedVideos(newValue, oldValue, shuffledVideosCharity);
+});
+videosSponsors.on('change', (newValue, oldValue) => {
+  shuffledVideosSponsors = handleChangedVideos(newValue, oldValue, shuffledVideosSponsors);
+});
+videosLong.on('change', (newValue, oldValue) => {
+  shuffledVideosLong = handleChangedVideos(newValue, oldValue, shuffledVideosLong);
+});
+
+function handleChangedVideos(newValue : Asset[] | undefined, oldValue : Asset[] | undefined, shuffledVideos : Videos){
+  if(newValue !== undefined && oldValue !== undefined){
+    if(newValue!.length > oldValue!.length){    //adding new video
+      for(let i = oldValue!.length; i < newValue!.length; ++i){
+        shuffledVideos.addNewVideo(newValue[i]);
+      }
+    }
+    else if(newValue!.length < oldValue!.length){    //removing video
+      const previousVideo = shuffledVideos.getLastPlayedVideo();
+      shuffledVideos = new Videos(newValue, 0, previousVideo);
+    }
+  }  
+  return shuffledVideos;
+}
+
 
 function initializeHostMute() {
   let channel = config.sources!.hostAudio;
@@ -183,14 +263,7 @@ function switchFromHostScreen() {
 
 function playLongVideo() {
   log.debug('Puszczam długi film');
-  let videoIndex;
-  do {
-    videoIndex = Math.floor(Math.random() * videosLong.value!.length);
-    videoToPlay = videosLong.value![videoIndex];
-  }
-  while (videosLong.value!.length > 1 && videoIndex == previousLongVideoIndex)
-  previousLongVideoIndex = videoIndex;
-
+  videoToPlay = shuffledVideosLong.getNextVideo();
   if (videoToPlay) {
     setTimeout(() => {
       obs.call('SetInputSettings', {
@@ -207,24 +280,11 @@ function playLongVideo() {
 
 function playShortVideo(type: VideoTypes) {
   log.debug('Puszczam krótki film');
-  let videoIndex;
-
   if (type == 'charity') {
-    do {
-      videoIndex = Math.floor(Math.random() * videosCharity.value!.length)
-      videoToPlay = videosCharity.value![videoIndex];
-    }
-    while (videosCharity.value!.length > 1 && videoIndex == previousCharityVideoIndex)
-    previousCharityVideoIndex = videoIndex;
+    videoToPlay = shuffledVideosCharity.getNextVideo();
   } else {
-    do {
-      videoIndex = Math.floor(Math.random() * videosSponsors.value!.length)
-      videoToPlay = videosSponsors.value![videoIndex];
-    }
-    while (videosSponsors.value!.length > 1 && videoIndex == previousSponsorVideoIndex)
-    previousSponsorVideoIndex = videoIndex;
+    videoToPlay = shuffledVideosSponsors.getNextVideo();
   }
-
   if (videoToPlay) {
     videosPlayed++;
     setTimeout(() => {
