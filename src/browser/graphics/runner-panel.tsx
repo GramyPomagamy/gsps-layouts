@@ -43,8 +43,6 @@ const App = () => {
 
   const backgroundColor = () => {
     if (readerAlert) {
-      return '#FFC300';
-    } else if (donationsToRead.length > 0) {
       return '#357C3C';
     } else {
       return 'black';
