@@ -33,8 +33,8 @@ const Ticker = () => {
   const [currentElement, setCurrentElement] = useState<React.JSX.Element | undefined>(undefined);
   const [timestamp, setTimestamp] = useState(Date.now());
   let currentComponentIndex = 0;
-  let enableMilestones = false; // TODO: make configurable
-  let enableCharity = false; // TODO: make configurable
+  let enableMilestones = true; // TODO: make configurable
+  let enableCharity = true; // TODO: make configurable
   let messageTypes: JSX.Element[] = [];
 
   function genericMsg(message: string) {
@@ -43,7 +43,7 @@ const Ticker = () => {
 
   messageTypes.push(
     genericMsg(
-      'Witajcie na kanale&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie</b>!'
+      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie 2025</b>!'
     )
   );
 
@@ -51,20 +51,19 @@ const Ticker = () => {
     // TODO make the text configurable
     messageTypes.push(
       genericMsg(
-        'GSPS Dzieciom 2025 wspiera&nbsp;<b class="highlight">Fundację Na Ratunek Dzieciom z Chorobą Nowotworową</b>!'
+        'GSPS 2025 wspiera&nbsp;<b class="highlight">Antydepresyjny Telefon Zaufania Fundacji ITAKA</b>!'
       )
     );
   }
 
   // TODO: make configurable
   messageTypes.push(
-    genericMsg('Możecie wesprzeć fundację GSPS bezpośrednio na &nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!')
+    genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!')
   );
 
   if (enableMilestones) {
     messageTypes.push(<Milestones onEnd={showNextElement} />);
   }
-
 
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');
