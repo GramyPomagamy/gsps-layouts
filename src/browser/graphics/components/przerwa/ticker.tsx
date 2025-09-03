@@ -26,7 +26,7 @@ const BreakTicker = () => {
   const [currentElement, setCurrentElement] = useState<JSX.Element | undefined>(undefined);
   const [timestamp, setTimestamp] = useState(Date.now());
   let currentComponentIndex = 0;
-  let enableTicker = false; // TODO: make configurable or figure out a way to not busy loop when empty
+  let enableTicker = true; // TODO: make configurable or figure out a way to not busy loop when empty
 
   function prizes() {
     return <Prizes onEnd={showNextElement} />;
@@ -111,18 +111,11 @@ const Prizes = ({ onEnd }: { onEnd: () => void }) => {
   }
 
   function getPrize() {
-    const activePrizes = prizes.value!.filter(
-      (prize) =>
-        !!prize.startTime &&
-        !!prize.endTime &&
-        Date.now() > prize.startTime &&
-        Date.now() < prize.endTime
-    );
-    if (activePrizes.length === 1) {
-      return activePrizes[0];
-    } else if (activePrizes.length > 1) {
-      const rand = Math.floor(Math.random() * activePrizes.length);
-      return activePrizes[rand];
+    if (prizes.value!.length === 1) {
+      return prizes.value![0];
+    } else if (prizes.value!.length > 1) {
+      const rand = Math.floor(Math.random() * prizes.value!.length);
+      return prizes.value![rand];
     } else {
       console.log('Prizes: unmounted');
       end();

@@ -26,30 +26,24 @@ const Ticker = () => {
 
   messageTypes.push(
     genericMsg(
-      'Witajcie na kanale&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie</b>!'
+      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie 2025</b>!'
     )
   );
 
   messageTypes.push(
     genericMsg(
-      'Dołącz do naszej społeczności na Discordzie na <b class="highlight">gsps.pl/discord</b>!'
+      'GSPS 2025 wspiera&nbsp;<b class="highlight">Antydepresyjny Telefon Zaufania Fundacji ITAKA</b>!'
     )
   );
 
   messageTypes.push(
     genericMsg(
-      'Więcej o wydarzeniach z serii GSPS możecie się dowiedzieć na <b class="highlight">gsps.pl</b>!'
+      'Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!'
     )
   );
-
-  messageTypes.push(
-    genericMsg(
-      'Fundację GSPS możecie wesprzeć na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!'
-    )
-  )
 
   // TODO make configurable
-  if (false) {
+  if (true) {
     messageTypes.push(<NextRuns onEnd={showNextElement} />);
     messageTypes.push(<Bids onEnd={showNextElement} />);
     messageTypes.push(<Prizes onEnd={showNextElement} />);
