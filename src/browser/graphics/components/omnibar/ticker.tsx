@@ -4,7 +4,8 @@ import NextRuns from './ticker/next-runs';
 import Bids from './ticker/bids';
 import Prizes from './ticker/prizes';
 import Milestones from './ticker/milestones';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useReplicant } from 'use-nodecg';
 
 const TickerContainer = styled.div`
   flex: 1;
@@ -16,6 +17,12 @@ const TickerContainer = styled.div`
 const Ticker = () => {
   const [currentElement, setCurrentElement] = useState<React.JSX.Element | undefined>(undefined);
   const [timestamp, setTimestamp] = useState(Date.now());
+  const [omnibarTextReplicant] = useReplicant<string[]>('omnibarTextList', []);
+  const [omnibarEnableBids] = useReplicant<boolean>('omnibarEnableBids', false);
+  const [omnibarEnableMilestones] = useReplicant<boolean>('omnibarEnableMilestones', false);
+  const [omnibarEnableNextRuns] = useReplicant<boolean>('omnibarEnableNextRuns', false);
+  const [omnibarEnablePrizes] = useReplicant<boolean>('omnibarEnablePrizes', false);
+
   let currentComponentIndex = 0;
   let messageTypes: JSX.Element[] = [];
 
@@ -23,47 +30,62 @@ const Ticker = () => {
   function genericMsg(message: string) {
     return <GenericMessage message={message} onEnd={showNextElement} />;
   }
-
-  messageTypes.push(
-    genericMsg(
-      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie 2025</b>!'
-    )
-  );
-
-  messageTypes.push(
-    genericMsg(
-      'GSPS 2025 wspiera&nbsp;<b class="highlight">Antydepresyjny Telefon Zaufania Fundacji ITAKA</b>!'
-    )
-  );
-
-  messageTypes.push(
-    genericMsg(
-      'Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!'
-    )
-  );
-
-  // TODO make configurable
-  if (true) {
-    messageTypes.push(<NextRuns onEnd={showNextElement} />);
-    messageTypes.push(<Bids onEnd={showNextElement} />);
-    messageTypes.push(<Prizes onEnd={showNextElement} />);
-    messageTypes.push(<Milestones onEnd={showNextElement} />);
-  }
-
+  
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');
     currentComponentIndex += 1;
     if (currentComponentIndex >= messageTypes.length) {
       currentComponentIndex = 0;
     }
+    setNewElement();
+  }
+
+  function setNewElement() {
     setTimestamp(Date.now());
     setCurrentElement(messageTypes[currentComponentIndex]);
   }
 
-  useLayoutEffect(() => {
-    // set first element on mount
-    setCurrentElement(messageTypes[0]);
-  }, []);
+  useEffect(() => {
+    messageTypes.splice(0, messageTypes.length);
+    
+    omnibarTextReplicant?.forEach(text => messageTypes.push(genericMsg(text)));
+
+    if(omnibarEnableBids) {
+      messageTypes.push(<Bids onEnd={showNextElement} />);
+    }
+    else if(messageTypes.includes(<Bids onEnd={showNextElement} />)) {
+      messageTypes.splice(messageTypes.indexOf(<Bids onEnd={showNextElement} />), 1)
+    }
+
+    if(omnibarEnableMilestones) {
+      messageTypes.push(<Milestones onEnd={showNextElement} />);
+    }
+    else if(messageTypes.includes(<Milestones onEnd={showNextElement} />)) {
+      messageTypes.splice(messageTypes.indexOf(<Milestones onEnd={showNextElement} />), 1)
+    }
+
+    if(omnibarEnableNextRuns) {
+      messageTypes.push(<NextRuns onEnd={showNextElement} />);
+    }
+    else if(messageTypes.includes(<NextRuns onEnd={showNextElement} />)) {
+      messageTypes.splice(messageTypes.indexOf(<NextRuns onEnd={showNextElement} />), 1)
+    }
+
+    if(omnibarEnablePrizes) {
+      messageTypes.push(<Prizes onEnd={showNextElement} />);
+    }
+    else if(messageTypes.includes(<Prizes onEnd={showNextElement} />)){
+      messageTypes.splice(messageTypes.indexOf(<Prizes onEnd={showNextElement} />), 1)
+    }
+
+    currentComponentIndex = currentComponentIndex > messageTypes.length ? messageTypes.length - 1 : currentComponentIndex
+    setNewElement();
+
+  }, [omnibarTextReplicant,
+    omnibarEnableBids,
+    omnibarEnableMilestones,
+    omnibarEnableNextRuns,
+    omnibarEnablePrizes]);
 
   return (
     <TickerContainer>

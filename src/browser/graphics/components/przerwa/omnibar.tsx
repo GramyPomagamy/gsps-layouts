@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { useState, useLayoutEffect, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import GenericMessage from '../omnibar/ticker/generic-message';
 import Milestones from '../omnibar/ticker/milestones';
+import { useReplicant } from 'use-nodecg';
 
 const OmnibarContainer = styled.div`
   width: 100%;
@@ -32,53 +33,54 @@ const TickerContainer = styled.div`
 const Ticker = () => {
   const [currentElement, setCurrentElement] = useState<React.JSX.Element | undefined>(undefined);
   const [timestamp, setTimestamp] = useState(Date.now());
+  const [omnibarTextReplicant] = useReplicant<string[]>('omnibarTextList', []);
+  const [omnibarEnableBids] = useReplicant<boolean>('omnibarEnableBids', false);
+  const [omnibarEnableMilestones] = useReplicant<boolean>('omnibarEnableMilestones', false);
+  const [omnibarEnableNextRuns] = useReplicant<boolean>('omnibarEnableNextRuns', false);
+  const [omnibarEnablePrizes] = useReplicant<boolean>('omnibarEnablePrizes', false);
+
   let currentComponentIndex = 0;
-  let enableMilestones = true; // TODO: make configurable
-  let enableCharity = true; // TODO: make configurable
   let messageTypes: JSX.Element[] = [];
+
 
   function genericMsg(message: string) {
     return <GenericMessage message={message} onEnd={showNextElement} />;
   }
-
-  messageTypes.push(
-    genericMsg(
-      'Oglądacie&nbsp;<b class="highlight">Gramy Szybko, Pomagamy Skutecznie 2025</b>!'
-    )
-  );
-
-  if (enableCharity) {
-    // TODO make the text configurable
-    messageTypes.push(
-      genericMsg(
-        'GSPS 2025 wspiera&nbsp;<b class="highlight">Antydepresyjny Telefon Zaufania Fundacji ITAKA</b>!'
-      )
-    );
-  }
-
-  // TODO: make configurable
-  messageTypes.push(
-    genericMsg('Wesprzyj na&nbsp;<b class="highlight">gsps.pl/wesprzyj</b>!')
-  );
-
-  if (enableMilestones) {
-    messageTypes.push(<Milestones onEnd={showNextElement} />);
-  }
-
+  
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');
     currentComponentIndex += 1;
     if (currentComponentIndex >= messageTypes.length) {
       currentComponentIndex = 0;
     }
+    setNewElement();
+  }
+
+  function setNewElement() {
     setTimestamp(Date.now());
     setCurrentElement(messageTypes[currentComponentIndex]);
   }
 
-  useLayoutEffect(() => {
-    // set first element on mount
-    setCurrentElement(messageTypes[0]);
-  }, []);
+  useEffect(() => {
+    messageTypes.splice(0, messageTypes.length);
+    
+    omnibarTextReplicant?.forEach(text => messageTypes.push(genericMsg(text)));
+
+    if(omnibarEnableMilestones) {
+      messageTypes.push(<Milestones onEnd={showNextElement} />);
+    }
+    else if(messageTypes.includes(<Milestones onEnd={showNextElement} />)) {
+      messageTypes.splice(messageTypes.indexOf(<Milestones onEnd={showNextElement} />), 1)
+    }
+
+    currentComponentIndex = currentComponentIndex > messageTypes.length ? messageTypes.length - 1 : currentComponentIndex
+    setNewElement();
+
+  }, [omnibarTextReplicant,
+    omnibarEnableBids,
+    omnibarEnableMilestones,
+    omnibarEnableNextRuns,
+    omnibarEnablePrizes]);
 
   return (
     <TickerContainer>

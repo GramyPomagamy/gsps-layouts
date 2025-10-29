@@ -45,7 +45,7 @@ export const Timer = ({ fontSize }: { fontSize: number }) => {
       {timer && (
         <TimerContainer className="shadow" size={fontSize}>
           <TimerEl phase={timer.state}>{timer.time}</TimerEl>
-          {activeRun && <Estimate>EST: {activeRun.estimate || '?'}</Estimate>}
+          {activeRun && activeRun.estimate && <Estimate>EST: {activeRun.estimate}</Estimate>}
         </TimerContainer>
       )}
     </>
