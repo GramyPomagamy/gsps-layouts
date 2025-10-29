@@ -24,6 +24,10 @@ Plik `configschema.json` pomoże ci w utworzeniu pliku konfiguracyjnego. Ten pli
 
 Grafiki GSPSowe polegają na wtyczce [obs-websocket](https://github.com/Palakis/obs-websocket) (zawartej w OBSie 28 i wyżej!), więc upewnij się że masz tą wtyczkę zainstalowaną (niestandarowy adres/port oraz hasło można podać w konfiguracji).
 
+### Developing
+
+Jeśli chcesz włączyć hot reload musisz użyć 2 terminali aby zmiany w plikach mogly być automatycznie wykrywane i aktualizowane. Na pierwszym z nich użyj `npm run watch` a na drugim `npm run start`.
+
 #### Odtwarzacz muzyki
 
 Grafiki GSPSowe mogą sterować odtwarzaczem [foobar2000](https://www.foobar2000.org/) przy użyciu wtyczki [beefweb](https://github.com/hyperblast/beefweb). Ustaw foobara tak jak chcesz, upewnij się że odpowiedni adres jest podany w konfiguracji, i wtedy grafiki automatycznie wyciszą/odciszą muzykę w odpowiednim momencie. Muzyka tylko będzie odciszona jeśli nazwa obecnej scena w OBSie kończy się (domyślnie) z `[Muzyka]`, np. `Przerwa [Muzyka]`. Słowo kluczowe jest do zmiany w konfiguracji.
@@ -69,6 +73,10 @@ This bundle relies on the [obs-websocket](https://github.com/Palakis/obs-websock
 #### Music Player
 
 This bundle can interface with [foobar2000](https://www.foobar2000.org/) using the [beefweb](https://github.com/hyperblast/beefweb) plugin. Set up foobar2000 however you want it to play music, make sure the correct address is set in the configuration file, and this bundle will automatically mute/unmute music when needed. It will only play if the scene name ends in (by default) `[Muzyka]`, for example, `Przerwa [Muzyka]`. The keyword is customizable in the configuration file.
+
+### Developing
+
+If you want to enable hot reload you must use 2 terminals so that changes in files will be automatically detected and updated. One should run `npm run watch` and the other one `npm run start`
 
 ### Other Information
 
