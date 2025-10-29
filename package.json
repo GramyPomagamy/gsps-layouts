@@ -166,6 +166,20 @@
         "workspace": "1. GSPS - Ogólne"
       },
       {
+        "name": "omnibar-control",
+        "title": "Teksty na Omnibar",
+        "file": "omnibar-control-message.html",
+        "width": 8,
+        "workspace": "6. GSPS - Kontrola Omnibara"
+      },
+      {
+        "name": "omnibar-control-message",
+        "title": "Dodatkowe Teksty na Omnibar",
+        "file": "omnibar-control-extras.html",
+        "width": 3,
+        "workspace": "6. GSPS - Kontrola Omnibara"
+      },
+      {
         "name": "countdown",
         "title": "Odliczanie",
         "file": "countdown.html",
@@ -177,7 +191,7 @@
         "title": "Przypisywanie streamów",
         "file": "stream-assign.html",
         "width": 3,
-        "workspace": "6. Restream"
+        "workspace": "7. Restream"
       },
       {
         "name": "highlight",
