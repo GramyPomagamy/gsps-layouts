@@ -1,16 +1,16 @@
-import { get } from './util/nodecg';
-import { TaggedLogger } from './util/tagged-logger';
-import deepEqual from 'deep-equal';
-import numeral from 'numeral';
-import requestPromise from 'request-promise';
-import Bluebird from 'bluebird';
-import { Bids } from 'src/types/generated';
+import Bluebird from "bluebird";
+import deepEqual from "deep-equal";
+import numeral from "numeral";
+import requestPromise from "request-promise";
+import { type Bids } from "src/types/generated";
+import { get } from "./util/nodecg";
+import { TaggedLogger } from "./util/tagged-logger";
 
 const nodecg = get();
 
-const currentBidsRep = nodecg.Replicant<Bids>('currentBids');
-const allBidsRep = nodecg.Replicant<Bids>('allBids');
-const bidsLog = new TaggedLogger('bids');
+const currentBidsRep = nodecg.Replicant<Bids>("currentBids");
+const allBidsRep = nodecg.Replicant<Bids>("allBids");
+const bidsLog = new TaggedLogger("bids");
 const config = nodecg.bundleConfig.tracker;
 const rootURL = config!.rootURL;
 const eventID = config!.eventID;
@@ -27,7 +27,7 @@ if (config.enabled) update();
  * @returns {Promise} - A Q.all promise.
  */
 function update() {
-  nodecg.sendMessage('bids:updating');
+  nodecg.sendMessage("bids:updating");
   clearTimeout(updateTimeout);
 
   const currentPromise = requestPromise({
@@ -53,7 +53,7 @@ function update() {
         }
 
         const bidAlreadyExistsInCurrentBids = currentBids.find(
-          (currentBid) => currentBid.id === bid.id
+          (currentBid) => currentBid.id === bid.id,
         );
         if (!bidAlreadyExistsInCurrentBids) {
           currentBids.unshift(bid);
@@ -69,10 +69,10 @@ function update() {
       }
     })
     .catch((err) => {
-      bidsLog.error('Error updating bids:', err);
+      bidsLog.error("Error updating bids:", err);
     })
     .finally(() => {
-      nodecg.sendMessage('bids:updated');
+      nodecg.sendMessage("bids:updated");
       updateTimeout = setTimeout(update, POLL_INTERVAL);
     });
 }
@@ -85,8 +85,8 @@ function processRawBids(bids: any[]) {
   const childBids: any[] = [];
   bids.sort(sortBidsByEarliestEndTime).forEach((bid: any) => {
     if (
-      bid.fields.state.toLowerCase() === 'denied' ||
-      bid.fields.state.toLowerCase() === 'pending'
+      bid.fields.state.toLowerCase() === "denied" ||
+      bid.fields.state.toLowerCase() === "pending"
     ) {
       return;
     }
@@ -100,9 +100,12 @@ function processRawBids(bids: any[]) {
       const formattedParentBid: any = {
         id: bid.pk,
         name: bid.fields.name,
-        description: bid.fields.shortdescription || `No shortdescription for bid #${bid.pk}`,
-        longDescription: bid.fields.description || `No description for bid #${bid.pk}`,
-        total: parseFloat(bid.fields.total.toString()) + ' zł',
+        description:
+          bid.fields.shortdescription ||
+          `No shortdescription for bid #${bid.pk}`,
+        longDescription:
+          bid.fields.description || `No description for bid #${bid.pk}`,
+        total: parseFloat(bid.fields.total.toString()) + " zł",
         rawTotal: parseFloat(bid.fields.total.toString()),
         state: bid.fields.state,
         game: bid.fields.speedrun__display_name,
@@ -123,14 +126,20 @@ function processRawBids(bids: any[]) {
         const goal = parseFloat(bid.fields.goal.toString());
         formattedParentBid.goalMet = bid.fields.total >= bid.fields.goal;
         if (formattedParentBid.isBitsChallenge) {
-          formattedParentBid.goal = numeral(goal * 100).format('0,0');
+          formattedParentBid.goal = numeral(goal * 100).format("0,0");
           formattedParentBid.rawGoal = parseFloat((goal * 100).toString());
           formattedParentBid.rawTotal = formattedParentBid.rawGoal;
-          formattedParentBid.total = numeral(formattedParentBid.rawTotal).format('0,0');
-          formattedParentBid.goalMet = formattedParentBid.rawTotal >= formattedParentBid.rawGoal;
-          formattedParentBid.state = formattedParentBid.goalMet ? 'CLOSED' : 'OPENED';
+          formattedParentBid.total = numeral(
+            formattedParentBid.rawTotal,
+          ).format("0,0");
+          formattedParentBid.goalMet =
+            formattedParentBid.rawTotal >= formattedParentBid.rawGoal;
+          formattedParentBid.state = formattedParentBid.goalMet
+            ? "CLOSED"
+            : "OPENED";
         } else {
-          formattedParentBid.goal = parseFloat(bid.fields.goal.toString()) + ' zł';
+          formattedParentBid.goal =
+            parseFloat(bid.fields.goal.toString()) + " zł";
           formattedParentBid.rawGoal = goal;
         }
       }
@@ -148,7 +157,7 @@ function processRawBids(bids: any[]) {
       name: bid.fields.name,
       description: bid.fields.shortdescription,
       speedrun: bid.fields.speedrun,
-      total: parseFloat(bid.fields.total) + ' zł',
+      total: parseFloat(bid.fields.total) + " zł",
       rawTotal: parseFloat(bid.fields.total),
     };
 
@@ -158,9 +167,9 @@ function processRawBids(bids: any[]) {
     } else {
       bidsLog.error(
         "Child bid #%d's parent (bid #%s) could not be found." +
-          ' This child bid will be discarded!',
+          " This child bid will be discarded!",
         bid.pk,
-        bid.fields.parent
+        bid.fields.parent,
       );
     }
   });
@@ -176,10 +185,10 @@ function processRawBids(bids: any[]) {
     const bid = parentBidsById[id];
     bid.type = (function () {
       if (bid.options) {
-        return 'choice';
+        return "choice";
       }
 
-      return 'challenge';
+      return "challenge";
     })();
 
     bidsArray.push(bid);
@@ -188,18 +197,20 @@ function processRawBids(bids: any[]) {
       continue;
     }
 
-    bid.options = bid.options.sort((a: { rawTotal: any }, b: { rawTotal: any }) => {
-      const aTotal = a.rawTotal;
-      const bTotal = b.rawTotal;
-      if (aTotal > bTotal) {
-        return -1;
-      }
-      if (aTotal < bTotal) {
-        return 1;
-      }
-      // a must be equal to b
-      return 0;
-    });
+    bid.options = bid.options.sort(
+      (a: { rawTotal: any }, b: { rawTotal: any }) => {
+        const aTotal = a.rawTotal;
+        const bTotal = b.rawTotal;
+        if (aTotal > bTotal) {
+          return -1;
+        }
+        if (aTotal < bTotal) {
+          return 1;
+        }
+        // a must be equal to b
+        return 0;
+      },
+    );
   }
 
   // Yes, we need to now sort again.
@@ -209,15 +220,18 @@ function processRawBids(bids: any[]) {
 
 function sortBidsByEarliestEndTime(
   a: { fields: { speedrun__endtime: string }; runEndTime: number },
-  b: { fields: { speedrun__endtime: string }; runEndTime: number }
+  b: { fields: { speedrun__endtime: string }; runEndTime: number },
 ) {
   // Raw format from tracker.
   if (a.fields && b.fields) {
-    return Date.parse(a.fields.speedrun__endtime) - Date.parse(b.fields.speedrun__endtime);
+    return (
+      Date.parse(a.fields.speedrun__endtime) -
+      Date.parse(b.fields.speedrun__endtime)
+    );
   }
 
   // Else, format from our own code.
   return a.runEndTime - b.runEndTime;
 }
 
-nodecg.listenFor('updateBids', update);
+nodecg.listenFor("updateBids", update);

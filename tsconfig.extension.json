@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "src/extension",
+    "rootDirs": ["src/extension", "src/schemas"],
     "outDir": "extension",
     "target": "ES2016",
     "moduleResolution": "Node",
@@ -10,5 +10,5 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["src/extension/**/*.ts", "src/types/**/*.d.ts"]
+  "include": ["src/extension/**/*.ts", "src/schemas/**/*.ts", "src/types/**/*.d.ts"]
 }

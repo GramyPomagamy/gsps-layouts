@@ -1,14 +1,19 @@
-import { klona } from 'klona/json';
-import { get } from './util/nodecg';
-import { Asset, LogoCycle, MediaBoxItem } from '../types/custom';
+import { klona } from "klona/json";
+import { type Asset, type LogoCycle, type MediaBoxItem } from "../types/custom";
+import { get } from "./util/nodecg";
 
 const nodecg = get();
-const mediaBoxAssets = nodecg.Replicant<Asset[]>('assets:media-box');
-const mediaBoxBreakAssets = nodecg.Replicant<Asset[]>('assets:media-box-break');
-const currentMediaBoxItem = nodecg.Replicant<MediaBoxItem>('mediaBoxItem');
-const currentMediaBoxBreakItem = nodecg.Replicant<MediaBoxItem>('mediaBoxItemBreak');
-const logoCycles = nodecg.Replicant<LogoCycle[]>('logoCycles', { defaultValue: [] });
-const logoCyclesBreak = nodecg.Replicant<LogoCycle[]>('logoCyclesBreak', { defaultValue: [] });
+const mediaBoxAssets = nodecg.Replicant<Asset[]>("assets:media-box");
+const mediaBoxBreakAssets = nodecg.Replicant<Asset[]>("assets:media-box-break");
+const currentMediaBoxItem = nodecg.Replicant<MediaBoxItem>("mediaBoxItem");
+const currentMediaBoxBreakItem =
+  nodecg.Replicant<MediaBoxItem>("mediaBoxItemBreak");
+const logoCycles = nodecg.Replicant<LogoCycle[]>("logoCycles", {
+  defaultValue: [],
+});
+const logoCyclesBreak = nodecg.Replicant<LogoCycle[]>("logoCyclesBreak", {
+  defaultValue: [],
+});
 
 let currentItemIndex = 0;
 let currentBreakItemIndex = 0;
@@ -26,7 +31,8 @@ function showNextMediaBoxItem() {
     if (asset && asset.ext) {
       imageTimeout = setTimeout(
         showNextMediaBoxItem,
-        (logoCycles.value.find((cycle) => cycle.name === asset.name)?.cycle || 10) * 1000
+        (logoCycles.value.find((cycle) => cycle.name === asset.name)?.cycle ??
+          10) * 1000,
       );
       currentMediaBoxItem.value = {
         asset: klona(asset),
@@ -50,7 +56,8 @@ function showNextBreakMediaBoxItem() {
     if (asset && asset.ext) {
       breakImageTimeout = setTimeout(
         showNextBreakMediaBoxItem,
-        (logoCyclesBreak.value.find((cycle) => cycle.name === asset.name)?.cycle || 10) * 1000
+        (logoCyclesBreak.value.find((cycle) => cycle.name === asset.name)
+          ?.cycle ?? 10) * 1000,
       );
       currentMediaBoxBreakItem.value = { asset: klona(asset) };
       return;
@@ -61,8 +68,8 @@ function showNextBreakMediaBoxItem() {
   }
 }
 
-nodecg.listenFor('mediaBox:showNextBreakItem', showNextBreakMediaBoxItem);
-nodecg.listenFor('mediaBox:showNextItem', showNextMediaBoxItem);
+nodecg.listenFor("mediaBox:showNextBreakItem", showNextBreakMediaBoxItem);
+nodecg.listenFor("mediaBox:showNextItem", showNextMediaBoxItem);
 
 // Set first item on layout bootup
 setTimeout(() => {

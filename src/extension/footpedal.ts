@@ -1,29 +1,25 @@
-import { get } from './util/nodecg';
-import { TaggedLogger } from './util/tagged-logger';
+import { type Configschema } from "@gsps-layouts/types";
+import { type NodeCGServer } from "./util/nodecg";
+import { type TaggedLogger } from "./util/tagged-logger";
 
-const nodecg = get();
-const router = nodecg.Router();
-const config = nodecg.bundleConfig.footpedal;
-const log = new TaggedLogger('Footpedal');
+type ModuleParams = {
+  config: Configschema["footpedal"];
+  logger: TaggedLogger;
+  nodecg: NodeCGServer;
+};
 
-router.get('/makeHighlight', (_req, res) => {
-  if (config.enabled) {
-    res.send('OK!');
-    nodecg.sendMessage('makeHighlight');
-  } else {
-    res.send('Przełącznik jest wyłączony w konfiguracji');
-    log.info('Przełącznik jest wyłączony w konfiguracji');
-  }
-});
+export async function setup({ nodecg }: ModuleParams) {
+  const router = nodecg.Router();
 
-router.get('/switchFromHostScreen', (_req, res) => {
-  if (config.enabled) {
-    res.send('OK!');
-    nodecg.sendMessage('switchFromHostScreen');
-  } else {
-    res.send('Przełącznik jest wyłączony w konfiguracji');
-    log.info('Przełącznik jest wyłączony w konfiguracji');
-  }
-});
+  router.get("/makeHighlight", (_req, res) => {
+    res.send("OK!");
+    nodecg.sendMessage("makeHighlight");
+  });
 
-nodecg.mount(router);
+  router.get("/switchFromHostScreen", (_req, res) => {
+    res.send("OK!");
+    nodecg.sendMessage("switchFromHostScreen");
+  });
+
+  nodecg.mount(router);
+}

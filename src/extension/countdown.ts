@@ -1,36 +1,29 @@
-'use strict';
+"use strict";
 
+import { type CountdownRunning } from "src/types/generated";
+import TimeUtils, { type ICountdownTimer, type TimeStruct } from "./lib/time";
 // Ours
-import { get } from './util/nodecg';
-import TimeUtils, { TimeStruct, ICountdownTimer } from './lib/time';
-import { CountdownRunning } from 'src/types/generated';
+import { get } from "./util/nodecg";
 
 const nodecg = get();
 
-const time = nodecg.Replicant<TimeStruct>('countdown', {
+const time = nodecg.Replicant<TimeStruct>("countdown", {
   defaultValue: TimeUtils.createTimeStruct(600 * 1000),
   persistent: false,
 });
 
-const running = nodecg.Replicant<CountdownRunning>('countdownRunning', {
+const running = nodecg.Replicant<CountdownRunning>("countdownRunning", {
   defaultValue: false,
   persistent: false,
 });
 let countdownTimer: ICountdownTimer;
-
-nodecg.listenFor('startCountdown', (startTime: string) => {
-  start(startTime);
-});
-nodecg.listenFor('stopCountdown', () => {
-  stop();
-});
 
 /**
  * Starts the countdown at the specified startTime.
  * @param {string} startTime - A formatted time string, such as 1:00 for one hour.
  * @returns {undefined}
  */
-function start(startTime = '10:00') {
+function start(startTime = "10:00") {
   if (running.value) {
     return;
   }
@@ -49,7 +42,7 @@ function start(startTime = '10:00') {
   }
 
   countdownTimer = new TimeUtils.CountdownTimer(Date.now() + durationMs);
-  countdownTimer.on('tick', (remainingTimeStruct: TimeStruct) => {
+  countdownTimer.on("tick", (remainingTimeStruct: TimeStruct) => {
     time.value = remainingTimeStruct;
   });
 }
@@ -68,3 +61,10 @@ function stop() {
     countdownTimer.stop();
   }
 }
+
+nodecg.listenFor("startCountdown", (startTime: string) => {
+  start(startTime);
+});
+nodecg.listenFor("stopCountdown", () => {
+  stop();
+});

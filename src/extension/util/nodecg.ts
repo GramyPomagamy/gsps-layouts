@@ -1,5 +1,5 @@
-import type NodeCG from '@nodecg/types';
-import { Configschema } from '../../types/generated';
+import type NodeCG from "@nodecg/types";
+import { type Configschema } from "../../types/generated";
 
 let nodecg: NodeCG.ServerAPI<Configschema>;
 export type NodeCGServer = NodeCG.ServerAPI<Configschema>;

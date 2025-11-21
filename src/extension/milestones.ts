@@ -1,22 +1,22 @@
-import { get } from './util/nodecg';
-import { Milestones, RawMilestone } from '../types/custom';
-import needle from 'needle';
-import { TaggedLogger } from './util/tagged-logger';
+import needle from "needle";
+import { type Milestones, type RawMilestone } from "../types/custom";
+import { get } from "./util/nodecg";
+import { TaggedLogger } from "./util/tagged-logger";
 
 const nodecg = get();
-const milestonesReplicant = nodecg.Replicant<Milestones>('milestones');
+const milestonesReplicant = nodecg.Replicant<Milestones>("milestones");
 const config = nodecg.bundleConfig.milestones;
-const log = new TaggedLogger('milestones');
+const log = new TaggedLogger("milestones");
 let refreshTimeout: NodeJS.Timeout;
 
 async function updateMilestones() {
-  nodecg.sendMessage('milestones:updating');
+  nodecg.sendMessage("milestones:updating");
   clearTimeout(refreshTimeout);
   try {
-    const raw = await needle('get', config.url!);
+    const raw = await needle("get", config.url!);
     const milestones = processMilestones(raw.body);
     milestonesReplicant.value = milestones;
-    nodecg.sendMessage('milestones:updated');
+    nodecg.sendMessage("milestones:updated");
     refreshTimeout = setTimeout(updateMilestones, 60 * 1000);
   } catch (err) {
     log.error(`Błąd przy pobieraniu milestonów: ${err}`);
@@ -40,4 +40,4 @@ if (config.enabled) {
   refreshTimeout = setTimeout(updateMilestones, 60 * 1000);
 }
 
-nodecg.listenFor('updateMilestones', updateMilestones);
+nodecg.listenFor("updateMilestones", updateMilestones);

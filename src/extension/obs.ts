@@ -1,83 +1,42 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import OBSWebSocket from 'obs-websocket-js';
-import FoobarControl from './foobar';
-import request from 'request';
-import { Commentators, Hosterka, ObsData, WindowInfo } from '../types/generated';
-import { Cropper, Asset, TransformProperties } from '../types/custom';
-import { get } from './util/nodecg';
-import { TaggedLogger } from './util/tagged-logger';
-import { RunDataActiveRun } from 'speedcontrol/src/types';
+import OBSWebSocket from "obs-websocket-js";
+import request from "request";
+import { type RunDataActiveRun } from "speedcontrol/src/types";
+import {
+  type Asset,
+  type Cropper,
+  type TransformProperties,
+} from "../types/custom";
+import {
+  type Commentators,
+  type Hosterka,
+  type ObsData,
+  type WindowInfo,
+} from "../types/generated";
+import { FoobarControl } from "./util/foobar";
+import { get } from "./util/nodecg";
+import { TaggedLogger } from "./util/tagged-logger";
+import { Videos } from "./util/videos";
 
-class Videos {
-  private _assets : Asset[];
-  private _currentVideoIndex : number;
-  private _lastVideo : Asset | undefined;
-  constructor(videoAssets : Asset[] | undefined, currentIndex : number, lastVideo : Asset | undefined) {
-    if(videoAssets === undefined){
-      videoAssets = [];
-    }
-    this._assets = videoAssets.slice(0);
-    this._lastVideo = lastVideo;
-    this._currentVideoIndex = currentIndex;
-    this.shuffleVideos();
-  }
-  public getCurrentIndex() : number{
-    return this._currentVideoIndex;
-  }
-  public getLastPlayedVideo() : Asset | undefined{
-    return this._lastVideo;
-  }
-  public getNextVideo() : Asset | undefined{
-    const nextVideo = this._assets[this._currentVideoIndex];
-    ++this._currentVideoIndex;
-    this._lastVideo = nextVideo;
-    if(this._currentVideoIndex >= this._assets.length){
-      this.shuffleVideos();
-    }
-    return nextVideo;
-  }
-  public addNewVideo(video : Asset | undefined) : void{
-    if(video !== undefined)
-      this._assets.push(video);
-  }
-  private shuffleVideos() : void{
-    let currentIndex = this._assets.length;
-    //shuffle
-    while (currentIndex != 0) {
-      let randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-
-      let tmp = this._assets[currentIndex];
-      this._assets[currentIndex] = this._assets[randomIndex] as Asset;
-      this._assets[randomIndex] = tmp as Asset;
-    }
-    //make sure video will not be played 2 times in a row
-    if(this._lastVideo !== undefined && this._assets[0] === this._lastVideo){
-      let tmp = this._assets[0];
-      this._assets[0] = this._assets[this._assets.length - 1] as Asset;
-      this._assets[this._assets.length - 1] = tmp;
-    }
-    this._currentVideoIndex = 0;
-  }
-}
-
-type VideoTypes = 'charity' | 'sponsors';
+type VideoTypes = "charity" | "sponsors";
 const nodecg = get();
 
-const obsDataReplicant = nodecg.Replicant<ObsData>('obsData', { persistent: false });
-const commentatorsReplicant = nodecg.Replicant<Commentators>('commentators');
+const obsDataReplicant = nodecg.Replicant<ObsData>("obsData", {
+  persistent: false,
+});
+const commentatorsReplicant = nodecg.Replicant<Commentators>("commentators");
 const activeRunReplicant = nodecg.Replicant<RunDataActiveRun>(
-  'runDataActiveRun',
-  'nodecg-speedcontrol'
+  "runDataActiveRun",
+  "nodecg-speedcontrol",
 );
-const playLongVideoReplicant = nodecg.Replicant<boolean>('playLongVideo');
-const videosCharity = nodecg.Replicant<Asset[]>('assets:videos-charity');
-const videosSponsors = nodecg.Replicant<Asset[]>('assets:videos-sponsors');
-const videosLong = nodecg.Replicant<Asset[]>('assets:videos-long');
-const hosterkaReplicant = nodecg.Replicant<Hosterka>('hosterka');
-const hostMuteStatusReplicant = nodecg.Replicant<boolean>('hostMuteStatus');
-const showBidsPanel = nodecg.Replicant<boolean>('showBidsPanel');
-const showPrizePanel = nodecg.Replicant<boolean>('showPrizePanel');
+const playLongVideoReplicant = nodecg.Replicant<boolean>("playLongVideo");
+const videosCharity = nodecg.Replicant<Asset[]>("assets:videos-charity");
+const videosSponsors = nodecg.Replicant<Asset[]>("assets:videos-sponsors");
+const videosLong = nodecg.Replicant<Asset[]>("assets:videos-long");
+const hosterkaReplicant = nodecg.Replicant<Hosterka>("hosterka");
+const hostMuteStatusReplicant = nodecg.Replicant<boolean>("hostMuteStatus");
+const showBidsPanel = nodecg.Replicant<boolean>("showBidsPanel");
+const showPrizePanel = nodecg.Replicant<boolean>("showPrizePanel");
 
 const obs = new OBSWebSocket();
 const config = nodecg.bundleConfig.obs;
@@ -86,14 +45,14 @@ let foobar: FoobarControl;
 if (foobarConfig.enabled) {
   foobar = new FoobarControl(foobarConfig.address!);
 }
-const log = new TaggedLogger('OBS');
+const log = new TaggedLogger("OBS");
 let shuffledVideosCharity = new Videos(videosCharity.value, 0, undefined);
 let shuffledVideosLong = new Videos(videosLong.value, 0, undefined);
 let shuffledVideosSponsors = new Videos(videosLong.value, 0, undefined);
 let reconnectTimeout: NodeJS.Timeout;
 let loggedTimestampForCurrentGame = false;
 let videoToPlay: Asset | undefined;
-let videoType: VideoTypes = 'sponsors';
+let videoType: VideoTypes = "sponsors";
 let videosPlayed = 0;
 
 // Connect to OBS
@@ -103,20 +62,20 @@ if (config.enabled) {
     obsDataReplicant.value!.croppers.push(cropper);
   }
 
-  log.info('Próbuję się połączyć z OBSem...');
+  log.info("Próbuję się połączyć z OBSem...");
   obs
     .connect(config.address, config.password)
     .then(() => {
       if (config.sources && config.sources.intermissionVideo) {
         obs
-          .call('SetInputSettings', {
+          .call("SetInputSettings", {
             inputName: config.sources.intermissionVideo,
             inputSettings: {
-              input: '',
+              input: "",
             },
           })
           .catch((err) => {
-            log.error('Nie udało się wyzerować filmu na przerwie: ', err);
+            log.error("Nie udało się wyzerować filmu na przerwie: ", err);
           });
       }
       initializeHostMute();
@@ -128,60 +87,82 @@ if (config.enabled) {
 }
 
 //handles videos shuffling
-videosCharity.on('change', (newValue, oldValue) => {
-  shuffledVideosCharity = handleChangedVideos(newValue, oldValue, shuffledVideosCharity);
+videosCharity.on("change", (newValue, oldValue) => {
+  shuffledVideosCharity = handleChangedVideos(
+    newValue,
+    oldValue,
+    shuffledVideosCharity,
+  );
 });
-videosSponsors.on('change', (newValue, oldValue) => {
-  shuffledVideosSponsors = handleChangedVideos(newValue, oldValue, shuffledVideosSponsors);
+videosSponsors.on("change", (newValue, oldValue) => {
+  shuffledVideosSponsors = handleChangedVideos(
+    newValue,
+    oldValue,
+    shuffledVideosSponsors,
+  );
 });
-videosLong.on('change', (newValue, oldValue) => {
-  shuffledVideosLong = handleChangedVideos(newValue, oldValue, shuffledVideosLong);
+videosLong.on("change", (newValue, oldValue) => {
+  shuffledVideosLong = handleChangedVideos(
+    newValue,
+    oldValue,
+    shuffledVideosLong,
+  );
 });
 
-function handleChangedVideos(newValue : Asset[] | undefined, oldValue : Asset[] | undefined, shuffledVideos : Videos){
-  if(newValue !== undefined && oldValue !== undefined){
-    if(newValue!.length > oldValue!.length){    //adding new video
-      for(let i = oldValue!.length; i < newValue!.length; ++i){
+function handleChangedVideos(
+  newValue: Asset[] | undefined,
+  oldValue: Asset[] | undefined,
+  shuffledVideos: Videos,
+) {
+  if (newValue !== undefined && oldValue !== undefined) {
+    if (newValue!.length > oldValue!.length) {
+      //adding new video
+      for (let i = oldValue!.length; i < newValue!.length; ++i) {
         shuffledVideos.addNewVideo(newValue[i]);
       }
-    }
-    else if(newValue!.length < oldValue!.length){    //removing video
+    } else if (newValue!.length < oldValue!.length) {
+      //removing video
       const previousVideo = shuffledVideos.getLastPlayedVideo();
       shuffledVideos = new Videos(newValue, 0, previousVideo);
     }
-  }  
+  }
   return shuffledVideos;
 }
 
-
 function initializeHostMute() {
-  let channel = config.sources!.hostAudio;
+  const channel = config.sources!.hostAudio;
 
-  obs.
-  call("GetInputMute", {inputName: channel})
-  .then((data) => {
-    hostMuteStatusReplicant.value = data.inputMuted;
-  })
-  .catch((err) => {
-    log.error(`Nie udało się pobrać wartości mute dla: ${channel}! Powód: ${err}`);
-  });
-
+  obs
+    .call("GetInputMute", { inputName: channel })
+    .then((data) => {
+      hostMuteStatusReplicant.value = data.inputMuted;
+    })
+    .catch((err) => {
+      log.error(
+        `Nie udało się pobrać wartości mute dla: ${channel}! Powód: ${err}`,
+      );
+    });
 }
 
 function toggleHostMute() {
   const channel = config.sources!.hostAudio;
   obs
-  .call("SetInputMute", {inputName: channel, inputMuted: !hostMuteStatusReplicant.value})
-  .catch((err) => {
-    log.error(`Nie udało się zmienić wartości mute dla: ${channel}! Powód: ${err}`);
-  });
+    .call("SetInputMute", {
+      inputName: channel,
+      inputMuted: !hostMuteStatusReplicant.value,
+    })
+    .catch((err) => {
+      log.error(
+        `Nie udało się zmienić wartości mute dla: ${channel}! Powód: ${err}`,
+      );
+    });
   // we don't have to update the replicant here, because we listen to obs events anyway
 }
 
 function reconnectToOBS() {
   clearTimeout(reconnectTimeout);
   if (!obsDataReplicant.value!.connected && config.enabled) {
-    log.info('Próbuję się połączyć z OBSem...');
+    log.info("Próbuję się połączyć z OBSem...");
     obs.connect(config.address, config.password).catch((err) => {
       log.error(`Nie udało się połączyć z OBSem! Powód: ${err}`);
       reconnectTimeout = setTimeout(reconnectToOBS, 5000);
@@ -192,54 +173,55 @@ function reconnectToOBS() {
 function switchToIntermission() {
   if (obsDataReplicant.value?.scene === config.scenes!.intermission) return; // if we're already on intermission, don't do anything
 
-
-  nodecg.sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
+  nodecg.sendMessageToBundle("changeToNextRun", "nodecg-speedcontrol");
   if (!obsDataReplicant.value!.studioMode) {
-    obs.call('SetStudioModeEnabled', { studioModeEnabled: true }).catch((err) => {
-      log.error(`Wystąpił błąd przy włączaniu Studio Mode: ${err};
+    obs
+      .call("SetStudioModeEnabled", { studioModeEnabled: true })
+      .catch((err) => {
+        log.error(`Wystąpił błąd przy włączaniu Studio Mode: ${err};
         }`);
-    });
+      });
   }
   try {
     if (obsDataReplicant.value?.studioMode) {
-      obs.call('SetCurrentPreviewScene', {
+      obs.call("SetCurrentPreviewScene", {
         sceneName: config.scenes!.intermission,
       });
     }
 
-    obs.call('SetCurrentProgramScene', {
+    obs.call("SetCurrentProgramScene", {
       sceneName: config.scenes!.intermission,
     });
   } catch (error) {
-    log.error('Nie udało się zmienić sceny na przerwę: ', error);
+    log.error("Nie udało się zmienić sceny na przerwę: ", error);
   }
 
   obsDataReplicant.value!.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
   setTimeout(() => {
-    nodecg.sendMessage('hideNames');
+    nodecg.sendMessage("hideNames");
     hosterkaReplicant.value = {
-      hostL: { name: '', pronouns: '' },
-      hostR: { name: '', pronouns: '' },
+      hostL: { name: "", pronouns: "" },
+      hostR: { name: "", pronouns: "" },
     };
     showBidsPanel.value = false;
     showPrizePanel.value = false;
     resetAllCrops();
     commentatorsReplicant.value = [];
-    nodecg.sendMessage('intermissionStarted');
+    nodecg.sendMessage("intermissionStarted");
   }, config.stingerActionDelay);
 }
 
 function switchFromHostScreen() {
-  obs.call('SetCurrentPreviewScene', {
+  obs.call("SetCurrentPreviewScene", {
     sceneName: config.scenes!.intermission,
   });
-  obs.call('SetCurrentProgramScene', {
+  obs.call("SetCurrentProgramScene", {
     sceneName: config.scenes!.intermission,
   });
   obsDataReplicant.value!.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
   hosterkaReplicant.value = {
-    hostL: { name: '', pronouns: '' },
-    hostR: { name: '', pronouns: '' },
+    hostL: { name: "", pronouns: "" },
+    hostR: { name: "", pronouns: "" },
   };
   showBidsPanel.value = false;
   showPrizePanel.value = false;
@@ -247,14 +229,14 @@ function switchFromHostScreen() {
   // clear intermission video source
   if (config.sources && config.sources.intermissionVideo) {
     obs
-      .call('SetInputSettings', {
+      .call("SetInputSettings", {
         inputName: config.sources.intermissionVideo,
         inputSettings: {
-          input: '',
+          input: "",
         },
       })
       .catch((err) => {
-        log.error('Nie udało się wyzerować filmu na przerwie: ', err);
+        log.error("Nie udało się wyzerować filmu na przerwie: ", err);
       });
   }
 
@@ -262,11 +244,11 @@ function switchFromHostScreen() {
 }
 
 function playLongVideo() {
-  log.debug('Puszczam długi film');
+  log.debug("Puszczam długi film");
   videoToPlay = shuffledVideosLong.getNextVideo();
   if (videoToPlay) {
     setTimeout(() => {
-      obs.call('SetInputSettings', {
+      obs.call("SetInputSettings", {
         inputName: config.sources!.intermissionVideo,
         inputSettings: {
           input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
@@ -274,13 +256,13 @@ function playLongVideo() {
       });
     }, config.stingerActionDelay);
   } else {
-    log.error('Nie udało puścić się długiego filmu');
+    log.error("Nie udało puścić się długiego filmu");
   }
 }
 
 function playShortVideo(type: VideoTypes) {
-  log.debug('Puszczam krótki film');
-  if (type == 'charity') {
+  log.debug("Puszczam krótki film");
+  if (type === "charity") {
     videoToPlay = shuffledVideosCharity.getNextVideo();
   } else {
     videoToPlay = shuffledVideosSponsors.getNextVideo();
@@ -288,7 +270,7 @@ function playShortVideo(type: VideoTypes) {
   if (videoToPlay) {
     videosPlayed++;
     setTimeout(() => {
-      obs.call('SetInputSettings', {
+      obs.call("SetInputSettings", {
         inputName: config.sources!.intermissionVideo,
         inputSettings: {
           input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
@@ -296,18 +278,18 @@ function playShortVideo(type: VideoTypes) {
       });
     }, config.stingerActionDelay);
   } else {
-    log.error('Nie udało puścić się krótkiego filmu');
+    log.error("Nie udało puścić się krótkiego filmu");
   }
 }
 
 async function playIntermissionVideo(longVideo: boolean) {
   videosPlayed = 0;
   playLongVideoReplicant.value = longVideo;
-  obs.call('SetCurrentProgramScene', { sceneName: config.scenes!.video });
+  obs.call("SetCurrentProgramScene", { sceneName: config.scenes!.video });
   if (longVideo) {
     playLongVideo();
   } else {
-    videoType = 'sponsors';
+    videoType = "sponsors";
     playShortVideo(videoType);
   }
 }
@@ -318,19 +300,20 @@ function crop(cropInfo: { cropperIndex: number; windowInfo: WindowInfo }) {
   const cropperConfig = obsDataReplicant.value!.croppers[cropperIndex];
 
   obs
-    .call('GetSceneItemId', {
+    .call("GetSceneItemId", {
       sceneName: cropperConfig!.sceneName,
       sourceName: cropperConfig!.sourceName,
     })
     .then((data) => {
       const itemId = data.sceneItemId;
       obs
-        .call('GetSceneItemTransform', {
+        .call("GetSceneItemTransform", {
           sceneName: cropperConfig!.sceneName,
           sceneItemId: itemId,
         })
         .then((data) => {
-          const transformData = data.sceneItemTransform as unknown as TransformProperties;
+          const transformData =
+            data.sceneItemTransform as unknown as TransformProperties;
           const width = transformData.width;
           const height = transformData.height;
 
@@ -340,7 +323,7 @@ function crop(cropInfo: { cropperIndex: number; windowInfo: WindowInfo }) {
           const right = width - windowInfo.x - windowInfo.w;
 
           obs
-            .call('SetSceneItemTransform', {
+            .call("SetSceneItemTransform", {
               sceneName: cropperConfig!.sceneName,
               sceneItemId: itemId,
               sceneItemTransform: {
@@ -351,36 +334,41 @@ function crop(cropInfo: { cropperIndex: number; windowInfo: WindowInfo }) {
               },
             })
             .catch((error) => {
-              log.error(`Failed to crop ${cropperConfig!.sourceName}. Error: ${error}`);
+              log.error(
+                `Failed to crop ${cropperConfig!.sourceName}. Error: ${error}`,
+              );
             });
         })
         .catch((error) => {
           log.error(
-            `Failed to fetch source ${cropperConfig!.sourceName} properties. Error: ${error}`
+            `Failed to fetch source ${cropperConfig!.sourceName} properties. Error: ${error}`,
           );
         });
     })
     .catch((error) => {
-      log.error(`Failed to fetch source ${cropperConfig!.sourceName} id. Error: ${error}`);
+      log.error(
+        `Failed to fetch source ${cropperConfig!.sourceName} id. Error: ${error}`,
+      );
     });
 }
 
 function crop4By3(cropperIndex: number) {
   const cropperConfig = obsDataReplicant.value!.croppers[cropperIndex];
   obs
-    .call('GetSceneItemId', {
+    .call("GetSceneItemId", {
       sceneName: cropperConfig!.sceneName,
       sourceName: cropperConfig!.sourceName,
     })
     .then((data) => {
       const itemId = data.sceneItemId;
       obs
-        .call('GetSceneItemTransform', {
+        .call("GetSceneItemTransform", {
           sceneName: cropperConfig!.sceneName,
           sceneItemId: itemId,
         })
         .then((data) => {
-          const transformData = data.sceneItemTransform as unknown as TransformProperties;
+          const transformData =
+            data.sceneItemTransform as unknown as TransformProperties;
           const width = transformData.width;
 
           const top = 0;
@@ -390,7 +378,7 @@ function crop4By3(cropperIndex: number) {
           const right = margin;
 
           obs
-            .call('SetSceneItemTransform', {
+            .call("SetSceneItemTransform", {
               sceneName: cropperConfig!.sceneName,
               sceneItemId: itemId,
               sceneItemTransform: {
@@ -401,17 +389,21 @@ function crop4By3(cropperIndex: number) {
               },
             })
             .catch((error) => {
-              log.error(`Failed to crop ${cropperConfig!.sourceName}. Error: ${error}`);
+              log.error(
+                `Failed to crop ${cropperConfig!.sourceName}. Error: ${error}`,
+              );
             });
         })
         .catch((error) => {
           log.error(
-            `Failed to fetch source ${cropperConfig!.sourceName} properties. Error: ${error}`
+            `Failed to fetch source ${cropperConfig!.sourceName} properties. Error: ${error}`,
           );
         });
     })
     .catch((error) => {
-      log.error(`Failed to fetch source ${cropperConfig!.sourceName} id. Error: ${error}`);
+      log.error(
+        `Failed to fetch source ${cropperConfig!.sourceName} id. Error: ${error}`,
+      );
     });
 }
 
@@ -419,14 +411,14 @@ function resetCrop(cropperIndex: number) {
   const cropperConfig = obsDataReplicant.value!.croppers[cropperIndex];
 
   obs
-    .call('GetSceneItemId', {
+    .call("GetSceneItemId", {
       sceneName: cropperConfig!.sceneName,
       sourceName: cropperConfig!.sourceName,
     })
     .then((data) => {
       const itemId = data.sceneItemId;
       obs
-        .call('SetSceneItemTransform', {
+        .call("SetSceneItemTransform", {
           sceneName: cropperConfig!.sceneName,
           sceneItemId: itemId,
           sceneItemTransform: {
@@ -437,11 +429,15 @@ function resetCrop(cropperIndex: number) {
           },
         })
         .catch((error) => {
-          log.error(`Failed to crop ${cropperConfig!.sourceName}. Error: ${error}`);
+          log.error(
+            `Failed to crop ${cropperConfig!.sourceName}. Error: ${error}`,
+          );
         });
     })
     .catch((error) => {
-      log.error(`Failed to fetch source ${cropperConfig!.sourceName} id. Error: ${error}`);
+      log.error(
+        `Failed to fetch source ${cropperConfig!.sourceName} id. Error: ${error}`,
+      );
     });
 }
 
@@ -462,7 +458,7 @@ function refreshWindows(cropperIndex: number) {
       } catch (e) {
         log.error(
           `Could not parse windows for ${cropperConfig!.name}, response not a valid JSON:\n\t`,
-          body
+          body,
         );
         return;
       }
@@ -470,7 +466,7 @@ function refreshWindows(cropperIndex: number) {
         cropperIndex,
         windows,
       };
-      nodecg.sendMessage('windowsRefreshed', windowsInfo);
+      nodecg.sendMessage("windowsRefreshed", windowsInfo);
     } else {
       let msg = `Could not get windows for ${cropperConfig!.name}`;
       if (error) {
@@ -485,10 +481,10 @@ function refreshWindows(cropperIndex: number) {
 
 function addCropper() {
   obsDataReplicant.value!.croppers.push({
-    name: 'new cropper',
-    sceneName: '',
-    sourceName: '',
-    url: '',
+    name: "new cropper",
+    sceneName: "",
+    sourceName: "",
+    url: "",
   });
 }
 
@@ -501,16 +497,16 @@ function modifyCropper(cropperIndex: number, newCropper: Cropper) {
 }
 
 async function getRecordingPath(): Promise<string> {
-  let outputPath = '';
+  let outputPath = "";
 
   // need to supress errors here since obs-websocket-js doesn't have any of this in their types
   // @ts-ignore
-  const { outputs } = await obs.call('GetOutputList');
+  const { outputs } = await obs.call("GetOutputList");
 
   for (let i = 0; i < outputs.length; i++) {
     // @ts-ignore
-    const settings = await obs.call('GetOutputSettings', {
-      outputName: outputs[i]!['outputName'] as string,
+    const settings = await obs.call("GetOutputSettings", {
+      outputName: outputs[i]!["outputName"] as string,
     });
 
     // @ts-ignore
@@ -523,14 +519,14 @@ async function getRecordingPath(): Promise<string> {
   return outputPath;
 }
 
-obs.on('CurrentProgramSceneChanged', (data) => {
+obs.on("CurrentProgramSceneChanged", (data) => {
   if (obsDataReplicant.value) {
     if (obsDataReplicant.value!.scene != data.sceneName) {
       // host names showing
       if (data.sceneName === config.scenes!.hosterka) {
-        nodecg.sendMessage('showNames');
+        nodecg.sendMessage("showNames");
         setTimeout(() => {
-          nodecg.sendMessage('hideNames');
+          nodecg.sendMessage("hideNames");
         }, 10 * 1000);
       }
 
@@ -543,10 +539,11 @@ obs.on('CurrentProgramSceneChanged', (data) => {
           data.sceneName != config.scenes!.video
         ) {
           if (!loggedTimestampForCurrentGame) {
-            obs.call('GetRecordStatus').then(async (data) => {
+            obs.call("GetRecordStatus").then(async (data) => {
               if (data.outputActive) {
-                obsDataReplicant.value!.recordingName = await getRecordingPath();
-                nodecg.sendMessage('createVoDTimeStamp', {
+                obsDataReplicant.value!.recordingName =
+                  await getRecordingPath();
+                nodecg.sendMessage("createVoDTimeStamp", {
                   timestamp: data.outputDuration,
                   run: activeRunReplicant.value!,
                   recordingName: obsDataReplicant.value!.recordingName,
@@ -563,12 +560,14 @@ obs.on('CurrentProgramSceneChanged', (data) => {
   }
 });
 
-obs.on('SceneTransitionStarted', () => {
+obs.on("SceneTransitionStarted", () => {
   if (obsDataReplicant.value?.studioMode) {
-    obs.call('GetCurrentPreviewScene').then((data) => {
+    obs.call("GetCurrentPreviewScene").then((data) => {
       // foobar control
       if (foobarConfig.enabled) {
-        const regex = new RegExp('\\[' + foobarConfig.musicKeyword + '(.*?)\\]');
+        const regex = new RegExp(
+          "\\[" + foobarConfig.musicKeyword + "(.*?)\\]",
+        );
         const match = data.currentPreviewSceneName.match(regex);
         setTimeout(() => {
           if (match && match[1]) {
@@ -589,7 +588,7 @@ obs.on('SceneTransitionStarted', () => {
   }
 });
 
-obs.on('RecordStateChanged', (data) => {
+obs.on("RecordStateChanged", (data) => {
   if (data.outputActive) {
     obsDataReplicant.value!.recording = true;
     obsDataReplicant.value!.recordingName = data.outputPath;
@@ -598,7 +597,7 @@ obs.on('RecordStateChanged', (data) => {
   }
 });
 
-obs.on('StreamStateChanged', (data) => {
+obs.on("StreamStateChanged", (data) => {
   if (data.outputActive) {
     obsDataReplicant.value!.streaming = true;
   } else {
@@ -606,15 +605,15 @@ obs.on('StreamStateChanged', (data) => {
   }
 });
 
-obs.on('StudioModeStateChanged', (data) => {
+obs.on("StudioModeStateChanged", (data) => {
   obsDataReplicant.value!.studioMode = data.studioModeEnabled;
 });
 
-obs.on('MediaInputPlaybackEnded', (data) => {
+obs.on("MediaInputPlaybackEnded", (data) => {
   if (data.inputName === config.sources!.intermissionVideo) {
     if (!playLongVideoReplicant.value) {
       if (videosPlayed < 2) {
-        videoType = 'charity';
+        videoType = "charity";
         playShortVideo(videoType);
       } else {
         switchFromHostScreen();
@@ -625,43 +624,43 @@ obs.on('MediaInputPlaybackEnded', (data) => {
   }
 });
 
-obs.on('InputMuteStateChanged', (data) => {
-  let channel = config.sources!.hostAudio;
+obs.on("InputMuteStateChanged", (data) => {
+  const channel = config.sources!.hostAudio;
   if (data.inputName == channel) {
     hostMuteStatusReplicant.value = data.inputMuted;
   }
-})
+});
 
-obs.on('ConnectionOpened', () => {
-  log.info('Połączono z OBSem!');
+obs.on("ConnectionOpened", () => {
+  log.info("Połączono z OBSem!");
   obsDataReplicant.value!.connected = true;
 });
 
-obs.on('ConnectionClosed', () => {
-  log.info('Rozłączono z OBSem! Próbuję połączyć się ponownie za 5 sekund...');
+obs.on("ConnectionClosed", () => {
+  log.info("Rozłączono z OBSem! Próbuję połączyć się ponownie za 5 sekund...");
   setTimeout(reconnectToOBS, 5000);
   obsDataReplicant.value!.connected = false;
 });
 
-activeRunReplicant.on('change', () => {
+activeRunReplicant.on("change", () => {
   if (loggedTimestampForCurrentGame) {
     loggedTimestampForCurrentGame = false;
   }
 });
 
-nodecg.listenFor('switchToIntermission', switchToIntermission);
-nodecg.listenFor('switchFromHostScreen', switchFromHostScreen);
-nodecg.listenFor('videoPlayerFinished', switchFromHostScreen);
-nodecg.listenFor('playIntermissionVideo', (playLongVideo) => {
+nodecg.listenFor("switchToIntermission", switchToIntermission);
+nodecg.listenFor("switchFromHostScreen", switchFromHostScreen);
+nodecg.listenFor("videoPlayerFinished", switchFromHostScreen);
+nodecg.listenFor("playIntermissionVideo", (playLongVideo) => {
   playIntermissionVideo(playLongVideo);
 });
-nodecg.listenFor('refreshWindows', refreshWindows);
-nodecg.listenFor('crop', crop);
-nodecg.listenFor('crop4By3', crop4By3);
-nodecg.listenFor('resetCrop', resetCrop);
-nodecg.listenFor('addCropper', addCropper);
-nodecg.listenFor('modifyCropper', ({ cropperIndex, newCropper }) =>
-  modifyCropper(cropperIndex, newCropper)
+nodecg.listenFor("refreshWindows", refreshWindows);
+nodecg.listenFor("crop", crop);
+nodecg.listenFor("crop4By3", crop4By3);
+nodecg.listenFor("resetCrop", resetCrop);
+nodecg.listenFor("addCropper", addCropper);
+nodecg.listenFor("modifyCropper", ({ cropperIndex, newCropper }) =>
+  modifyCropper(cropperIndex, newCropper),
 );
-nodecg.listenFor('removeCropper', removeCropper);
-nodecg.listenFor('toggleHostMute', toggleHostMute);
+nodecg.listenFor("removeCropper", removeCropper);
+nodecg.listenFor("toggleHostMute", toggleHostMute);

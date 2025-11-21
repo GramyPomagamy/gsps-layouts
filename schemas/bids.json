@@ -77,7 +77,7 @@
         }
       },
       "goal": {
-        "type": "number"
+        "type": "string"
       },
       "rawGoal": {
         "type": "number"

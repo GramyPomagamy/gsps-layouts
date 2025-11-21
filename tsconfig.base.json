@@ -26,6 +26,9 @@
 		"paths": {
 			"speedcontrol/*": [
 				"./bundles/nodecg-speedcontrol/*"
+			],
+			"@gsps-layouts/*": [
+				"./src/*"
 			]
 		}
 	}
