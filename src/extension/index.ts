@@ -13,7 +13,7 @@ export default async (nodecg: NodeCGServer) => {
       async ({ name, enabled, loadFn, config }: ModuleDefinition<any>) => {
         if (!enabled) return;
 
-        const logger = new TaggedLogger(name);
+        const logger = new TaggedLogger(name, nodecg);
 
         try {
           const mod = await loadFn();

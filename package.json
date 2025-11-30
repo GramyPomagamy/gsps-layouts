@@ -23,7 +23,7 @@
     "autofix:extension": "eslint --fix --ext .ts src/extension && eslint --fix --ext .d.ts src/nodecg",
     "build": "run-s clean build:*",
     "build:browser": "vite build",
-    "build:extension": "tsc -b tsconfig.extension.json",
+    "build:extension": "esbuild src/extension/index.ts --bundle --outdir=extension --platform=node --target=node22 --splitting --format=esm --tsconfig=tsconfig.extension.json",
     "clean": "trash node_modules/.cache && trash shared/dist && trash dashboard && trash graphics && trash extension",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "prettify": "prettier --write src/browser src/extension",
@@ -33,7 +33,7 @@
     "start": "nodecg start",
     "watch": "run-p watch:*",
     "watch:browser": "vite",
-    "watch:extension": "tsc -b tsconfig.extension.json -w --preserveWatchOutput"
+    "watch:extension": "esbuild src/extension/index.ts --bundle --outdir=extension --platform=node --target=node22 --splitting --format=esm --tsconfig=tsconfig.extension.json --watch"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -94,6 +94,7 @@
     "cheerio": "1.0.0-rc.12",
     "del": "^7.0.0",
     "del-cli": "^5.0.0",
+    "esbuild": "^0.27.0",
     "get-port": "^7.0.0",
     "globals": "^16.5.0",
     "globby": "^13.1.4",

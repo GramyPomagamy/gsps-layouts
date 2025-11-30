@@ -1,17 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { get as nodecg } from "./nodecg";
+import { type NodeCGServer } from "@gsps-layouts/types";
 
 type LogLevel = "trace" | "debug" | "info" | "warn" | "error" | "replicants";
 
 export class TaggedLogger {
   tag: string;
+  nodecg: NodeCGServer;
 
-  constructor(tag: string) {
+  constructor(tag: string, nodecg: NodeCGServer) {
     this.tag = tag;
+    this.nodecg = nodecg;
   }
 
   log(level: LogLevel, ...msg: Array<any>) {
-    nodecg().log[level](`[${this.tag}]`, ...msg);
+    this.nodecg.log[level](`[${this.tag}]`, ...msg);
   }
 
   trace(...msg: Array<any>) {
