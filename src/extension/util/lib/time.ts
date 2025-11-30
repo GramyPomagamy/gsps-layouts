@@ -1,4 +1,4 @@
-import * as events from "events";
+import EventEmitter from "node:events";
 import parseMilliseconds from "parse-ms";
 import TimeConverter from "./time-converter";
 
@@ -16,7 +16,7 @@ export interface TimeStruct extends ParsedTime {
   timestamp: number;
 }
 
-export interface ICountdownTimer extends events.EventEmitter {
+export interface ICountdownTimer extends EventEmitter {
   _interval: NodeJS.Timeout;
   stop: () => void;
 }
@@ -117,7 +117,7 @@ const TimeUtils = {
   /**
    * A timer which counts down to a specified end time.
    */
-  CountdownTimer: class CountdownTimer extends events.EventEmitter {
+  CountdownTimer: class CountdownTimer extends EventEmitter {
     _interval: NodeJS.Timeout;
     constructor(endTime: number, { tickRate = 100 } = {}) {
       if (typeof endTime !== "number") {
@@ -143,7 +143,7 @@ const TimeUtils = {
   /**
    * A timer which counts up, with no specified end time.
    */
-  CountupTimer: class CountupTimer extends events.EventEmitter {
+  CountupTimer: class CountupTimer extends EventEmitter {
     _interval: NodeJS.Timeout;
     constructor({ tickRate = 100, offset = 0 } = {}) {
       super();
@@ -166,7 +166,7 @@ const TimeUtils = {
   /**
    * A timer which counts down, even after meeting the target end time.
    */
-  InfiniteCountdownTimer: class InfiniteCountdownTimer extends events.EventEmitter {
+  InfiniteCountdownTimer: class InfiniteCountdownTimer extends EventEmitter {
     _interval: NodeJS.Timeout;
     constructor(endTime: number, { tickRate = 100 } = {}) {
       if (typeof endTime !== "number") {
