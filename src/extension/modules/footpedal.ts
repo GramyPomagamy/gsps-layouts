@@ -1,6 +1,5 @@
-import { type Configschema } from "@gsps-layouts/types";
-import { type NodeCGServer } from "./util/nodecg";
-import { type TaggedLogger } from "./util/tagged-logger";
+import { type Configschema, type NodeCGServer } from "@gsps-layouts/types";
+import { type TaggedLogger } from "../util/tagged-logger";
 
 type ModuleParams = {
   config: Configschema["footpedal"];

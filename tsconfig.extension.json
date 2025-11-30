@@ -1,14 +1,14 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "rootDirs": ["src/extension", "src/schemas"],
+    "rootDir": "src/extension",
     "outDir": "extension",
-    "target": "ES2016",
-    "moduleResolution": "Node",
-    "module": "CommonJS",
+    "target": "ES2022",
+    "moduleResolution": "node16",
+    "module": "NodeNext",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["src/extension/**/*.ts", "src/schemas/**/*.ts", "src/types/**/*.d.ts"]
+  "include": ["src/extension/**/*.ts", "src/types/**/*.d.ts"]
 }

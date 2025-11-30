@@ -16,3 +16,5 @@ export * from './host';
 export * from './runCustomData';
 export * from './genericReplicant';
 export * from './channel';
+export * from './modules';
+export * from './nodecg';

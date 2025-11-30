@@ -24,6 +24,13 @@
 		"isolatedModules": true,
 		"baseUrl": ".",
 		"paths": {
+			"speedcontrol/types": [
+				"./bundles/nodecg-speedcontrol/src/types/index.d.ts"
+			],
+			"speedcontrol/types/*": [
+				"./bundles/nodecg-speedcontrol/src/types/*",
+				"./bundles/nodecg-speedcontrol/src/types/schemas/*"
+			],
 			"speedcontrol/*": [
 				"./bundles/nodecg-speedcontrol/*"
 			],

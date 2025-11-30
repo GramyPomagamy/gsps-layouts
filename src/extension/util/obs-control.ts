@@ -13,29 +13,19 @@ type OBSSources = {
 type CropperInfo = ObsData["croppers"][number];
 
 export class ObsControl extends OBSWebSocket {
-  private readonly sources: OBSSources;
+  readonly sources: OBSSources;
 
   constructor(sources: OBSSources) {
     super();
     this.sources = sources;
   }
 
-  public async connectToObs({
-    address,
-    password,
-  }: {
-    address: string;
-    password: string;
-  }) {
-    await this.connect(address, password);
-  }
-
   public async getHostAudioMuteStatus(): Promise<boolean> {
-    const muteStatus = await this.call("GetInputMute", {
+    const { inputMuted } = await this.call("GetInputMute", {
       inputName: this.sources.hostAudio,
     });
 
-    return muteStatus.inputMuted;
+    return inputMuted;
   }
 
   public async setHostAudioMuteStatus(muted: boolean): Promise<void> {
@@ -50,8 +40,17 @@ export class ObsControl extends OBSWebSocket {
   }
 
   public async getStudioModeStatus(): Promise<boolean> {
-    const studioModeStatus = await this.call("GetStudioModeEnabled");
-    return studioModeStatus.studioModeEnabled;
+    const { studioModeEnabled } = await this.call("GetStudioModeEnabled");
+
+    return studioModeEnabled;
+  }
+
+  public async getCurrentPreviewScene(): Promise<string> {
+    const { currentPreviewSceneName } = await this.call(
+      "GetCurrentPreviewScene",
+    );
+
+    return currentPreviewSceneName;
   }
 
   public async setCurrentPreviewScene(sceneName: string): Promise<void> {
@@ -156,5 +155,32 @@ export class ObsControl extends OBSWebSocket {
         cropRight: 0,
       },
     });
+  }
+
+  public async getRecordingStatus(): Promise<{
+    isRecording: boolean;
+    recordingDuration: number;
+  }> {
+    const { outputActive, outputDuration } = await this.call("GetRecordStatus");
+
+    return { isRecording: outputActive, recordingDuration: outputDuration };
+  }
+
+  public async getRecordingPath(): Promise<string> {
+    let outputPath = "";
+
+    const { outputs } = await this.call("GetOutputList");
+
+    for (const output of outputs) {
+      const settings = await this.call("GetOutputSettings", {
+        outputName: output["outputName"] as string,
+      });
+
+      if (settings.outputSettings && settings.outputSettings["path"]) {
+        outputPath = settings.outputSettings["path"] as string;
+      }
+    }
+
+    return outputPath;
   }
 }

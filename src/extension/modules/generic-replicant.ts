@@ -1,7 +1,9 @@
-import { type Configschema } from "@gsps-layouts/types";
+import {
+  type Configschema,
+  type GenericReplicant,
+  type ModuleParams,
+} from "@gsps-layouts/types";
 import express from "express";
-import { type GenericReplicant } from "../types/custom";
-import { type ModuleParams } from "./util/helpers";
 
 export async function setup({
   nodecg,

@@ -1,9 +1,9 @@
-import { TrackerSchemas } from "@gsps-layouts/schemas";
 import { type Bids, type Tracker } from "@gsps-layouts/types";
 import axios, { type AxiosInstance } from "axios";
 import { wrapper } from "axios-cookiejar-support";
 import { CookieJar } from "tough-cookie";
 import { type z } from "zod";
+import { TrackerSchemas } from "../schemas";
 
 type RawBids = z.infer<typeof TrackerSchemas.Bids>;
 
@@ -104,7 +104,7 @@ export class TrackerApi {
       `/search?type=allbids&event=${this.eventId}`,
     );
     const currentBidsResp = await this.getData<RawBids>(
-      `/search?type=allbids&event=${this.eventId}&status=OPENED`,
+      `/search?type=allbids&event=${this.eventId}&state=OPENED`,
     );
 
     const allBids = TrackerSchemas.Bids.parse(allBidsResp);
@@ -122,11 +122,24 @@ export class TrackerApi {
     }
 
     const donationsToReadResp = await this.getData<Tracker.Donation[]>(
-      `${this.rootUrl}/search?event=${this.eventId}&type=donation&feed=toread`,
+      `/search?event=${this.eventId}&type=donation&feed=toread`,
     );
 
     const processedDonationsToRead =
       this.processToReadDonations(donationsToReadResp);
+
+    const donationBids = await this.getDonationBids();
+
+    for (const donation of processedDonationsToRead) {
+      const matchingBids = donationBids.filter(
+        (bid) => bid.fields.donation === donation.id,
+      );
+      donation.bid = matchingBids.map((bid) => ({
+        id: bid.fields.bid,
+        amount:
+          bid.fields.amount != null ? parseFloat(bid.fields.amount) : undefined,
+      }));
+    }
 
     return processedDonationsToRead;
   }
@@ -137,7 +150,7 @@ export class TrackerApi {
     }
 
     const donationBidsResp = await this.getData<Tracker.DonationBid[]>(
-      `${this.rootUrl}/search?event=${this.eventId}&type=donationbid`,
+      `/search?event=${this.eventId}&type=donationbid`,
     );
 
     const parsedResp = TrackerSchemas.DonationBids.parse(donationBidsResp);
@@ -160,6 +173,80 @@ export class TrackerApi {
         `Failed to set donation as read. Status code: ${request.status}`,
       );
     }
+  }
+
+  public async getDonationsToAcceptCount(): Promise<number> {
+    if (!this.loggedIn) {
+      throw new Error("You're not logged in! Run the 'login' method first!");
+    }
+
+    const donationsToAcceptResp = await this.getData<unknown[]>(
+      `/search?event=${this.eventId}&type=donation&commentstate=PENDING&transactionstate=COMPLETED`,
+    );
+
+    return donationsToAcceptResp.length;
+  }
+
+  public async getBidsToAcceptCount(): Promise<number> {
+    if (!this.loggedIn) {
+      throw new Error("You're not logged in! Run the 'login' method first!");
+    }
+
+    const bidsToAcceptResp = await this.getData<
+      Array<{ fields: { total: string } }>
+    >(`/search?event=${this.eventId}&type=bidtarget&state=PENDING`);
+
+    const filteredBids = bidsToAcceptResp.filter(
+      (bid) => bid.fields.total !== "0.00",
+    );
+
+    return filteredBids.length;
+  }
+
+  public async getTotal(): Promise<{ formatted: string; raw: number }> {
+    const response = await this.axiosClient.get<{
+      agg: { total_amount: number };
+    }>(`${this.rootUrl}/${this.eventId}?json`);
+
+    const rawTotal = parseFloat(String(response.data.agg.total_amount ?? 0));
+
+    return {
+      raw: rawTotal,
+      formatted: `${rawTotal.toFixed(2)} zł`,
+    };
+  }
+
+  public async getPrizes(): Promise<Tracker.FormattedPrize[]> {
+    if (!this.loggedIn) {
+      throw new Error("You're not logged in! Run the 'login' method first!");
+    }
+
+    const prizesResp = await this.getData<Tracker.Prize[]>(
+      `/search?event=${this.eventId}&type=prize`,
+    );
+
+    return this.processRawPrizes(prizesResp);
+  }
+
+  public async getRecentlyReadDonations(): Promise<
+    Array<{ amount: number; id: number; name: string }>
+  > {
+    if (!this.loggedIn) {
+      throw new Error("You're not logged in! Run the 'login' method first!");
+    }
+
+    const resp = await this.getData<Tracker.Donation[]>(
+      `/search?event=${this.eventId}&type=donation&readstate=READ`,
+    );
+
+    return resp.slice(0, 25).map((donation) => ({
+      id: donation.pk,
+      name:
+        donation.fields.requestedvisibility === "ALIAS"
+          ? donation.fields.requestedalias
+          : "Anonim",
+      amount: parseInt(parseFloat(donation.fields.amount).toFixed(0)),
+    }));
   }
 
   public async getData<T>(endpoint: string): Promise<T> {
@@ -315,5 +402,26 @@ export class TrackerApi {
     b: { runEndTime: number },
   ) {
     return a.runEndTime - b.runEndTime;
+  }
+
+  private processRawPrizes(
+    rawPrizes: Tracker.Prize[],
+  ): Tracker.FormattedPrize[] {
+    return rawPrizes
+      .filter((prize) => prize.fields.state === "ACCEPTED")
+      .map((prize) => {
+        const startTime =
+          prize.fields.startrun__starttime ?? prize.fields.starttime;
+        const endTime = prize.fields.endrun__endtime ?? prize.fields.endtime;
+        return {
+          id: prize.pk,
+          name: prize.fields.name,
+          provided: prize.fields.provider || undefined,
+          minimumBid: parseFloat(prize.fields.minimumbid),
+          image: prize.fields.image || undefined,
+          startTime: startTime ? Date.parse(startTime) : undefined,
+          endTime: endTime ? Date.parse(endTime) : undefined,
+        };
+      });
   }
 }

@@ -2,6 +2,7 @@
   "name": "gsps-layouts",
   "version": "3.0.0",
   "description": "Layouts used for the GSPS (Gramy Szybko, Pomagamy Skutecznie) events.",
+  "type": "module",
   "homepage": "https://github.com/GramyPomagamy/gsps-layouts",
   "bugs": {
     "url": "https://github.com/GramyPomagamy/gsps-layouts/issues"
@@ -53,9 +54,7 @@
     "gsap": "^3.12.1",
     "humanize-duration": "^3.28.0",
     "klona": "^2.0.6",
-    "livesplit-core": "^0.10.2",
     "luxon": "^3.7.2",
-    "milliseconds": "^1.0.3",
     "moment": "^2.29.4",
     "needle": "^3.2.0",
     "nodecg": "^2.6.0",
@@ -72,7 +71,7 @@
     "svg.js": "^2.7.1",
     "tough-cookie": "^5.1.2",
     "use-nodecg": "0.4.1-2",
-    "zod": "^4.1.12"
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "@gramypomagamy/eslint-config": "^3.0.0",
@@ -96,6 +95,7 @@
     "del": "^7.0.0",
     "del-cli": "^5.0.0",
     "get-port": "^7.0.0",
+    "globals": "^16.5.0",
     "globby": "^13.1.4",
     "nodecg-cli": "^8.6.6",
     "npm-run-all": "^4.1.5",

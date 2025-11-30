@@ -1,5 +1,5 @@
+import { type Configschema } from "@gsps-layouts/types";
 import type NodeCG from "@nodecg/types";
-import { type Configschema } from "../../types/generated";
 
 let nodecg: NodeCG.ServerAPI<Configschema>;
 export type NodeCGServer = NodeCG.ServerAPI<Configschema>;

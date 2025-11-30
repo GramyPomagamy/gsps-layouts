@@ -1,22 +1,27 @@
-import { type RunDataArray } from "speedcontrol/src/types";
-import { type OengusImportStatus } from "speedcontrol/src/types/schemas";
-import { type RunCustomData, type RunCustomPlayerData } from "src/types/custom";
-import { get } from "./util/nodecg";
+import {
+  type Configschema,
+  type ModuleParams,
+  type RunCustomData,
+  type RunCustomPlayerData,
+} from "@gsps-layouts/types";
+import { type RunDataArray } from "speedcontrol/types";
+import { type OengusImportStatus } from "speedcontrol/types/schemas";
 
-const nodecg = get();
-const oengusImportStatus = nodecg.Replicant<OengusImportStatus>(
-  "oengusImportStatus",
-  "nodecg-speedcontrol",
-);
-const runDataArray = nodecg.Replicant<RunDataArray>(
-  "runDataArray",
-  "nodecg-speedcontrol",
-);
+export async function setup({
+  nodecg,
+}: ModuleParams<Configschema["autoUpdateGameAfterImport"]>) {
+  const oengusImportStatus = nodecg.Replicant<OengusImportStatus>(
+    "oengusImportStatus",
+    "nodecg-speedcontrol",
+  );
+  const runDataArray = nodecg.Replicant<RunDataArray>(
+    "runDataArray",
+    "nodecg-speedcontrol",
+  );
 
-const defaultGame = "Games + Demos";
+  const defaultGame = "Games + Demos";
 
-oengusImportStatus.on("change", (newVal, oldVal) => {
-  if (nodecg.bundleConfig.autoUpdateGameAfterImport) {
+  oengusImportStatus.on("change", (newVal, oldVal) => {
     if (
       oldVal &&
       oldVal.importing === true &&
@@ -68,5 +73,5 @@ oengusImportStatus.on("change", (newVal, oldVal) => {
         }
       });
     }
-  }
-});
+  });
+}

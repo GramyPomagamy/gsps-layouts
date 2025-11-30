@@ -22,7 +22,7 @@ export class Milestones {
   }
 
   private processMilestones(milestones: RawMilestone[]): MilestonesTypes {
-    const sorted = milestones
+    return milestones
       .sort((a: RawMilestone, b: RawMilestone) => {
         return a.Kwota - b.Kwota;
       })
@@ -30,6 +30,5 @@ export class Milestones {
         name: milestone.Nazwa,
         amount: milestone.Kwota,
       }));
-    return sorted;
   }
 }

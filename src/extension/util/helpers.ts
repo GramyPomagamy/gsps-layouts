@@ -1,6 +1,3 @@
-import { type NodeCGServer } from "./nodecg";
-import { type TaggedLogger } from "./tagged-logger";
-
 /**
  * Checks if number needs a 0 adding to the start and does so if needed.
  * @param num Number which you want to turn into a padded string.
@@ -59,20 +56,3 @@ export function formatAmount(amount: number): string {
     }) + " PLN"
   );
 }
-
-export type ModuleParams<TConfig> = {
-  config: TConfig;
-  logger: TaggedLogger;
-  nodecg: NodeCGServer;
-};
-
-export type LoadableModule<TConfig> = {
-  setup: (params: ModuleParams<TConfig>) => Promise<void> | void;
-};
-
-export type ModuleDefinition<TConfig> = {
-  config: TConfig;
-  enabled: boolean;
-  loadFn: () => Promise<LoadableModule<TConfig>>;
-  name: string;
-};

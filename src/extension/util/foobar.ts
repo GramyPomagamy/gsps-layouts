@@ -1,4 +1,4 @@
-import axios, { type AxiosResponse } from "axios";
+import axios from "axios";
 import { TaggedLogger } from "./tagged-logger";
 
 type FoobarResponse = {
@@ -55,7 +55,7 @@ export class FoobarControl {
 
   async getSongInfo(): Promise<SongInfo> {
     try {
-      const playerInfo: AxiosResponse<FoobarResponse> = await axios.get(
+      const playerInfo = await axios.get<FoobarResponse>(
         `${this.address}/api/player?columns=${encodeURIComponent("%artist%,%title%")}`,
       );
       if (
@@ -69,8 +69,13 @@ export class FoobarControl {
       } else {
         return { displayName: "Brak piosenki", position: 0, duration: 0 };
       }
-    } catch (error: any) {
-      this.log.error("Błąd otrzymywania piosenki: " + error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        this.log.error("Błąd otrzymywania piosenki: " + error.message);
+      } else {
+        this.log.error("Błąd otrzymywania piosenki: " + error);
+      }
+
       return { displayName: "Brak piosenki", position: 0, duration: 0 };
     }
   }
