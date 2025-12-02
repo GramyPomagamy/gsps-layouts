@@ -4,12 +4,29 @@ import globals from 'globals';
 const tsParser = ConfigCreator.createTsParser({
   tsconfigFilePaths: ['tsconfig.browser.json', 'tsconfig.extension.json'],
 });
-const reactConfig = ConfigCreator.createReactRules({ folderPath: 'src/browser' });
+
+const reactGlobalsConfig = {
+  files: ['src/browser/**/*.tsx'],
+  languageOptions: {
+    globals: {
+      ...globals.browser,
+      React: 'readonly',
+      JSX: 'readonly',
+      NodeCG: 'readonly',
+      nodecg: 'readonly',
+    },
+  },
+};
+
+//const reactRules = ConfigCreator.createReactRules({ folderPath: 'src/browser' });
+const reactConfig = [reactGlobalsConfig];
+
 const schemaConfig = ConfigCreator.createTsRules({ folderPath: 'src/schemas' });
-const extensionsConfig = ConfigCreator.createTsRules({ folderPath: 'src/extension' });
+const extensionsRules = ConfigCreator.createTsRules({ folderPath: 'src/extension' });
+
 
 // Add Node.js environment for extension files to recognize NodeJS global types
-const nodeGlobalsConfig = {
+const extensionsGlobalsConfig = {
   files: ['src/extension/**/*.ts'],
   languageOptions: {
     globals: {
@@ -19,6 +36,8 @@ const nodeGlobalsConfig = {
   },
 };
 
-const extensionConfig = [...extensionsConfig, nodeGlobalsConfig];
+const extensionsConfig = [...extensionsRules, extensionsGlobalsConfig];
 
-export default [...tsParser, ...reactConfig, ...extensionConfig, ...schemaConfig]
+const testConfig = ConfigCreator.createTestRules()
+
+export default [...tsParser, ...reactConfig, ...extensionsConfig, ...schemaConfig, ...testConfig]
