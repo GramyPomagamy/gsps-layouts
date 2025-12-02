@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1",
+    "Nazwa": "Milestone 1",
+    "Kwota": 150,
+    "published_at": "2022-08-22T18:16:20.831Z",
+    "created_at": "2022-08-22T18:16:19.217Z",
+    "updated_at": "2022-08-22T18:16:20.842Z"
+  },
+  {
+    "id": "11",
+    "Nazwa": "Milestone 2",
+    "Kwota": 200,
+    "published_at": "2022-02-17T14:48:49.737Z",
+    "created_at": "2022-02-17T14:48:47.913Z",
+    "updated_at": "2022-02-17T14:48:49.750Z"
+  }
+]

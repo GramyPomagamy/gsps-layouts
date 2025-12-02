@@ -1,6 +1,6 @@
 import { type ModuleDefinition, type NodeCGServer } from "@gsps-layouts/types";
-import { defineModules } from "./modules/index.js";
-import { TaggedLogger } from "./util/tagged-logger.js";
+import { defineModules } from "./modules";
+import { TaggedLogger } from "./util/tagged-logger";
 
 export default async (nodecg: NodeCGServer) => {
   const modules = defineModules(nodecg);
