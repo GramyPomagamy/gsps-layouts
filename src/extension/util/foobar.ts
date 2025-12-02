@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TaggedLogger } from "./tagged-logger";
+import { type TaggedLogger } from "./tagged-logger";
 
 type FoobarResponse = {
   player: {
@@ -21,9 +21,9 @@ export class FoobarControl {
   address: string;
   log: TaggedLogger;
 
-  constructor(address: string) {
+  constructor(address: string, logger: TaggedLogger) {
     this.address = address;
-    this.log = new TaggedLogger("foobar");
+    this.log = logger;
   }
 
   togglePause() {
