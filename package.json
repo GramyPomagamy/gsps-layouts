@@ -23,7 +23,7 @@
     "autofix:extension": "eslint --fix --ext .ts src/extension && eslint --fix --ext .d.ts src/nodecg",
     "build": "run-s clean build:*",
     "build:browser": "vite build",
-    "build:extension": "esbuild src/extension/index.ts --bundle --outdir=extension --platform=node --target=node22 --splitting --format=esm --tsconfig=tsconfig.extension.json --packages=external",
+    "build:extension": "tsc --noEmit -p tsconfig.extension.json && esbuild src/extension/index.ts --bundle --outdir=extension --platform=node --target=node22 --splitting --format=esm --tsconfig=tsconfig.extension.json --packages=external",
     "clean": "trash node_modules/.cache && trash shared/dist && trash dashboard && trash graphics && trash extension",
     "lint": "eslint src/extension src/types --ext ts,tsx",
     "prebuild": "npm run clean",

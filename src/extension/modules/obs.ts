@@ -80,7 +80,7 @@ export async function setup({
 
   const foobar: FoobarControl | undefined =
     foobarConfig.enabled && foobarConfig.address
-      ? new FoobarControl(foobarConfig.address)
+      ? new FoobarControl(foobarConfig.address, logger)
       : undefined;
 
   const reconnectToOBS = () => {
