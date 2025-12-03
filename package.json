@@ -174,7 +174,7 @@
       },
       {
         "name": "omnibar-control-message",
-        "title": "Dodatkowe Teksty na Omnibar",
+        "title": "Dodatkowe Funkcjonalności Omnibara",
         "file": "omnibar-control-extras.html",
         "width": 3,
         "workspace": "6. GSPS - Kontrola Omnibara"
