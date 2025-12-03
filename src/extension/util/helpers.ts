@@ -45,7 +45,7 @@ export function sleep(ms: number): Promise<void> {
 }
 
 /**
- * Formats an amount as PLN, cents optional.
+ * Formats an amount as PLN, without cents.
  * @param {Number} amount - The amount to format.
  * @returns {string} - The formatted string.
  */

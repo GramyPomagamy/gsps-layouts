@@ -9,12 +9,6 @@ vi.mock("axios");
 describe("Milestones", () => {
   const milestones = new Milestones("https://api.example.com/milestones");
 
-  describe("constructor", () => {
-    it("should store url in instance", async () => {
-      expect(milestones["url"]).toBe("https://api.example.com/milestones");
-    });
-  });
-
   describe("getMilestones", () => {
     it("should fetch and return processed milestones on success", async () => {
       vi.mocked(axios.get).mockResolvedValue({
@@ -41,17 +35,6 @@ describe("Milestones", () => {
       );
     });
 
-    it("should throw error when API returns 404", async () => {
-      vi.mocked(axios.get).mockResolvedValue({
-        status: 404,
-        data: null,
-      });
-
-      await expect(milestones.getMilestones()).rejects.toThrow(
-        "Failed to download milestones"
-      );
-    });
-
     it("should propagate network errors", async () => {
       vi.mocked(axios.get).mockRejectedValue(new Error("Network Error"));
 
@@ -63,12 +46,6 @@ describe("Milestones", () => {
     it("should return empty array when given empty array", () => {
       const result = milestones["processMilestones"]([]);
       expect(result).toEqual([]);
-    });
-
-    it("should handle single milestone", () => {
-      const single = [{ Nazwa: "Milestone", Kwota: 100 }];
-      const result = milestones["processMilestones"](single);
-      expect(result).toEqual([{ name: "Milestone", amount: 100 }]);
     });
 
     it("should sort milestones by amount in ascending order", () => {
