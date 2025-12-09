@@ -27,7 +27,7 @@
     "clean": "trash node_modules/.cache && trash shared/dist && trash dashboard && trash graphics && trash extension",
     "lint": "eslint src/extension src/types --ext ts,tsx",
     "prebuild": "npm run clean",
-    "postinstall": "node install-speedcontrol.cjs",
+    "postinstall": "node install-speedcontrol.js",
     "schema-types": "nodecg schema-types -o src/types/generated",
     "start": "nodecg start",
     "test": "vitest run",
