@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   type Channel,
   type Configschema,
   type ModuleParams,
 } from "@gsps-layouts/types";
-import OSC from "osc-js";
+import { Mixer } from "../util/mixer";
 
 export async function setup({
   config,
@@ -15,7 +14,7 @@ export async function setup({
     throw new Error("Mixer address and port are required");
   }
 
-  const channelIdToName = {
+  const channelIdToName: Record<string, string> = {
     "1": "H1",
     "2": "H2",
     "3": "H3",
@@ -28,70 +27,55 @@ export async function setup({
     "11": "Donacje",
   };
 
-  const channelNameToId = Object.entries(channelIdToName).reduce(
-    (acc, [id, name]) => {
-      acc[name] = id;
-      return acc;
-    },
-    {} as Record<string, string>,
-  );
-  const mixerSignalLevels = nodecg.Replicant<{
-    [key in keyof typeof channelNameToId]: number;
-  }>("mixerSignalLevels", {
-    defaultValue: Object.keys(channelNameToId).reduce(
-      (acc, name) => {
-        acc[name] = -Infinity;
-        return acc;
-      },
-      { "": -Infinity } as Record<string, number>,
-    ),
-  });
+  const channelNames = Object.values(channelIdToName);
 
-  nodecg.Replicant<{ [key in keyof typeof channelNameToId]: number }>(
-    "mixerThresholdLevels",
+  const mixerSignalLevels = nodecg.Replicant<Record<string, number>>(
+    "mixerSignalLevels",
     {
-      defaultValue: Object.keys(channelNameToId).reduce(
+      defaultValue: channelNames.reduce(
         (acc, name) => {
-          acc[name] = -30;
+          acc[name] = -Infinity;
           return acc;
         },
-        { "": +Infinity } as Record<string, number>,
+        { "": -Infinity } as Record<string, number>,
       ),
     },
   );
 
-  const settings = {
-    type: "udp4",
-    open: {
-      host: "0.0.0.0",
-      port: 41234,
-      exclusive: true,
-    },
-    send: {
-      host: config.address,
-      port: config.port,
-    },
-  };
+  nodecg.Replicant<Record<string, number>>("mixerThresholdLevels", {
+    defaultValue: channelNames.reduce(
+      (acc, name) => {
+        acc[name] = -30;
+        return acc;
+      },
+      { "": +Infinity } as Record<string, number>,
+    ),
+  });
 
-  const osc = new OSC({ plugin: new OSC.DatagramPlugin(settings) });
+  const mixer = new Mixer(
+    { address: config.address, port: config.port },
+    channelIdToName,
+  );
 
-  let lastMetersUpdate: number = 0;
-
-  function muteChannel(channelName: string) {
-    const channelId = channelNameToId[channelName];
-    if (channelId === undefined) {
-      logger.error(`Can't find channel ${channelName}`);
-      return;
+  mixer.onMeters((levels) => {
+    for (const [name, value] of Object.entries(levels)) {
+      mixerSignalLevels.value![name as Channel] = value;
     }
-    const padded = String(channelId).padStart(2, "0");
+  });
 
-    // alternatively we could mute via fader on main like:
-    // const command = new OSC.Message(`/ch/${padded}/mix/fader`, 0)
+  mixer.onConnected((info) => {
+    logger.info(info);
+  });
 
-    const command = new OSC.Message(`/ch/${padded}/mix/on`, 0);
-    logger.debug(`Muting ${channelName} (${padded})`);
-    osc!.send(command);
-  }
+  mixer.onError((error) => {
+    logger.error(error.message);
+  });
+
+  mixer.onDebug((message) => {
+    logger.debug(message);
+  });
+
+  mixer.connect();
 
   const onIntermission = () => {
     const channelsToMute = [
@@ -106,86 +90,9 @@ export async function setup({
       "Host3",
     ];
     for (const channelName of channelsToMute) {
-      muteChannel(channelName);
+      mixer.muteChannel(channelName);
     }
   };
-
-  const meterToDb = (v: number): number => {
-    return v / 256;
-  };
-
-  const scheduleMeters = () => {
-    /* There are multiple "meters" levels available, see "X AIR Remote Control Protocol.pdf"
-       on our drive https://drive.google.com/drive/folders/1Pmsiciq8zUkp-SP54CvPH52esTP2x7Id
-       for details. `/meters/2` gives us information about input signal levels for all channels.
-       Each activation of `/meters` command will result in 200 responses from the mixer.
-       We have to use the undocumented `/renew` to reset the counter on the device.
-       X AIR Edit does that roughly every 1 second, but that seems excessive. */
-
-    const meters = new OSC.Message("/meters", "/meters/2");
-    osc.send(meters);
-
-    setInterval(() => {
-      if (Date.now() - lastMetersUpdate > 10000) {
-        osc.send(meters);
-        logger.debug("re-requesting meters");
-      } else {
-        const renewMeters = new OSC.Message("/renew", "/meters/2");
-        logger.debug("renewing meters");
-        osc.send(renewMeters);
-      }
-    }, 2000);
-  };
-
-  osc.open();
-
-  osc.on("open", function () {
-    const xinfo = new OSC.Message("/xinfo");
-    osc!.send(xinfo);
-
-    scheduleMeters();
-  });
-
-  osc.on("error", (message: any) => {
-    logger.error(message);
-  });
-
-  osc.on("/xinfo", function (message: any) {
-    logger.info(`Connected to mixer: ${message.args}`);
-  });
-
-  osc.on("/meters/2", (message: any) => {
-    /* meters come as an array of u8. First there's an i32 that specifies the number of the i16 fields
-       that come afterwards. We can skip the first 4 bytes because the protocol limits the payload for us.
-       /meters/2 consists of 16 analog inputs, 2 aux inputs, and 18 usb inputs */
-    const u8Array = message.args[0];
-    const buffer = new DataView(
-      u8Array.buffer,
-      u8Array.byteOffset,
-      u8Array.byteLength,
-    );
-    const i16Array = [];
-    for (let i = 4; i < buffer.byteLength; i += 2) {
-      i16Array.push(buffer.getInt16(i, true));
-    }
-    const analogIn = i16Array.slice(0, 16).map(meterToDb);
-    for (const [i, v] of analogIn.entries()) {
-      const channelId = (i + 1).toString();
-      const inputName =
-        channelIdToName[channelId as keyof typeof channelIdToName] || channelId;
-      if (inputName !== channelId) {
-        mixerSignalLevels.value![inputName as Channel] = v;
-      }
-    }
-    lastMetersUpdate = Date.now();
-  });
-
-  osc.on("*", function (message: any) {
-    if (message.address.startsWith("/meters")) {
-      return;
-    }
-    logger.debug(`catchall: ${message.address} ${message.args}`);
-  });
 
   nodecg.listenFor("intermissionStarted", onIntermission);
 }
