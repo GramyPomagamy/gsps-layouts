@@ -1,13 +1,8 @@
-import { type Configschema, type NodeCGServer } from "@gsps-layouts/types";
-import { type TaggedLogger } from "../util/tagged-logger";
+import { type Configschema, type ModuleParams } from "@gsps-layouts/types";
 
-type ModuleParams = {
-  config: Configschema["footpedal"];
-  logger: TaggedLogger;
-  nodecg: NodeCGServer;
-};
-
-export async function setup({ nodecg }: ModuleParams) {
+export async function setup({
+  nodecg,
+}: ModuleParams<Configschema["footpedal"]>) {
   const router = nodecg.Router();
 
   router.get("/makeHighlight", (_req, res) => {

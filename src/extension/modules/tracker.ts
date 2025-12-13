@@ -11,6 +11,7 @@ import {
 } from "@gsps-layouts/types";
 import deepEqual from "deep-equal";
 import io from "socket.io-client";
+import { formatDonation } from "../util/helpers";
 import { TrackerApi } from "../util/tracker-api";
 
 const bidsPollInterval = 20 * 1000;
@@ -191,22 +192,6 @@ export async function setup({
     }
   };
 
-  const formatDonation = (rawAmount: number, newTotal: number) => {
-    const parsedAmount = parseFloat(rawAmount.toString());
-    const parsedNewTotal = parseFloat(newTotal.toString());
-
-    let amount = `${parsedAmount.toFixed(2)} zł`;
-    if (amount.endsWith(".00 zł")) {
-      amount = `${parsedAmount.toFixed(0)} zł`;
-    }
-
-    return {
-      amount,
-      rawAmount: parsedAmount,
-      newTotal: `${parsedNewTotal.toFixed(2)} zł`,
-      rawNewTotal: parsedNewTotal,
-    };
-  };
   if (trackerConfig.eventID !== currentEventTrackerId.value) {
     currentEventTrackerId.value = trackerConfig.eventID;
     readDonationsReplicant.value = [];

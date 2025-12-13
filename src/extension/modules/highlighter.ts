@@ -6,6 +6,7 @@ import {
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import io from "socket.io-client";
 import { type RunDataActiveRun, type Timer } from "speedcontrol/types";
+import { getCurrentGame } from "../util/helpers";
 
 export async function setup({
   config,
@@ -38,21 +39,6 @@ export async function setup({
 
   const formatTime = (timestamp: number): string => {
     return new Date(timestamp).toISOString();
-  };
-
-  const getCurrentGame = (activeRun: RunDataActiveRun | null): string => {
-    if (!activeRun) {
-      return "Brak ustawionej gry";
-    }
-
-    let run = "Brak ustawionej gry";
-    if (activeRun.game) {
-      run = activeRun.game;
-    }
-    if (activeRun.category) {
-      run += ` ${activeRun.category}`;
-    }
-    return run;
   };
 
   const makeHighlight = async (): Promise<void> => {

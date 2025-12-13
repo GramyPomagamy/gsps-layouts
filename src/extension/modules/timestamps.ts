@@ -2,50 +2,26 @@ import fs from "fs";
 import path from "path";
 import { type ModuleParams } from "@gsps-layouts/types";
 import { stringify } from "csv-stringify";
-import {
-  type RunData,
-  type RunDataActiveRun,
-  type RunDataTeam,
-} from "speedcontrol/types";
+import { type RunDataActiveRun } from "speedcontrol/types";
+import { formatPlayers, formatTwitch } from "../util/helpers";
 
 export async function setup({
   nodecg,
   logger,
 }: ModuleParams<object>): Promise<void> {
-  function formatPlayers(run: RunData) {
-    return (
-      run.teams
-        .map(
-          (team: RunDataTeam) =>
-            team.name ?? team.players.map((player) => player.name).join(";"),
-        )
-        .join(";") ?? "Bez gracza"
-    );
-  }
-
-  function formatTwitch(run: RunData) {
-    return run.teams
-      .map(
-        (team: RunDataTeam) =>
-          team.name ??
-          team.players.map((player) => player.social.twitch).join(";"),
-      )
-      .join(";");
-  }
-
-  function getFileName(filePath: string) {
+  const getFileName = (filePath: string) => {
     return path.parse(filePath).name;
-  }
+  };
 
-  function getDirectory(filePath: string) {
+  const getDirectory = (filePath: string) => {
     return path.parse(filePath).dir;
-  }
+  };
 
-  function createVoDTimeStamp(
+  const createVoDTimeStamp = (
     timestamp: number,
     run: RunDataActiveRun,
     recordingName: string,
-  ) {
+  ) => {
     const fileName = getFileName(recordingName) + ".csv";
     const path = getDirectory(recordingName) + "\\" + fileName;
 
@@ -56,8 +32,8 @@ export async function setup({
             timestamp,
             game: run.game,
             category: run.category,
-            players: formatPlayers(run),
-            twitch: formatTwitch(run),
+            players: formatPlayers(run.teams),
+            twitch: formatTwitch(run.teams),
           },
         ],
         {
@@ -80,7 +56,7 @@ export async function setup({
     } else {
       logger.info("Brak obecnej gry!");
     }
-  }
+  };
 
   nodecg.listenFor(
     "createVoDTimeStamp",

@@ -26,7 +26,7 @@ export async function setup({
   const currentlyShownBid = nodecg.Replicant<Bid>("currentlyShownBid");
   const currentlyShownPrize = nodecg.Replicant<Prize>("currentlyShownPrize");
 
-  function getPrize(tier: number): Prize | undefined {
+  const getPrize = (tier: number): Prize | undefined => {
     const cloned = structuredClone(prizesReplicant.value!);
     const prizesInTier = cloned.filter((prize) => prize.minimumBid === tier);
     if (currentlyShownPrizeIndex.value! + 1 > prizesInTier.length) {
@@ -34,9 +34,9 @@ export async function setup({
     }
     const selectedPrize = prizesInTier[currentlyShownPrizeIndex.value!];
     return selectedPrize ?? undefined;
-  }
+  };
 
-  function getBid(): Bid | undefined {
+  const getBid = (): Bid | undefined => {
     if (currentBidsRep.value!.length > 0) {
       const currentBids = structuredClone(currentBidsRep.value!);
       // If bid panel is disabled, enable it
@@ -55,7 +55,7 @@ export async function setup({
       showBidsPanel.value = false;
       return undefined;
     }
-  }
+  };
 
   router.get("/sd/showNextPrize/:tier", (req, res) => {
     res.send("OK!");

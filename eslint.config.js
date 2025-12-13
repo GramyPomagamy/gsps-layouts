@@ -25,7 +25,7 @@ const reactGlobalsConfig = {
 //const reactRules = ConfigCreator.createReactRules({ folderPath: 'src/browser' });
 const reactConfig = [reactGlobalsConfig];
 
-const schemaConfig = ConfigCreator.createTsRules({ folderPath: "src/schemas" });
+const schemaConfig = ConfigCreator.createTsRules({ folderPath: "src/extension/schemas" });
 const extensionsRules = ConfigCreator.createTsRules({
   folderPath: "src/extension",
 });
