@@ -54,7 +54,7 @@
     "humanize-duration": "^3.28.0",
     "luxon": "^3.7.2",
     "moment": "^2.29.4",
-    "nodecg": "^2.6.0",
+    "nodecg": "^2.6.4",
     "nodecg-cli": "^9.0.2",
     "obs-websocket-js": "^5.0.6",
     "osc-js": "^2.4.1",
