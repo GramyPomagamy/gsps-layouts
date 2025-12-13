@@ -5,6 +5,7 @@ import {
   type ModuleParams,
   type Prize,
 } from "@gsps-layouts/types";
+import { selectNextBid, selectPrizeFromTier } from "../util/helpers";
 
 export async function setup({
   nodecg,
@@ -26,59 +27,39 @@ export async function setup({
   const currentlyShownBid = nodecg.Replicant<Bid>("currentlyShownBid");
   const currentlyShownPrize = nodecg.Replicant<Prize>("currentlyShownPrize");
 
-  const getPrize = (tier: number): Prize | undefined => {
-    const cloned = structuredClone(prizesReplicant.value!);
-    const prizesInTier = cloned.filter((prize) => prize.minimumBid === tier);
-    if (currentlyShownPrizeIndex.value! + 1 > prizesInTier.length) {
-      currentlyShownPrizeIndex.value = 0;
-    }
-    const selectedPrize = prizesInTier[currentlyShownPrizeIndex.value!];
-    return selectedPrize ?? undefined;
-  };
-
-  const getBid = (): Bid | undefined => {
-    if (currentBidsRep.value!.length > 0) {
-      const currentBids = structuredClone(currentBidsRep.value!);
-      // If bid panel is disabled, enable it
-      if (!showBidsPanel.value) {
-        showBidsPanel.value = true;
-        currentlyShownBidIndex.value = 0;
-        return currentBids[0]!;
-      } else {
-        currentlyShownBidIndex.value!++;
-        if (currentlyShownBidIndex.value! + 1 > currentBidsRep.value!.length) {
-          currentlyShownBidIndex.value = 0;
-        }
-        return currentBids[currentlyShownBidIndex.value!]!;
-      }
-    } else {
-      showBidsPanel.value = false;
-      return undefined;
-    }
-  };
-
   router.get("/sd/showNextPrize/:tier", (req, res) => {
     res.send("OK!");
     showBidsPanel.value = false;
     if (prizesReplicant.value!.length > 0) {
+      const tier = parseInt(req.params.tier);
       // If prize panel is disabled, enable it
       if (!showPrizePanel.value) {
-        currentPrizeTier = parseInt(req.params.tier);
-        const prizeToShow = getPrize(parseInt(req.params.tier));
-        currentlyShownPrize.value = prizeToShow;
+        currentPrizeTier = tier;
+        const result = selectPrizeFromTier(
+          prizesReplicant.value!,
+          tier,
+          currentlyShownPrizeIndex.value!,
+        );
+        currentlyShownPrizeIndex.value = result.newIndex;
+        currentlyShownPrize.value = result.prize;
         showPrizePanel.value = true;
       } else {
         // If different tier, start from the beginning
-        if (parseInt(req.params.tier) !== currentPrizeTier) {
-          currentPrizeTier = parseInt(req.params.tier);
+        if (tier !== currentPrizeTier) {
+          currentPrizeTier = tier;
           currentlyShownPrizeIndex.value = 0;
         } else {
           currentlyShownPrizeIndex.value!++;
-          currentPrizeTier = parseInt(req.params.tier);
+          currentPrizeTier = tier;
         }
         showPrizePanel.value = true;
-        const prizeToShow = getPrize(parseInt(req.params.tier));
-        currentlyShownPrize.value = prizeToShow;
+        const result = selectPrizeFromTier(
+          prizesReplicant.value!,
+          tier,
+          currentlyShownPrizeIndex.value!,
+        );
+        currentlyShownPrizeIndex.value = result.newIndex;
+        currentlyShownPrize.value = result.prize;
       }
     }
     logger.debug(`Pokazuję następną nagrodę z tieru ${req.params.tier}`);
@@ -94,7 +75,14 @@ export async function setup({
   router.get("/sd/showNextBid", (_req, res) => {
     res.send("OK!");
     showPrizePanel.value = false;
-    currentlyShownBid.value = getBid();
+    const result = selectNextBid(
+      currentBidsRep.value!,
+      currentlyShownBidIndex.value!,
+      showBidsPanel.value!,
+    );
+    currentlyShownBidIndex.value = result.newIndex;
+    showBidsPanel.value = result.showPanel;
+    currentlyShownBid.value = result.bid;
     logger.debug("Pokazuję następną licytację");
   });
 
