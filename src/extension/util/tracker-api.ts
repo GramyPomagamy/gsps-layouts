@@ -51,7 +51,10 @@ export class TrackerApi {
 
     this.cookieJar = new CookieJar();
     this.axiosClient = wrapper(
-      axios.create({ jar: this.cookieJar, withCredentials: true }),
+      axios.create({
+        jar: this.cookieJar,
+        withCredentials: true,
+      }),
     );
   }
 
@@ -62,30 +65,44 @@ export class TrackerApi {
     password: string;
     username: string;
   }): Promise<void> {
-    const loginUrl = `${this.rootUrl}/admin/login`;
+    const loginUrl = `${this.rootUrl}/admin/login/`;
 
     const csrfTokenResp = await this.axiosClient.get(loginUrl);
     if (csrfTokenResp.status !== 200) {
       throw new Error("Brak dostępu do strony logowania trackera");
     }
+    const csrfCookies = await this.cookieJar.getCookies(loginUrl);
+    const csrfToken = csrfCookies.find(
+      (cookie) => cookie.key === "csrftoken",
+    )?.value;
 
-    await this.axiosClient.post(
-      loginUrl,
-      {
-        username,
-        password,
-        csrfmiddlewaretoken: csrfTokenResp.data.csrfToken,
-      },
-      {
-        headers: {
-          referer: loginUrl,
+    if (!csrfToken) {
+      throw new Error("Brak CSRF tokenu");
+    }
+
+    await this.axiosClient
+      .post(
+        loginUrl,
+        new URLSearchParams({
+          username,
+          password,
+          csrfmiddlewaretoken: csrfToken,
+          next: "/admin/",
+        }),
+        {
+          headers: {
+            Referer: loginUrl,
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          transformRequest: [(data) => new URLSearchParams(data).toString()],
         },
-        maxRedirects: 0,
-        validateStatus: (status) => status === 302,
-      },
-    );
+      )
+      .catch((error) => {
+        console.error(error);
+        throw new Error("Błąd podczas logowania do trackera");
+      });
 
-    const cookies = await this.cookieJar.getCookies(loginUrl);
+    const cookies = await this.cookieJar.getCookies(this.rootUrl);
     const hasSessionCookie = cookies.some(
       (cookie) => cookie.key === "tracker_session",
     );
@@ -212,7 +229,7 @@ export class TrackerApi {
 
     return {
       raw: rawTotal,
-      formatted: `${rawTotal.toFixed(2)} zł`,
+      formatted: `${rawTotal.toFixed(0)} zł`,
     };
   }
 
@@ -319,7 +336,7 @@ export class TrackerApi {
           rawTotal,
           state: bid.fields.state,
           game: bid.fields.speedrun__display_name,
-          category: bid.fields.speedrun__category,
+          category: bid.fields.speedrun__category ?? "",
           runStartTime: bid.fields.speedrun__starttime,
           runEndTime: bid.fields.speedrun__endtime,
           public: bid.fields.public,

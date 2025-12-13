@@ -49,12 +49,29 @@ describe("TrackerApi", () => {
       ).rejects.toThrow("Brak dostępu do strony logowania trackera");
     });
 
+    it("should throw error when CSRF token is not set", async () => {
+      mockAxiosGet.mockResolvedValueOnce({
+        status: 200,
+        data: {},
+      });
+      mockGetCookies.mockResolvedValueOnce([]);
+
+      await expect(
+        trackerApi.login({ username: "user", password: "pass" })
+      ).rejects.toThrow(
+        "Brak CSRF tokenu"
+      );
+    });
+
     it("should throw error when session cookie is not set after login", async () => {
       mockAxiosGet.mockResolvedValueOnce({
         status: 200,
-        data: { csrfToken: "test-token" },
+        data: {},
       });
+      // First getCookies call returns CSRF token
+      mockGetCookies.mockResolvedValueOnce([{ key: "csrftoken", value: "test-token" }]);
       mockAxiosPost.mockResolvedValueOnce({ status: 302 });
+      // Second getCookies call returns no session cookie
       mockGetCookies.mockResolvedValueOnce([]);
 
       await expect(
@@ -67,9 +84,12 @@ describe("TrackerApi", () => {
     it("should login successfully when session cookie is set", async () => {
       mockAxiosGet.mockResolvedValueOnce({
         status: 200,
-        data: { csrfToken: "test-token" },
+        data: {},
       });
+      // First getCookies call returns CSRF token
+      mockGetCookies.mockResolvedValueOnce([{ key: "csrftoken", value: "test-token" }]);
       mockAxiosPost.mockResolvedValueOnce({ status: 302 });
+      // Second getCookies call returns session cookie
       mockGetCookies.mockResolvedValueOnce([{ key: "tracker_session" }]);
 
       await expect(
@@ -80,25 +100,24 @@ describe("TrackerApi", () => {
     it("should send correct login request with csrf token", async () => {
       mockAxiosGet.mockResolvedValueOnce({
         status: 200,
-        data: { csrfToken: "my-csrf-token" },
+        data: {},
       });
+      // First getCookies call returns CSRF token
+      mockGetCookies.mockResolvedValueOnce([{ key: "csrftoken", value: "my-csrf-token" }]);
       mockAxiosPost.mockResolvedValueOnce({ status: 302 });
+      // Second getCookies call returns session cookie
       mockGetCookies.mockResolvedValueOnce([{ key: "tracker_session" }]);
 
       await trackerApi.login({ username: "testuser", password: "testpass" });
 
       expect(mockAxiosPost).toHaveBeenCalledWith(
-        "https://tracker.example.com/admin/login",
-        {
-          username: "testuser",
-          password: "testpass",
-          csrfmiddlewaretoken: "my-csrf-token",
-        },
-        {
-          headers: { referer: "https://tracker.example.com/admin/login" },
-          maxRedirects: 0,
-          validateStatus: expect.any(Function),
-        }
+        "https://tracker.example.com/admin/login/",
+        expect.any(URLSearchParams),
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            Referer: "https://tracker.example.com/admin/login/",
+          }),
+        })
       );
     });
   });
@@ -151,10 +170,8 @@ describe("TrackerApi", () => {
 
     it("should fetch and process donations with bids", async () => {
       // Login first
-      mockAxiosGet.mockResolvedValueOnce({
-        status: 200,
-        data: { csrfToken: "token" },
-      });
+      mockAxiosGet.mockResolvedValueOnce({ status: 200, data: {} });
+      mockGetCookies.mockResolvedValueOnce([{ key: "csrftoken", value: "token" }]);
       mockAxiosPost.mockResolvedValueOnce({ status: 302 });
       mockGetCookies.mockResolvedValueOnce([{ key: "tracker_session" }]);
       await trackerApi.login({ username: "user", password: "pass" });
@@ -184,10 +201,8 @@ describe("TrackerApi", () => {
 
     it("should sort donations by timestamp ascending", async () => {
       // Login first
-      mockAxiosGet.mockResolvedValueOnce({
-        status: 200,
-        data: { csrfToken: "token" },
-      });
+      mockAxiosGet.mockResolvedValueOnce({ status: 200, data: {} });
+      mockGetCookies.mockResolvedValueOnce([{ key: "csrftoken", value: "token" }]);
       mockAxiosPost.mockResolvedValueOnce({ status: 302 });
       mockGetCookies.mockResolvedValueOnce([{ key: "tracker_session" }]);
       await trackerApi.login({ username: "user", password: "pass" });
@@ -212,10 +227,8 @@ describe("TrackerApi", () => {
 
     it("should throw error when request fails", async () => {
       // Login first
-      mockAxiosGet.mockResolvedValueOnce({
-        status: 200,
-        data: { csrfToken: "token" },
-      });
+      mockAxiosGet.mockResolvedValueOnce({ status: 200, data: {} });
+      mockGetCookies.mockResolvedValueOnce([{ key: "csrftoken", value: "token" }]);
       mockAxiosPost.mockResolvedValueOnce({ status: 302 });
       mockGetCookies.mockResolvedValueOnce([{ key: "tracker_session" }]);
       await trackerApi.login({ username: "user", password: "pass" });
@@ -229,10 +242,8 @@ describe("TrackerApi", () => {
 
     it("should mark donation as read successfully", async () => {
       // Login first
-      mockAxiosGet.mockResolvedValueOnce({
-        status: 200,
-        data: { csrfToken: "token" },
-      });
+      mockAxiosGet.mockResolvedValueOnce({ status: 200, data: {} });
+      mockGetCookies.mockResolvedValueOnce([{ key: "csrftoken", value: "token" }]);
       mockAxiosPost.mockResolvedValueOnce({ status: 302 });
       mockGetCookies.mockResolvedValueOnce([{ key: "tracker_session" }]);
       await trackerApi.login({ username: "user", password: "pass" });
@@ -256,10 +267,8 @@ describe("TrackerApi", () => {
 
     it("should return count of donations to accept", async () => {
       // Login first
-      mockAxiosGet.mockResolvedValueOnce({
-        status: 200,
-        data: { csrfToken: "token" },
-      });
+      mockAxiosGet.mockResolvedValueOnce({ status: 200, data: {} });
+      mockGetCookies.mockResolvedValueOnce([{ key: "csrftoken", value: "token" }]);
       mockAxiosPost.mockResolvedValueOnce({ status: 302 });
       mockGetCookies.mockResolvedValueOnce([{ key: "tracker_session" }]);
       await trackerApi.login({ username: "user", password: "pass" });
@@ -282,10 +291,8 @@ describe("TrackerApi", () => {
 
     it("should filter out bids with zero total", async () => {
       // Login first
-      mockAxiosGet.mockResolvedValueOnce({
-        status: 200,
-        data: { csrfToken: "token" },
-      });
+      mockAxiosGet.mockResolvedValueOnce({ status: 200, data: {} });
+      mockGetCookies.mockResolvedValueOnce([{ key: "csrftoken", value: "token" }]);
       mockAxiosPost.mockResolvedValueOnce({ status: 302 });
       mockGetCookies.mockResolvedValueOnce([{ key: "tracker_session" }]);
       await trackerApi.login({ username: "user", password: "pass" });
@@ -312,7 +319,7 @@ describe("TrackerApi", () => {
       const result = await trackerApi.getTotal();
 
       expect(result.raw).toBe(12345.67);
-      expect(result.formatted).toBe("12345.67 zł");
+      expect(result.formatted).toBe("12346 zł");
     });
 
     it("should handle null total_amount", async () => {
@@ -323,7 +330,7 @@ describe("TrackerApi", () => {
       const result = await trackerApi.getTotal();
 
       expect(result.raw).toBe(0);
-      expect(result.formatted).toBe("0.00 zł");
+      expect(result.formatted).toBe("0 zł");
     });
   });
 
@@ -336,10 +343,8 @@ describe("TrackerApi", () => {
 
     it("should fetch and process prizes, filtering by ACCEPTED state", async () => {
       // Login first
-      mockAxiosGet.mockResolvedValueOnce({
-        status: 200,
-        data: { csrfToken: "token" },
-      });
+      mockAxiosGet.mockResolvedValueOnce({ status: 200, data: {} });
+      mockGetCookies.mockResolvedValueOnce([{ key: "csrftoken", value: "token" }]);
       mockAxiosPost.mockResolvedValueOnce({ status: 302 });
       mockGetCookies.mockResolvedValueOnce([{ key: "tracker_session" }]);
       await trackerApi.login({ username: "user", password: "pass" });
@@ -377,10 +382,8 @@ describe("TrackerApi", () => {
 
     it("should return formatted recently read donations", async () => {
       // Login first
-      mockAxiosGet.mockResolvedValueOnce({
-        status: 200,
-        data: { csrfToken: "token" },
-      });
+      mockAxiosGet.mockResolvedValueOnce({ status: 200, data: {} });
+      mockGetCookies.mockResolvedValueOnce([{ key: "csrftoken", value: "token" }]);
       mockAxiosPost.mockResolvedValueOnce({ status: 302 });
       mockGetCookies.mockResolvedValueOnce([{ key: "tracker_session" }]);
       await trackerApi.login({ username: "user", password: "pass" });
@@ -402,10 +405,8 @@ describe("TrackerApi", () => {
 
     it("should limit results to 25 donations", async () => {
       // Login first
-      mockAxiosGet.mockResolvedValueOnce({
-        status: 200,
-        data: { csrfToken: "token" },
-      });
+      mockAxiosGet.mockResolvedValueOnce({ status: 200, data: {} });
+      mockGetCookies.mockResolvedValueOnce([{ key: "csrftoken", value: "token" }]);
       mockAxiosPost.mockResolvedValueOnce({ status: 302 });
       mockGetCookies.mockResolvedValueOnce([{ key: "tracker_session" }]);
       await trackerApi.login({ username: "user", password: "pass" });

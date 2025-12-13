@@ -161,13 +161,12 @@ export function selectPrizeFromTier<T extends { minimumBid: number }>(
   prizes: T[],
   tier: number,
   currentIndex: number,
-): { prize: T | undefined; newIndex: number } {
+): { newIndex: number; prize: T | undefined } {
   const prizesInTier = prizes.filter((prize) => prize.minimumBid === tier);
   if (prizesInTier.length === 0) {
     return { prize: undefined, newIndex: 0 };
   }
-  const adjustedIndex =
-    currentIndex >= prizesInTier.length ? 0 : currentIndex;
+  const adjustedIndex = currentIndex >= prizesInTier.length ? 0 : currentIndex;
   return {
     prize: prizesInTier[adjustedIndex],
     newIndex: adjustedIndex,
@@ -205,5 +204,9 @@ export function selectNextBid<T>(
   // Subsequent calls: advance to the next bid, wrapping if needed
   const nextIndex = currentIndex + 1;
   const adjustedIndex = nextIndex >= bids.length ? 0 : nextIndex;
-  return { bid: bids[adjustedIndex]!, newIndex: adjustedIndex, showPanel: true };
+  return {
+    bid: bids[adjustedIndex]!,
+    newIndex: adjustedIndex,
+    showPanel: true,
+  };
 }

@@ -43,7 +43,7 @@ export const BidFieldsSchema = z.object({
   goal: money,
   istarget: z.boolean(),
   allowuseroptions: z.boolean(),
-  revealedtime: toLuxon,
+  revealedtime: toLuxon.nullable(),
   biddependency: z.unknown().nullable(),
   total: money,
   count: z.number(),
@@ -63,7 +63,7 @@ export const BidFieldsSchema = z.object({
   speedrun__order: z.number(),
   speedrun__run_time: toSeconds,
   speedrun__setup_time: toSeconds,
-  speedrun__category: z.string(),
+  speedrun__category: z.string().nullable(),
   speedrun__public: z.string(),
 
   event__short: z.string(),
