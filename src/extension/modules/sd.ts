@@ -62,14 +62,14 @@ export async function setup({
         currentlyShownPrize.value = result.prize;
       }
     }
-    logger.debug(`Pokazuję następną nagrodę z tieru ${req.params.tier}`);
+    logger.debug(`Showing next prize from tier ${req.params.tier}`);
   });
 
   router.get("/sd/hidePrizes", (_req, res) => {
     res.send("OK!");
     currentlyShownPrize.value = undefined;
     showPrizePanel.value = false;
-    logger.debug("Ukrywam nagrody");
+    logger.debug("Hiding prizes");
   });
 
   router.get("/sd/showNextBid", (_req, res) => {
@@ -83,20 +83,20 @@ export async function setup({
     currentlyShownBidIndex.value = result.newIndex;
     showBidsPanel.value = result.showPanel;
     currentlyShownBid.value = result.bid;
-    logger.debug("Pokazuję następną licytację");
+    logger.debug("Showing next bid");
   });
 
   router.get("/sd/hideBids", (_req, res) => {
     res.send("OK!");
     currentlyShownBid.value = undefined;
     showBidsPanel.value = false;
-    logger.debug("Ukrywam licytacje");
+    logger.debug("Hiding bids");
   });
 
   router.get("/sd/switchFromHostScreen", (_req, res) => {
     res.send("OK!");
     nodecg.sendMessage("switchFromHostScreen");
-    logger.debug("Zmieniam scenę na przerwę");
+    logger.debug("Switching to intermission scene");
   });
 
   nodecg.mount(router);

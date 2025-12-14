@@ -15,16 +15,13 @@ export async function setup({
 
       if (resp.status === 200) {
         logger.info(
-          `Pomyślnie zaktualizowano panel z runnerami pod streamem z kanałami ${channels}`,
+          `Successfully updated featured channels panel with channels ${channels}`,
         );
       } else {
         throw new Error(`Status Code ${resp.status}`);
       }
     } catch (err) {
-      logger.warn(
-        "Błąd przy aktualizowaniu panelu z runnerami pod streamem: ",
-        err,
-      );
+      logger.warn(`Failed to update featured channels panel: ${err}`);
     }
   };
 

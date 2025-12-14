@@ -86,9 +86,9 @@ export async function setup({
   const reconnectToOBS = () => {
     clearTimeout(reconnectTimeout);
     if (!obsDataReplicant.value!.connected) {
-      logger.info("Próbuję się połączyć z OBSem...");
+      logger.info("Connecting to OBS...");
       obs.connect(obsConfig.address, obsConfig.password).catch((err) => {
-        logger.error(`Nie udało się połączyć z OBSem! Powód: ${err}`);
+        logger.error(`Failed to connect to OBS! Reason: ${err}`);
         reconnectTimeout = setTimeout(reconnectToOBS, reconnectDelay);
       });
     }
@@ -185,7 +185,7 @@ export async function setup({
       obs
         .call("SetStudioModeEnabled", { studioModeEnabled: true })
         .catch((err) => {
-          logger.error(`Wystąpił błąd przy włączaniu Studio Mode: ${err};
+          logger.error(`Error enabling Studio Mode: ${err};
           }`);
         });
     }
@@ -196,7 +196,7 @@ export async function setup({
 
       await obs.setCurrentProgramScene(obsConfig.scenes!.intermission);
     } catch (error) {
-      logger.error("Nie udało się zmienić sceny na przerwę: ", error);
+      logger.error("Failed to switch to intermission scene: ", error);
     }
 
     obsDataReplicant.value!.scene = obsConfig.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
@@ -246,7 +246,7 @@ export async function setup({
           .catch((err) => logger.error(err));
       }, obsConfig.stingerActionDelay);
     } else {
-      logger.error("Nie udało puścić się długiego filmu");
+      logger.error("Failed to play long video");
     }
   };
 
@@ -266,7 +266,7 @@ export async function setup({
           .catch((err) => logger.error(err));
       }, obsConfig.stingerActionDelay);
     } else {
-      logger.error("Nie udało puścić się krótkiego filmu");
+      logger.error("Failed to play short video");
     }
   };
 
@@ -289,14 +289,14 @@ export async function setup({
         try {
           await obs.setIntermissionVideo("");
         } catch (err) {
-          logger.error("Nie udało się wyzerować filmu na przerwie: ", err);
+          logger.error("Failed to clear intermission video: ", err);
         }
       }
       const hostMuteStatus = await obs.getHostAudioMuteStatus();
       hostMuteStatusReplicant.value = hostMuteStatus;
     })
     .catch((err) => {
-      logger.error(`Nie udało się połączyć z OBSem! Powód: ${err}`);
+      logger.error(`Failed to connect to OBS! Reason: ${err}`);
       reconnectTimeout = setTimeout(reconnectToOBS, reconnectDelay);
     });
 
@@ -419,13 +419,13 @@ export async function setup({
   });
 
   obs.on("ConnectionOpened", () => {
-    logger.info("Połączono z OBSem!");
+    logger.info("Connected to OBS!");
     obsDataReplicant.value!.connected = true;
   });
 
   obs.on("ConnectionClosed", () => {
     logger.info(
-      `Rozłączono z OBSem! Próbuję połączyć się ponownie za ${reconnectDelay / 1000} sekund...`,
+      `Disconnected from OBS! Reconnecting in ${reconnectDelay / 1000} seconds...`,
     );
     setTimeout(reconnectToOBS, reconnectDelay);
     obsDataReplicant.value!.connected = false;

@@ -123,7 +123,7 @@ describe("FoobarControl", () => {
         position: 0,
       });
       expect(mockLogger.error).toHaveBeenCalledWith(
-        "Błąd otrzymywania piosenki: Network error"
+        "Failed to get song info: Network error"
       );
     });
 
@@ -139,7 +139,7 @@ describe("FoobarControl", () => {
         position: 0,
       });
       expect(mockLogger.error).toHaveBeenCalledWith(
-        "Błąd otrzymywania piosenki: string error"
+        "Failed to get song info: string error"
       );
     });
   });

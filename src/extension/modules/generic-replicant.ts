@@ -19,7 +19,7 @@ export async function setup({
   const router = nodecg.Router();
   router.use(express.json());
 
-  logger.debug("HTTP Endpoint dla GenericReplicant włączony");
+  logger.debug("HTTP Endpoint for GenericReplicant enabled");
   router.post("/generic-replicant/", (req, res) => {
     req.accepts("application/json");
     for (const [key, value] of Object.entries(req.body) as [string, string][]) {

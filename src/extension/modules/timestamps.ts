@@ -41,20 +41,20 @@ export async function setup({
         },
         (err, output) => {
           if (err) {
-            logger.error(`Błąd przy przygotowaniu danych do pliku CSV! ${err}`);
+            logger.error(`Failed to prepare data for CSV file: ${err}`);
             return;
           } else {
             try {
               fs.appendFileSync(path, output);
-              logger.info("Zapisano timestamp do pliku CSV");
+              logger.info("Saved timestamp to CSV file");
             } catch (err) {
-              logger.error(`Błąd przy zapisywaniu pliku CSV! ${err}`);
+              logger.error(`Failed to save CSV file: ${err}`);
             }
           }
         },
       );
     } else {
-      logger.info("Brak obecnej gry!");
+      logger.info("No current game!");
     }
   };
 

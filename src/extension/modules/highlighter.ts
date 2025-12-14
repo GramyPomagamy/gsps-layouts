@@ -14,10 +14,9 @@ export async function setup({
   logger,
 }: ModuleParams<Configschema["highlighter"]>): Promise<void> {
   if (!config.spreadsheetId || !config.service_email || !config.private_key) {
-    logger.error(
+    throw new Error(
       "Highlighter module is enabled but missing required configuration (spreadsheetId, service_email, or private_key)",
     );
-    return;
   }
 
   const obsDataReplicant = nodecg.Replicant<ObsData>("obsData");
@@ -55,9 +54,9 @@ export async function setup({
       const scene = obsDataReplicant.value?.scene ?? "Brak sceny";
 
       await sheet.addRow([timestamp, run, timer, scene]);
-      logger.info("Highlight wykonany poprawnie");
+      logger.info("Highlight completed successfully");
     } catch (err) {
-      logger.error(`Błąd przy dodawaniu danych do arkusza: ${err}`);
+      logger.error(`Failed to add data to spreadsheet: ${err}`);
     }
   };
 
@@ -70,9 +69,7 @@ export async function setup({
     let loggedXhrPollError = false;
 
     socket.on("connect", () => {
-      logger.info(
-        `Podłączono do socketa highlightera na ${config.remote!.url!}`,
-      );
+      logger.info(`Connected to highlighter socket on ${config.remote!.url!}`);
       loggedXhrPollError = false;
     });
 
@@ -84,7 +81,7 @@ export async function setup({
         loggedXhrPollError = true;
       }
 
-      logger.error("Highlighter socket connect_error:", err);
+      logger.error(`Highlighter socket connection error: ${err.message}`);
     });
 
     socket.on("highlight", () => {

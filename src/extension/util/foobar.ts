@@ -28,19 +28,19 @@ export class FoobarControl {
 
   togglePause() {
     axios.post(`${this.address}/api/player/pause/toggle`).catch((error) => {
-      this.log.error("Błąd przy (od)pauzowaniu foobara: " + error.message);
+      this.log.error("Failed to toggle pause foobar: " + error.message);
     });
   }
 
   mute() {
     axios.post(`${this.address}/api/player?isMuted=true`).catch((error) => {
-      this.log.error("Błąd przy wyciszaniu foobara: " + error.message);
+      this.log.error("Failed to mute foobar: " + error.message);
     });
   }
 
   unmute() {
     axios.post(`${this.address}/api/player?isMuted=false`).catch((error) => {
-      this.log.error("Błąd przy odciszaniu foobara: " + error.message);
+      this.log.error("Failed to unmute foobar: " + error.message);
     });
   }
 
@@ -49,7 +49,7 @@ export class FoobarControl {
    */
   setVolume(volume: number) {
     axios.post(`${this.address}/api/player?volume=${volume}`).catch((error) => {
-      this.log.error("Błąd przy ustawianiu głośności: " + error.message);
+      this.log.error("Failed to set volume: " + error.message);
     });
   }
 
@@ -71,9 +71,9 @@ export class FoobarControl {
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
-        this.log.error("Błąd otrzymywania piosenki: " + error.message);
+        this.log.error("Failed to get song info: " + error.message);
       } else {
-        this.log.error("Błąd otrzymywania piosenki: " + error);
+        this.log.error("Failed to get song info: " + error);
       }
 
       return { displayName: "Brak piosenki", position: 0, duration: 0 };
