@@ -1,5 +1,4 @@
-import { type ModuleParams } from "@gsps-layouts/types";
-import { type CountdownRunning } from "src/types/generated";
+import { type CountdownRunning, type ModuleParams } from "@gsps-layouts/types";
 import TimeUtils, {
   type ICountdownTimer,
   type TimeStruct,

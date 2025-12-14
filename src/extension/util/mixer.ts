@@ -87,7 +87,6 @@ export class Mixer {
        /meters/2 consists of 16 analog inputs, 2 aux inputs, and 18 usb inputs */
     const u8Array = message.args?.[0];
     if (!u8Array) {
-      // If data is missing or malformed, gracefully exit this handler
       return;
     }
     const buffer = new DataView(

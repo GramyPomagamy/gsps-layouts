@@ -1,6 +1,9 @@
-import { type ModuleParams } from "@gsps-layouts/types";
+import {
+  type ModuleParams,
+  type NameCycle,
+  type PlayerStreams,
+} from "@gsps-layouts/types";
 import { type RunDataActiveRun } from "speedcontrol/types/schemas";
-import { type NameCycle, type PlayerStreams } from "src/types/generated";
 
 export async function setup({ nodecg }: ModuleParams<object>) {
   let cycleTimeout: NodeJS.Timeout;
