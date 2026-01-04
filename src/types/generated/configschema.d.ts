@@ -117,10 +117,13 @@ export interface Configschema {
 		enabled: boolean;
 		[k: string]: unknown;
 	};
-	/**
-	 * Update game twitch name and player pronouns after Oengus import is complete.
-	 */
-	autoUpdateGameAfterImport?: boolean;
+	autoUpdateGameAfterImport: {
+		/**
+		 * Update game twitch name and player pronouns after Oengus import is complete.
+		 */
+		enabled: boolean;
+		[k: string]: unknown;
+	};
 	streams: {
 		accounts?: string[];
 	};

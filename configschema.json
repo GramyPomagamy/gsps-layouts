@@ -15,7 +15,9 @@
           "default": ""
         }
       },
-      "required": ["enabled"]
+      "required": [
+        "enabled"
+      ]
     },
     "milestones": {
       "type": "object",
@@ -29,7 +31,9 @@
           "default": ""
         }
       },
-      "required": ["enabled"]
+      "required": [
+        "enabled"
+      ]
     },
     "tracker": {
       "type": "object",
@@ -61,7 +65,10 @@
         }
       },
       "description": "Login information for the private areas of the tracker API.",
-      "required": ["enabled", "rootURL"]
+      "required": [
+        "enabled",
+        "rootURL"
+      ]
     },
     "highlighter": {
       "type": "object",
@@ -94,10 +101,14 @@
               "default": ""
             }
           },
-          "required": ["enabled"]
+          "required": [
+            "enabled"
+          ]
         }
       },
-      "required": ["enabled"]
+      "required": [
+        "enabled"
+      ]
     },
     "obs": {
       "type": "object",
@@ -138,7 +149,12 @@
               "default": "Odliczanie [M]"
             }
           },
-          "required": ["intermission", "video", "hosterka", "countdown"]
+          "required": [
+            "intermission",
+            "video",
+            "hosterka",
+            "countdown"
+          ]
         },
         "sources": {
           "type": "object",
@@ -152,7 +168,10 @@
               "default": "mixer-host-input"
             }
           },
-          "required": ["intermissionVideo", "hostAudio"]
+          "required": [
+            "intermissionVideo",
+            "hostAudio"
+          ]
         },
         "croppers": {
           "type": "array",
@@ -177,7 +196,12 @@
               }
             },
             "additionalProperties": false,
-            "required": ["url", "name", "sceneName", "sourceName"]
+            "required": [
+              "url",
+              "name",
+              "sceneName",
+              "sourceName"
+            ]
           }
         },
         "timestamps": {
@@ -188,11 +212,15 @@
               "default": false
             }
           },
-          "required": ["enabled"]
+          "required": [
+            "enabled"
+          ]
         }
       },
       "description": "Info needed to use OBS websockets.",
-      "required": ["enabled"]
+      "required": [
+        "enabled"
+      ]
     },
     "foobar": {
       "type": "object",
@@ -211,7 +239,9 @@
         }
       },
       "description": "Info needed to control foobar2000.",
-      "required": ["enabled"]
+      "required": [
+        "enabled"
+      ]
     },
     "mixer": {
       "type": "object",
@@ -229,7 +259,9 @@
         }
       },
       "description": "Info needed to control mixer",
-      "required": ["enabled"]
+      "required": [
+        "enabled"
+      ]
     },
     "footpedal": {
       "type": "object",
@@ -239,7 +271,9 @@
           "default": false
         }
       },
-      "required": ["enabled"]
+      "required": [
+        "enabled"
+      ]
     },
     "genericReplicant": {
       "type": "object",
@@ -249,7 +283,9 @@
           "default": false
         }
       },
-      "required": ["enabled"]
+      "required": [
+        "enabled"
+      ]
     },
     "twitchExt": {
       "type": "object",
@@ -263,7 +299,9 @@
           "default": ""
         }
       },
-      "required": ["enabled"]
+      "required": [
+        "enabled"
+      ]
     },
     "sd": {
       "type": "object",
@@ -275,12 +313,22 @@
           "default": false
         }
       },
-      "required": ["enabled"]
+      "required": [
+        "enabled"
+      ]
     },
     "autoUpdateGameAfterImport": {
-      "type": "boolean",
-      "description": "Update game twitch name and player pronouns after Oengus import is complete.",
-      "default": false
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "description": "Update game twitch name and player pronouns after Oengus import is complete.",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "enabled"
+      ]
     },
     "streams": {
       "type": "object",
@@ -288,7 +336,9 @@
       "properties": {
         "accounts": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "default": []
         }
       }
@@ -306,6 +356,7 @@
     "sd",
     "genericReplicant",
     "mixer",
-    "streams"
+    "streams",
+    "autoUpdateGameAfterImport"
   ]
 }

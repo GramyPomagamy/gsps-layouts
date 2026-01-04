@@ -1,0 +1,61 @@
+[
+  {
+    "pk": 301,
+    "model": "tracker.prize",
+    "fields": {
+      "name": "Test Value name",
+      "description": "Test Value description",
+      "shortdescription": "Test Value shortdescription",
+      "provider": "Test Value provider",
+      "minimumbid": "10.00",
+      "image": "Test Value image",
+      "startrun": 10,
+      "endrun": 10,
+      "startrun__starttime": "2024-01-02T17:00:00Z",
+      "endrun__endtime": "2024-01-02T20:00:00Z",
+      "starttime": null,
+      "endtime": null,
+      "state": "ACCEPTED"
+    }
+  },
+  {
+    "pk": 302,
+    "model": "tracker.prize",
+    "fields": {
+      "name": "Test Value name",
+      "description": "",
+      "shortdescription": "Test Value shortdescription",
+      "provider": "",
+      "minimumbid": "25.00",
+      "image": "",
+      "startrun": null,
+      "endrun": null,
+      "startrun__starttime": null,
+      "endrun__endtime": null,
+      "starttime": "2024-01-03T10:00:00Z",
+      "endtime": "2024-01-03T12:00:00Z",
+      "state": "ACCEPTED"
+    }
+  },
+  {
+    "pk": 303,
+    "model": "tracker.prize",
+    "fields": {
+      "name": "Test Value name",
+      "description": "Test Value description",
+      "shortdescription": "Test Value shortdescription",
+      "provider": "Test Value provider",
+      "minimumbid": "5.00",
+      "image": "Test Value image",
+      "startrun": null,
+      "endrun": null,
+      "startrun__starttime": "2024-01-03T13:00:00Z",
+      "endrun__endtime": "2024-01-03T14:00:00Z",
+      "starttime": null,
+      "endtime": null,
+      "state": "PENDING"
+    }
+  }
+]
+
+
