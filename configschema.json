@@ -292,6 +292,23 @@
           "default": []
         }
       }
+    },
+    "externalWS": {
+      "type": "object",
+      "description": "External WebSocket related settings",
+      "properties": {
+        "enabled": {
+          "description": "Enable the external WS module. When enabled, all other options must be set.",
+          "type": "boolean",
+          "default": false
+        },
+        "port": {
+          "description": "Port that we will listen on",
+          "type": "integer",
+          "default": 5236
+        }
+      },
+      "required": ["enabled"]
     }
   },
   "required": [
@@ -306,6 +323,7 @@
     "sd",
     "genericReplicant",
     "mixer",
-    "streams"
+    "streams",
+    "externalWS"
   ]
 }

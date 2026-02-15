@@ -149,7 +149,7 @@ function handleChangedVideos(newValue : Asset[] | undefined, oldValue : Asset[] 
       const previousVideo = shuffledVideos.getLastPlayedVideo();
       shuffledVideos = new Videos(newValue, 0, previousVideo);
     }
-  }  
+  }
   return shuffledVideos;
 }
 
@@ -571,6 +571,10 @@ obs.on('SceneTransitionStarted', () => {
         const regex = new RegExp('\\[' + foobarConfig.musicKeyword + '(.*?)\\]');
         const match = data.currentPreviewSceneName.match(regex);
         setTimeout(() => {
+          nodecg.sendMessage('OBSSceneChanged', {
+            sceneName: data.currentPreviewSceneName,
+          });
+
           if (match && match[1]) {
             const volume = parseInt(match[1], 10);
 
