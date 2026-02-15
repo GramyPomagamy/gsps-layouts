@@ -124,4 +124,18 @@ export interface Configschema {
 	streams: {
 		accounts?: string[];
 	};
+	/**
+	 * External WebSocket related settings
+	 */
+	externalWS: {
+		/**
+		 * Enable the external WS module. When enabled, all other options must be set.
+		 */
+		enabled: boolean;
+		/**
+		 * Port that we will listen on
+		 */
+		port?: number;
+		[k: string]: unknown;
+	};
 }

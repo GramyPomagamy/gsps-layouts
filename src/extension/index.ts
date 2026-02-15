@@ -24,4 +24,5 @@ export default (nodecg: NodeCG.ServerAPI<Configschema>) => {
   require('./total');
   require('./generic-replicant');
   require('./mixer');
+  require('./external-ws');
 };

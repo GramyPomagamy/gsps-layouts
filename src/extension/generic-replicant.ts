@@ -18,7 +18,7 @@ if (config.enabled) {
   router.post('/generic-replicant/', (req, res) => {
     req.accepts('application/json');
     for (const [key, value] of Object.entries(req.body) as [string, string][]) {
-      logger.error(key, value);
+      logger.info(`Setting "${key}" to: ${value}`);
       genericReplicant.value[key] = value;
     }
     res.send('OK!');
