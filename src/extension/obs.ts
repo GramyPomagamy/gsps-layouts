@@ -44,16 +44,16 @@ class Videos {
     let currentIndex = this._assets.length;
     //shuffle
     while (currentIndex != 0) {
-      let randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
+      const randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--; 
 
-      let tmp = this._assets[currentIndex];
+      const tmp = this._assets[currentIndex];
       this._assets[currentIndex] = this._assets[randomIndex] as Asset;
       this._assets[randomIndex] = tmp as Asset;
     }
     //make sure video will not be played 2 times in a row
     if(this._lastVideo !== undefined && this._assets[0] === this._lastVideo){
-      let tmp = this._assets[0];
+      const tmp = this._assets[0];
       this._assets[0] = this._assets[this._assets.length - 1] as Asset;
       this._assets[this._assets.length - 1] = tmp;
     }
@@ -106,7 +106,7 @@ if (config.enabled) {
   log.info('Próbuję się połączyć z OBSem...');
   obs
     .connect(config.address, config.password)
-    .then(() => {
+    .then(async () => {
       if (config.sources && config.sources.intermissionVideo) {
         obs
           .call('SetInputSettings', {
@@ -119,6 +119,8 @@ if (config.enabled) {
             log.error('Nie udało się wyzerować filmu na przerwie: ', err);
           });
       }
+      const studioModeStatus = await obs.call('GetStudioModeEnabled')
+      obsDataReplicant.value!.studioMode = studioModeStatus.studioModeEnabled;
       initializeHostMute();
     })
     .catch((err) => {
@@ -155,7 +157,7 @@ function handleChangedVideos(newValue : Asset[] | undefined, oldValue : Asset[] 
 
 
 function initializeHostMute() {
-  let channel = config.sources!.hostAudio;
+  const channel = config.sources!.hostAudio;
 
   obs.
   call("GetInputMute", {inputName: channel})
@@ -178,14 +180,18 @@ function toggleHostMute() {
   // we don't have to update the replicant here, because we listen to obs events anyway
 }
 
-function reconnectToOBS() {
+async function reconnectToOBS() {
   clearTimeout(reconnectTimeout);
   if (!obsDataReplicant.value!.connected && config.enabled) {
     log.info('Próbuję się połączyć z OBSem...');
-    obs.connect(config.address, config.password).catch((err) => {
+    obs.connect(config.address, config.password).then(async () => {
+      const studioModeStatus = await obs.call('GetStudioModeEnabled')
+      obsDataReplicant.value!.studioMode = studioModeStatus.studioModeEnabled;
+    }).catch((err) => {
       log.error(`Nie udało się połączyć z OBSem! Powód: ${err}`);
       reconnectTimeout = setTimeout(reconnectToOBS, 5000);
     });
+
   }
 }
 
@@ -630,7 +636,7 @@ obs.on('MediaInputPlaybackEnded', (data) => {
 });
 
 obs.on('InputMuteStateChanged', (data) => {
-  let channel = config.sources!.hostAudio;
+  const channel = config.sources!.hostAudio;
   if (data.inputName == channel) {
     hostMuteStatusReplicant.value = data.inputMuted;
   }
