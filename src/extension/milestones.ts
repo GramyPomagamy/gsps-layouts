@@ -14,7 +14,7 @@ async function updateMilestones() {
   clearTimeout(refreshTimeout);
   try {
     const raw = await needle('get', config.url!);
-    const milestones = processMilestones(raw.body);
+    const milestones = processMilestones(raw.body.data);
     milestonesReplicant.value = milestones;
     nodecg.sendMessage('milestones:updated');
     refreshTimeout = setTimeout(updateMilestones, 60 * 1000);
