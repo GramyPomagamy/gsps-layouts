@@ -363,6 +363,9 @@ export async function setup({
             );
             const match = currentPreviewScene.match(regex);
             setTimeout(() => {
+              nodecg.sendMessage("OBSSceneChanged", {
+                sceneName: currentPreviewScene,
+              });
               if (match && match[1]) {
                 const volume = parseInt(match[1], 10);
 

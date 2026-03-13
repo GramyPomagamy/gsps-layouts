@@ -68,8 +68,8 @@
     "svg.js": "^2.7.1",
     "tough-cookie": "^6.0.0",
     "use-nodecg": "0.4.1-2",
-    "zod": "^4.1.13",
-    "ws": "^8.19.0"
+    "ws": "^8.19.0",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "@gramypomagamy/eslint-config": "^3.0.0",
@@ -83,6 +83,7 @@
     "@types/react-transition-group": "^4.4.6",
     "@types/request": "^2.48.8",
     "@types/request-promise": "^4.1.48",
+    "@types/ws": "^8.18.1",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
     "cheerio": "1.0.0-rc.12",

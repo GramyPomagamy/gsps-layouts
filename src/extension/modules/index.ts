@@ -81,6 +81,15 @@ export function defineModules(nodecg: NodeCGServer) {
       config: {},
       loadFn: () => import("./countdown"),
     },
+    "external-ws": {
+      name: "External WebSocket",
+      enabled: nodecg.bundleConfig.externalWS.enabled,
+      config: {
+        ws: nodecg.bundleConfig.externalWS,
+        obs: nodecg.bundleConfig.obs,
+      },
+      loadFn: () => import("./external-ws"),
+    },
     featured: {
       name: "Featured Channels",
       enabled: nodecg.bundleConfig.twitchExt.enabled,
