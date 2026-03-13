@@ -15,7 +15,9 @@
   "author": "GramyPomagamy",
   "contributors": [
     "hoxi",
-    "florczakraf"
+    "florczakraf",
+    "Pkow1999",
+    "kawalekw"
   ],
   "scripts": {
     "autofix": "run-s autofix:*",
