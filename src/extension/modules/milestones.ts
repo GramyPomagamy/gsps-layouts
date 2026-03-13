@@ -31,5 +31,5 @@ export async function setup({
     updateMilestones().catch((err) => logger.error(err));
   }, MILESTONE_REFRESH_INTERVAL);
 
-  nodecg.listenFor("updateMilestones", () => updateMilestones);
+  nodecg.listenFor("updateMilestones", () => void updateMilestones());
 }

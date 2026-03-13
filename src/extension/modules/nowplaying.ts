@@ -29,5 +29,5 @@ export async function setup({
     songProgressReplicant.value.duration = duration;
   };
 
-  setInterval(() => getSong, 500);
+  setInterval(() => void getSong(), 500);
 }
