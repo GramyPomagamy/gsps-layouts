@@ -5,6 +5,8 @@ import {
 } from "@gsps-layouts/types";
 import { Milestones } from "../util/milestones";
 
+const MILESTONE_REFRESH_INTERVAL = 60 * 1000;
+
 export async function setup({
   nodecg,
   config,
@@ -27,7 +29,7 @@ export async function setup({
 
   setInterval(() => {
     updateMilestones().catch((err) => logger.error(err));
-  }, 60 * 1000);
+  }, MILESTONE_REFRESH_INTERVAL);
 
   nodecg.listenFor("updateMilestones", () => updateMilestones);
 }
