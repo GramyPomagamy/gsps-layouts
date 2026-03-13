@@ -1,14 +1,14 @@
-import { WebSocketServer, WebSocket } from "ws";
 import http from "http";
-import { Configschema, ModuleParams } from "@gsps-layouts/types";
+import { type Configschema, type ModuleParams } from "@gsps-layouts/types";
+import { WebSocket, WebSocketServer } from "ws";
 
 export async function setup({
   nodecg,
   logger,
   config,
 }: ModuleParams<{
-  ws: Configschema["externalWS"];
   obs: Configschema["obs"];
+  ws: Configschema["externalWS"];
 }>) {
   const externalWSConfig = config.ws;
   const OBSconfig = config.obs;
