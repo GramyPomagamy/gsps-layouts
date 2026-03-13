@@ -35,13 +35,13 @@ export async function setup({
       // If prize panel is disabled, enable it
       if (!showPrizePanel.value) {
         currentPrizeTier = tier;
-        const result = selectPrizeFromTier(
+        const { newIndex, prize } = selectPrizeFromTier(
           prizesReplicant.value!,
           tier,
           currentlyShownPrizeIndex.value!,
         );
-        currentlyShownPrizeIndex.value = result.newIndex;
-        currentlyShownPrize.value = result.prize;
+        currentlyShownPrizeIndex.value = newIndex;
+        currentlyShownPrize.value = prize;
         showPrizePanel.value = true;
       } else {
         // If different tier, start from the beginning
@@ -53,13 +53,13 @@ export async function setup({
           currentPrizeTier = tier;
         }
         showPrizePanel.value = true;
-        const result = selectPrizeFromTier(
+        const { newIndex, prize } = selectPrizeFromTier(
           prizesReplicant.value!,
           tier,
           currentlyShownPrizeIndex.value!,
         );
-        currentlyShownPrizeIndex.value = result.newIndex;
-        currentlyShownPrize.value = result.prize;
+        currentlyShownPrizeIndex.value = newIndex;
+        currentlyShownPrize.value = prize;
       }
     }
     logger.debug(`Showing next prize from tier ${req.params.tier}`);
@@ -75,14 +75,14 @@ export async function setup({
   router.get("/sd/showNextBid", (_req, res) => {
     res.send("OK!");
     showPrizePanel.value = false;
-    const result = selectNextBid(
+    const { newIndex, showPanel, bid } = selectNextBid(
       currentBidsRep.value!,
       currentlyShownBidIndex.value!,
       showBidsPanel.value!,
     );
-    currentlyShownBidIndex.value = result.newIndex;
-    showBidsPanel.value = result.showPanel;
-    currentlyShownBid.value = result.bid;
+    currentlyShownBidIndex.value = newIndex;
+    showBidsPanel.value = showPanel;
+    currentlyShownBid.value = bid;
     logger.debug("Showing next bid");
   });
 
