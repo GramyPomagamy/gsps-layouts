@@ -27,7 +27,7 @@ export function defineModules(nodecg: NodeCGServer) {
       name: "Stream Deck",
       enabled: nodecg.bundleConfig.sd.enabled,
       config: nodecg.bundleConfig.sd,
-      loadFn: () => import("./sd"),
+      loadFn: () => import("./stream-deck"),
     },
     milestones: {
       name: "Milestones",
