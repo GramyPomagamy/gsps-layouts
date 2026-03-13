@@ -4,6 +4,10 @@ import {
 } from "@gsps-layouts/types";
 import axios from "axios";
 
+type MilestonesRequestReturnType = {
+  data: RawMilestone[];
+};
+
 export class Milestones {
   private readonly url: string;
 
@@ -12,7 +16,9 @@ export class Milestones {
   }
 
   public async getMilestones(): Promise<MilestonesTypes> {
-    const rawMilestones = await axios.get<RawMilestone[]>(this.url);
+    const rawMilestones = await axios.get<MilestonesRequestReturnType>(
+      this.url,
+    );
 
     if (rawMilestones.status !== 200) {
       throw new Error("Failed to download milestones");
@@ -21,8 +27,10 @@ export class Milestones {
     return this.processMilestones(rawMilestones.data);
   }
 
-  private processMilestones(milestones: RawMilestone[]): MilestonesTypes {
-    return milestones
+  private processMilestones(
+    milestones: MilestonesRequestReturnType,
+  ): MilestonesTypes {
+    return milestones.data
       .sort((a: RawMilestone, b: RawMilestone) => {
         return a.Kwota - b.Kwota;
       })
