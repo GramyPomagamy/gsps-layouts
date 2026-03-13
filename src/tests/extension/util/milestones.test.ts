@@ -19,7 +19,7 @@ describe("Milestones", () => {
       const result = await milestones.getMilestones();
 
       expect(axios.get).toHaveBeenCalledWith(
-        "https://api.example.com/milestones"
+        "https://api.example.com/milestones",
       );
       expect(result).toEqual(processedMilestonesJson);
     });
@@ -31,7 +31,7 @@ describe("Milestones", () => {
       });
 
       await expect(milestones.getMilestones()).rejects.toThrow(
-        "Failed to download milestones"
+        "Failed to download milestones",
       );
     });
 
@@ -44,16 +44,18 @@ describe("Milestones", () => {
 
   describe("processMilestones", () => {
     it("should return empty array when given empty array", () => {
-      const result = milestones["processMilestones"]([]);
+      const result = milestones["processMilestones"]({ data: [] });
       expect(result).toEqual([]);
     });
 
     it("should sort milestones by amount in ascending order", () => {
-      const unsorted = [
-        { Nazwa: "Milestone 1", Kwota: 500 },
-        { Nazwa: "Milestone 2", Kwota: 100 },
-        { Nazwa: "Milestone 3", Kwota: 300 },
-      ];
+      const unsorted = {
+        data: [
+          { Nazwa: "Milestone 1", Kwota: 500 },
+          { Nazwa: "Milestone 2", Kwota: 100 },
+          { Nazwa: "Milestone 3", Kwota: 300 },
+        ],
+      };
       const result = milestones["processMilestones"](unsorted);
 
       expect(result).toEqual([
@@ -64,10 +66,12 @@ describe("Milestones", () => {
     });
 
     it("should handle milestones with same amount", () => {
-      const sameAmount = [
-        { Nazwa: "First", Kwota: 100 },
-        { Nazwa: "Second", Kwota: 100 },
-      ];
+      const sameAmount = {
+        data: [
+          { Nazwa: "First", Kwota: 100 },
+          { Nazwa: "Second", Kwota: 100 },
+        ],
+      };
       const result = milestones["processMilestones"](sameAmount);
 
       expect(result).toHaveLength(2);

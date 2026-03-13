@@ -32,11 +32,11 @@ export class Milestones {
   ): MilestonesTypes {
     return milestones.data
       .sort((a: RawMilestone, b: RawMilestone) => {
-        return a.Kwota - b.Kwota;
+        return parseInt(a.Kwota) - parseInt(b.Kwota);
       })
       .map((milestone) => ({
         name: milestone.Nazwa,
-        amount: milestone.Kwota,
+        amount: parseInt(milestone.Kwota),
       }));
   }
 }
