@@ -45,7 +45,7 @@ export async function setup({ nodecg }: ModuleParams<object>): Promise<void> {
   };
 
   const stopHostCountdown = () => {
-    if (!hostCountdown.value) {
+    if (!hostCountdownRunning.value) {
       return;
     }
 
