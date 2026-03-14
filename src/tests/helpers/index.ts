@@ -7,4 +7,4 @@ export {
   type MockReplicantOptions,
   type MessageHandler,
 } from "./mock-nodecg";
-
+export { mockLogger } from "./mock-tagged-logger";

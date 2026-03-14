@@ -39,6 +39,18 @@ type FormattedParentBid = {
   type: "choice" | "challenge";
 };
 
+type DataFetchSuccess<T> = {
+  data: T;
+  status: number;
+  success: true;
+};
+
+type DataFetchFailure<T> = {
+  data?: T;
+  status: number;
+  success: false;
+};
+
 export class TrackerApi {
   private readonly rootUrl: string;
   private readonly eventId: number;
@@ -135,8 +147,22 @@ export class TrackerApi {
       `/search?type=allbids&event=${this.eventId}&state=OPENED`,
     );
 
-    const allBidsParsed = TrackerSchemas.Bids.safeParse(allBidsResp);
-    const currentBidsParsed = TrackerSchemas.Bids.safeParse(currentBidsResp);
+    if (!allBidsResp.success) {
+      this.logger.error("Failed to parse all bids response from tracker!");
+      this.logger.error(`Status code: ${allBidsResp.status}`);
+    }
+
+    if (!currentBidsResp.success) {
+      this.logger.error("Failed to parse all bids response from tracker!");
+      this.logger.error(`Status code: ${currentBidsResp.status}`);
+    }
+
+    const allBidsParsed = TrackerSchemas.Bids.safeParse(
+      allBidsResp.success ? allBidsResp.data : [],
+    );
+    const currentBidsParsed = TrackerSchemas.Bids.safeParse(
+      currentBidsResp.success ? currentBidsResp.data : [],
+    );
 
     if (!allBidsParsed.success) {
       this.logger.error("Failed to parse all bids response from tracker!");
@@ -166,8 +192,11 @@ export class TrackerApi {
       `/search?event=${this.eventId}&type=donation&feed=toread`,
     );
 
-    const processedDonationsToRead =
-      this.processToReadDonations(donationsToReadResp);
+    const processedDonationsToRead = this.processToReadDonations(
+      donationsToReadResp.success
+        ? donationsToReadResp.data
+        : ([] as Tracker.Donation[]),
+    );
 
     const donationBids = await this.getDonationBids();
 
@@ -194,7 +223,15 @@ export class TrackerApi {
       `/search?event=${this.eventId}&type=donationbid`,
     );
 
-    const parsedResp = TrackerSchemas.DonationBids.safeParse(donationBidsResp);
+    if (!donationBidsResp.success) {
+      this.logger.error("Failed to get donation bids from tracker!");
+      this.logger.error(`Status code: ${donationBidsResp.status}`);
+      return [];
+    }
+
+    const parsedResp = TrackerSchemas.DonationBids.safeParse(
+      donationBidsResp.data,
+    );
 
     if (!parsedResp.success) {
       this.logger.error(
@@ -218,9 +255,10 @@ export class TrackerApi {
     );
 
     if (request.status !== 200) {
-      throw new Error(
+      this.logger.error(
         `Failed to set donation as read. Status code: ${request.status}`,
       );
+      return;
     }
   }
 
@@ -233,7 +271,13 @@ export class TrackerApi {
       `/search?event=${this.eventId}&type=donation&commentstate=PENDING&transactionstate=COMPLETED`,
     );
 
-    return donationsToAcceptResp.length;
+    if (!donationsToAcceptResp.success) {
+      this.logger.error("Failed to get donations to accept count!");
+      this.logger.error(`Status code: ${donationsToAcceptResp.status}`);
+      return 0;
+    }
+
+    return donationsToAcceptResp.data.length;
   }
 
   public async getBidsToAcceptCount(): Promise<number> {
@@ -245,7 +289,13 @@ export class TrackerApi {
       Array<{ fields: { total: string } }>
     >(`/search?event=${this.eventId}&type=bidtarget&state=PENDING`);
 
-    const filteredBids = bidsToAcceptResp.filter(
+    if (!bidsToAcceptResp.success) {
+      this.logger.error("Failed to get amount of bids to accept from tracker!");
+      this.logger.error(`Status code: ${bidsToAcceptResp.status}`);
+      return 0;
+    }
+
+    const filteredBids = bidsToAcceptResp.data.filter(
       (bid) => bid.fields.total !== "0.00",
     );
 
@@ -253,11 +303,17 @@ export class TrackerApi {
   }
 
   public async getTotal(): Promise<{ formatted: string; raw: number }> {
-    const response = await this.axiosClient.get<{
-      agg: { total_amount: number };
-    }>(`${this.rootUrl}/${this.eventId}?json`);
+    const totalResp = await this.getData<{ agg: { total_amount: number } }>(
+      `/${this.eventId}?json`,
+    );
 
-    const rawTotal = parseFloat(String(response.data.agg.total_amount ?? 0));
+    if (!totalResp.success) {
+      this.logger.error("Failed to get total from tracker!");
+      this.logger.error(`Status code: ${totalResp.status}`);
+      return { raw: 0, formatted: "0 zł" };
+    }
+
+    const rawTotal = parseFloat(String(totalResp.data.agg.total_amount ?? 0));
 
     return {
       raw: rawTotal,
@@ -274,7 +330,13 @@ export class TrackerApi {
       `/search?event=${this.eventId}&type=prize`,
     );
 
-    return this.processRawPrizes(prizesResp);
+    if (!prizesResp.success) {
+      this.logger.error("Failed to get prize data from tracker!");
+      this.logger.error(`Status code: ${prizesResp.status}`);
+      return [];
+    }
+
+    return this.processRawPrizes(prizesResp.data);
   }
 
   public async getRecentlyReadDonations(): Promise<
@@ -288,7 +350,14 @@ export class TrackerApi {
       `/search?event=${this.eventId}&type=donation&readstate=READ`,
     );
 
-    return resp.slice(0, 25).map((donation) => ({
+    if (!resp.success) {
+      this.logger.error(
+        `Failed to get recently read donations! Status code ${resp.status}`,
+      );
+      return [];
+    }
+
+    return resp.data.slice(0, 25).map((donation) => ({
       id: donation.pk,
       name:
         donation.fields.requestedvisibility === "ALIAS"
@@ -298,12 +367,26 @@ export class TrackerApi {
     }));
   }
 
-  public async getData<T>(endpoint: string): Promise<T> {
+  public async getData<T>(
+    endpoint: string,
+  ): Promise<DataFetchSuccess<T> | DataFetchFailure<T>> {
     const response = await this.axiosClient.get<T>(
       `${this.rootUrl}${endpoint}`,
     );
 
-    return response.data;
+    if (response.status === 200) {
+      return {
+        data: response.data,
+        success: true,
+        status: response.status,
+      };
+    }
+
+    return {
+      data: undefined,
+      success: false,
+      status: response.status,
+    };
   }
 
   private processToReadDonations(
