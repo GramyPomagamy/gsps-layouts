@@ -117,11 +117,28 @@ export interface Configschema {
 		enabled: boolean;
 		[k: string]: unknown;
 	};
-	/**
-	 * Update game twitch name and player pronouns after Oengus import is complete.
-	 */
-	autoUpdateGameAfterImport?: boolean;
+	autoUpdateGameAfterImport: {
+		/**
+		 * Update game twitch name and player pronouns after Oengus import is complete.
+		 */
+		enabled: boolean;
+		[k: string]: unknown;
+	};
 	streams: {
 		accounts?: string[];
+	};
+	/**
+	 * External WebSocket related settings
+	 */
+	externalWS: {
+		/**
+		 * Enable the external WS module. When enabled, all other options must be set.
+		 */
+		enabled: boolean;
+		/**
+		 * Port that we will listen on
+		 */
+		port?: number;
+		[k: string]: unknown;
 	};
 }

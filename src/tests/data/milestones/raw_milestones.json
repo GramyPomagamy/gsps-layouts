@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "Nazwa": "Milestone 1",
+      "Kwota": "150"
+    },
+    {
+      "id": 2,
+      "Nazwa": "Milestone 2",
+      "Kwota": "200"
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "pageCount": 1,
+      "total": 9
+    }
+  }
+}

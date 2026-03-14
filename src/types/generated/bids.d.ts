@@ -29,6 +29,6 @@ export type Bids = {
 		rawTotal: number;
 		speedrun: number;
 	}[];
-	goal?: number;
+	goal?: string;
 	rawGoal?: number;
 }[];
