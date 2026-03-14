@@ -63,6 +63,7 @@ export async function setup({
   const tracker = new TrackerApi({
     rootUrl: trackerConfig.rootURL,
     eventId: trackerConfig.eventID,
+    logger,
   });
 
   await tracker.login({

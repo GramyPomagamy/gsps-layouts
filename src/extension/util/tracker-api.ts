@@ -4,6 +4,7 @@ import { wrapper } from "axios-cookiejar-support";
 import { CookieJar } from "tough-cookie";
 import { type z } from "zod";
 import { TrackerSchemas } from "../schemas";
+import { type TaggedLogger } from "./tagged-logger";
 
 type RawBids = z.infer<typeof TrackerSchemas.Bids>;
 
@@ -43,11 +44,21 @@ export class TrackerApi {
   private readonly eventId: number;
   private readonly cookieJar: CookieJar;
   private readonly axiosClient: AxiosInstance;
+  private readonly logger: TaggedLogger;
   private loggedIn = false;
 
-  constructor({ rootUrl, eventId }: { eventId: number; rootUrl: string }) {
+  constructor({
+    rootUrl,
+    eventId,
+    logger,
+  }: {
+    eventId: number;
+    logger: TaggedLogger;
+    rootUrl: string;
+  }) {
     this.rootUrl = rootUrl;
     this.eventId = eventId;
+    this.logger = logger;
 
     this.cookieJar = new CookieJar();
     this.axiosClient = wrapper(
@@ -124,8 +135,21 @@ export class TrackerApi {
       `/search?type=allbids&event=${this.eventId}&state=OPENED`,
     );
 
-    const allBids = TrackerSchemas.Bids.parse(allBidsResp);
-    const currentBids = TrackerSchemas.Bids.parse(currentBidsResp);
+    const allBidsParsed = TrackerSchemas.Bids.safeParse(allBidsResp);
+    const currentBidsParsed = TrackerSchemas.Bids.safeParse(currentBidsResp);
+
+    if (!allBidsParsed.success) {
+      this.logger.error("Failed to parse all bids response from tracker!");
+      this.logger.error(`Errors: ${allBidsParsed.error}`);
+    }
+
+    if (!currentBidsParsed.success) {
+      this.logger.error("Failed to parse all bids response from tracker!");
+      this.logger.error(`Errors: ${currentBidsParsed.error}`);
+    }
+
+    const allBids = allBidsParsed.success ? allBidsParsed.data : [];
+    const currentBids = currentBidsParsed.success ? currentBidsParsed.data : [];
 
     return {
       allBids: this.processRawBids(allBids),
@@ -170,9 +194,17 @@ export class TrackerApi {
       `/search?event=${this.eventId}&type=donationbid`,
     );
 
-    const parsedResp = TrackerSchemas.DonationBids.parse(donationBidsResp);
+    const parsedResp = TrackerSchemas.DonationBids.safeParse(donationBidsResp);
 
-    return parsedResp;
+    if (!parsedResp.success) {
+      this.logger.error(
+        "Failed to parse data from tracker regading donation bids!",
+      );
+      this.logger.error(`Errors: ${parsedResp.error}`);
+      return [];
+    }
+
+    return parsedResp.data;
   }
 
   public async markDonationAsRead(id: number): Promise<void> {
