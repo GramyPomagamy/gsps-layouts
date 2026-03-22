@@ -1,0 +1,30 @@
+[
+  {
+    "pk": 101,
+    "model": "tracker.donation",
+    "fields": {
+      "requestedvisibility": "ALIAS",
+      "requestedalias": "Test Value requestedalias",
+      "donor__public": "ALWAYS",
+      "amount": "25.50",
+      "comment": "Test Value comment",
+      "commentstate": "APPROVED",
+      "timereceived": "2024-01-02T18:05:00Z"
+    }
+  },
+  {
+    "pk": 102,
+    "model": "tracker.donation",
+    "fields": {
+      "requestedvisibility": "ANONYMOUS",
+      "requestedalias": "",
+      "donor__public": "ALWAYS",
+      "amount": "10.00",
+      "comment": "Hidden comment",
+      "commentstate": "PENDING",
+      "timereceived": "2024-01-02T18:10:00Z"
+    }
+  }
+]
+
+

@@ -20,7 +20,7 @@ export interface Bid {
     rawTotal: number;
     speedrun: number;
   }[];
-  goal?: number;
+  goal?: string;
   rawGoal?: number;
   public: string;
   state?: 'OPEN' | 'CLOSED';

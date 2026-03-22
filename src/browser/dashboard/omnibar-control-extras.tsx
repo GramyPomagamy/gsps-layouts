@@ -13,6 +13,7 @@ export const App = () => {
   const [enableMilestones, setEnableMilestones] = useReplicant<boolean>("omnibarEnableMilestones", false);
   const [enableNextRuns, setEnableNextRuns] = useReplicant<boolean>("omnibarEnableNextRuns", false);
   const [enablePrizes, setEnablePrizes] = useReplicant<boolean>("omnibarEnablePrizes", false);
+  const [enableTotal, setEnableTotal] = useReplicant<boolean>("omnibarEnableTotal", true);
 
   return (
     <DashboardThemeProvider>
@@ -20,32 +21,39 @@ export const App = () => {
         <Stack spacing={2}>
           <FormGroup>
             <FormControlLabel
-              control= 
+              control=
               {
                 <Switch checked={enableBids} onChange={(event) => {setEnableBids(event.target.checked); }}/>
               }
               label="Dodaj Informacje o Licytacjach"
             />
             <FormControlLabel
-              control= 
+              control=
               {
                 <Switch checked={enableMilestones} onChange={(event) => {setEnableMilestones(event.target.checked); }}/>
               }
               label="Dodaj Informacje o Milestonach"
             />
             <FormControlLabel
-              control= 
+              control=
               {
                 <Switch checked={enableNextRuns} onChange={(event) => {setEnableNextRuns(event.target.checked); }}/>
               }
               label="Dodaj Informacje o Nastepnych Runach"
             />
             <FormControlLabel
-              control= 
+              control=
               {
                 <Switch checked={enablePrizes} onChange={(event) => {setEnablePrizes(event.target.checked); }}/>
               }
               label="Dodaj Informacje o Nagrodach"
+            />
+            <FormControlLabel
+              control=
+              {
+                <Switch checked={enableTotal} onChange={(event) => {setEnableTotal(event.target.checked); }}/>
+              }
+              label="Pokaż zebraną kwotę"
             />
           </FormGroup>
         </Stack>

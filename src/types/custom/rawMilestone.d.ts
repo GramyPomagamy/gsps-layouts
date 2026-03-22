@@ -1,4 +1,4 @@
 export type RawMilestone = {
   Nazwa: string;
-  Kwota: number;
+  Kwota: string;
 };
