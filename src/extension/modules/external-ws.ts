@@ -37,8 +37,11 @@ export async function setup({
       logger.info(`WebSocket client ${clientId} disconnected`);
     });
 
-    ws.on("error", (err: any) => {
-      logger.error(`WebSocket error from ${clientId}:`, err);
+    ws.on("error", (err: unknown) => {
+      logger.error(
+        `WebSocket error from ${clientId}:`,
+        err instanceof Error ? err.message : err,
+      );
     });
   });
 
