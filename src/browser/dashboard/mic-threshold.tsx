@@ -1,8 +1,8 @@
 import { DashboardThemeProvider } from "./components/DashboardThemeProvider";
 import { render } from '../render'
 import { useReplicant } from "use-nodecg";
-import { useEffect, useState } from "react";
-import { Box, Button, Slider, Stack, Typography } from "@mui/material";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { Box, Button, Input, Slider, Typography } from "@mui/material";
 
 const channelIdToName = {
     "1": "H1",
@@ -22,7 +22,10 @@ const channelNameToId = Object.entries(channelIdToName).reduce((acc, [id, name])
     return acc;
 }, {} as Record<string, string>);
 
+let debounceTimeout: ReturnType<typeof setTimeout>;
+
 export const MicThreshold = () => {
+
     const [mixerThresholdLevels, setMixerThresholdLevels] = useReplicant<{ [key in keyof typeof channelNameToId]: number }>(
         'mixerThresholdLevels',
         Object.keys(channelNameToId).reduce((acc, name) => {
@@ -51,13 +54,38 @@ export const MicThreshold = () => {
         }))
     }
 
+    useEffect(() => {
+        clearTimeout(debounceTimeout);
+
+        debounceTimeout = setTimeout(() => {
+            setMixerThresholdLevels(localThresholdLevels);
+        }, 500);
+
+        return () => clearTimeout(debounceTimeout);
+    }, [localThresholdLevels]);
+    
+
     return <DashboardThemeProvider>
-        <Box>
+        <Box 
+        display="grid"
+        gridTemplateColumns="70px 1fr 90px"
+        gap={2}
+        alignItems="center"
+        sx={{maxWidth: '100vw', margin: '20px auto'}}
+        >
             {Object.entries(localThresholdLevels).map(([key, value]) => {
                 if (key.length !== 0) {
+
+                    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+                        const val = e.target.value === '' ? -90 : Number(e.target.value);
+                        const clampedVal = Math.min(Math.max(val, -90), 0);
+
+                        handleSliderChange(key)({} as any, clampedVal);
+                    }
+
                     return (
-                        <Stack direction='row' key={key} spacing={2}>
-                            <Typography variant="body1">{key}</Typography>
+                        <React.Fragment key={key}>
+                            <Typography variant="body1" noWrap>{key}</Typography>
                             <Slider
                                 value={value}
                                 onChange={handleSliderChange(key)}
@@ -66,22 +94,39 @@ export const MicThreshold = () => {
                                 step={0.1}
                                 aria-labelledby={key}
                             />
-                            <Typography variant="body1">{value}dB</Typography>
-                        </Stack>
+                            <Input
+                                value={value}
+                                size="small"
+                                onChange={handleInputChange}
+                                slotProps={{
+                                    input: {
+                                        step: 0.1,
+                                        min: -90,
+                                        max: 0,
+                                        type: 'number',
+                                    },
+                                }}
+                                endAdornment={<Typography variant="body2" sx={{ml: 0.5}}>dB</Typography>}
+                                sx={{ '& input': { textAlign: 'right'}}}
+                            />
+                        </React.Fragment>
                     )
                 } else {
                     return <></>
                 }
             })}
-            <Button
-                disabled={mixerThresholdLevels === localThresholdLevels}
-                variant="contained"
-                fullWidth
-                onClick={() => {
-                    setMixerThresholdLevels(localThresholdLevels)
-                }}>
-                Zapisz zmiany
-            </Button>
+            <Box gridColumn="span 3" sx={{ mt: 2}}>
+                <Button
+                    disabled={mixerThresholdLevels === localThresholdLevels}
+                    variant="contained"
+                    fullWidth
+                    onClick={() => {
+                        clearTimeout(debounceTimeout);
+                        setMixerThresholdLevels(localThresholdLevels);
+                    }}>
+                    Zapisz zmiany
+                </Button>
+            </Box>
         </Box>
     </DashboardThemeProvider>
 }
