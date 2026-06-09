@@ -1,8 +1,10 @@
 import { DashboardThemeProvider } from "./components/DashboardThemeProvider";
 import { render } from '../render'
 import { useReplicant } from "use-nodecg";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { Box, Button, Input, Slider, Typography } from "@mui/material";
+import React, {useEffect, useState, useRef } from "react";
+import { Box, Slider, Typography } from "@mui/material";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import SyncIcon from "@mui/icons-material/Sync";
 
 const channelIdToName = {
     "1": "H1",
@@ -22,8 +24,6 @@ const channelNameToId = Object.entries(channelIdToName).reduce((acc, [id, name])
     return acc;
 }, {} as Record<string, string>);
 
-let debounceTimeout: ReturnType<typeof setTimeout>;
-
 export const MicThreshold = () => {
 
     const [mixerThresholdLevels, setMixerThresholdLevels] = useReplicant<{ [key in keyof typeof channelNameToId]: number }>(
@@ -41,94 +41,155 @@ export const MicThreshold = () => {
         }, { "": +Infinity } as Record<string, number>)
     )
 
-    useEffect(() => {
-        if (!mixerThresholdLevels) return;
+    const debounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-        setLocalThresholdLevels(mixerThresholdLevels);
-    }, [mixerThresholdLevels])
+    const[isSaving, setIsSaving] = useState(false);
 
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+    const spinKeyframes = {
+        '0%': { transform: 'rotate(0deg)' },
+        '100%': { transform: 'rotate(360deg)' },
+    }
+ 
     const handleSliderChange = (key: string) => (_event: Event, newVal: number | number[]) => {
+        setIsSaving(true);
         setLocalThresholdLevels((prevLevels) => ({
             ...prevLevels,
             [key]: newVal as number
         }))
     }
 
-    useEffect(() => {
-        clearTimeout(debounceTimeout);
+    const handleWheelScroll = (e: React.WheelEvent<HTMLDivElement>, key: string, value: number) => {
+                e.preventDefault();
+                const direction = e.deltaY < 0 ? 1 : -1;
+                const step = 0.1;
+                const nextVal = Number((value + direction * step).toFixed(1));
+                const clampedVal = Math.min(Math.max(nextVal, -90), 0);
+                handleSliderChange(key)({} as any, clampedVal);
+    }
 
-        debounceTimeout = setTimeout(() => {
+    useEffect(() =>{
+        const container = scrollContainerRef.current;
+        
+        if(!container) return;
+
+        const preventDefaultScroll = (e: WheelEvent) => {
+            if (e.deltaY !== 0){
+                e.preventDefault();
+            }
+        }
+
+        container.addEventListener('wheel', preventDefaultScroll, {passive: false});
+
+        return ()=>{
+            container.removeEventListener('wheel', preventDefaultScroll);
+        }
+    }, [])
+
+    useEffect(() => {
+        if (!mixerThresholdLevels) return;
+
+        setLocalThresholdLevels(mixerThresholdLevels);
+        setIsSaving(false);
+    }, [mixerThresholdLevels])
+
+    useEffect(() => {
+        if (debounceTimeout.current){
+            clearTimeout(debounceTimeout.current);
+        }
+
+        debounceTimeout.current = setTimeout(() => {
             setMixerThresholdLevels(localThresholdLevels);
         }, 500);
 
-        return () => clearTimeout(debounceTimeout);
+        return () => {
+            if (debounceTimeout.current){
+                clearTimeout(debounceTimeout.current);
+            }
+        }
     }, [localThresholdLevels]);
     
-
     return <DashboardThemeProvider>
         <Box 
+        ref={scrollContainerRef}
         display="grid"
-        gridTemplateColumns="70px 1fr 90px"
+        gridTemplateColumns="70px 1fr 70px"
         gap={2}
         alignItems="center"
         sx={{maxWidth: '100vw', margin: '20px auto'}}
         >
-            {Object.entries(localThresholdLevels).map(([key, value]) => {
+            {Object.entries(localThresholdLevels).map(([key, value]) => { 
                 if (key.length !== 0) {
-
-                    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-                        const val = e.target.value === '' ? -90 : Number(e.target.value);
-                        const clampedVal = Math.min(Math.max(val, -90), 0);
-
-                        handleSliderChange(key)({} as any, clampedVal);
-                    }
-
                     return (
                         <React.Fragment key={key}>
                             <Typography variant="body1" noWrap>{key}</Typography>
-                            <Slider
-                                value={value}
-                                onChange={handleSliderChange(key)}
-                                min={-90}
-                                max={0}
-                                step={0.1}
-                                aria-labelledby={key}
-                            />
-                            <Input
-                                value={value}
-                                size="small"
-                                onChange={handleInputChange}
-                                slotProps={{
-                                    input: {
-                                        step: 0.1,
-                                        min: -90,
-                                        max: 0,
-                                        type: 'number',
-                                    },
-                                }}
-                                endAdornment={<Typography variant="body2" sx={{ml: 0.5}}>dB</Typography>}
-                                sx={{ '& input': { textAlign: 'right'}}}
-                            />
+                            <Box onWheel={(e) => handleWheelScroll(e, key, value)} sx={{display: 'flex', alignItems:'center'}}>
+                                <Slider
+                                    value={value}
+                                    onChange={handleSliderChange(key)}
+                                    min={-90}
+                                    max={0}
+                                    step={0.1}
+                                    aria-labelledby={key}
+                                />
+                            </Box>
+                            <Box
+                            onWheel={(e) => handleWheelScroll(e, key, value)}
+                            sx={{
+                                display: 'flex', 
+                                justifyContent: 'flex-end', 
+                                alignItems: 'center',
+                                paddingRight: '4px',
+                                height: '40px',
+                                userSelect: 'none'
+                            }}
+                            >
+                                <Typography variant="body1" sx={{ fontWeight: '500', minWidth: '45px', textAlign: 'right' }}>
+                                {value.toFixed(1)}
+                                </Typography>
+                                <Typography variant="body2" sx={{ ml: 0.5, color: 'text.secondary' }}>
+                                    dB
+                                </Typography>
+                            </Box>
                         </React.Fragment>
                     )
                 } else {
                     return <></>
-                }
+                }           
             })}
-            <Box gridColumn="span 3" sx={{ mt: 2}}>
-                <Button
-                    disabled={mixerThresholdLevels === localThresholdLevels}
-                    variant="contained"
-                    fullWidth
-                    onClick={() => {
-                        clearTimeout(debounceTimeout);
-                        setMixerThresholdLevels(localThresholdLevels);
-                    }}>
-                    Zapisz zmiany
-                </Button>
+            <Box 
+                gridColumn="span 3" 
+                sx={{ 
+                    mt: 3, 
+                    display: 'flex', 
+                    justifyContent: 'center', 
+                    alignItems: 'center',
+                    gap: 1,
+                    padding: '10px',
+                    borderRadius: '8px',
+                    backgroundColor: isSaving ? 'rgba(255, 204, 0, 0.1)' : 'rgba(85, 170, 85, 0.1)',
+                    transition: 'all 0.3s ease'
+                }}
+            >
+                {isSaving ? (
+                    <>
+                        <SyncIcon sx={{ color: 'rgba(255, 204, 0, 1)', animation: 'spin 1s linear infinite', '@keyframes spin' : spinKeyframes }} />
+                        <Typography variant="body2" sx={{ color: 'rgba(255, 204, 0, 1)', fontWeight: 'bold' }}>
+                            Zapisywanie...
+                        </Typography>
+                    </>
+                ) : (
+                    <>
+                        <CheckCircleOutlineIcon sx={{ color: 'rgba(85, 170, 85, 1)' }} />
+                        <Typography variant="body2" sx={{ color: 'rgba(85, 170, 85, 1)', fontWeight: 'bold' }}>
+                            Wszystko zapisano
+                        </Typography>
+                    </>
+                )}
             </Box>
         </Box>
-    </DashboardThemeProvider>
+    </DashboardThemeProvider> 
 }
 
 render(<MicThreshold />)
