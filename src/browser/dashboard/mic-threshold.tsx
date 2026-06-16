@@ -116,8 +116,9 @@ export const MicThreshold = () => {
         display="grid"
         gridTemplateColumns="70px 1fr 70px"
         gap={2}
+        rowGap={1}
         alignItems="center"
-        sx={{maxWidth: '100vw', margin: '20px auto'}}
+        sx={{maxWidth: '100vw', margin: '5px auto'}}
         >
             {Object.entries(localThresholdLevels).map(([key, value]) => { 
                 if (key.length !== 0) {
@@ -132,6 +133,7 @@ export const MicThreshold = () => {
                                     max={0}
                                     step={0.1}
                                     aria-labelledby={key}
+                                    sx={{padding: '8px 0'}}
                                 />
                             </Box>
                             <Box
@@ -141,7 +143,7 @@ export const MicThreshold = () => {
                                 justifyContent: 'flex-end', 
                                 alignItems: 'center',
                                 paddingRight: '4px',
-                                height: '40px',
+                                height: '5px',
                                 userSelect: 'none'
                             }}
                             >
@@ -161,7 +163,7 @@ export const MicThreshold = () => {
             <Box 
                 gridColumn="span 3" 
                 sx={{ 
-                    mt: 3, 
+                    mt: 1, 
                     display: 'flex', 
                     justifyContent: 'center', 
                     alignItems: 'center',
