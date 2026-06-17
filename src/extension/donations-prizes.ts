@@ -179,7 +179,7 @@ async function setDonationAsRead(id: number, name: string, amount: number): Prom
   try {
     const resp = await needle(
       'get',
-      `${rootURL}/edit?type=donation&id=${id}` + '&readstate=READ&commentstate=APPROVED',
+      `${rootURL}/edit?type=donation&id=${id}` + '&readstate=READ',
       {
         cookies: cookies,
       }
