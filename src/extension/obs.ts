@@ -9,11 +9,16 @@ import { TaggedLogger } from './util/tagged-logger';
 import { RunDataActiveRun } from 'speedcontrol/src/types';
 
 class Videos {
-  private _assets : Asset[];
-  private _currentVideoIndex : number;
-  private _lastVideo : Asset | undefined;
-  constructor(videoAssets : Asset[] | undefined, currentIndex : number, lastVideo : Asset | undefined) {
-    if(videoAssets === undefined){
+  private _assets: Asset[];
+  private _currentVideoIndex: number;
+  private _lastVideo: Asset | undefined;
+
+  constructor(
+    videoAssets: Asset[] | undefined,
+    currentIndex: number,
+    lastVideo: Asset | undefined
+  ) {
+    if (videoAssets === undefined) {
       videoAssets = [];
     }
     this._assets = videoAssets.slice(0);
@@ -21,38 +26,44 @@ class Videos {
     this._currentVideoIndex = currentIndex;
     this.shuffleVideos();
   }
-  public getCurrentIndex() : number{
+
+  public getCurrentIndex(): number {
     return this._currentVideoIndex;
   }
-  public getLastPlayedVideo() : Asset | undefined{
+
+  public getLastPlayedVideo(): Asset | undefined {
     return this._lastVideo;
   }
-  public getNextVideo() : Asset | undefined{
+
+  public getNextVideo(): Asset | undefined {
     const nextVideo = this._assets[this._currentVideoIndex];
     ++this._currentVideoIndex;
     this._lastVideo = nextVideo;
-    if(this._currentVideoIndex >= this._assets.length){
+    if (this._currentVideoIndex >= this._assets.length) {
       this.shuffleVideos();
     }
     return nextVideo;
   }
-  public addNewVideo(video : Asset | undefined) : void{
-    if(video !== undefined)
+
+  public addNewVideo(video: Asset | undefined): void {
+    if (video !== undefined) {
       this._assets.push(video);
+    }
   }
-  private shuffleVideos() : void{
+
+  private shuffleVideos(): void {
     let currentIndex = this._assets.length;
     //shuffle
     while (currentIndex != 0) {
       const randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--; 
+      currentIndex--;
 
       const tmp = this._assets[currentIndex];
       this._assets[currentIndex] = this._assets[randomIndex] as Asset;
       this._assets[randomIndex] = tmp as Asset;
     }
     //make sure video will not be played 2 times in a row
-    if(this._lastVideo !== undefined && this._assets[0] === this._lastVideo){
+    if (this._lastVideo !== undefined && this._assets[0] === this._lastVideo) {
       const tmp = this._assets[0];
       this._assets[0] = this._assets[this._assets.length - 1] as Asset;
       this._assets[this._assets.length - 1] = tmp;
@@ -119,7 +130,7 @@ if (config.enabled) {
             log.error('Nie udało się wyzerować filmu na przerwie: ', err);
           });
       }
-      const studioModeStatus = await obs.call('GetStudioModeEnabled')
+      const studioModeStatus = await obs.call('GetStudioModeEnabled');
       obsDataReplicant.value!.studioMode = studioModeStatus.studioModeEnabled;
       initializeHostMute();
     })
@@ -140,14 +151,19 @@ videosLong.on('change', (newValue, oldValue) => {
   shuffledVideosLong = handleChangedVideos(newValue, oldValue, shuffledVideosLong);
 });
 
-function handleChangedVideos(newValue : Asset[] | undefined, oldValue : Asset[] | undefined, shuffledVideos : Videos){
-  if(newValue !== undefined && oldValue !== undefined){
-    if(newValue!.length > oldValue!.length){    //adding new video
-      for(let i = oldValue!.length; i < newValue!.length; ++i){
+function handleChangedVideos(
+  newValue: Asset[] | undefined,
+  oldValue: Asset[] | undefined,
+  shuffledVideos: Videos
+) {
+  if (newValue !== undefined && oldValue !== undefined) {
+    if (newValue!.length > oldValue!.length) {
+      //adding new video
+      for (let i = oldValue!.length; i < newValue!.length; ++i) {
         shuffledVideos.addNewVideo(newValue[i]);
       }
-    }
-    else if(newValue!.length < oldValue!.length){    //removing video
+    } else if (newValue!.length < oldValue!.length) {
+      //removing video
       const previousVideo = shuffledVideos.getLastPlayedVideo();
       shuffledVideos = new Videos(newValue, 0, previousVideo);
     }
@@ -155,28 +171,26 @@ function handleChangedVideos(newValue : Asset[] | undefined, oldValue : Asset[] 
   return shuffledVideos;
 }
 
-
 function initializeHostMute() {
   const channel = config.sources!.hostAudio;
 
-  obs.
-  call("GetInputMute", {inputName: channel})
-  .then((data) => {
-    hostMuteStatusReplicant.value = data.inputMuted;
-  })
-  .catch((err) => {
-    log.error(`Nie udało się pobrać wartości mute dla: ${channel}! Powód: ${err}`);
-  });
-
+  obs
+    .call('GetInputMute', { inputName: channel })
+    .then((data) => {
+      hostMuteStatusReplicant.value = data.inputMuted;
+    })
+    .catch((err) => {
+      log.error(`Nie udało się pobrać wartości mute dla: ${channel}! Powód: ${err}`);
+    });
 }
 
 function toggleHostMute() {
   const channel = config.sources!.hostAudio;
   obs
-  .call("SetInputMute", {inputName: channel, inputMuted: !hostMuteStatusReplicant.value})
-  .catch((err) => {
-    log.error(`Nie udało się zmienić wartości mute dla: ${channel}! Powód: ${err}`);
-  });
+    .call('SetInputMute', { inputName: channel, inputMuted: !hostMuteStatusReplicant.value })
+    .catch((err) => {
+      log.error(`Nie udało się zmienić wartości mute dla: ${channel}! Powód: ${err}`);
+    });
   // we don't have to update the replicant here, because we listen to obs events anyway
 }
 
@@ -184,20 +198,21 @@ async function reconnectToOBS() {
   clearTimeout(reconnectTimeout);
   if (!obsDataReplicant.value!.connected && config.enabled) {
     log.info('Próbuję się połączyć z OBSem...');
-    obs.connect(config.address, config.password).then(async () => {
-      const studioModeStatus = await obs.call('GetStudioModeEnabled')
-      obsDataReplicant.value!.studioMode = studioModeStatus.studioModeEnabled;
-    }).catch((err) => {
-      log.error(`Nie udało się połączyć z OBSem! Powód: ${err}`);
-      reconnectTimeout = setTimeout(reconnectToOBS, 5000);
-    });
-
+    obs
+      .connect(config.address, config.password)
+      .then(async () => {
+        const studioModeStatus = await obs.call('GetStudioModeEnabled');
+        obsDataReplicant.value!.studioMode = studioModeStatus.studioModeEnabled;
+      })
+      .catch((err) => {
+        log.error(`Nie udało się połączyć z OBSem! Powód: ${err}`);
+        reconnectTimeout = setTimeout(reconnectToOBS, 5000);
+      });
   }
 }
 
 function switchToIntermission() {
   if (obsDataReplicant.value?.scene === config.scenes!.intermission) return; // if we're already on intermission, don't do anything
-
 
   nodecg.sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
   if (!obsDataReplicant.value!.studioMode) {
@@ -640,7 +655,7 @@ obs.on('InputMuteStateChanged', (data) => {
   if (data.inputName == channel) {
     hostMuteStatusReplicant.value = data.inputMuted;
   }
-})
+});
 
 obs.on('ConnectionOpened', () => {
   log.info('Połączono z OBSem!');

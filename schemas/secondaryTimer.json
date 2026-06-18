@@ -21,12 +21,7 @@
     "phase": {
       "type": "string",
       "default": "stopped",
-      "enum": [
-        "stopped",
-        "running",
-        "paused",
-        "finished"
-      ]
+      "enum": ["stopped", "running", "paused", "finished"]
     }
   },
   "required": ["enabled", "time", "phase", "milliseconds", "timestamp"]
