@@ -821,7 +821,7 @@ const Donation = ({
             </p>
             <p>{donation.comment}</p>
           </div>
-          {donation.bid && donation.bid.length && (
+          {(donation.bid && donation.bid.length && (
             <>
               <p>
                 <b>Licytacje</b>
@@ -834,7 +834,7 @@ const Donation = ({
                 );
               })}
             </>
-          )}
+          )) || ''}
           <Button
             sx={{ width: '100%' }}
             variant="contained"
