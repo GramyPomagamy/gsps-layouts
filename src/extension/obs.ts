@@ -48,6 +48,7 @@ class Videos {
   public addNewVideo(video: Asset | undefined): void {
     if (video !== undefined) {
       this._assets.push(video);
+      this.shuffleVideos();
     }
   }
 
