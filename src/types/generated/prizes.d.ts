@@ -14,4 +14,6 @@ export type Prizes = {
 	image?: string;
 	startTime?: number;
 	endTime?: number;
+	quantity: number;
+	displayName: string;
 }[];

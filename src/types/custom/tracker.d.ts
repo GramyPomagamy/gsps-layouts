@@ -23,6 +23,7 @@ export namespace Tracker {
       starttime: string | null;
       endtime: string | null;
       state: string;
+      quantity: number;
     };
   }
 
@@ -34,6 +35,8 @@ export namespace Tracker {
     image?: string;
     startTime?: number;
     endTime?: number;
+    quantity: number;
+    displayName: string;
   }
 
   // The object from the tracker API.
