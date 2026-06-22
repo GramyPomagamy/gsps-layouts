@@ -163,7 +163,7 @@ const Prizes = ({ onEnd }: { onEnd: () => void }) => {
       </ChevronContainer>
       {selectedPrize && (
         <PrizeDiv ref={prizeRef}>
-          <div>{selectedPrize.name}</div>
+          <div>{selectedPrize.displayName}</div>
           <div>
             {selectedPrize.provided && (
               <>
