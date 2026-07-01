@@ -11,12 +11,13 @@ function formatSeconds(inputSeconds: number): string {
 }
 
 const App = () => {
-  const [songProgress] = useReplicant<SongProgress>('songProgress', {"duration": 0, "position": 0});
+  const [songProgress] = useReplicant<SongProgress>('songProgress', { duration: 0, position: 0 });
 
   return (
     <DashboardThemeProvider>
       <p>
-        {formatSeconds(songProgress.position)} / {formatSeconds(songProgress.duration)} (-{formatSeconds(Math.floor(songProgress.duration) - Math.floor(songProgress.position))})
+        {formatSeconds(songProgress.position)} / {formatSeconds(songProgress.duration)} (-
+        {formatSeconds(Math.floor(songProgress.duration) - Math.floor(songProgress.position))})
       </p>
     </DashboardThemeProvider>
   );

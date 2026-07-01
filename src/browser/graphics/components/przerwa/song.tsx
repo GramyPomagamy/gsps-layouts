@@ -8,11 +8,11 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group';
 
 const songBackgroundSize = '576px';
 
-const SongDiv = styled.div<{top: number, left: number}>`
+const SongDiv = styled.div<{ top: number; left: number }>`
   display: flex;
   position: fixed;
-  top: ${props => props.top}px;
-  left: ${props => props.left}px;
+  top: ${(props) => props.top}px;
+  left: ${(props) => props.left}px;
   background: #e6e6e6;
   height: 32px;
   color: rgb(60, 60, 60);
@@ -44,7 +44,7 @@ const SongScroller = styled.div`
   line-height: 50px;
   text-align: center;
   transform: translateX(100%);
-  animation: ${scrollLeftAnimation} 18s linear infinite
+  animation: ${scrollLeftAnimation} 18s linear infinite;
 `;
 const SongName = styled.div`
   width: 100%;
@@ -57,7 +57,7 @@ const Song = ({ top = 50, left = 0 }) => {
 
   return (
     <IconContext.Provider value={{ size: '1.5em' }}>
-      <SongDiv top={top} left={left} >
+      <SongDiv top={top} left={left}>
         <IoIosMusicalNotes />
         <SwitchTransition mode="out-in">
           <CSSTransition

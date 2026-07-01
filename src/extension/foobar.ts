@@ -34,8 +34,8 @@ class FoobarControl {
    */
   setVolume(volume: number) {
     needle('post', `${this.address}/api/player?volume=${volume}`, {}).catch((error) => {
-      this.log.error('Błąd przy ustawianiu głośności: ' + error.message)
-    })
+      this.log.error('Błąd przy ustawianiu głośności: ' + error.message);
+    });
   }
 
   async getSongInfo(): Promise<[string, number, number]> {

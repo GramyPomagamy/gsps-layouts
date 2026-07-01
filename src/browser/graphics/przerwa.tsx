@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import defaultLogo from './img/GSPS_PNG.png';
 import mainBg from './img/main-background.png';
-import transparentBg from './img/gradient_transparent.png'
+import transparentBg from './img/gradient_transparent.png';
 import { render } from '../render';
 import MediaBox from './components/media-box';
 import Song from './components/przerwa/song';
@@ -15,7 +15,7 @@ import DonationBar from './components/donation-bar';
 import { useReplicant } from 'use-nodecg';
 import { Asset } from 'src/types/custom';
 
-const LayoutContainer = styled.div<{ useTransparentBackgrounds: boolean}>`
+const LayoutContainer = styled.div<{ useTransparentBackgrounds: boolean }>`
   width: 1920px;
   height: 1026px;
   background-image: url(${(props) => (props.useTransparentBackgrounds ? transparentBg : mainBg)});
@@ -74,7 +74,8 @@ export const App = () => {
       {showDonationBar && (
         <Donations>
           <DonationBar />
-        </Donations>)}
+        </Donations>
+      )}
       <BreakOmnibar />
       <BreakTicker />
       <Total />
