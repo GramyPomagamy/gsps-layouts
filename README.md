@@ -77,6 +77,8 @@ This bundle can interface with [foobar2000](https://www.foobar2000.org/) using t
 
 If you want to enable hot reload you must use 2 terminals so that changes in files will be automatically detected and updated. One should run `npm run watch` and the other one `npm run start`
 
+We are using [pre-commit](https://pre-commit.com/#intro) to automatically lint and format our files.
+
 ### Other Information
 
 #### Events Used For
