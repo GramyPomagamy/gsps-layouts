@@ -195,7 +195,7 @@ const PrizePanel = () => {
               <span
                 ref={prizeRef}
                 style={{ lineHeight: '15px', marginLeft: '10px', marginRight: '10px' }}>
-                <h2>{currentPrize.name}</h2>
+                <h2>{currentPrize.displayName}</h2>
                 <div style={{ fontSize: '20px' }}>
                   {currentPrize.provided && (
                     <p>Nagroda dostarczona przez: {currentPrize.provided}</p>

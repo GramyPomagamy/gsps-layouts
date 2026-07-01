@@ -179,7 +179,7 @@ async function setDonationAsRead(id: number, name: string, amount: number): Prom
   try {
     const resp = await needle(
       'get',
-      `${rootURL}/edit?type=donation&id=${id}` + '&readstate=READ&commentstate=APPROVED',
+      `${rootURL}/edit?type=donation&id=${id}` + '&readstate=READ',
       {
         cookies: cookies,
       }
@@ -204,14 +204,19 @@ function processRawPrizes(rawPrizes: Tracker.Prize[]): Tracker.FormattedPrize[] 
     .map((prize) => {
       const startTime = prize.fields.startrun__starttime || prize.fields.starttime;
       const endTime = prize.fields.endrun__endtime || prize.fields.endtime;
+      const quantity = prize.fields.quantity;
+      const name = prize.fields.name;
+      const displayName = quantity > 1 ? `${quantity}x ${name}` : name;
       return {
         id: prize.pk,
-        name: prize.fields.name,
+        name: name,
         provided: prize.fields.provider || undefined,
         minimumBid: parseFloat(prize.fields.minimumbid),
         image: prize.fields.image || undefined,
         startTime: startTime ? Date.parse(startTime) : undefined,
         endTime: endTime ? Date.parse(endTime) : undefined,
+        quantity: quantity,
+        displayName: displayName,
       };
     });
 }

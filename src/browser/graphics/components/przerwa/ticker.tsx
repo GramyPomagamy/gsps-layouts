@@ -183,7 +183,7 @@ const Prizes = ({ onEnd }: { onEnd: () => void }) => {
             <PrizeInfo className="shadow">
               <p style={{ marginTop: '20px', fontSize: '28px' }}>
                 <AutoTextSize mode="multiline" maxFontSizePx={48}>
-                  {selectedPrize.name}
+                  {selectedPrize.displayName}
                 </AutoTextSize>
               </p>
               {selectedPrize.provided && (

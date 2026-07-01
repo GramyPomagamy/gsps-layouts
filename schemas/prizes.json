@@ -25,9 +25,15 @@
       },
       "endTime": {
         "type": "number"
+      },
+      "quantity": {
+        "type": "number"
+      },
+      "displayName": {
+        "type": "string"
       }
     },
-    "required": ["id", "name", "minimumBid"]
+    "required": ["id", "name", "minimumBid", "quantity", "displayName"]
   },
   "default": []
 }

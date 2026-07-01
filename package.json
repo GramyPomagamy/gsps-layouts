@@ -33,7 +33,6 @@
     "watch": "run-p watch:*",
     "watch:browser": "vite",
     "watch:extension": "tsc -b tsconfig.extension.json -w --preserveWatchOutput",
-    "prepare": "husky"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
