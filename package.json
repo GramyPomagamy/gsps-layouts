@@ -32,7 +32,7 @@
     "start": "nodecg start",
     "watch": "run-p watch:*",
     "watch:browser": "vite",
-    "watch:extension": "tsc -b tsconfig.extension.json -w --preserveWatchOutput",
+    "watch:extension": "tsc -b tsconfig.extension.json -w --preserveWatchOutput"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
