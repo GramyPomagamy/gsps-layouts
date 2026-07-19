@@ -23,6 +23,13 @@ import { channels as channelsMap } from '../channels';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export const App = () => {
+  const [livePlayerChannel, setLivePlayerChannel] = useReplicant<Channel>('livePlayerChannel', '');
+  const [localPlayerChannel, setLocalPlayerChannel] = useState<Channel>('');
+
+  function updatePlayerChannel(channel: Channel) {
+    setLocalPlayerChannel(channel);
+  }
+
   const [liveCommentatorList, setLiveCommentatorList] = useReplicant<Commentators>(
     'commentators',
     []
@@ -34,6 +41,10 @@ export const App = () => {
 
     setLocalCommentatorList(liveCommentatorList);
   }, [liveCommentatorList]);
+
+  useEffect(() => {
+    setLocalPlayerChannel(livePlayerChannel);
+  }, [livePlayerChannel]);
 
   function updateCommentatorName(commentatorIndex: number, name: string) {
     const newState = localCommentatorList.map((obj, index) => {
@@ -74,6 +85,23 @@ export const App = () => {
   return (
     <DashboardThemeProvider>
       <Stack spacing={2}>
+        <FormControl fullWidth>
+          <InputLabel id={`channel-select-label-player`}>Kanał Audio Runnera</InputLabel>
+          <Select
+            variant="outlined"
+            labelId={`channel-select-label-player`}
+            value={localPlayerChannel as string}
+            label="Kanał Audio Gracza"
+            onChange={(event: SelectChangeEvent) => {
+              updatePlayerChannel(event.target.value as Channel);
+            }}>
+            {Object.entries(channelsMap).map((channel) => (
+              <MenuItem key={channel[0]} value={channel[1]}>
+                {channel[0]}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <Button
           variant="contained"
           onClick={() => {
@@ -164,9 +192,12 @@ export const App = () => {
         </Button>
         <Button
           variant="contained"
-          disabled={liveCommentatorList === localCommentatorList}
+          disabled={
+            liveCommentatorList === localCommentatorList && livePlayerChannel === localPlayerChannel
+          }
           onClick={() => {
             setLiveCommentatorList(localCommentatorList);
+            setLivePlayerChannel(localPlayerChannel);
           }}>
           Zapisz zmiany
         </Button>
