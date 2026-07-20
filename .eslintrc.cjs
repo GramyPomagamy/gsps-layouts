@@ -11,6 +11,6 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': 'warn',
     '@typescript-eslint/ban-types': 'off',
-    "@typescript-eslint/no-non-null-assertion": "off"
+    '@typescript-eslint/no-non-null-assertion': 'off',
   },
 };

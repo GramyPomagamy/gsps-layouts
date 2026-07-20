@@ -43,7 +43,6 @@ const Ticker = () => {
   let currentComponentIndex = 0;
   let messageTypes: JSX.Element[] = [];
 
-
   function genericMsg(message: string) {
     return <GenericMessage message={message} onEnd={showNextElement} />;
   }
@@ -65,23 +64,24 @@ const Ticker = () => {
   useEffect(() => {
     messageTypes.splice(0, messageTypes.length);
 
-    omnibarTextReplicant?.forEach(text => messageTypes.push(genericMsg(text)));
+    omnibarTextReplicant?.forEach((text) => messageTypes.push(genericMsg(text)));
 
-    if(omnibarEnableMilestones) {
+    if (omnibarEnableMilestones) {
       messageTypes.push(<Milestones onEnd={showNextElement} />);
-    }
-    else if(messageTypes.includes(<Milestones onEnd={showNextElement} />)) {
-      messageTypes.splice(messageTypes.indexOf(<Milestones onEnd={showNextElement} />), 1)
+    } else if (messageTypes.includes(<Milestones onEnd={showNextElement} />)) {
+      messageTypes.splice(messageTypes.indexOf(<Milestones onEnd={showNextElement} />), 1);
     }
 
-    currentComponentIndex = currentComponentIndex > messageTypes.length ? messageTypes.length - 1 : currentComponentIndex
+    currentComponentIndex =
+      currentComponentIndex > messageTypes.length ? messageTypes.length - 1 : currentComponentIndex;
     setNewElement();
-
-  }, [omnibarTextReplicant,
+  }, [
+    omnibarTextReplicant,
     omnibarEnableBids,
     omnibarEnableMilestones,
     omnibarEnableNextRuns,
-    omnibarEnablePrizes]);
+    omnibarEnablePrizes,
+  ]);
 
   return (
     <TickerContainer>

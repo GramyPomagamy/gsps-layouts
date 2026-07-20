@@ -2,11 +2,7 @@ import { DashboardThemeProvider } from './components/DashboardThemeProvider';
 import { render } from '../render';
 import { useReplicant } from 'use-nodecg';
 import { Alert, Button, Stack } from '@mui/material';
-import {
-  RunData,
-  RunDataActiveRunSurrounding,
-  RunDataArray,
-} from 'speedcontrol/src/types/schemas';
+import { RunData, RunDataActiveRunSurrounding, RunDataArray } from 'speedcontrol/src/types/schemas';
 import { ObsData } from 'src/types/generated';
 import { Timer } from 'speedcontrol/src/types/schemas/timer';
 import { useEffect, useState } from 'react';

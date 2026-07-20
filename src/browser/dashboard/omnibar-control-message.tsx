@@ -2,15 +2,7 @@ import { DashboardThemeProvider } from './components/DashboardThemeProvider';
 import { render } from '../render';
 import { useReplicant } from 'use-nodecg';
 import { useEffect, useState } from 'react';
-import {
-  Button,
-  Divider,
-  Fab,
-  Grid,
-  Stack,
-  TextField,
-  Tooltip,
-} from '@mui/material';
+import { Button, Divider, Fab, Grid, Stack, TextField, Tooltip } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export const App = () => {

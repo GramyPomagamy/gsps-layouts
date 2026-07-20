@@ -26,11 +26,10 @@ const Ticker = () => {
   let currentComponentIndex = 0;
   let messageTypes: JSX.Element[] = [];
 
-
   function genericMsg(message: string) {
     return <GenericMessage message={message} onEnd={showNextElement} />;
   }
-  
+
   function showNextElement() {
     console.log('SHOWING NEXT MESSAGE');
     currentComponentIndex += 1;
@@ -47,45 +46,43 @@ const Ticker = () => {
 
   useEffect(() => {
     messageTypes.splice(0, messageTypes.length);
-    
-    omnibarTextReplicant?.forEach(text => messageTypes.push(genericMsg(text)));
 
-    if(omnibarEnableBids) {
+    omnibarTextReplicant?.forEach((text) => messageTypes.push(genericMsg(text)));
+
+    if (omnibarEnableBids) {
       messageTypes.push(<Bids onEnd={showNextElement} />);
-    }
-    else if(messageTypes.includes(<Bids onEnd={showNextElement} />)) {
-      messageTypes.splice(messageTypes.indexOf(<Bids onEnd={showNextElement} />), 1)
+    } else if (messageTypes.includes(<Bids onEnd={showNextElement} />)) {
+      messageTypes.splice(messageTypes.indexOf(<Bids onEnd={showNextElement} />), 1);
     }
 
-    if(omnibarEnableMilestones) {
+    if (omnibarEnableMilestones) {
       messageTypes.push(<Milestones onEnd={showNextElement} />);
-    }
-    else if(messageTypes.includes(<Milestones onEnd={showNextElement} />)) {
-      messageTypes.splice(messageTypes.indexOf(<Milestones onEnd={showNextElement} />), 1)
+    } else if (messageTypes.includes(<Milestones onEnd={showNextElement} />)) {
+      messageTypes.splice(messageTypes.indexOf(<Milestones onEnd={showNextElement} />), 1);
     }
 
-    if(omnibarEnableNextRuns) {
+    if (omnibarEnableNextRuns) {
       messageTypes.push(<NextRuns onEnd={showNextElement} />);
-    }
-    else if(messageTypes.includes(<NextRuns onEnd={showNextElement} />)) {
-      messageTypes.splice(messageTypes.indexOf(<NextRuns onEnd={showNextElement} />), 1)
+    } else if (messageTypes.includes(<NextRuns onEnd={showNextElement} />)) {
+      messageTypes.splice(messageTypes.indexOf(<NextRuns onEnd={showNextElement} />), 1);
     }
 
-    if(omnibarEnablePrizes) {
+    if (omnibarEnablePrizes) {
       messageTypes.push(<Prizes onEnd={showNextElement} />);
-    }
-    else if(messageTypes.includes(<Prizes onEnd={showNextElement} />)){
-      messageTypes.splice(messageTypes.indexOf(<Prizes onEnd={showNextElement} />), 1)
+    } else if (messageTypes.includes(<Prizes onEnd={showNextElement} />)) {
+      messageTypes.splice(messageTypes.indexOf(<Prizes onEnd={showNextElement} />), 1);
     }
 
-    currentComponentIndex = currentComponentIndex > messageTypes.length ? messageTypes.length - 1 : currentComponentIndex
+    currentComponentIndex =
+      currentComponentIndex > messageTypes.length ? messageTypes.length - 1 : currentComponentIndex;
     setNewElement();
-
-  }, [omnibarTextReplicant,
+  }, [
+    omnibarTextReplicant,
     omnibarEnableBids,
     omnibarEnableMilestones,
     omnibarEnableNextRuns,
-    omnibarEnablePrizes]);
+    omnibarEnablePrizes,
+  ]);
 
   return (
     <TickerContainer>

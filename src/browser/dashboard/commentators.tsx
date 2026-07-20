@@ -77,7 +77,10 @@ export const App = () => {
         <Button
           variant="contained"
           onClick={() => {
-            setLocalCommentatorList([...localCommentatorList, { name: '', pronouns: '', channel: '' }]);
+            setLocalCommentatorList([
+              ...localCommentatorList,
+              { name: '', pronouns: '', channel: '' },
+            ]);
           }}>
           Dodaj komentatora
         </Button>

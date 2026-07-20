@@ -32,10 +32,8 @@ const RunInfo = ({
     namespace: 'nodecg-speedcontrol',
   });
   let runInfo: String[] = [];
-  if(activeRun?.category)
-    runInfo.push(activeRun.category)
-  if(activeRun?.system)
-    runInfo.push(activeRun.system)
+  if (activeRun?.category) runInfo.push(activeRun.category);
+  if (activeRun?.system) runInfo.push(activeRun.system);
   return (
     <GameInfoContainer className="shadow">
       {activeRun && (
@@ -54,7 +52,7 @@ const RunInfo = ({
                 style={{ marginLeft: 'auto', marginRight: 'auto' }}
                 maxFontSizePx={fontSize * 0.7}
                 mode="box">
-                {runInfo.join(" - ")}
+                {runInfo.join(' - ')}
               </AutoTextSize>
             </Category>
           )}

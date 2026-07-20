@@ -1,7 +1,7 @@
 import { render } from '../render';
 import defaultLogo from './img/GSPS_PNG.png';
 import mainBg from './img/main-background.png';
-import transparentBg from './img/gradient_transparent.png'
+import transparentBg from './img/gradient_transparent.png';
 import styled from 'styled-components';
 import Song from './components/przerwa/song';
 import { useRef } from 'react';
@@ -10,8 +10,7 @@ import { Countdown, CountdownRunning } from 'src/types/generated';
 import ThemeProvider from './components/theme-provider';
 import { Asset } from 'src/types/custom';
 
-
-const LayoutContainer = styled.div<{ useTransparentBackgrounds: boolean}>`
+const LayoutContainer = styled.div<{ useTransparentBackgrounds: boolean }>`
   width: 1920px;
   height: 1030px;
   background-image: url(${(props) => (props.useTransparentBackgrounds ? transparentBg : mainBg)});

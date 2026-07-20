@@ -9,7 +9,6 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { AutoTextSize } from 'auto-text-size';
 import Song from './components/przerwa/song';
 
-
 export const Pronouns = styled.span`
   font-weight: 400;
   font-size: 0.5em;

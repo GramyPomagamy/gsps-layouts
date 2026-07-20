@@ -45,7 +45,9 @@ const Host = () => {
             timeout={1000}
             classNames="fade">
             <HostNick ref={readerRef}>
-              <p>{reader?.name} {reader?.pronouns && <>({reader?.pronouns})</>}</p>
+              <p>
+                {reader?.name} {reader?.pronouns && <>({reader?.pronouns})</>}
+              </p>
             </HostNick>
           </CSSTransition>
         </SwitchTransition>

@@ -1,75 +1,75 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "type": "object",
-    "additionalProperties": false,
-    "properties": {
-        "connected": {
-            "type": "boolean",
-            "default": false
-        },
-        "scene": {
-            "type": "string"
-        },
-        "studioMode": {
-            "type": "boolean",
-            "default": false
-        },
-        "transitioning": {
-            "type": "boolean",
-            "default": false
-        },
-        "streaming": {
-            "type": "boolean",
-            "default": false
-        },
-        "recording": {
-            "type": "boolean",
-            "default": false
-        },
-        "recordingName": {
-            "type": "string",
-            "default": ""
-        },
-        "disableTransitioning": {
-            "type": "boolean",
-            "default": false
-        },
-        "transitionTimestamp": {
-            "type": "number",
-            "default": 0
-        },
-        "croppers": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "url": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "sceneName": {
-                        "type": "string"
-                    },
-                    "sourceName": {
-                        "type": "string"
-                    }
-                },
-                "additionalProperties": false,
-                "required": ["url", "name", "sceneName", "sourceName"]
-            },
-            "default": []
-        }
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "connected": {
+      "type": "boolean",
+      "default": false
     },
-    "required": [
-        "connected",
-        "transitioning",
-        "streaming",
-        "recording",
-        "recordingName",
-        "disableTransitioning",
-        "transitionTimestamp",
-        "croppers"
-    ]
+    "scene": {
+      "type": "string"
+    },
+    "studioMode": {
+      "type": "boolean",
+      "default": false
+    },
+    "transitioning": {
+      "type": "boolean",
+      "default": false
+    },
+    "streaming": {
+      "type": "boolean",
+      "default": false
+    },
+    "recording": {
+      "type": "boolean",
+      "default": false
+    },
+    "recordingName": {
+      "type": "string",
+      "default": ""
+    },
+    "disableTransitioning": {
+      "type": "boolean",
+      "default": false
+    },
+    "transitionTimestamp": {
+      "type": "number",
+      "default": 0
+    },
+    "croppers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "sceneName": {
+            "type": "string"
+          },
+          "sourceName": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["url", "name", "sceneName", "sourceName"]
+      },
+      "default": []
+    }
+  },
+  "required": [
+    "connected",
+    "transitioning",
+    "streaming",
+    "recording",
+    "recordingName",
+    "disableTransitioning",
+    "transitionTimestamp",
+    "croppers"
+  ]
 }

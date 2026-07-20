@@ -8,7 +8,9 @@ const nodecg = get();
 const config = nodecg.bundleConfig.foobar;
 const foobar = new FoobarControl(config.address!);
 const songReplicant = nodecg.Replicant<Song>('song');
-const songProgressReplicant = nodecg.Replicant<SongProgress>('songProgress', {defaultValue: {duration: 0, position: 0}});
+const songProgressReplicant = nodecg.Replicant<SongProgress>('songProgress', {
+  defaultValue: { duration: 0, position: 0 },
+});
 
 async function GetSong() {
   if (config.enabled) {

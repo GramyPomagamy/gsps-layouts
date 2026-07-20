@@ -4,7 +4,10 @@ import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import { render } from '../render';
 
 const App = () => {
-  const [useTransparentBackgrounds, setUseTransparentBackgrounds] = useReplicant<boolean>('useTransparentBackgrounds', true);
+  const [useTransparentBackgrounds, setUseTransparentBackgrounds] = useReplicant<boolean>(
+    'useTransparentBackgrounds',
+    true
+  );
 
   return (
     <DashboardThemeProvider>

@@ -15,20 +15,20 @@ const OmnibarContainer = styled.div<{ zoom: number }>`
   display: flex;
   justify-content: space-between;
   align-content: space-between;
-  zoom: ${({ zoom }) => zoom }%;
+  zoom: ${({ zoom }) => zoom}%;
 `;
 
 function parseSearchParams(params: URLSearchParams) {
-  const zoom = Number(params.get("zoom")) || 100;
+  const zoom = Number(params.get('zoom')) || 100;
 
-  return {zoom}
+  return { zoom };
 }
 
 export const Omnibar = () => {
   const params = useMemo(() => parseSearchParams(new URLSearchParams(window.location.search)), []);
-  const { zoom } = params
+  const { zoom } = params;
   const [omnibarEnableTotal] = useReplicant<boolean>('omnibarEnableTotal', true);
-  const suffix = omnibarEnableTotal ? <Total /> : <Clock />
+  const suffix = omnibarEnableTotal ? <Total /> : <Clock />;
 
   return (
     <ThemeProvider>

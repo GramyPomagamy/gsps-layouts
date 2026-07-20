@@ -1,3 +1,3 @@
 export type GenericReplicant = {
-    [k: string]: string;
+  [k: string]: string;
 };

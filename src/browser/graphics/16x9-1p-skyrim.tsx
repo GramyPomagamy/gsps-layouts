@@ -73,14 +73,12 @@ const AchievementsNameFlex = styled.div`
   font-size: 2.125rem;
 `;
 
-
 const Donations = styled.div`
   position: fixed;
   width: 1920px;
   height: 44px;
   bottom: 0px;
 `;
-
 
 export const App = () => {
   const [activeRun] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
@@ -145,7 +143,7 @@ export const App = () => {
           <MediaBox />
         </LeftSide>
         <BottomRight showDonationBar={showDonationBar}>
-          <Run fontSize={56} hideSecondaryGameInfo={true}/>
+          <Run fontSize={56} hideSecondaryGameInfo={true} />
           <AchievementsNumberDiv>Postęp: {genericReplicant['number']}</AchievementsNumberDiv>
           <AchievementsNameFlex>
             <div>Ostatnio Zdobyte:</div>

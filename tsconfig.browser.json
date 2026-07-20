@@ -1,16 +1,14 @@
 {
-    "extends": "./tsconfig.base.json",
-    "compilerOptions": {
-        "jsx": "react-jsx",
-        "noEmit": true,
-        "types": [
-            "vite/client"
-        ],
-    },
-    "include": [
-        "src/browser/**/*.tsx",
-        "src/browser/**/*.ts",
-        "src/types/**/*.ts",
-        "src/types/augment-window.d.ts"
-    ],
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "types": ["vite/client"]
+  },
+  "include": [
+    "src/browser/**/*.tsx",
+    "src/browser/**/*.ts",
+    "src/types/**/*.ts",
+    "src/types/augment-window.d.ts"
+  ]
 }
