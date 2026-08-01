@@ -2,9 +2,9 @@ import io from 'socket.io-client';
 import { get as nodecg } from './util/nodecg';
 import { completionRep } from './util/gtaReplicants';
 
-const config = nodecg().bundleConfig.gtaTrilogy;
+const config = nodecg().bundleConfig.gtaTrilogy?.socket;
 if(config) {
-  const socket = io('ws://' + config.socket.address + ':' + config.socket.port);
+  const socket = io('ws://' + config.address + ':' + config.port);
   socket.on('connect', () => {
     nodecg().log.info('[Socket] Connected to companion socket.');
   });

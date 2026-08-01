@@ -26,5 +26,6 @@ export default (nodecg: NodeCG.ServerAPI<Configschema>) => {
   require('./mixer');
   require('./external-ws');
   require('./gtaTimer');
-  require('./gtaSplits')
+  require('./gtaSplits');
+  require('./gtaSocket');
 };
