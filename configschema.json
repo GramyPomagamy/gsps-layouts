@@ -310,31 +310,39 @@
       },
       "required": ["enabled"]
     },
-    "players": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "splits": {
+    "gtaTrilogy": {
       "type": "object",
-      "additionalProperties": false,
+      "description": "Gta trilogy event configuration",
       "properties": {
-        "GTA3": {
-          "type": "string",
-          "default": "9:23:38"
+        "players": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
-        "GTAVC": {
-          "type": "string",
-          "default": "22:15:17"
-        },
-        "GTASA": {
-          "type": "string",
-          "default": "48:13:46"
+        "splits": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "GTA3": {
+              "type": "string",
+              "default": "9:23:38"
+            },
+            "GTAVC": {
+              "type": "string",
+              "default": "22:15:17"
+            },
+            "GTASA": {
+              "type": "string",
+              "default": "48:13:46"
+            }
+          },
+          "required": ["GTA3", "GTAVC", "GTASA"]
         }
       },
-      "required": ["GTA3", "GTAVC", "GTASA"]
+      "required": ["players", "splits"]
     }
+    
   },
   "required": [
     "obs",

@@ -138,10 +138,16 @@ export interface Configschema {
 		port?: number;
 		[k: string]: unknown;
 	};
-	players?: string[];
-	splits?: {
-		GTA3: string;
-		GTAVC: string;
-		GTASA: string;
+	/**
+	 * Gta trilogy event configuration
+	 */
+	gtaTrilogy?: {
+		players: string[];
+		splits: {
+			GTA3: string;
+			GTAVC: string;
+			GTASA: string;
+		};
+		[k: string]: unknown;
 	};
 }

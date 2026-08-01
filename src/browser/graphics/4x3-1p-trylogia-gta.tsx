@@ -9,7 +9,6 @@ import { GameInfo } from './components/gta-trylogia/game-info';
 import ThemeProvider from './components/theme-provider';
 import layoutBgWithDonationBar from './img/layouts/4x3-1p-donationbar.png';
 import layoutBg from './img/layouts/4x3-1p.png';
-import Reader from './components/reader';
 
 const LayoutContainer = styled.div<{ showDonationBar: boolean }>`
   width: 1920px;

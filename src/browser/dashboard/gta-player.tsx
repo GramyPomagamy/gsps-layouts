@@ -5,7 +5,7 @@ import { render } from '../render';
 
 const App = () => {
   const [currentPlayer, setCurrentPlayer] = useReplicant<string>('gtaCurrentPlayer', 'dexterw');
-  const players = nodecg.bundleConfig.players;
+  const players = nodecg.bundleConfig.gtaTrilogy?.players;
 
   const handlePlayerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentPlayer((event.target as HTMLInputElement).value);

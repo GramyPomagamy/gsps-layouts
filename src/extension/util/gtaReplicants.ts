@@ -3,7 +3,7 @@ import { get as nodecg } from './nodecg';
 import { timeStrToMS, deltaToTimeStr } from './helpers';
 import { GtaTimer } from 'src/types/generated';
 
-const splitsTime = nodecg().bundleConfig.splits;
+const splitsTime = nodecg().bundleConfig.gtaTrilogy?.splits;
 
 export const timerRep = nodecg().Replicant<GtaTimer>('gtaTimer');
 export const splitsTimerRep = nodecg().Replicant('gtaSplitsTimer');

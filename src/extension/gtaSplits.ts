@@ -9,7 +9,7 @@ const splitNames: Array<'GTA III' | 'GTA: Vice City' | 'GTA: San Andreas'> = [
   'GTA: Vice City',
   'GTA: San Andreas',
 ];
-const splitsTime = nodecg().bundleConfig.splits;
+const splitsTime = nodecg().bundleConfig.gtaTrilogy?.splits;
 
 function handleSplit() {
   const currentSplitIndex = splitNames.indexOf(currentSplitRep.value!);

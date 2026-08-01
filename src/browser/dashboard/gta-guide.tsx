@@ -5,7 +5,7 @@ import { render } from '../render';
 
 const App = () => {
   const [currentGuide, setCurrentGuide] = useReplicant<string>('gtaCurrentGuide', 'hoXyy');
-  const guides = nodecg.bundleConfig.players;
+  const guides = nodecg.bundleConfig.gtaTrilogy?.players;
 
   const handlePlayerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentGuide((event.target as HTMLInputElement).value);
