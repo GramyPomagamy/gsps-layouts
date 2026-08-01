@@ -148,6 +148,16 @@ export interface Configschema {
 			GTAVC: string;
 			GTASA: string;
 		};
+		socket: {
+			/**
+			 * Address of the companion WebSocket.
+			 */
+			address: string;
+			/**
+			 * Port of the companion WebSocket.
+			 */
+			port: number;
+		};
 		[k: string]: unknown;
 	};
 }

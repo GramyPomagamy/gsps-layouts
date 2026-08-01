@@ -12,7 +12,7 @@ const Game = styled.div`
 
 export const GameInfo = () => {
   const [currentSplit] = useReplicant<GtaCurrentSplit>('gtaCurrentSplit', 'GTA III');
-  const [gameCompletion] = useReplicant<string>('gtaCompletion', '');
+  const [gameCompletion] = useReplicant<string>('completion', '');
 
   return (
     <div>

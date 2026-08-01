@@ -338,9 +338,26 @@
             }
           },
           "required": ["GTA3", "GTAVC", "GTASA"]
+        },
+        "socket": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "address": {
+              "type": "string",
+              "description": "Address of the companion WebSocket.",
+              "default": "localhost"
+            },
+            "port": {
+              "type": "number",
+              "description": "Port of the companion WebSocket.",
+              "default": 6942
+            }
+          },
+          "required": ["address", "port"]
         }
       },
-      "required": ["players", "splits"]
+      "required": ["players", "splits", "socket"]
     }
     
   },
