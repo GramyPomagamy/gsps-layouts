@@ -60,7 +60,9 @@ const NextRuns = ({ onEnd }: { onEnd: () => void }) => {
   async function getNextRuns() {
     if (!runDataArray.value) return undefined;
 
-    const filteredRunArray = runDataArray.value.filter((run) => !run.customData['hideOnStream']);
+    const filteredRunArray = runDataArray.value.filter(
+      (run: any) => !run.customData['hideOnStream']
+    );
     const runIndex = findRunIndex(filteredRunArray);
     if (obsData.value && obsData.value.scene) {
       if (obsData.value.scene === (config.scenes!.video || config.scenes!.countdown)) {

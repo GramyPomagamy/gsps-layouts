@@ -138,4 +138,10 @@ export interface Configschema {
 		port?: number;
 		[k: string]: unknown;
 	};
+	players?: string[];
+	splits?: {
+		GTA3: string;
+		GTAVC: string;
+		GTASA: string;
+	};
 }
