@@ -138,4 +138,26 @@ export interface Configschema {
 		port?: number;
 		[k: string]: unknown;
 	};
+	/**
+	 * Gta trilogy event configuration
+	 */
+	gtaTrilogy?: {
+		players: string[];
+		splits: {
+			GTA3: string;
+			GTAVC: string;
+			GTASA: string;
+		};
+		socket: {
+			/**
+			 * Address of the companion WebSocket.
+			 */
+			address: string;
+			/**
+			 * Port of the companion WebSocket.
+			 */
+			port: number;
+		};
+		[k: string]: unknown;
+	};
 }
