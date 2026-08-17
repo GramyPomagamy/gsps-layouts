@@ -6,10 +6,12 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
+  Checkbox,
   CircularProgress,
   Container,
   Divider,
   FormControl,
+  FormControlLabel,
   Grid,
   InputLabel,
   LinearProgress,
@@ -178,7 +180,7 @@ export const Milestones = () => {
                 {milestones.map((milestone) => {
                   return (
                     <>
-                      {milestone.name.toLowerCase().includes(filter) &&
+                      {milestone.name.toLowerCase().includes(filter.toLowerCase()) &&
                         total.raw! < milestone.amount && (
                           <>
                             <Milestone
@@ -201,7 +203,7 @@ export const Milestones = () => {
                 {milestones.map((milestone) => {
                   return (
                     <>
-                      {milestone.name.toLowerCase().includes(filter) &&
+                      {milestone.name.toLowerCase().includes(filter.toLowerCase()) &&
                         total.raw! >= milestone.amount && (
                           <>
                             <Milestone
@@ -358,10 +360,20 @@ const Reader = () => {
 
 export const Bids = () => {
   const [bids] = useReplicant<BidsType>('allBids', []);
+  const [completedBids, setCompletedBids] = useReplicant<number[]>('completedBids', []);
   const [filter, setFilter] = useState('');
   const [updating, setUpdating] = useState(false);
   const [timeLeft, setTimeLeft] = useState(20);
   const refreshTimer = useRef<NodeJS.Timeout>();
+
+  const toggleBidCompleted = (bidId: number) => {
+    if (!completedBids) return;
+    if (completedBids.includes(bidId)) {
+      setCompletedBids(completedBids.filter((id) => id !== bidId));
+    } else {
+      setCompletedBids([...completedBids, bidId]);
+    }
+  };
 
   function bidName(bid: Bid) {
     return `${bid.game} - ${bid.name}`.toLowerCase();
@@ -471,36 +483,48 @@ export const Bids = () => {
         }}>
         <div id="open-bids" style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
           {bids.map((bid: Bid) => {
-            return (
-              <>
-                {bidName(bid).includes(filter) && bid.state != 'CLOSED' && (
-                  <>
-                    {bid.type === 'challenge' ? (
-                      <BidGoal bid={bid} key={bid.id} />
-                    ) : (
-                      <BidWar bid={bid} key={bid.id} />
-                    )}
-                  </>
-                )}
-              </>
-            );
+            const isCompleted = completedBids?.includes(bid.id) ?? false;
+            if (!isCompleted && bidName(bid).includes(filter.toLowerCase())){
+              return bid.type === 'challenge' ? (
+                <BidGoal 
+                  bid={bid} 
+                  key={bid.id} 
+                  isCompleted={isCompleted}
+                  onToggle={() => toggleBidCompleted(bid.id)}
+                />
+              ) : (
+                <BidWar 
+                  bid={bid} 
+                  key={bid.id} 
+                  isCompleted={isCompleted}
+                  onToggle={() => toggleBidCompleted(bid.id)}
+                />
+              );
+            }
+            return null;
           })}
         </div>
         <div id="closed-bids" style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
           {bids.map((bid: Bid) => {
-            return (
-              <>
-                {bidName(bid).includes(filter) && bid.state == 'CLOSED' && (
-                  <>
-                    {bid.type === 'challenge' ? (
-                      <BidGoal bid={bid} key={bid.id} />
-                    ) : (
-                      <BidWar bid={bid} key={bid.id} />
-                    )}
-                  </>
-                )}
-              </>
-            );
+            const isCompleted = completedBids?.includes(bid.id) ?? false;
+            if (isCompleted && bidName(bid).includes(filter.toLowerCase())){
+              return bid.type === 'challenge' ? (
+                <BidGoal 
+                  bid={bid} 
+                  key={bid.id} 
+                  isCompleted={isCompleted}
+                  onToggle={() => toggleBidCompleted(bid.id)}
+                />
+              ) : (
+                <BidWar 
+                  bid={bid} 
+                  key={bid.id} 
+                  isCompleted={isCompleted}
+                  onToggle={() => toggleBidCompleted(bid.id)}
+                />
+              );
+            }
+            return null;
           })}
         </div>
       </div>
@@ -508,7 +532,7 @@ export const Bids = () => {
   );
 };
 
-const BidGoal = ({ bid }: { bid: Bid }) => {
+const BidGoal = ({ bid, isCompleted, onToggle }: { bid: Bid; isCompleted: boolean; onToggle: () => void; }) => {
   function etaUntil(bid: Bid) {
     return bid.runStartTime
       ? dayjs
@@ -533,7 +557,7 @@ const BidGoal = ({ bid }: { bid: Bid }) => {
         border: '1px solid white',
         borderRadius: '4px',
         padding: '5px',
-        backgroundColor: bid.state == 'CLOSED' ? '#106310' : '#484a48',
+        backgroundColor: isCompleted ? 'rgba(85, 170, 85, 0.7)' : bid.state === 'CLOSED' ? 'rgba(255, 204, 0, 0.7)' : '#484a48',
         textAlign: 'center',
         display: 'flex',
         flexDirection: 'column',
@@ -558,11 +582,22 @@ const BidGoal = ({ bid }: { bid: Bid }) => {
         {bid.rawTotal} zł / {bid.rawGoal} zł{' '}
         {bid.state != 'CLOSED' && <>(pozostało {(bid.rawGoal! - bid.rawTotal).toFixed(0)} zł)</>}
       </p>
+      <FormControlLabel
+        control={
+          <Checkbox 
+            checked={isCompleted} 
+            onChange={onToggle}
+            sx={{ color: 'white', '&.Mui-checked': { color: 'rgba(85, 170, 85, 1)' } }}
+          />
+        }
+        label="Ukończono"
+        sx={{ justifyContent: 'center', marginTop: '5px' }}
+      />
     </div>
   );
 };
 
-const BidWar = ({ bid }: { bid: Bid }) => {
+const BidWar = ({ bid, isCompleted, onToggle }: { bid: Bid; isCompleted: boolean; onToggle: () => void; }) => {
   function etaUntil(bid: Bid) {
     return bid.runStartTime
       ? dayjs
@@ -587,7 +622,7 @@ const BidWar = ({ bid }: { bid: Bid }) => {
         border: '1px solid white',
         borderRadius: '4px',
         padding: '5px',
-        backgroundColor: bid.state == 'CLOSED' ? '#106310' : '#484a48',
+        backgroundColor: isCompleted ? 'rgba(85, 170, 85, 0.7)' : bid.state === 'CLOSED' ? 'rgba(255, 204, 0, 0.7)' : '#484a48',
         textAlign: 'center',
         display: 'flex',
         flexDirection: 'column',
@@ -618,6 +653,17 @@ const BidWar = ({ bid }: { bid: Bid }) => {
           );
         })}
       </div>
+      <FormControlLabel
+        control={
+          <Checkbox 
+            checked={isCompleted} 
+            onChange={onToggle}
+            sx={{ color: 'white', '&.Mui-checked': { color: 'rgba(85, 170, 85, 1)' } }}
+          />
+        }
+        label="Ukończono"
+        sx={{ justifyContent: 'center', marginTop: '5px' }}
+      />
     </div>
   );
 };
