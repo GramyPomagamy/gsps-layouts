@@ -367,11 +367,11 @@ export const Bids = () => {
   const refreshTimer = useRef<NodeJS.Timeout>();
 
   const toggleBidCompleted = (bidId: number) => {
-    if (!completedBids) return;
-    if (completedBids.includes(bidId)) {
-      setCompletedBids(completedBids.filter((id) => id !== bidId));
+    const currentCompleted = completedBids ?? [];
+    if (currentCompleted.includes(bidId)) {
+      setCompletedBids(currentCompleted.filter((id) => id !== bidId));
     } else {
-      setCompletedBids([...completedBids, bidId]);
+      setCompletedBids([...currentCompleted, bidId]);
     }
   };
 
