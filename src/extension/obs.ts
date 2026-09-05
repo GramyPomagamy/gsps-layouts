@@ -76,7 +76,7 @@ class Videos {
 type VideoTypes = 'charity' | 'sponsors';
 const nodecg = get();
 
-const obsDataReplicant = nodecg.Replicant<ObsData>('obsData', { persistent: false });
+const obsDataReplicant = nodecg.Replicant<ObsData>('obsData');
 const commentatorsReplicant = nodecg.Replicant<Commentators>('commentators');
 const activeRunReplicant = nodecg.Replicant<RunDataActiveRun>(
   'runDataActiveRun',
@@ -134,11 +134,24 @@ if (config.enabled) {
       const studioModeStatus = await obs.call('GetStudioModeEnabled');
       obsDataReplicant.value!.studioMode = studioModeStatus.studioModeEnabled;
       initializeHostMute();
+      setInterval(updateRecordState, 500);
     })
     .catch((err) => {
       log.error(`Nie udało się połączyć z OBSem! Powód: ${err}`);
       reconnectTimeout = setTimeout(reconnectToOBS, 5000);
     });
+}
+
+function updateRecordState() {
+  if (!obsDataReplicant.value!.connected) {
+    return;
+  }
+
+  obs.call('GetRecordStatus').then(async (data) => {
+    if (data.outputActive) {
+      obsDataReplicant.value!.recordingDuration = data.outputDuration;
+    }
+  });
 }
 
 //handles videos shuffling
@@ -288,12 +301,16 @@ function playLongVideo() {
   videoToPlay = shuffledVideosLong.getNextVideo();
   if (videoToPlay) {
     setTimeout(() => {
-      obs.call('SetInputSettings', {
-        inputName: config.sources!.intermissionVideo,
-        inputSettings: {
-          input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
-        },
-      });
+      obs
+        .call('SetInputSettings', {
+          inputName: config.sources!.intermissionVideo,
+          inputSettings: {
+            input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
+          },
+        })
+        .then(() => {
+          nodecg.sendMessage('OBSVideoPlayed', videoToPlay);
+        });
     }, config.stingerActionDelay);
   } else {
     log.error('Nie udało puścić się długiego filmu');
@@ -310,12 +327,16 @@ function playShortVideo(type: VideoTypes) {
   if (videoToPlay) {
     videosPlayed++;
     setTimeout(() => {
-      obs.call('SetInputSettings', {
-        inputName: config.sources!.intermissionVideo,
-        inputSettings: {
-          input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
-        },
-      });
+      obs
+        .call('SetInputSettings', {
+          inputName: config.sources!.intermissionVideo,
+          inputSettings: {
+            input: `http://localhost:${nodecg.config.port}${videoToPlay!.url}`,
+          },
+        })
+        .then(() => {
+          nodecg.sendMessage('OBSVideoPlayed', videoToPlay);
+        });
     }, config.stingerActionDelay);
   } else {
     log.error('Nie udało puścić się krótkiego filmu');
@@ -573,6 +594,7 @@ obs.on('CurrentProgramSceneChanged', (data) => {
                   run: activeRunReplicant.value!,
                   recordingName: obsDataReplicant.value!.recordingName,
                 });
+                log.debug(obsDataReplicant.value!);
               }
             });
             loggedTimestampForCurrentGame = true;
@@ -616,9 +638,12 @@ obs.on('SceneTransitionStarted', () => {
 });
 
 obs.on('RecordStateChanged', (data) => {
+  log.debug(`Received RecordStateChanged ${data.outputActive}`);
   if (data.outputActive) {
     obsDataReplicant.value!.recording = true;
-    obsDataReplicant.value!.recordingName = data.outputPath;
+    obsDataReplicant.value!.recordingName = data.outputPath; // it's weirdly overwritten later on
+    obsDataReplicant.value!.recordingPath = data.outputPath;
+    log.debug(obsDataReplicant.value!);
   } else {
     obsDataReplicant.value!.recording = false;
   }
@@ -655,6 +680,9 @@ obs.on('InputMuteStateChanged', (data) => {
   const channel = config.sources!.hostAudio;
   if (data.inputName == channel) {
     hostMuteStatusReplicant.value = data.inputMuted;
+    nodecg.sendMessage('OBSHostAudioMuted', {
+      isMuted: data.inputMuted,
+    });
   }
 });
 
