@@ -44,6 +44,7 @@ import timezone from 'dayjs/plugin/timezone';
 import pl from 'dayjs/locale/pl';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { TwitchCommercialTimer } from 'speedcontrol/src/types/schemas';
+import { CiMicrophoneOn, CiMicrophoneOff } from 'react-icons/ci';
 
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
@@ -345,8 +346,10 @@ const Reader = () => {
           onClick={() => {
             nodecg.sendMessage('toggleHostMute');
           }}
+          // status == isMuted (please rename status in the future because it's ambiguous)
           color={hostMuteStatus ? 'error' : 'success'}>
-          Mikrofon na przerwie
+          Mikrofon na przerwie{' '}
+          {hostMuteStatus ? <CiMicrophoneOff size={32} /> : <CiMicrophoneOn size={32} />}
           {twitchCommercialTimer && twitchCommercialTimer.secondsRemaining > 0 ? (
             <> (Reklamy: {twitchCommercialTimer.secondsRemaining} s)</>
           ) : (
