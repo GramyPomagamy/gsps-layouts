@@ -1,4 +1,4 @@
-import NodeCG from "@nodecg/types";
+import NodeCG from '@nodecg/types';
 import { set } from './util/nodecg';
 import { Configschema } from '../types/generated';
 
@@ -28,4 +28,5 @@ export default (nodecg: NodeCG.ServerAPI<Configschema>) => {
   require('./gtaTimer');
   require('./gtaSplits');
   require('./gtaSocket');
+  require('./vod-event-logger');
 };
