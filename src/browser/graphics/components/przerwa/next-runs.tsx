@@ -19,22 +19,20 @@ const NextRunsContainer = styled.div`
 `;
 
 const Label = styled.p`
-  margin-bottom: -10px;
   font-size: 24px;
   font-weight: 700;
+  margin: 20px 0 8px 0;
 `;
 
 const CurrentRun = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3px;
-  margin-top: 10px;
 `;
 
 const UpcomingRuns = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
   gap: 2px;
   font-size: 24px;
 `;
@@ -121,9 +119,8 @@ export const NextRuns = () => {
                       display: 'flex',
                       flexDirection: 'row',
                       gap: '15px',
-                      alignItems: 'center',
                     }}>
-                    <p style={{ fontVariantNumeric: 'tabular-nums' }}>
+                    <div style={{ fontSize: '1.1em', fontVariantNumeric: 'tabular-nums' }}>
                       {(() => {
                         if (isBehindSchedule()) {
                           return <>{calcStartTime(run)}</>;
@@ -133,7 +130,7 @@ export const NextRuns = () => {
                           return <>{moment(run.scheduled).format('HH:mm')}</>;
                         }
                       })()}
-                    </p>
+                    </div>
                     <div
                       className="shadow"
                       style={{
