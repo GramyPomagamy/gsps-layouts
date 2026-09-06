@@ -27,15 +27,14 @@ const Label = styled.p`
 const CurrentRun = styled.div`
   display: flex;
   flex-direction: column;
-  line-height: 3px;
-  gap: 0px;
+  gap: 3px;
+  margin-top: 10px;
 `;
 
 const UpcomingRuns = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 10px;
-  line-height: 3px;
   gap: 2px;
   font-size: 24px;
 `;
@@ -91,16 +90,21 @@ export const NextRuns = () => {
       {currentRun && (
         <>
           <Label>ZA CHWILĘ</Label>
-          <CurrentRun>
-            <p className="shadow" style={{ fontSize: '40px', fontWeight: 700 }}>
+          <CurrentRun style={{ maxWidth: '1170px' }}>
+            <div
+              className="shadow"
+              style={{
+                fontSize: '40px',
+                fontWeight: 700,
+              }}>
               {currentRun.game}
-            </p>
-            <p className="shadow" style={{ fontSize: '26px', fontWeight: 500, marginTop: '2px' }}>
+            </div>
+            <div className="shadow" style={{ fontSize: '26px', fontWeight: 500, marginTop: '2px' }}>
               {currentRun.category}
-            </p>
-            <p className="shadow" style={{ fontSize: '26px', fontWeight: 500, marginTop: '2px' }}>
+            </div>
+            <div className="shadow" style={{ fontSize: '26px', fontWeight: 500, marginTop: '2px' }}>
               {formatPlayers(currentRun)}
-            </p>
+            </div>
           </CurrentRun>
         </>
       )}
@@ -130,8 +134,14 @@ export const NextRuns = () => {
                         }
                       })()}
                     </p>
-                    <div className="shadow" style={{ display: 'flex', flexDirection: 'column' }}>
-                      <p style={{ fontSize: '1.1em' }}>{run.game}</p>{' '}
+                    <div
+                      className="shadow"
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        maxWidth: '1090px',
+                      }}>
+                      <div style={{ fontSize: '1.1em' }}>{run.game}</div>
                       <p style={{ marginTop: '5px', fontWeight: 500, fontSize: '0.9em' }}>
                         {run.category}
                       </p>
