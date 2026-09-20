@@ -7,7 +7,6 @@ export default (nodecg: NodeCG.ServerAPI<Configschema>) => {
   require('./countdown');
   require('./bids');
   require('./donations-prizes');
-  require('./featured');
   require('./foobar');
   require('./footpedal');
   require('./highlighter');
