@@ -167,6 +167,41 @@
       }
     ],
     "dashboardPanels": [
+{
+        "file": "gta-player.html",
+        "name": "player",
+        "title": "Wybór gracza",
+        "width": 3,
+        "workspace": "8. GSPS - Trylogia GTA"
+      },
+      {
+        "file": "gta-guide.html",
+        "name": "guide",
+        "title": "Wybór Hołowczyca",
+        "width": 3,
+        "workspace": "8. GSPS - Trylogia GTA"
+      },
+      {
+        "file": "gta-splits.html",
+        "name": "splits",
+        "title": "Splity",
+        "width": 4,
+        "workspace": "8. GSPS - Trylogia GTA"
+      },
+      {
+        "file": "gta-timer.html",
+        "name": "gta-timer",
+        "title": "Timer",
+        "width": 3,
+        "workspace": "8. GSPS - Trylogia GTA"
+      },
+      {
+        "file": "gta-mediabox-splits-control.html",
+        "name": "gta-mediabox-splits-control",
+        "title": "Kontrola widoczności splitów i media boxa",
+        "width": 4,
+        "workspace": "8. GSPS - Trylogia GTA"
+      },
       {
         "file": "total.html",
         "name": "total",
@@ -355,6 +390,11 @@
         "height": 1030
       },
       {
+        "file": "4x3-1p-trylogia-gta.html",
+        "width": 1920,
+        "height": 1030
+      },
+      {
         "file": "4x3-1p-2cams.html",
         "width": 1920,
         "height": 1030
@@ -433,6 +473,11 @@
         "file": "omnibar.html",
         "width": 1920,
         "height": 50
+      },
+      {
+        "file": "donation-bar.html",
+        "width": 1920,
+        "height": 44
       },
       {
         "file": "przerwa.html",

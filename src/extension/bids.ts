@@ -33,11 +33,13 @@ function update() {
   const currentPromise = requestPromise({
     uri: CURRENT_BIDS_URL,
     json: true,
+    headers: {'accept-language': 'pl'},
   });
 
   const allPromise = requestPromise({
     uri: BIDS_URL,
     json: true,
+    headers: {'accept-language': 'pl'},
   });
 
   return Bluebird.all([currentPromise, allPromise])

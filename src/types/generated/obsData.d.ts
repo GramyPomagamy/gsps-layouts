@@ -14,6 +14,8 @@ export interface ObsData {
 	streaming: boolean;
 	recording: boolean;
 	recordingName: string;
+	recordingDuration: number;
+	recordingPath: string;
 	disableTransitioning: boolean;
 	transitionTimestamp: number;
 	croppers: {

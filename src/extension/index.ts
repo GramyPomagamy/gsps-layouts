@@ -7,7 +7,6 @@ export default (nodecg: NodeCG.ServerAPI<Configschema>) => {
   require('./countdown');
   require('./bids');
   require('./donations-prizes');
-  require('./featured');
   require('./foobar');
   require('./footpedal');
   require('./highlighter');
@@ -25,4 +24,8 @@ export default (nodecg: NodeCG.ServerAPI<Configschema>) => {
   require('./generic-replicant');
   require('./mixer');
   require('./external-ws');
+  require('./gtaTimer');
+  require('./gtaSplits');
+  require('./gtaSocket');
+  require('./vod-event-logger');
 };

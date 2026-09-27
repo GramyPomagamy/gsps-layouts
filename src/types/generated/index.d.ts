@@ -39,3 +39,9 @@ export * from './total';
 export * from './windowInfo';
 // @ts-ignore
 export * from './playerStreams';
+// @ts-ignore
+export * from './gtaTimer';
+// @ts-ignore
+export * from './gtaSplits';
+// @ts-ignore
+export * from './gtaCurrentSplit';

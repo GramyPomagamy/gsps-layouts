@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "items": {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "name": {
+        "type": "string",
+        "enum": ["GTA III", "GTA: Vice City", "GTA: San Andreas"]
+      },
+      "originalTime": {
+        "type": "number"
+      },
+      "formattedOriginalTime": {
+        "type": "string"
+      },
+      "delta": {
+        "type": "number"
+      },
+      "formattedDelta": {
+        "type": "string"
+      }
+    },
+    "required": ["name", "originalTime", "formattedOriginalTime", "delta", "formattedDelta"]
+  }
+}

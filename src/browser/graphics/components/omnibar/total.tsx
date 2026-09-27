@@ -29,7 +29,7 @@ export const Total = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      totalRep.on('change', (newVal) => {
+      totalRep.on('change', (newVal: any) => {
         if (typeof newVal != 'undefined') {
           gsap.to(localAmount, {
             duration: 5,

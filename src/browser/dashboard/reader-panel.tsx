@@ -6,10 +6,12 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
+  Checkbox,
   CircularProgress,
   Container,
   Divider,
   FormControl,
+  FormControlLabel,
   Grid,
   InputLabel,
   LinearProgress,
@@ -42,6 +44,7 @@ import timezone from 'dayjs/plugin/timezone';
 import pl from 'dayjs/locale/pl';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { TwitchCommercialTimer } from 'speedcontrol/src/types/schemas';
+import { CiMicrophoneOn, CiMicrophoneOff } from 'react-icons/ci';
 
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
@@ -178,7 +181,7 @@ export const Milestones = () => {
                 {milestones.map((milestone) => {
                   return (
                     <>
-                      {milestone.name.toLowerCase().includes(filter) &&
+                      {milestone.name.toLowerCase().includes(filter.toLowerCase()) &&
                         total.raw! < milestone.amount && (
                           <>
                             <Milestone
@@ -201,7 +204,7 @@ export const Milestones = () => {
                 {milestones.map((milestone) => {
                   return (
                     <>
-                      {milestone.name.toLowerCase().includes(filter) &&
+                      {milestone.name.toLowerCase().includes(filter.toLowerCase()) &&
                         total.raw! >= milestone.amount && (
                           <>
                             <Milestone
@@ -343,8 +346,10 @@ const Reader = () => {
           onClick={() => {
             nodecg.sendMessage('toggleHostMute');
           }}
+          // status == isMuted (please rename status in the future because it's ambiguous)
           color={hostMuteStatus ? 'error' : 'success'}>
-          Mikrofon na przerwie
+          Mikrofon na przerwie{' '}
+          {hostMuteStatus ? <CiMicrophoneOff size={32} /> : <CiMicrophoneOn size={32} />}
           {twitchCommercialTimer && twitchCommercialTimer.secondsRemaining > 0 ? (
             <> (Reklamy: {twitchCommercialTimer.secondsRemaining} s)</>
           ) : (
@@ -358,10 +363,20 @@ const Reader = () => {
 
 export const Bids = () => {
   const [bids] = useReplicant<BidsType>('allBids', []);
+  const [completedBids, setCompletedBids] = useReplicant<number[]>('completedBids', []);
   const [filter, setFilter] = useState('');
   const [updating, setUpdating] = useState(false);
   const [timeLeft, setTimeLeft] = useState(20);
   const refreshTimer = useRef<NodeJS.Timeout>();
+
+  const toggleBidCompleted = (bidId: number) => {
+    const currentCompleted = completedBids ?? [];
+    if (currentCompleted.includes(bidId)) {
+      setCompletedBids(currentCompleted.filter((id) => id !== bidId));
+    } else {
+      setCompletedBids([...currentCompleted, bidId]);
+    }
+  };
 
   function bidName(bid: Bid) {
     return `${bid.game} - ${bid.name}`.toLowerCase();
@@ -471,36 +486,48 @@ export const Bids = () => {
         }}>
         <div id="open-bids" style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
           {bids.map((bid: Bid) => {
-            return (
-              <>
-                {bidName(bid).includes(filter) && bid.state != 'CLOSED' && (
-                  <>
-                    {bid.type === 'challenge' ? (
-                      <BidGoal bid={bid} key={bid.id} />
-                    ) : (
-                      <BidWar bid={bid} key={bid.id} />
-                    )}
-                  </>
-                )}
-              </>
-            );
+            const isCompleted = completedBids?.includes(bid.id) ?? false;
+            if (!isCompleted && bidName(bid).includes(filter.toLowerCase())){
+              return bid.type === 'challenge' ? (
+                <BidGoal 
+                  bid={bid} 
+                  key={bid.id} 
+                  isCompleted={isCompleted}
+                  onToggle={() => toggleBidCompleted(bid.id)}
+                />
+              ) : (
+                <BidWar 
+                  bid={bid} 
+                  key={bid.id} 
+                  isCompleted={isCompleted}
+                  onToggle={() => toggleBidCompleted(bid.id)}
+                />
+              );
+            }
+            return null;
           })}
         </div>
         <div id="closed-bids" style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
           {bids.map((bid: Bid) => {
-            return (
-              <>
-                {bidName(bid).includes(filter) && bid.state == 'CLOSED' && (
-                  <>
-                    {bid.type === 'challenge' ? (
-                      <BidGoal bid={bid} key={bid.id} />
-                    ) : (
-                      <BidWar bid={bid} key={bid.id} />
-                    )}
-                  </>
-                )}
-              </>
-            );
+            const isCompleted = completedBids?.includes(bid.id) ?? false;
+            if (isCompleted && bidName(bid).includes(filter.toLowerCase())){
+              return bid.type === 'challenge' ? (
+                <BidGoal 
+                  bid={bid} 
+                  key={bid.id} 
+                  isCompleted={isCompleted}
+                  onToggle={() => toggleBidCompleted(bid.id)}
+                />
+              ) : (
+                <BidWar 
+                  bid={bid} 
+                  key={bid.id} 
+                  isCompleted={isCompleted}
+                  onToggle={() => toggleBidCompleted(bid.id)}
+                />
+              );
+            }
+            return null;
           })}
         </div>
       </div>
@@ -508,7 +535,7 @@ export const Bids = () => {
   );
 };
 
-const BidGoal = ({ bid }: { bid: Bid }) => {
+const BidGoal = ({ bid, isCompleted, onToggle }: { bid: Bid; isCompleted: boolean; onToggle: () => void; }) => {
   function etaUntil(bid: Bid) {
     return bid.runStartTime
       ? dayjs
@@ -533,7 +560,7 @@ const BidGoal = ({ bid }: { bid: Bid }) => {
         border: '1px solid white',
         borderRadius: '4px',
         padding: '5px',
-        backgroundColor: bid.state == 'CLOSED' ? '#106310' : '#484a48',
+        backgroundColor: isCompleted ? 'rgba(85, 170, 85, 0.7)' : bid.state === 'CLOSED' ? 'rgba(255, 204, 0, 0.7)' : '#484a48',
         textAlign: 'center',
         display: 'flex',
         flexDirection: 'column',
@@ -558,11 +585,22 @@ const BidGoal = ({ bid }: { bid: Bid }) => {
         {bid.rawTotal} zł / {bid.rawGoal} zł{' '}
         {bid.state != 'CLOSED' && <>(pozostało {(bid.rawGoal! - bid.rawTotal).toFixed(0)} zł)</>}
       </p>
+      <FormControlLabel
+        control={
+          <Checkbox 
+            checked={isCompleted} 
+            onChange={onToggle}
+            sx={{ color: 'white', '&.Mui-checked': { color: 'rgba(85, 170, 85, 1)' } }}
+          />
+        }
+        label="Ukończono"
+        sx={{ justifyContent: 'center', marginTop: '5px' }}
+      />
     </div>
   );
 };
 
-const BidWar = ({ bid }: { bid: Bid }) => {
+const BidWar = ({ bid, isCompleted, onToggle }: { bid: Bid; isCompleted: boolean; onToggle: () => void; }) => {
   function etaUntil(bid: Bid) {
     return bid.runStartTime
       ? dayjs
@@ -587,7 +625,7 @@ const BidWar = ({ bid }: { bid: Bid }) => {
         border: '1px solid white',
         borderRadius: '4px',
         padding: '5px',
-        backgroundColor: bid.state == 'CLOSED' ? '#106310' : '#484a48',
+        backgroundColor: isCompleted ? 'rgba(85, 170, 85, 0.7)' : bid.state === 'CLOSED' ? 'rgba(255, 204, 0, 0.7)' : '#484a48',
         textAlign: 'center',
         display: 'flex',
         flexDirection: 'column',
@@ -618,6 +656,17 @@ const BidWar = ({ bid }: { bid: Bid }) => {
           );
         })}
       </div>
+      <FormControlLabel
+        control={
+          <Checkbox 
+            checked={isCompleted} 
+            onChange={onToggle}
+            sx={{ color: 'white', '&.Mui-checked': { color: 'rgba(85, 170, 85, 1)' } }}
+          />
+        }
+        label="Ukończono"
+        sx={{ justifyContent: 'center', marginTop: '5px' }}
+      />
     </div>
   );
 };

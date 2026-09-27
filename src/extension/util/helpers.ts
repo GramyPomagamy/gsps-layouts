@@ -43,3 +43,28 @@ export function sleep(ms: number): Promise<void> {
     setTimeout(resolve, ms);
   });
 }
+
+export function deltaToTimeStr(ms: number) {
+  let negative;
+  if (ms < 0) {
+    negative = true;
+  }
+  let str = "";
+  const seconds = Math.floor((Math.abs(ms) / 1000) % 60);
+  const minutes = Math.floor((Math.abs(ms) / (1000 * 60)) % 60);
+  const hours = Math.floor(Math.abs(ms) / (1000 * 60 * 60));
+  if (hours) {
+    if (negative) {
+      str += `-${hours}:`;
+    } else {
+      str += `${hours}:`;
+    }
+  }
+  str += `${padTimeNumber(Math.abs(minutes))}:${padTimeNumber(
+    Math.abs(seconds)
+  )}`;
+  if (str.charAt(0) != "-" && ms != 0) {
+    str = `+${str}`;
+  }
+  return str;
+}

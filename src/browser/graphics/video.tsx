@@ -29,8 +29,8 @@ const NextRunComponentContainer = styled.div`
   flex-direction: column;
   position: absolute;
   top: 866px;
-  left: 208px;
-  width: 1502px;
+  left: 226px;
+  width: 1477px;
   height: 100px;
 `;
 
@@ -38,7 +38,6 @@ const NextRunLabel = styled.div`
   text-align: center;
   color: white;
   font-size: 24px;
-  margin-bottom: 10px;
 `;
 
 const NextRunContainer = styled.div`
@@ -49,11 +48,14 @@ const NextRunContainer = styled.div`
   font-size: 30px;
 `;
 
-const NextRunDetails = styled.span`
-  font-weight: 500;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
+const Category = styled.div`
+  font-size: 26px;
+  font-weight: 450;
+`
+
+const Players = styled.div`
+  font-size: 26px;
+  font-weight: 350;
 `;
 
 const NextRun = () => {
@@ -64,17 +66,14 @@ const NextRun = () => {
   return (
     <>
       {currentRun && (
-        <NextRunComponentContainer>
-          <NextRunLabel>NADCHODZĄCY RUN</NextRunLabel>
+        <NextRunComponentContainer className="shadow">
+          <NextRunLabel>NASTĘPNIE</NextRunLabel>
           <NextRunContainer className="shadow">
-            {currentRun.game && <span>{currentRun.game}</span>}
-            <NextRunDetails>
-              {currentRun.category && <span>{currentRun.category} /</span>}
-              {currentRun.estimate && <span>EST: {currentRun.estimate} /</span>}
-              {currentRun.system && <span>{currentRun.system} /</span>}
-              {currentRun.teams.length > 0 && <span>{formatPlayers(currentRun)}</span>}
-            </NextRunDetails>
+            {currentRun.game && <span style={{maxWidth: '80%'}}>{currentRun.game}</span>}
+            {currentRun.estimate && <span>EST: {currentRun.estimate}</span>}
           </NextRunContainer>
+          {currentRun.category && <Category>{currentRun.category}</Category>}
+          {currentRun.teams.length > 0 && <Players>{formatPlayers(currentRun)}</Players>}
         </NextRunComponentContainer>
       )}
     </>

@@ -19,23 +19,20 @@ const NextRunsContainer = styled.div`
 `;
 
 const Label = styled.p`
-  margin-bottom: -10px;
   font-size: 24px;
   font-weight: 700;
+  margin: 20px 0 8px 0;
 `;
 
 const CurrentRun = styled.div`
   display: flex;
   flex-direction: column;
-  line-height: 3px;
-  gap: 0px;
+  gap: 3px;
 `;
 
 const UpcomingRuns = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
-  line-height: 3px;
   gap: 2px;
   font-size: 24px;
 `;
@@ -91,16 +88,21 @@ export const NextRuns = () => {
       {currentRun && (
         <>
           <Label>ZA CHWILĘ</Label>
-          <CurrentRun>
-            <p className="shadow" style={{ fontSize: '40px', fontWeight: 700 }}>
+          <CurrentRun style={{ maxWidth: '1170px' }}>
+            <div
+              className="shadow"
+              style={{
+                fontSize: '40px',
+                fontWeight: 700,
+              }}>
               {currentRun.game}
-            </p>
-            <p className="shadow" style={{ fontSize: '26px', fontWeight: 500, marginTop: '2px' }}>
+            </div>
+            <div className="shadow" style={{ fontSize: '26px', fontWeight: 500, marginTop: '2px' }}>
               {currentRun.category}
-            </p>
-            <p className="shadow" style={{ fontSize: '26px', fontWeight: 500, marginTop: '2px' }}>
+            </div>
+            <div className="shadow" style={{ fontSize: '26px', fontWeight: 500, marginTop: '2px' }}>
               {formatPlayers(currentRun)}
-            </p>
+            </div>
           </CurrentRun>
         </>
       )}
@@ -117,9 +119,8 @@ export const NextRuns = () => {
                       display: 'flex',
                       flexDirection: 'row',
                       gap: '15px',
-                      alignItems: 'center',
                     }}>
-                    <p style={{ fontVariantNumeric: 'tabular-nums' }}>
+                    <div style={{ fontSize: '1.1em', fontVariantNumeric: 'tabular-nums' }}>
                       {(() => {
                         if (isBehindSchedule()) {
                           return <>{calcStartTime(run)}</>;
@@ -129,9 +130,15 @@ export const NextRuns = () => {
                           return <>{moment(run.scheduled).format('HH:mm')}</>;
                         }
                       })()}
-                    </p>
-                    <div className="shadow" style={{ display: 'flex', flexDirection: 'column' }}>
-                      <p style={{ fontSize: '1.1em' }}>{run.game}</p>{' '}
+                    </div>
+                    <div
+                      className="shadow"
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        maxWidth: '1090px',
+                      }}>
+                      <div style={{ fontSize: '1.1em' }}>{run.game}</div>
                       <p style={{ marginTop: '5px', fontWeight: 500, fontSize: '0.9em' }}>
                         {run.category}
                       </p>

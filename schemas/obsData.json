@@ -30,6 +30,14 @@
       "type": "string",
       "default": ""
     },
+    "recordingDuration": {
+      "type": "number",
+      "default": 0
+    },
+    "recordingPath": {
+      "type": "string",
+      "default": ""
+    },
     "disableTransitioning": {
       "type": "boolean",
       "default": false
@@ -68,6 +76,8 @@
     "streaming",
     "recording",
     "recordingName",
+    "recordingDuration",
+    "recordingPath",
     "disableTransitioning",
     "transitionTimestamp",
     "croppers"
