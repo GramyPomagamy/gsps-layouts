@@ -12,9 +12,9 @@ import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 import { Fragment } from 'react';
 import ThemeProvider from './components/theme-provider';
-import { RunDataPlayer, RunDataTeam } from 'speedcontrol/src/types';
 import DonationBar from './components/donation-bar';
 import { GenericReplicant } from 'src/types/custom/genericReplicant';
+import getCurrentRelayRunner from '../current-relay-runner';
 
 const LayoutContainer = styled.div<{ showDonationBar: boolean }>`
   width: 1920px;
@@ -86,17 +86,6 @@ export const App = () => {
   });
   const [showDonationBar] = useReplicant<boolean>('showDonationBar', true);
   const [genericReplicant] = useReplicant<GenericReplicant>('genericReplicant', {});
-
-  const getCurrentRelayRunner = (team: RunDataTeam) => {
-    let currentRelayRunner: RunDataPlayer | undefined;
-
-    team.players.forEach((player: RunDataPlayer) => {
-      if (player.id === team.relayPlayerID) {
-        currentRelayRunner = player;
-      }
-    });
-    return currentRelayRunner;
-  };
 
   return (
     <ThemeProvider>
