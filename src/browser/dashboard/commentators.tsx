@@ -164,7 +164,9 @@ export const App = () => {
         </Button>
         <Button
           variant="contained"
-          disabled={liveCommentatorList === localCommentatorList}
+          disabled={
+            liveCommentatorList === localCommentatorList
+          }
           onClick={() => {
             setLiveCommentatorList(localCommentatorList);
           }}>
