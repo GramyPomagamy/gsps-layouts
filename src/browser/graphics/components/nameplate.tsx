@@ -7,6 +7,7 @@ import { FaTwitch } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
 import { NameCycle } from '../../../types/generated';
 import { Channel } from 'src/types/custom';
+import { Runner } from 'src/types/custom/runner';
 
 const NameplateContainer = styled.div<{ signalLevel: number; thresholdLevel: number }>`
   background-color: ${(props) =>
@@ -68,7 +69,7 @@ const Flag = styled.img<{ country: string }>`
 
 const Nameplate = ({ player }: { player: RunDataPlayer }) => {
   const [nameCycle] = useReplicant<NameCycle>('nameCycle', 0);
-  const [playerChannel] = useReplicant<Channel>('livePlayerChannel', '');
+  const [runnersChannel] = useReplicant<Runner[]>('liveRunnerChannel', []);
   const nameRef = useRef(null);
   const [mixerSignalLevels] = useReplicant<{ [key in Channel]: number } | undefined>(
     'mixerSignalLevels',
@@ -81,8 +82,22 @@ const Nameplate = ({ player }: { player: RunDataPlayer }) => {
 
   return (
     <NameplateContainer
-      signalLevel={(mixerSignalLevels && mixerSignalLevels[playerChannel]) || -Infinity}
-      thresholdLevel={(mixerThresholdLevels && mixerThresholdLevels[playerChannel]) || Infinity}>
+      signalLevel={
+        (mixerSignalLevels &&
+          runnersChannel.find((runner) => runner.name === player.name) &&
+          mixerSignalLevels[
+            runnersChannel.find((runner) => runner!.name === player.name)?.channel ?? ''
+          ]) ||
+        -Infinity
+      }
+      thresholdLevel={
+        (mixerThresholdLevels &&
+          runnersChannel.find((runner) => runner.name === player.name) &&
+          mixerThresholdLevels[
+            runnersChannel.find((runner) => runner!.name === player.name)?.channel ?? ''
+          ]) ||
+        Infinity
+      }>
       <SwitchTransition mode="out-in">
         <CSSTransition key={nameCycle} nodeRef={nameRef} in appear timeout={1000} classNames="fade">
           <>

@@ -267,9 +267,16 @@
       },
       {
         "name": "commentators",
-        "title": "Komentatorzy i kanał audio Runnera",
+        "title": "Komentatorzy",
         "file": "commentators.html",
         "width": 4,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
+        "name": "runners-channels",
+        "title": "Kanały Audio Runnerów",
+        "file": "runners-channels.html",
+        "width": 3,
         "workspace": "1. GSPS - Ogólne"
       },
       {
