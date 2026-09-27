@@ -225,61 +225,16 @@ async function reconnectToOBS() {
   }
 }
 
-function switchToIntermission() {
-  if (obsDataReplicant.value?.scene === config.scenes!.intermission) return; // if we're already on intermission, don't do anything
-
-  nodecg.sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
-  if (!obsDataReplicant.value!.studioMode) {
-    obs.call('SetStudioModeEnabled', { studioModeEnabled: true }).catch((err) => {
-      log.error(`Wystąpił błąd przy włączaniu Studio Mode: ${err};
-        }`);
-    });
-  }
-  try {
-    if (obsDataReplicant.value?.studioMode) {
-      obs.call('SetCurrentPreviewScene', {
-        sceneName: config.scenes!.intermission,
-      });
-    }
-
-    obs.call('SetCurrentProgramScene', {
-      sceneName: config.scenes!.intermission,
-    });
-  } catch (error) {
-    log.error('Nie udało się zmienić sceny na przerwę: ', error);
-  }
-
-  obsDataReplicant.value!.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
-  setTimeout(() => {
-    nodecg.sendMessage('hideNames');
-    hosterkaReplicant.value = {
+function resetHosting() {
+  hosterkaReplicant.value = {
       hostL: { name: '', pronouns: '' },
       hostR: { name: '', pronouns: '' },
     };
     showBidsPanel.value = false;
     showPrizePanel.value = false;
-    resetAllCrops();
-    commentatorsReplicant.value = [];
-    nodecg.sendMessage('intermissionStarted');
-  }, config.stingerActionDelay);
 }
 
-function switchFromHostScreen() {
-  obs.call('SetCurrentPreviewScene', {
-    sceneName: config.scenes!.intermission,
-  });
-  obs.call('SetCurrentProgramScene', {
-    sceneName: config.scenes!.intermission,
-  });
-  obsDataReplicant.value!.scene = config.scenes!.intermission; // sometimes this isn't set automatically, setting it here just in case
-  hosterkaReplicant.value = {
-    hostL: { name: '', pronouns: '' },
-    hostR: { name: '', pronouns: '' },
-  };
-  showBidsPanel.value = false;
-  showPrizePanel.value = false;
-
-  // clear intermission video source
+function resetVideos() {
   if (config.sources && config.sources.intermissionVideo) {
     obs
       .call('SetInputSettings', {
@@ -289,11 +244,32 @@ function switchFromHostScreen() {
         },
       })
       .catch((err) => {
-        log.error('Nie udało się wyzerować filmu na przerwie: ', err);
+        log.error(`Failed to reset video source: ${err}`);
       });
   }
 
   videosPlayed = 0;
+}
+
+function switchToIntermission() {
+  if (obsDataReplicant.value?.scene === config.scenes!.intermission) return; // if we're already on intermission, don't do anything
+
+  setScene(config.scenes!.intermission);
+
+  setTimeout(() => {
+    nodecg.sendMessageToBundle('changeToNextRun', 'nodecg-speedcontrol');
+    nodecg.sendMessage('hideNames');
+    resetHosting();
+    resetAllCrops();
+    commentatorsReplicant.value = [];
+    nodecg.sendMessage('intermissionStarted');
+  }, config.stingerActionDelay);
+}
+
+function switchFromHostScreen() {
+  setScene(config.scenes!.intermission);
+  resetHosting();
+  resetVideos();
 }
 
 function playLongVideo() {
@@ -343,10 +319,34 @@ function playShortVideo(type: VideoTypes) {
   }
 }
 
+function setScene(scene: string) {
+  if (!obsDataReplicant.value!.studioMode) {
+    obs.call('SetStudioModeEnabled', { studioModeEnabled: true }).catch((err) => {
+      log.error(`Failed to enable Studio Mode: ${err};
+        }`);
+    });
+  }
+
+  try {
+    if (obsDataReplicant.value?.studioMode) {
+      obs.call('SetCurrentPreviewScene', {
+        sceneName: scene,
+      });
+    }
+    obs.call('SetCurrentProgramScene', {
+      sceneName: scene,
+    });
+  } catch (err) {
+    log.error(`Failed to set ${scene} scene: ${err}`);
+  }
+
+  obsDataReplicant.value!.scene = scene;
+}
+
 async function playIntermissionVideo(longVideo: boolean) {
   videosPlayed = 0;
   playLongVideoReplicant.value = longVideo;
-  obs.call('SetCurrentProgramScene', { sceneName: config.scenes!.video });
+  setScene(config.scenes!.video);
   if (longVideo) {
     playLongVideo();
   } else {
@@ -705,7 +705,6 @@ activeRunReplicant.on('change', () => {
 
 nodecg.listenFor('switchToIntermission', switchToIntermission);
 nodecg.listenFor('switchFromHostScreen', switchFromHostScreen);
-nodecg.listenFor('videoPlayerFinished', switchFromHostScreen);
 nodecg.listenFor('playIntermissionVideo', (playLongVideo) => {
   playIntermissionVideo(playLongVideo);
 });
