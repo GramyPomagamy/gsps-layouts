@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 import { Pronouns, Channel } from 'src/types/custom';
 import { pronouns as pronounsMap } from '../pronouns';
-import { channels as channelsMap } from '../channels';
+import { channels } from '../channels';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export const App = () => {
@@ -123,14 +123,27 @@ export const App = () => {
                   <Select
                     variant="outlined"
                     labelId={`channel-select-label-${index}`}
-                    value={commentator.channel as string}
+                    value={commentator.channel}
                     label="Kanał"
                     onChange={(event: SelectChangeEvent) => {
-                      updateCommentatorChannel(index, event.target.value as Channel);
-                    }}>
-                    {Object.entries(channelsMap).map((channel) => (
-                      <MenuItem key={channel[0]} value={channel[1]}>
-                        {channel[0]}
+                      updateCommentatorChannel(
+                        index,
+                        event.target.value as Channel
+                      );
+                    }}
+                  >
+                    {channels.map((channel) => (
+                      <MenuItem key={channel.value} value={channel.value}>
+                        <span
+                          style={{
+                            color: channel.color,
+                            backgroundColor: channel.backgroundColor,
+                            padding: "2px 6px",
+                            borderRadius: "4px",
+                          }}
+                        >
+                          {channel.name}
+                        </span>
                       </MenuItem>
                     ))}
                   </Select>
