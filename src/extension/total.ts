@@ -116,6 +116,11 @@ function manuallyUpdateTotal() {
  */
 function updateTotal() {
   return new Promise((resolve, reject) => {
+    if (!config.enabled) {
+      totalLog.debug("updateTotal called but tracker is disabled");
+      reject("Tracker integration is disabled");
+      return;
+    }
     request(TOTAL_URL, (error, response, body) => {
       if (!error && response.statusCode === 200) {
         let stats;
