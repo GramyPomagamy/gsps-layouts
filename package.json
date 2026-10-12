@@ -273,6 +273,13 @@
         "workspace": "1. GSPS - Ogólne"
       },
       {
+        "name": "runners-channels",
+        "title": "Kanały Audio Runnerów",
+        "file": "runners-channels.html",
+        "width": 3,
+        "workspace": "1. GSPS - Ogólne"
+      },
+      {
         "name": "host-countdown",
         "title": "Odliczanie hostów",
         "file": "host-countdown.html",
