@@ -405,6 +405,11 @@
         "height": 1030
       },
       {
+        "file": "4x3-4f-relay.html",
+        "width": 1920,
+        "height": 1030
+      },
+      {
         "file": "16x9-1p.html",
         "width": 1920,
         "height": 1030
@@ -461,6 +466,11 @@
       },
       {
         "file": "16x9-4p-nocam.html",
+        "width": 1920,
+        "height": 1030
+      },
+      {
+        "file": "16x9-4f-relay.html",
         "width": 1920,
         "height": 1030
       },
