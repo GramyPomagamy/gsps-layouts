@@ -566,7 +566,7 @@ async function getRecordingPath(): Promise<string> {
   return outputPath;
 }
 
-async function showOnlySource(obs: OBSWebSocket, sceneName: string, sourceName: string): Promise<boolean> {
+async function showOnlySource(sceneName: string, sourceName: string): Promise<boolean> {
     try {
         const { sceneItems } =
             await obs.call('GetSceneItemList', { sceneName });
@@ -741,4 +741,4 @@ nodecg.listenFor('modifyCropper', ({ cropperIndex, newCropper }) =>
 );
 nodecg.listenFor('removeCropper', removeCropper);
 nodecg.listenFor('toggleHostMute', toggleHostMute);
-nodecg.listenFor('show-source', async (data) => await showOnlySource(obs, data.sceneName, data.sourceName));
+nodecg.listenFor('show-source', async (data) => await showOnlySource(data.sceneName, data.sourceName));

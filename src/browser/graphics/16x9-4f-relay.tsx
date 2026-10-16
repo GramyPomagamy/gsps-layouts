@@ -4,15 +4,14 @@ import styled from 'styled-components';
 import RunInfo from './components/run-info';
 import Timer from './components/timer';
 import MediaBox from './components/media-box';
-import Nameplate from './components/nameplate';
 import Reader from './components/reader';
 import Commentators from './components/commentators';
 import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 import ThemeProvider from './components/theme-provider';
 import DonationBar from './components/donation-bar';
-import { RunDataPlayer, RunDataTeam } from 'speedcontrol/src/types';
-import { useEffect, useRef, Fragment } from 'react';
+import RelayPlayerGrid from './components/relay-feed/relay-player-grid';
+import { useRelayOBS } from './components/relay-feed/use-relay-obs';
 
 const LayoutContainer = styled.div`
   width: 1920px;
@@ -32,52 +31,43 @@ const Donations = styled.div`
 
 const TimerDiv = styled.div`
   position: fixed;
-  top: 100px;
+  top: 110px;
   left: 770px;
   width: 380px;
 `;
 
 const RunInfoDiv = styled.div`
   position: fixed;
-  top: 10px;
+  top: 20px;
   left: 770px;
   width: 380px;
 `;
 
-const Player1Name = styled.div`
+const PlayerName = styled.div`
   position: fixed;
   display: flex;
   flex-direction: column;
+  width: 770px;
+`;
+
+const Player1Name = styled(PlayerName)`
   top: 435px;
-  left: 0px;
-  width: 770px;
+  left: 0;
 `;
 
-const Player2Name = styled.div`
-  position: fixed;
-  display: flex;
-  flex-direction: column;
+const Player2Name = styled(PlayerName)`
   top: 435px;
-  right: 0px;
-  width: 770px;
+  right: 0;
 `;
 
-const Player3Name = styled.div`
-  position: fixed;
-  display: flex;
-  flex-direction: column;
+const Player3Name = styled(PlayerName)`
   top: 925px;
-  left: 0px;
-  width: 770px;
+  left: 0;
 `;
 
-const Player4Name = styled.div`
-  position: fixed;
-  display: flex;
-  flex-direction: column;
+const Player4Name = styled(PlayerName)`
   top: 925px;
-  right: 0px;
-  width: 770px;
+  right: 0;
 `;
 
 const MediaBoxDiv = styled.div`
@@ -95,39 +85,14 @@ export const App = () => {
     namespace: 'nodecg-speedcontrol',
   });
   
-  const getCurrentRelayRunner = (team: RunDataTeam) => {
-    let currentRelayRunner: RunDataPlayer | undefined;
-
-    team.players.forEach((player: RunDataPlayer) => {
-      if (player.id === team.relayPlayerID) {
-        currentRelayRunner = player;
-      }
-    });
-    return currentRelayRunner;
-  };
+  useRelayOBS(activeRun);
   
-  const lastSentSources = useRef<Record<string, string>>({});
-  const relayState = activeRun?.teams ?.map(team => team.relayPlayerID).join('|');
-  
-  useEffect(() => {
-    if (!activeRun?.relay) {
-        return;
-    }
-    activeRun.teams.forEach((team, index) => {
-        const runner = getCurrentRelayRunner(team);
-        if (!runner) {
-            return;
-        }
-        const sceneName = `Multitrack ${index + 1}`;
-        const sourceName = runner.name;
-        if (lastSentSources.current[sceneName] === sourceName) {
-            return;
-        }
-        lastSentSources.current[sceneName] = sourceName;
-
-        nodecg.sendMessage('show-source', {sceneName, sourceName,});
-    });
-  }, [relayState]);
+  const PlayerContainers = [
+  Player1Name,
+  Player2Name,
+  Player3Name,
+  Player4Name,
+  ];
   
   return (
     <ThemeProvider>
@@ -137,158 +102,10 @@ export const App = () => {
           <Commentators />
           <Reader />
         </MediaBoxDiv>
-        <Player1Name>
-          {(() => {
-              if (activeRun) {
-                if (activeRun.relay) {
-                  if (activeRun.teams[0]) {
-                    const currentRelayRunner = getCurrentRelayRunner(activeRun.teams[0]);
-                    if (currentRelayRunner != undefined) {
-                      return ( 
-                        <>
-                          <Nameplate player={currentRelayRunner} />
-                        </>
-                      );
-                    } else {
-                      return <></>;
-                    }
-                  } else {
-                    return <></>;
-                  }
-                } else {
-                  return (
-                    <>
-                      {activeRun.teams.map((team) => {
-                        return (
-                          <Fragment key={team.id}>
-                            {team.players.map((player) => {
-                              return <Nameplate key={player.name} player={player} />;
-                            })}
-                          </Fragment>
-                        );
-                      })}
-                    </>
-                  );
-                }
-              } else {
-                return <></>;
-              }
-            })()}
-        </Player1Name>
-        <Player2Name>
-          {(() => {
-              if (activeRun) {
-                if (activeRun.relay) {
-                  if (activeRun.teams[1]) {
-                    const currentRelayRunner = getCurrentRelayRunner(activeRun.teams[1]);
-                    if (currentRelayRunner != undefined) {
-                      return (
-                        <>
-                          <Nameplate player={currentRelayRunner} />
-                        </>
-                      );
-                    } else {
-                      return <></>;
-                    }
-                  } else {
-                    return <></>;
-                  }
-                } else {
-                  return (
-                    <>
-                      {activeRun.teams.map((team) => {
-                        return (
-                          <Fragment key={team.id}>
-                            {team.players.map((player) => {
-                              return <Nameplate key={player.name} player={player} />;
-                            })}
-                          </Fragment>
-                        );
-                      })}
-                    </>
-                  );
-                }
-              } else {
-                return <></>;
-              }
-            })()}
-        </Player2Name>
-        <Player3Name>
-          {(() => {
-              if (activeRun) {
-                if (activeRun.relay) {
-                  if (activeRun.teams[2]) {
-                    const currentRelayRunner = getCurrentRelayRunner(activeRun.teams[2]);
-                    if (currentRelayRunner != undefined) {
-                      return (
-                        <>
-                          <Nameplate player={currentRelayRunner} />
-                        </>
-                      );
-                    } else {
-                      return <></>;
-                    }
-                  } else {
-                    return <></>;
-                  }
-                } else {
-                  return (
-                    <>
-                      {activeRun.teams.map((team) => {
-                        return (
-                          <Fragment key={team.id}>
-                            {team.players.map((player) => {
-                              return <Nameplate key={player.name} player={player} />;
-                            })}
-                          </Fragment>
-                        );
-                      })}
-                    </>
-                  );
-                }
-              } else {
-                return <></>;
-              }
-            })()}
-        </Player3Name>
-        <Player4Name>
-          {(() => {
-              if (activeRun) {
-                if (activeRun.relay) {
-                  if (activeRun.teams[3]) {
-                    const currentRelayRunner = getCurrentRelayRunner(activeRun.teams[3]);
-                    if (currentRelayRunner != undefined) {
-                      return (
-                        <>
-                          <Nameplate player={currentRelayRunner} />
-                        </>
-                      );
-                    } else {
-                      return <></>;
-                    }
-                  } else {
-                    return <></>;
-                  }
-                } else {
-                  return (
-                    <>
-                      {activeRun.teams.map((team) => {
-                        return (
-                          <Fragment key={team.id}>
-                            {team.players.map((player) => {
-                              return <Nameplate key={player.name} player={player} />;
-                            })}
-                          </Fragment>
-                        );
-                      })}
-                    </>
-                  );
-                }
-              } else {
-                return <></>;
-              }
-            })()}
-        </Player4Name>
+        <RelayPlayerGrid
+		  activeRun={activeRun}
+		  containers={PlayerContainers}
+		/> 
         <RunInfoDiv>
           <RunInfo fontSize={48} />
         </RunInfoDiv>
