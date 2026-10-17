@@ -566,6 +566,29 @@ async function getRecordingPath(): Promise<string> {
   return outputPath;
 }
 
+async function showOnlySource(sceneName: string, sourceName: string): Promise<boolean> {
+    try {
+        const { sceneItems } =
+            await obs.call('GetSceneItemList', { sceneName });
+
+        const requests = sceneItems.map((item: any) => ({
+            requestType: 'SetSceneItemEnabled' as const,
+            requestData: {
+                sceneName,
+                sceneItemId: item['sceneItemId'],
+                sceneItemEnabled: item['sourceName'] === sourceName
+            }
+        }));
+
+        await obs.callBatch(requests);
+        return true;
+
+    } catch (error) {
+        log.error(`[OBS] showOnlySource failed (${sceneName}): ${error}`);
+        return false;
+    }
+}
+
 obs.on('CurrentProgramSceneChanged', (data) => {
   if (obsDataReplicant.value) {
     if (obsDataReplicant.value!.scene != data.sceneName) {
@@ -718,3 +741,4 @@ nodecg.listenFor('modifyCropper', ({ cropperIndex, newCropper }) =>
 );
 nodecg.listenFor('removeCropper', removeCropper);
 nodecg.listenFor('toggleHostMute', toggleHostMute);
+nodecg.listenFor('show-source', async (data) => await showOnlySource(data.sceneName, data.sourceName));
