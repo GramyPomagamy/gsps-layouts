@@ -1,6 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
-import { getCurrentRelayRunner } from './get-relay';
+import { RunDataPlayer, RunDataTeam } from 'speedcontrol/src/types';
+
+const getCurrentRelayRunner = (team: RunDataTeam): RunDataPlayer | undefined =>
+  team.players.find((player) => player.id === team.relayPlayerID);
 
 export const useRelayOBS = (activeRun: RunDataActiveRun | undefined) => {
   const lastSentSources = useRef<Record<string, string>>({});

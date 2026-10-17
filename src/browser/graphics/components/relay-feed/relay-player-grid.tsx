@@ -1,19 +1,20 @@
 import { Fragment } from 'react';
 import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 import Nameplate from '../nameplate';
-import { getCurrentRelayRunner } from './get-relay';
+import { RunDataPlayer, RunDataTeam } from 'speedcontrol/src/types';
+
+const getCurrentRelayRunner = (team: RunDataTeam): RunDataPlayer | undefined =>
+  team.players.find((player) => player.id === team.relayPlayerID);
 
 type RelayPlayerGridProps = {
   activeRun: RunDataActiveRun | undefined;
-  containers: readonly React.ComponentType<
-    React.PropsWithChildren
-  >[];
+  containers: readonly React.ComponentType<React.PropsWithChildren>[];
 };
 
 export default function RelayPlayerGrid({activeRun, containers,}: RelayPlayerGridProps) {
-  const renderPlayerName = (teamIndex: number): JSX.Element | null => {
+  const renderPlayerName = (teamIndex: number): JSX.Element => {
     if (!activeRun) {
-      return null;
+      return <></>;
     }
 
     if (!activeRun.relay) {
@@ -36,13 +37,13 @@ export default function RelayPlayerGrid({activeRun, containers,}: RelayPlayerGri
     const team = activeRun.teams[teamIndex];
 
     if (!team) {
-      return null;
+      return <></>;
     }
 
     const currentRelayRunner = getCurrentRelayRunner(team);
 
     if (!currentRelayRunner) {
-      return null;
+      return <></>;
     }
     
 	return (
