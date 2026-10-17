@@ -2,20 +2,19 @@ import { Fragment, useEffect, useRef } from 'react';
 import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 import { RunDataPlayer, RunDataTeam } from 'speedcontrol/src/types';
 import Nameplate from './nameplate';
-
-const getCurrentRelayRunner = (team: RunDataTeam): RunDataPlayer | undefined =>
-  team.players.find((player) => player.id === team.relayPlayerID);
   
 type RelayPlayerGridProps = {
   activeRun: RunDataActiveRun | undefined;
   containers: readonly React.ComponentType<React.PropsWithChildren>[];
 };
 
-export const useRelayOBS = (activeRun: RunDataActiveRun | undefined) => {
+export default function RelayPlayerGrid({activeRun, containers,}: RelayPlayerGridProps) {
+
+  const getCurrentRelayRunner = (team: RunDataTeam): RunDataPlayer | undefined =>
+    team.players.find((player) => player.id === team.relayPlayerID);
   const lastSentSources = useRef<Record<string, string>>({});
   const relayState = activeRun?.teams ?.map((team) => team.relayPlayerID) .join('|');
 
-	
   useEffect(() => {
     if (!activeRun?.relay) {
       return;
@@ -39,9 +38,7 @@ export const useRelayOBS = (activeRun: RunDataActiveRun | undefined) => {
       nodecg.sendMessage('show-source', {sceneName, sourceName,});
     });
   }, [relayState]);
-};
-
-export default function RelayPlayerGrid({activeRun, containers,}: RelayPlayerGridProps) {
+  
   const renderPlayerName = (teamIndex: number): JSX.Element => {
     if (!activeRun) {
       return <></>;
