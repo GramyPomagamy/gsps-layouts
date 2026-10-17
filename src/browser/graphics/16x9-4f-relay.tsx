@@ -10,8 +10,8 @@ import { useReplicant } from 'use-nodecg';
 import { RunDataActiveRun } from 'speedcontrol/src/types/schemas';
 import ThemeProvider from './components/theme-provider';
 import DonationBar from './components/donation-bar';
-import RelayPlayerGrid from './components/relay-feed/relay-player-grid';
-import { useRelayOBS } from './components/relay-feed/use-relay-obs';
+import RelayPlayerGrid from './components/relay-feed';
+import { useRelayOBS } from './components/relay-feed';
 
 const LayoutContainer = styled.div`
   width: 1920px;
