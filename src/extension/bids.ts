@@ -1,7 +1,7 @@
 import { get } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
 import deepEqual from 'deep-equal';
-import numeral from 'numeral';
+import { amountFormatter } from './util/format-pln';
 import requestPromise from 'request-promise';
 import Bluebird from 'bluebird';
 import { Bids } from 'src/types/generated';
@@ -125,12 +125,10 @@ function processRawBids(bids: any[]) {
         const goal = parseFloat(bid.fields.goal.toString());
         formattedParentBid.goalMet = bid.fields.total >= bid.fields.goal;
         if (formattedParentBid.isBitsChallenge) {
-          formattedParentBid.goal = numeral(goal * 100).format('0,0').replace(/,/g, ' ');
+          formattedParentBid.goal = amountFormatter.format(goal * 100);
           formattedParentBid.rawGoal = parseFloat((goal * 100).toString());
           formattedParentBid.rawTotal = formattedParentBid.rawGoal;
-          formattedParentBid.total = numeral(formattedParentBid.rawTotal)
-            .format('0,0')
-            .replace(/,/g, ' ');
+          formattedParentBid.total = amountFormatter.format(formattedParentBid.rawTotal);
           formattedParentBid.goalMet = formattedParentBid.rawTotal >= formattedParentBid.rawGoal;
           formattedParentBid.state = formattedParentBid.goalMet ? 'CLOSED' : 'OPENED';
         } else {
