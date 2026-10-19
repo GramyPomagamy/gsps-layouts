@@ -82,9 +82,9 @@ export const App = () => {
                     onChange={(event: SelectChangeEvent) => {
                       updatePlayerChannel(index, event.target.value as Channel);
                     }}>
-                    {Object.entries(channelsMap).map((channel) => (
-                      <MenuItem key={channel[0]} value={channel[1]}>
-                        {channel[0]}
+                    {Object.entries(channelsMap).map(([channelName, channelValue]) => (
+                      <MenuItem key={channelName as string} value={channelValue as string}>
+                        {channelName as string}
                       </MenuItem>
                     ))}
                   </Select>
