@@ -125,10 +125,12 @@ function processRawBids(bids: any[]) {
         const goal = parseFloat(bid.fields.goal.toString());
         formattedParentBid.goalMet = bid.fields.total >= bid.fields.goal;
         if (formattedParentBid.isBitsChallenge) {
-          formattedParentBid.goal = numeral(goal * 100).format('0,0');
+          formattedParentBid.goal = numeral(goal * 100).format('0,0').replace(/,/g, ' ');
           formattedParentBid.rawGoal = parseFloat((goal * 100).toString());
           formattedParentBid.rawTotal = formattedParentBid.rawGoal;
-          formattedParentBid.total = numeral(formattedParentBid.rawTotal).format('0,0');
+          formattedParentBid.total = numeral(formattedParentBid.rawTotal)
+            .format('0,0')
+            .replace(/,/g, ' ');
           formattedParentBid.goalMet = formattedParentBid.rawTotal >= formattedParentBid.rawGoal;
           formattedParentBid.state = formattedParentBid.goalMet ? 'CLOSED' : 'OPENED';
         } else {

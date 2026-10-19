@@ -39,10 +39,12 @@ export const Total = () => {
             onUpdate: () => {
               setAmount({
                 raw: localAmount.raw,
-                formatted: localAmount.raw.toLocaleString('en-US', {
-                  maximumFractionDigits: 0,
-                  minimumFractionDigits: 0,
-                }),
+                formatted: localAmount.raw
+                  .toLocaleString('en-US', {
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0,
+                  })
+                  .replace(/,/g, ' '),
               });
             },
           });
