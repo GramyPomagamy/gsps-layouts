@@ -3,7 +3,6 @@ import { render } from '../render';
 import { useReplicant } from 'use-nodecg';
 import { useEffect } from 'react';
 import {
-  Divider,
   FormControl,
   Grid,
   InputLabel,
