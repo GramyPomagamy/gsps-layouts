@@ -77,14 +77,14 @@ export const App = () => {
                   <Select
                     variant="outlined"
                     labelId={`channel-select-label-${index}`}
-                    value={runner.channel as string}
+                    value={runner.channel}
                     label="Kanał"
                     onChange={(event: SelectChangeEvent) => {
                       updatePlayerChannel(index, event.target.value as Channel);
                     }}>
-                    {Object.entries(channelsMap).map(([channelName, channelValue]) => (
-                      <MenuItem key={channelName as string} value={channelValue as string}>
-                        {channelName as string}
+                    {Object.entries(channelsMap).map(([channelName]) => (
+                      <MenuItem key={channelName} value={channelName}>
+                        {channelName}
                       </MenuItem>
                     ))}
                   </Select>
