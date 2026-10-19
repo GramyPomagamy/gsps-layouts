@@ -1,9 +1,8 @@
 import { DashboardThemeProvider } from './components/DashboardThemeProvider';
 import { render } from '../render';
 import { useReplicant } from 'use-nodecg';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
-  Button,
   Divider,
   FormControl,
   Grid,
@@ -21,7 +20,6 @@ import { RunDataActiveRun } from 'speedcontrol/src/types';
 
 export const App = () => {
   const [liveRunnerChannel, setliveRunnerChannel] = useReplicant<Runner[]>('liveRunnerChannel', []);
-  const [localRunnerChannel, setlocalRunnerChannel] = useState<Runner[]>([]);
   const [activeRun] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
     namespace: 'nodecg-speedcontrol',
   });
@@ -40,30 +38,29 @@ export const App = () => {
   }
 
   function updatePlayerChannel(playerIndex: number, channel: Channel) {
-    const newState = localRunnerChannel.map((obj, index) => {
+    const newState = liveRunnerChannel.map((obj, index) => {
       if (index === playerIndex) {
         return { ...obj, channel: channel };
       }
 
       return obj;
     });
-    setlocalRunnerChannel(newState);
+    setliveRunnerChannel(newState);
   }
 
   useEffect(() => {
+    const liveRunnersName = liveRunnerChannel.map((runner) => runner.name);
+    const namesFromRun = getPlayersName();
+    if (!namesFromRun || JSON.stringify(liveRunnersName) === JSON.stringify(namesFromRun)) {
+      return; //refresh
+    }
     setliveRunnerChannel(prepareLocalObjects());
   }, [activeRun]);
-
-  useEffect(() => {
-    if (typeof liveRunnerChannel === 'undefined') return;
-
-    setlocalRunnerChannel(liveRunnerChannel);
-  }, [liveRunnerChannel]);
 
   return (
     <DashboardThemeProvider>
       <Stack spacing={2}>
-        {localRunnerChannel.map((runner, index) => (
+        {liveRunnerChannel.map((runner, index) => (
           <div key={index}>
             <Grid container spacing={2} style={{ width: '100%', marginBottom: '25px' }}>
               <Grid item xs={7}>
@@ -97,15 +94,6 @@ export const App = () => {
             </Grid>
           </div>
         ))}
-        <Divider />
-        <Button
-          variant="contained"
-          disabled={liveRunnerChannel === localRunnerChannel}
-          onClick={() => {
-            setliveRunnerChannel(localRunnerChannel);
-          }}>
-          Zapisz zmiany
-        </Button>
       </Stack>
     </DashboardThemeProvider>
   );

@@ -11,7 +11,7 @@ import { Runner } from 'src/types/custom/runner';
 
 const NameplateContainer = styled.div<{ signalLevel: number; thresholdLevel: number }>`
   background-color: ${(props) =>
-    props.signalLevel < props.thresholdLevel ? '#5f3ac2' : '#828285c0'};
+    props.signalLevel < props.thresholdLevel ? '#5f3ac2' : '#876cd3c0'};
   transition: ${(props) =>
     props.signalLevel < props.thresholdLevel
       ? 'background-color 1s ease-in-out 0.5s'
