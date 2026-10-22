@@ -1,6 +1,6 @@
 import type { Donation } from '../types/custom';
 import request from 'request';
-import { formatDollars } from './util/format-dollars';
+import { plnFormatter } from './util/format-pln';
 import type { Configschema } from '../types/generated/configschema';
 import io from 'socket.io-client';
 import { TaggedLogger } from './util/tagged-logger';
@@ -88,9 +88,10 @@ nodecg.listenFor('updateTotal', () => manuallyUpdateTotal());
 
 nodecg.listenFor('setTotal', ({ type, newValue }) => {
   if (type === 'cash') {
+    const raw = parseFloat(newValue.toString());
     totalReplicant.value = {
-      raw: parseFloat(newValue.toString()),
-      formatted: formatDollars(newValue),
+      raw,
+      formatted: plnFormatter.format(raw),
     };
   } else {
     totalLog.error('Unexpected "type" sent to setTotal: "%s"', type);
@@ -141,7 +142,7 @@ function updateTotal() {
         } else {
           totalReplicant.value = {
             raw: freshTotal,
-            formatted: formatDollars(freshTotal),
+            formatted: plnFormatter.format(freshTotal),
           };
           resolve(true);
         }
@@ -170,18 +171,10 @@ function formatDonation(rawAmount: number, newTotal: number) {
   rawAmount = parseFloat(rawAmount.toString());
   const rawNewTotal = parseFloat(newTotal.toString());
 
-  // Format amount
-  let amount = formatDollars(rawAmount);
-
-  // If a whole dollar, get rid of cents
-  if (amount.endsWith('.00')) {
-    amount = amount.substr(0, amount.length - 3);
-  }
-
   return {
-    amount,
+    amount: plnFormatter.format(rawAmount),
     rawAmount,
-    newTotal: formatDollars(rawNewTotal),
+    newTotal: plnFormatter.format(rawNewTotal),
     rawNewTotal,
   };
 }
