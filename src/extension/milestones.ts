@@ -2,6 +2,7 @@ import { get } from './util/nodecg';
 import { Milestones, RawMilestone } from '../types/custom';
 import needle from 'needle';
 import { TaggedLogger } from './util/tagged-logger';
+import { USER_AGENT } from './util/user-agent';
 
 const nodecg = get();
 const milestonesReplicant = nodecg.Replicant<Milestones>('milestones');
@@ -13,7 +14,7 @@ async function updateMilestones() {
   nodecg.sendMessage('milestones:updating');
   clearTimeout(refreshTimeout);
   try {
-    const raw = await needle('get', config.url!);
+    const raw = await needle('get', config.url!, { user_agent: USER_AGENT });
     const milestones = processMilestones(raw.body.data);
     milestonesReplicant.value = milestones;
     nodecg.sendMessage('milestones:updated');

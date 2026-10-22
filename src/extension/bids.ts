@@ -1,5 +1,6 @@
 import { get } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
+import { USER_AGENT } from './util/user-agent';
 import deepEqual from 'deep-equal';
 import numeral from 'numeral';
 import requestPromise from 'request-promise';
@@ -33,13 +34,13 @@ function update() {
   const currentPromise = requestPromise({
     uri: CURRENT_BIDS_URL,
     json: true,
-    headers: {'accept-language': 'pl'},
+    headers: { 'accept-language': 'pl', 'User-Agent': USER_AGENT },
   });
 
   const allPromise = requestPromise({
     uri: BIDS_URL,
     json: true,
-    headers: {'accept-language': 'pl'},
+    headers: { 'accept-language': 'pl', 'User-Agent': USER_AGENT },
   });
 
   return Bluebird.all([currentPromise, allPromise])

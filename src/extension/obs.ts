@@ -6,6 +6,7 @@ import { Commentators, Hosterka, ObsData, WindowInfo } from '../types/generated'
 import { Cropper, Asset, TransformProperties } from '../types/custom';
 import { get } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
+import { USER_AGENT } from './util/user-agent';
 import { RunDataActiveRun } from 'speedcontrol/src/types';
 
 class Videos {
@@ -497,7 +498,7 @@ function resetAllCrops() {
 function refreshWindows(cropperIndex: number) {
   const cropperConfig = obsDataReplicant.value!.croppers[cropperIndex];
 
-  request(cropperConfig!.url, (error, response, body) => {
+  request(cropperConfig!.url, { headers: { 'User-Agent': USER_AGENT } }, (error, response, body) => {
     if (!error && response.statusCode === 200) {
       let windows;
       try {
