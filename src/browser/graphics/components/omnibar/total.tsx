@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { Total as TotalType } from 'src/types/generated';
 import gsap from 'gsap';
-import { plnFormatter } from '../../../../extension/util/format-pln';
+import { plnFormatter } from 'src/utils/format-pln';
 
 const AmountDiv = styled.div`
   font-size: 34px;
@@ -16,10 +16,6 @@ const AmountDiv = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`;
-
-const Currency = styled.div`
-  font-size: 0.7em;
 `;
 
 export const Total = () => {
@@ -45,15 +41,7 @@ export const Total = () => {
     return () => ctx.revert();
   }, []);
 
-  return (
-    <AmountDiv>
-      {plnFormatter
-        .formatToParts(amount)
-        .map(({ type, value }, index) =>
-          type === 'currency' ? <Currency key={index}>{value}</Currency> : value
-        )}
-    </AmountDiv>
-  );
+  return <AmountDiv>{plnFormatter.format(amount)}</AmountDiv>;
 };
 
 export default Total;

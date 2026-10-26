@@ -1,7 +1,7 @@
 import { get } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
 import deepEqual from 'deep-equal';
-import { amountFormatter } from './util/format-pln';
+import { amountFormatter } from '../utils/format-pln';
 import requestPromise from 'request-promise';
 import Bluebird from 'bluebird';
 import { Bids } from 'src/types/generated';

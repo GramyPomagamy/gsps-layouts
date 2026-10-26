@@ -1,6 +1,6 @@
 import type { Donation } from '../types/custom';
 import request from 'request';
-import { plnFormatter } from './util/format-pln';
+import { plnFormatter } from '../utils/format-pln';
 import type { Configschema } from '../types/generated/configschema';
 import io from 'socket.io-client';
 import { TaggedLogger } from './util/tagged-logger';

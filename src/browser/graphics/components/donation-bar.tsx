@@ -2,7 +2,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { ReadDonations } from 'src/types/generated';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
-import { plnFormatter } from '../../../extension/util/format-pln';
+import { plnFormatter } from 'src/utils/format-pln';
 
 const getDonationColors = (amount: number) => {
   if (amount >= 50 && amount <= 99) {
