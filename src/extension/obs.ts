@@ -6,72 +6,8 @@ import { Commentators, Hosterka, ObsData, WindowInfo } from '../types/generated'
 import { Cropper, Asset, TransformProperties } from '../types/custom';
 import { get } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
+import { Videos } from './util/videos';
 import { RunDataActiveRun } from 'speedcontrol/src/types';
-
-class Videos {
-  private _assets: Asset[];
-  private _currentVideoIndex: number;
-  private _lastVideo: Asset | undefined;
-
-  constructor(
-    videoAssets: Asset[] | undefined,
-    currentIndex: number,
-    lastVideo: Asset | undefined
-  ) {
-    if (videoAssets === undefined) {
-      videoAssets = [];
-    }
-    this._assets = videoAssets.slice(0);
-    this._lastVideo = lastVideo;
-    this._currentVideoIndex = currentIndex;
-    this.shuffleVideos();
-  }
-
-  public getCurrentIndex(): number {
-    return this._currentVideoIndex;
-  }
-
-  public getLastPlayedVideo(): Asset | undefined {
-    return this._lastVideo;
-  }
-
-  public getNextVideo(): Asset | undefined {
-    const nextVideo = this._assets[this._currentVideoIndex];
-    ++this._currentVideoIndex;
-    this._lastVideo = nextVideo;
-    if (this._currentVideoIndex >= this._assets.length) {
-      this.shuffleVideos();
-    }
-    return nextVideo;
-  }
-
-  public addNewVideo(video: Asset | undefined): void {
-    if (video !== undefined) {
-      this._assets.push(video);
-      this.shuffleVideos();
-    }
-  }
-
-  private shuffleVideos(): void {
-    let currentIndex = this._assets.length;
-    //shuffle
-    while (currentIndex != 0) {
-      const randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-
-      const tmp = this._assets[currentIndex];
-      this._assets[currentIndex] = this._assets[randomIndex] as Asset;
-      this._assets[randomIndex] = tmp as Asset;
-    }
-    //make sure video will not be played 2 times in a row
-    if (this._lastVideo !== undefined && this._assets[0] === this._lastVideo) {
-      const tmp = this._assets[0];
-      this._assets[0] = this._assets[this._assets.length - 1] as Asset;
-      this._assets[this._assets.length - 1] = tmp;
-    }
-    this._currentVideoIndex = 0;
-  }
-}
 
 type VideoTypes = 'charity' | 'sponsors';
 const nodecg = get();
@@ -271,9 +207,9 @@ function switchFromHostScreen() {
 }
 
 function playLongVideo(): boolean {
+  log.debug('Puszczam długi film');
   const videoToPlay = shuffledVideosLong.getNextVideo();
   if (videoToPlay) {
-    log.debug('Puszczam długi film');
     setTimeout(() => {
       obs
         .call('SetInputSettings', {
@@ -288,16 +224,17 @@ function playLongVideo(): boolean {
     }, config.stingerActionDelay);
     return true;
   }
+  log.error('Nie udało puścić się długiego filmu');
   return false;
 }
 
 function playShortVideo(type: VideoTypes): boolean {
+  log.debug('Puszczam krótki film');
   const videoToPlay =
     type === 'charity'
       ? shuffledVideosCharity.getNextVideo()
       : shuffledVideosSponsors.getNextVideo();
   if (videoToPlay) {
-    log.debug('Puszczam krótki film');
     videoType = type;
     setTimeout(() => {
       obs
@@ -313,6 +250,7 @@ function playShortVideo(type: VideoTypes): boolean {
     }, config.stingerActionDelay);
     return true;
   }
+  log.error('Nie udało puścić się krótkiego filmu');
   return false;
 }
 
