@@ -25,6 +25,7 @@ dist-ssr
 
 # Built files
 extension/*
+utils/*
 dashboard/*
 graphics/*
 vite.config.mts.*
