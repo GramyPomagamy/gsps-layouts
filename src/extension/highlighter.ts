@@ -1,6 +1,7 @@
 import { get } from './util/nodecg';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { TaggedLogger } from './util/tagged-logger';
+import { USER_AGENT } from './util/user-agent';
 import io from 'socket.io-client';
 import { ObsData } from 'src/types/generated';
 import { RunDataActiveRun, Timer } from 'speedcontrol/src/types';
@@ -66,7 +67,9 @@ function formatTime(timestamp: number) {
 nodecg.listenFor('makeHighlight', makeHighlight);
 
 if (config.remote && config.remote.enabled) {
-  const socket = io(config.remote.url!);
+  const socket = io(config.remote.url!, {
+    extraHeaders: { 'User-Agent': USER_AGENT },
+  });
   let loggedXhrPollError = false;
 
   socket.on('connect', () => {

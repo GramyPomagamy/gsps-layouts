@@ -4,6 +4,7 @@ import { formatDollars } from './util/format-dollars';
 import type { Configschema } from '../types/generated/configschema';
 import io from 'socket.io-client';
 import { TaggedLogger } from './util/tagged-logger';
+import { USER_AGENT } from './util/user-agent';
 import { get } from './util/nodecg';
 import { AutoUpdateTotal, Total } from 'src/types/generated';
 
@@ -27,7 +28,9 @@ autoUpdateTotalReplicant.on('change', (newVal) => {
 });
 
 if (socketConfig.enabled) {
-  const socket = io(socketConfig.url!);
+  const socket = io(socketConfig.url!, {
+    extraHeaders: { 'User-Agent': USER_AGENT },
+  });
   let loggedXhrPollError = false;
 
   socket.on('connect', () => {
@@ -121,7 +124,7 @@ function updateTotal() {
       reject("Tracker integration is disabled");
       return;
     }
-    request(TOTAL_URL, (error, response, body) => {
+    request(TOTAL_URL, { headers: { 'User-Agent': USER_AGENT } }, (error, response, body) => {
       if (!error && response.statusCode === 200) {
         let stats;
         try {

@@ -2,6 +2,7 @@ import needle from 'needle';
 import type { NeedleResponse } from 'needle';
 import { get } from './util/nodecg';
 import { TaggedLogger } from './util/tagged-logger';
+import { USER_AGENT } from './util/user-agent';
 import type { Tracker } from '../types/custom';
 import { DonationsToRead, Prizes, ReadDonations } from 'src/types/generated';
 
@@ -31,7 +32,7 @@ async function loginToTracker(): Promise<void> {
   else donationsLog.info(`Odświeżam sesję jako ${config!.username}`);
 
   try {
-    const resp1 = await needle('get', LOGIN_URL);
+    const resp1 = await needle('get', LOGIN_URL, { user_agent: USER_AGENT });
     if (resp1.statusCode !== 200) {
       throw new Error('Brak dostępu do strony logowania trackera');
     }
@@ -45,6 +46,7 @@ async function loginToTracker(): Promise<void> {
         csrfmiddlewaretoken: resp1.cookies ? resp1.cookies['csrftoken'] : undefined,
       },
       {
+        user_agent: USER_AGENT,
         cookies: resp1.cookies,
         headers: {
           referer: LOGIN_URL,
@@ -106,7 +108,7 @@ async function updateToReadDonations() {
     const resp = await needle(
       'get',
       `${rootURL}/search?event=${eventID}&type=donation&feed=toread`,
-      { cookies: cookies }
+      { cookies: cookies, user_agent: USER_AGENT }
     );
     const currentDonations = processToReadDonations(resp.body);
     const donationBids = await getDonationBids();
@@ -126,14 +128,14 @@ async function updateToReadDonations() {
     const donationsToAcceptResp = await needle(
       'get',
       `${rootURL}/search?event=${eventID}&type=donation&commentstate=PENDING&transactionstate=COMPLETED`,
-      { cookies: cookies }
+      { cookies: cookies, user_agent: USER_AGENT }
     );
     donationsToAcceptReplicant.value = donationsToAcceptResp.body.length;
 
     const bidsToAcceptResp = await needle(
       'get',
       `${rootURL}/search?event=${eventID}&type=bidtarget&state=PENDING`,
-      { cookies: cookies }
+      { cookies: cookies, user_agent: USER_AGENT }
     );
     const filteredBidsToAccept = (bidsToAcceptResp.body as Array<any>).filter(
       (bid) => bid.fields.total != '0.00'
@@ -158,6 +160,7 @@ async function getDonationBids(): Promise<Tracker.DonationBid[]> {
       `${rootURL}/search?event=${config!.eventID}&type=donationbid`,
       {
         cookies: cookies,
+        user_agent: USER_AGENT,
       }
     );
     return resp.body;
@@ -182,6 +185,7 @@ async function setDonationAsRead(id: number, name: string, amount: number): Prom
       `${rootURL}/edit?type=donation&id=${id}` + '&readstate=READ',
       {
         cookies: cookies,
+        user_agent: USER_AGENT,
       }
     );
     if (resp.statusCode === 200) {
@@ -225,6 +229,7 @@ async function updatePrizes() {
   try {
     const resp = await needle('get', `${rootURL}/search?event=${config!.eventID}&type=prize`, {
       cookies: cookies,
+      user_agent: USER_AGENT,
     });
     const currentPrizes = processRawPrizes(resp.body);
     prizesReplicant.value = currentPrizes;
@@ -240,7 +245,7 @@ async function getRecentlyReadDonations() {
     const resp = await needle(
       'get',
       `${rootURL}/search?event=${config!.eventID}&type=donation&readstate=READ`,
-      { cookies: cookies }
+      { cookies: cookies, user_agent: USER_AGENT }
     );
 
     const recentlyReadDonations: ReadDonations = (resp.body as Array<any>)
