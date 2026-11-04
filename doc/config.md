@@ -1,0 +1,77 @@
+# configschema.json description
+Required\* values are marked with an asterisk.
+- **donationSocket**\* - description placeholder
+	- **enabled**\*
+	- **url**
+- **milestones**\* - description placeholder
+	- **enabled**\*
+	- **url**
+- **tracker**\* - login information for the private areas of the tracker API.
+	- **enabled**\*
+	- **username**
+	- **password**
+	- **eventID**
+	- **rootURL**
+	- **updateRecentlyReadDonationsFromTracker** - Normally read donations bar updates when donation is marked as read in the reader panel. Use this option when reading is done via GDQ Tracker's panel to refresh the bar periodically.
+- **highlighter**\* - description placeholder
+	- **enabled**\*
+	- **spreadsheetID** - description placeholder if highlighter description doesn't provide enough context
+	- **service_email**
+	- **private_key**
+	- **remote** - description placeholder
+		- **enabled**\*
+		- **url**
+- **obs**\* - information needed for communication with OBS WebSockets
+	- **enabled**\*
+	- **address** - from WebSocket Connect Info
+	- **password** - specify if configured in WebSocket
+	- **stingerActionDelay** - description placeholder
+	- **scenes** - the displayed OBS scenes for... 
+		- **intermission**\* - the intermission between runs
+		- **video**\* - the video between runs
+		- **hosterka**\* - hosting between runs
+		- **countdown**\* - for countdown before showcases
+	- **sources** - the auxiliary OBS scenes for...
+		- **intermissionVideo**\* - the source of the video playback for the intermission
+		- **hostAudio**\* - host audio source (?)
+	- **croppers** - description placeholder
+		- **url**\*
+		- **name**\*
+		- **sceneName**\*
+		- **sourceName**\*
+	- **timestamps** - description placeholder
+		- **enabled**\*
+- **foobar**\* - information needed for communication with foobar2000
+	- **enabled**\*
+	- **address**
+	- **musicKeyword** - the suffix for OBS scenes to recognize that background music should be played
+- **mixer**\* - description placeholder
+	- **enabled**\*
+    - **address**
+    - **port**
+- **footpedal**\* - description placeholder
+	- **enabled**\*
+- **genericReplicant**\* - description placeholder
+	- **enabled**\*
+- **twitchExt**\* - description placeholder
+	- **enabled**\*
+    - **token**
+- **sd**\* - Stream Deck related settings
+	- **enabled**\* - enable the Stream Deck HTTP endpoints
+- **autoUpdateGameAfterImport** - Update game twitch name and player pronouns after Oengus import is complete.
+- **streams**\* - description placeholder
+  - **accounts**
+- **externalWS**\* - external WebSocket related settings
+  - **enabled**\*
+  - **port**
+- **gtaTrilogy**
+  - **players**\*
+  - **splits**\*
+    - **GTA3**\*
+	- **GTAVC**\*
+	- **GTASA**\*
+  - **socket**\*
+    - **address**\*
+    - **port**\*
+
+We might potentially want to update `configschema.json` to be more readable instead of keeping this information in a separate markdown file.
