@@ -1,24 +1,27 @@
 # configschema.json description
 Required\* values are marked with an asterisk.
+
+Some premade `gsps-layouts.json` files can be found in VaultWarden.
+
 - **donationSocket**\* - description placeholder
 	- **enabled**\*
 	- **url**
 - **milestones**\* - description placeholder
 	- **enabled**\*
 	- **url**
-- **tracker**\* - login information for the private areas of the tracker API.
+- **tracker**\* - login information for the private areas of the tracker API
 	- **enabled**\*
 	- **username**
 	- **password**
 	- **eventID**
 	- **rootURL**
 	- **updateRecentlyReadDonationsFromTracker** - Normally read donations bar updates when donation is marked as read in the reader panel. Use this option when reading is done via GDQ Tracker's panel to refresh the bar periodically.
-- **highlighter**\* - description placeholder
+- **highlighter**\* - information for connection to the stream highlights spreadsheet
 	- **enabled**\*
-	- **spreadsheetID** - description placeholder if highlighter description doesn't provide enough context
+	- **spreadsheetID** - copied from the spreadsheet URL
 	- **service_email**
 	- **private_key**
-	- **remote** - description placeholder
+	- **remote** - link to the public highlight marking page
 		- **enabled**\*
 		- **url**
 - **obs**\* - information needed for communication with OBS WebSockets
@@ -34,7 +37,7 @@ Required\* values are marked with an asterisk.
 	- **sources** - the auxiliary OBS scenes for...
 		- **intermissionVideo**\* - the source of the video playback for the intermission
 		- **hostAudio**\* - host audio source (?)
-	- **croppers** - description placeholder
+	- **croppers** - information about event monitor signal croppers
 		- **url**\*
 		- **name**\*
 		- **sceneName**\*
@@ -49,7 +52,7 @@ Required\* values are marked with an asterisk.
 	- **enabled**\*
     - **address**
     - **port**
-- **footpedal**\* - description placeholder
+- **footpedal**\* - for donation reader (?)
 	- **enabled**\*
 - **genericReplicant**\* - description placeholder
 	- **enabled**\*
@@ -58,9 +61,9 @@ Required\* values are marked with an asterisk.
     - **token**
 - **sd**\* - Stream Deck related settings
 	- **enabled**\* - enable the Stream Deck HTTP endpoints
-- **autoUpdateGameAfterImport** - Update game twitch name and player pronouns after Oengus import is complete.
-- **streams**\* - description placeholder
-  - **accounts**
+- **autoUpdateGameAfterImport** - Update game twitch name and player pronouns after Oengus import is complete
+- **streams**\*
+  - **accounts** - list of the Twitch restream accounts for showcase streams
 - **externalWS**\* - external WebSocket related settings
   - **enabled**\*
   - **port**
@@ -74,4 +77,4 @@ Required\* values are marked with an asterisk.
     - **address**\*
     - **port**\*
 
-We might potentially want to update `configschema.json` to be more readable instead of keeping this information in a separate markdown file.
+We might potentially want to update `configschema.json` to be more readable instead of keeping this information in a separate Markdown file.
