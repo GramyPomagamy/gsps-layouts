@@ -1,5 +1,5 @@
 import { render } from '../render';
-import defaultLogo from './img/GSPS_PNG.png';
+import defaultLogo from './img/GSPS_LOGO.png';
 import mainBg from './img/main-background.png';
 import transparentBg from './img/gradient_transparent.png';
 import styled from 'styled-components';
