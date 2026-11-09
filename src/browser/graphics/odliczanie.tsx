@@ -1,5 +1,5 @@
 import { render } from '../render';
-import defaultLogo from './img/GSPS_PNG.png';
+import defaultLogo from './img/GSPS_LOGO.png';
 import mainBg from './img/main-background.png';
 import transparentBg from './img/gradient_transparent.png';
 import styled from 'styled-components';
@@ -18,12 +18,13 @@ const LayoutContainer = styled.div<{ useTransparentBackgrounds: boolean }>`
   padding: 0;
 `;
 
-const LogoDiv = styled.div`
+const LogoFlex = styled.div`
   position: fixed;
+  display: flex;
   top: 250px;
   width: 1920px;
-  height: 500px;
-  text-align: center;
+  align-content: center;
+  justify-content: space-around;
 `;
 
 const CountdownDiv = styled.div`
@@ -36,7 +37,7 @@ const CountdownDiv = styled.div`
 `;
 
 const Logo = styled.img`
-  height: 100%;
+  width: 55%;
 `;
 
 export const Odliczanie = () => {
@@ -55,9 +56,9 @@ export const Odliczanie = () => {
   return (
     <ThemeProvider>
       <LayoutContainer useTransparentBackgrounds={useTransparentBackgrounds}>
-        <LogoDiv>
+        <LogoFlex>
           <Logo src={logo} />
-        </LogoDiv>
+        </LogoFlex>
         <CountdownDiv ref={countdownRef}>
           {countdown && countdownRunning && <span className="shadow">{countdown.formatted}</span>}
         </CountdownDiv>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import defaultLogo from './img/GSPS_PNG.png';
+import defaultLogo from './img/GSPS_LOGO.png';
 import mainBg from './img/main-background.png';
 import transparentBg from './img/gradient_transparent.png';
 import { render } from '../render';
@@ -35,11 +35,16 @@ const MediaBoxContainer = styled.div`
   display: flex;
 `;
 
-const EventLogo = styled.img`
+const EventLogoDiv = styled.div`
   width: 250px;
+  height: 90px;
   position: fixed;
   top: 40px;
   left: 65px;
+`;
+
+const EventLogo = styled.img`
+  height: 100%;
 `;
 
 const Donations = styled.div`
@@ -68,7 +73,9 @@ export const App = () => {
         <MediaBoxContainer>
           <MediaBox useBreakItem />
         </MediaBoxContainer>
-        <EventLogo src={logo} />
+        <EventLogoDiv>
+          <EventLogo src={logo} />
+        </EventLogoDiv>
         <NextRuns />
       </LayoutContainer>
       {showDonationBar && (
