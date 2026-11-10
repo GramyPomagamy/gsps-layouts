@@ -69,7 +69,7 @@ const Flag = styled.img<{ country: string }>`
 
 const Nameplate = ({ player }: { player: RunDataPlayer }) => {
   const [nameCycle] = useReplicant<NameCycle>('nameCycle', 0);
-  const [runnersChannel] = useReplicant<Runner[]>('liveRunnerChannel', []);
+  const [runnersChannel] = useReplicant<Runner[]>('liveRunnerChannel', [], { defaultValue: [] });
   const nameRef = useRef(null);
   const [mixerSignalLevels] = useReplicant<{ [key in Channel]: number } | undefined>(
     'mixerSignalLevels',

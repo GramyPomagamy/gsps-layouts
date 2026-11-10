@@ -18,7 +18,11 @@ import { Runner } from 'src/types/custom/runner';
 import { RunDataActiveRun } from 'speedcontrol/src/types';
 
 export const App = () => {
-  const [liveRunnerChannel, setliveRunnerChannel] = useReplicant<Runner[]>('liveRunnerChannel', []);
+  const [liveRunnerChannel, setliveRunnerChannel] = useReplicant<Runner[]>(
+    'liveRunnerChannel',
+    [],
+    { defaultValue: [] }
+  );
   const [activeRun] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
     namespace: 'nodecg-speedcontrol',
   });
