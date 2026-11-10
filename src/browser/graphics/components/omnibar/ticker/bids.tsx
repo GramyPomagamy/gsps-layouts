@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { Bids as BidsType } from 'src/types/generated';
 import { Bid } from 'src/types/custom';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { plnFormatter } from 'src/utils/format-pln';
 
 const bidsRep = nodecg.Replicant<BidsType>('currentBids');
 
@@ -265,7 +266,7 @@ const BidOption = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ fontSize: '24px' }}>
-        {index}. {option.name} - {option.rawTotal} PLN
+        {index}. {option.name} - {plnFormatter.format(option.rawTotal)}
       </div>
       <div>
         <div
@@ -304,7 +305,7 @@ const BidGoal = ({ bid }: { bid: Bid }) => {
           width: '100%',
         }}>
         <div style={{ fontSize: '24px', textAlign: 'right' }}>
-          {bid.rawTotal} / {bid.rawGoal} PLN
+          {plnFormatter.format(bid.rawTotal)} / {plnFormatter.format(bid.rawGoal!)}
         </div>
         <div
           style={{
