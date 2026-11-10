@@ -18,7 +18,11 @@ import { Runner } from 'src/types/custom/runner';
 import { RunDataActiveRun } from 'speedcontrol/src/types';
 
 export const App = () => {
-  const [liveRunnerChannel, setliveRunnerChannel] = useReplicant<Runner[]>('liveRunnerChannel', []);
+  const [liveRunnerChannel, setliveRunnerChannel] = useReplicant<Runner[]>(
+    'liveRunnerChannel',
+    [],
+    { defaultValue: [] }
+  );
   const [activeRun] = useReplicant<RunDataActiveRun | undefined>('runDataActiveRun', undefined, {
     namespace: 'nodecg-speedcontrol',
   });
@@ -82,9 +86,17 @@ export const App = () => {
                     onChange={(event: SelectChangeEvent) => {
                       updatePlayerChannel(index, event.target.value as Channel);
                     }}>
-                    {Object.entries(channelsMap).map(([channelName]) => (
-                      <MenuItem key={channelName} value={channelName}>
-                        {channelName}
+                    {channelsMap.map((channel) => (
+                      <MenuItem key={channel.value} value={channel.value}>
+                        <span
+                          style={{
+                            color: channel.color,
+                            backgroundColor: channel.backgroundColor,
+                            padding: '2px 6px',
+                            borderRadius: '4px',
+                          }}>
+                          {channel.name}
+                        </span>
                       </MenuItem>
                     ))}
                   </Select>
