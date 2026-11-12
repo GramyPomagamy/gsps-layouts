@@ -1,4 +1,4 @@
-# Instalacja i obsługa layoutów GSPS
+# Instalacja layoutów GSPS
 1. Zainstaluj [node.js](https://nodejs.org/en/download) (w wersji v22 LTS) oraz [git](https://git-scm.com/install/), jeżeli jeszcze ich nie masz.
 2. Sklonuj repozytorium razem z submodułami:
    ```
@@ -18,7 +18,7 @@
 Po wyżej wymienionych krokach serwer layoutów powinien się uruchomić po wykonaniu polecenia `npm run start`. Jeżeli chcesz w trakcie runtime'u automatycznie wykrywać i stosować zmiany w plikach, musisz w osobnym terminalu równolegle wykonać polecenie `npm run watch`.
 ## Troubleshooting instalacji
 - Warto się upewnić, że używamy właściwej wersji node.js (`node -v`), parę razy się na to nadziałem. Dotyczy to zarówno instalacji, jak i wykonywania.
-# Installation and usage of GSPS layouts
+# Installation of GSPS layouts
 1. Install [node.js](https://nodejs.org/en/download) (in version v22 LTS) and [git](https://git-scm.com/install/) if you don't have them yet.
 2. Clone the repository with its submodules:
    ```
