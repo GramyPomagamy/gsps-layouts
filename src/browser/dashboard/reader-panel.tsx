@@ -361,7 +361,7 @@ const Reader = () => {
   );
 };
 
-export const Bids = () => {
+export const Bids = ({ canComplete = true }: { canComplete?: boolean }) => {
   const [bids] = useReplicant<BidsType>('allBids', []);
   const [completedBids, setCompletedBids] = useReplicant<number[]>('completedBids', []);
   const [filter, setFilter] = useState('');
@@ -493,14 +493,14 @@ export const Bids = () => {
                   bid={bid} 
                   key={bid.id} 
                   isCompleted={isCompleted}
-                  onToggle={() => toggleBidCompleted(bid.id)}
+                  onToggle={canComplete ? () => toggleBidCompleted(bid.id) : undefined}
                 />
               ) : (
                 <BidWar 
                   bid={bid} 
                   key={bid.id} 
                   isCompleted={isCompleted}
-                  onToggle={() => toggleBidCompleted(bid.id)}
+                  onToggle={canComplete ? () => toggleBidCompleted(bid.id) : undefined}
                 />
               );
             }
@@ -516,14 +516,14 @@ export const Bids = () => {
                   bid={bid} 
                   key={bid.id} 
                   isCompleted={isCompleted}
-                  onToggle={() => toggleBidCompleted(bid.id)}
+                  onToggle={canComplete ? () => toggleBidCompleted(bid.id) : undefined}
                 />
               ) : (
                 <BidWar 
                   bid={bid} 
                   key={bid.id} 
                   isCompleted={isCompleted}
-                  onToggle={() => toggleBidCompleted(bid.id)}
+                  onToggle={canComplete ? () => toggleBidCompleted(bid.id) : undefined}
                 />
               );
             }
@@ -535,7 +535,7 @@ export const Bids = () => {
   );
 };
 
-const BidGoal = ({ bid, isCompleted, onToggle }: { bid: Bid; isCompleted: boolean; onToggle: () => void; }) => {
+const BidGoal = ({ bid, isCompleted, onToggle }: { bid: Bid; isCompleted: boolean; onToggle?: () => void; }) => {
   function etaUntil(bid: Bid) {
     return bid.runStartTime
       ? dayjs
@@ -590,6 +590,7 @@ const BidGoal = ({ bid, isCompleted, onToggle }: { bid: Bid; isCompleted: boolea
           <Checkbox 
             checked={isCompleted} 
             onChange={onToggle}
+            disabled={!onToggle}
             sx={{ color: 'white', '&.Mui-checked': { color: 'rgba(85, 170, 85, 1)' } }}
           />
         }
@@ -600,7 +601,7 @@ const BidGoal = ({ bid, isCompleted, onToggle }: { bid: Bid; isCompleted: boolea
   );
 };
 
-const BidWar = ({ bid, isCompleted, onToggle }: { bid: Bid; isCompleted: boolean; onToggle: () => void; }) => {
+const BidWar = ({ bid, isCompleted, onToggle }: { bid: Bid; isCompleted: boolean; onToggle?: () => void; }) => {
   function etaUntil(bid: Bid) {
     return bid.runStartTime
       ? dayjs
@@ -661,6 +662,7 @@ const BidWar = ({ bid, isCompleted, onToggle }: { bid: Bid; isCompleted: boolean
           <Checkbox 
             checked={isCompleted} 
             onChange={onToggle}
+            disabled={!onToggle}
             sx={{ color: 'white', '&.Mui-checked': { color: 'rgba(85, 170, 85, 1)' } }}
           />
         }

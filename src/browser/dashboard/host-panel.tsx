@@ -135,6 +135,7 @@ const Countdown = () => {
 };
 
 const HostPanel = () => {
+  const canCompleteBids = !new URLSearchParams(window.location.search).has('disableBidCompletion');
   return (
     <DashboardThemeProvider>
       <Container disableGutters>
@@ -155,7 +156,7 @@ const HostPanel = () => {
               gap: '15px',
             }}>
             <div id="left" style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
-              <Bids />
+              <Bids canComplete={canCompleteBids} />
             </div>
             <div id="right" style={{ display: 'flex', gap: '10px', flexDirection: 'column' }}>
               <Total />
