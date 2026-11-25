@@ -779,6 +779,9 @@ const Donations = () => {
           Bidy do zaakceptowania: <b>{bidsToAccept}</b>
         </div>
       </div>
+      <div style={{ padding: 5 }}>
+        Donacje oczekujące na przeczytanie: <b>{donationsToRead.length}</b>
+      </div>
       <Divider />
 
       <div style={{ padding: 5, height: '100%', overflow: 'auto' }}>
