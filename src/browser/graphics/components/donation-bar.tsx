@@ -2,6 +2,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { ReadDonations } from 'src/types/generated';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
+import { plnFormatter } from 'src/utils/format-pln';
 
 const getDonationColors = (amount: number) => {
   if (amount >= 50 && amount <= 99) {
@@ -41,7 +42,7 @@ type DonationType = { id: number; name: string; amount: number };
 const Donation = ({ donation }: { donation: DonationType }) => {
   return (
     <DonationEl amount={donation.amount}>
-      {donation.name} - {donation.amount.toFixed(0)} PLN
+      {donation.name} - {plnFormatter.format(donation.amount)}
     </DonationEl>
   );
 };
